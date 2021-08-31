@@ -3,6 +3,7 @@ from flask_socketio import SocketIO
 from openpibo.motion import Motion
 from copy import copy
 import json
+import argparse
 
 
 app = Flask(__name__)
@@ -96,4 +97,7 @@ def export(motion_name):
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=8888)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', help='set port number', default=8888)
+    args = parser.parse_args()
+    socketio.run(app, host='0.0.0.0', port=args.port)
