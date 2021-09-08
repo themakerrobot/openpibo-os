@@ -1,4 +1,4 @@
-# Tools
+# Tools `x 
 
 > 파이보 사용에 도움이 되는 각종 도구입니다.
 >
@@ -21,7 +21,7 @@
 __사용 방법__
 
 ```python
->>> cd ~/openpibo-tools/process-test
+>>> cd ~/x-openpibo-tools/process-test
 >>> sudo python3 main.py
 ```
 
