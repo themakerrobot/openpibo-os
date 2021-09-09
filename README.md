@@ -21,7 +21,7 @@
 __사용 방법__
 
 ```python
->>> cd ~/openpibo-tools/process-test
+>>> cd ~/x-openpibo-tools/process-test
 >>> sudo python3 main.py
 ```
 
