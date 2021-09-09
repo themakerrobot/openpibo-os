@@ -1,4 +1,4 @@
-# Tools
+# Tools `x 지워야 함`
 
 > 파이보 사용에 도움이 되는 각종 도구입니다.
 >
@@ -269,7 +269,7 @@ __사용 방법__
 __사용 방법__
 
 ```python
-cd ~/x-openpibo-tools/device-test
+cd ~/x-openpibo-tools/device-simulator
 sudo python3 main.py --port 8888
 ```
 
@@ -293,4 +293,8 @@ sudo python3 main.py --port 8888
 
 - 우측 테이블에서는 디바이스 상태 정보를 확인할 수 있습니다.
 
-  상단부터 배터리 잔량, 전원케이블 연결 상태, 전원버튼 누름상태, PIR센서 신호, 터치센서 신호를 나타냅니다.
+  - 배터리 잔량
+  - 전원케이블 연결 상태
+  - 전원버튼 누름상태
+  - PIR센서 신호
+  - 터치센서 신호
