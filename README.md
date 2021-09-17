@@ -1,4 +1,4 @@
-# Tools `x 지워야 함`
+# Tools
 
 > 파이보 사용에 도움이 되는 각종 도구입니다.
 >
@@ -8,6 +8,7 @@
 > - motion-creator
 >   - motion create using web service
 >   - under construction
+>   
 > - device-simulator
 >   - device control using web service
 
@@ -21,7 +22,7 @@
 __사용 방법__
 
 ```python
->>> cd ~/x-openpibo-tools/process-test
+>>> cd ~/openpibo-tools/process-test
 >>> sudo python3 main.py
 ```
 
@@ -176,7 +177,7 @@ __사용 방법__
 __사용 방법__
 
 ```python
->>> cd ~/x-openpibo-tools/motion-creator
+>>> cd ~/openpibo-tools/motion-creator
 >>> sudo python3 main.py --port 8888
 ```
 
@@ -269,7 +270,7 @@ __사용 방법__
 __사용 방법__
 
 ```python
-cd ~/x-openpibo-tools/device-simulator
+cd ~/openpibo-tools/device-simulator
 sudo python3 main.py --port 8888
 ```
 
