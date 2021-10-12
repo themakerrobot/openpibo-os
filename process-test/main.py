@@ -24,14 +24,19 @@ from openpibo.device import Device
 from openpibo.vision import Camera
 
 def get_serial():
-  f = open('/proc/cpuinfo', 'r')
-  lines = f.readlines()
+  with open('/proc/cpuinfo', 'r') as f:
+    lines = f.readlines()
   serial_number = lines[-2].split(' ')[1][:-1]
-  return "Serial_number : '{}'".format(serial_number)
+  return f'Serial_number : {serial_number}'
 
 def get_fw():
   data = device_obj.send_raw("#10:!")
-  return "Firmware      : '{}'".format(data.split(':')[1])
+  return f'Firmware      : {data.split(":")[1]}'
+
+def get_memory():
+  data = os.popen("vcgencmd get_config total_mem").read()
+  data = data.strip().split("=")[1]
+  return f'Memory        : {int(data)/1024} GB (B2C: 2.0GB / B2G: 4.0GB)'
 
 def oled():
   oled_obj.set_font(size=30)
@@ -177,6 +182,7 @@ if __name__ == "__main__":
     console.print("           [bold yellow]<< HARDWARE_TEST >>[bold /yellow]")
     console.print(get_serial())
     console.print(get_fw())
+    console.print(get_memory())
     table.add_column("NAME                 ")
     table.add_column("STATE          ", justify="center")
     for item, value in items.items():
