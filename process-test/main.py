@@ -36,7 +36,7 @@ def get_fw():
 def get_memory():
   data = os.popen("vcgencmd get_config total_mem").read()
   data = data.strip().split("=")[1]
-  return f'Memory        : {int(data)/1024} GB (B2C: 2.0GB / B2G: 4.0GB)'
+  return f'Memory        : {int(data)/1024} GB'
 
 def oled():
   oled_obj.set_font(size=30)
