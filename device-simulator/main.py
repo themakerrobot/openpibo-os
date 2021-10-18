@@ -12,7 +12,7 @@ from flask_socketio import SocketIO
 
 from queue import Queue
 
-system_value = ['','','','']
+system_value = ['','','','','','']
 neopixel_value = [0,0,0,0,0,0]
 obj = Device()
 next_cmd = [False, ""]
@@ -57,18 +57,17 @@ def update():
   battery_check_time = time.time()
 
   while True:
-    #if next_cmd[0] == True:
     if que.qsize() > 0:
       data = obj.send_raw(que.get())
       decode_pkt(data)
 
     if time.time() - system_check_time > 1:  # 시스템 메시지 1초 간격 전송
-      data = obj.send_cmd(obj.code['SYSTEM'])
+      data = obj.send_cmd(Device.code_list['SYSTEM'])
       decode_pkt(data)
       system_check_time = time.time()
 
     if time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
-      data = obj.send_cmd(obj.code['BATTERY'])
+      data = obj.send_cmd(Device.code_list['BATTERY'])
       decode_pkt(data)
       battery_check_time = time.time()
 
@@ -85,17 +84,20 @@ def sessions():
 def f_set_neopixel(d, methods=['GET', 'POST']):
   global neopixel_value
   neopixel_value[d['idx']] = d['value']
-  send_message(obj.code['NEOPIXEL_EACH'], ",".join([str(_) for _ in neopixel_value]))
+  send_message(Device.code_list['NEOPIXEL_EACH'], ",".join([str(_) for _ in neopixel_value]))
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--port', help='set port number', default=8888)
   args = parser.parse_args()
+
+  send_message(Device.code_list['BATTERY'], "on")
+  send_message(Device.code_list['PIR'], "on")
+  send_message(Device.code_list['DC_CONN'])
+  send_message(Device.code_list['NEOPIXEL_EACH'], ",".join([str(_) for _ in neopixel_value]))
+  
   t = Thread(target=update, args=())
   t.daemon = True
   t.start()
-  send_message(obj.code['BATTERY'], "on")
-  send_message(obj.code['PIR'], "on")
-  send_message(obj.code['DC_CONN'])
-  send_message(obj.code['NEOPIXEL_EACH'], ",".join([str(_) for _ in neopixel_value]))
+
   socketio.run(app, host='0.0.0.0', port=args.port, debug=False)
