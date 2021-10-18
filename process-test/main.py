@@ -38,6 +38,10 @@ def get_memory():
   data = data.strip().split("=")[1]
   return f'Memory        : {int(data)/1024} GB'
 
+def get_board():
+  data = os.popen('cat /proc/device-tree/model').read()
+  return f'Board         : {data}'
+
 def oled():
   oled_obj.set_font(size=30)
   oled_obj.clear()
@@ -52,10 +56,10 @@ def audio():
   audio_obj.play(filename="test.mp3", out='local', volume=-2000)
   time.sleep(5)
   audio_obj.mute(True)
-  print(" [Mute]")
+  print(" [ Mute ]")
   time.sleep(2)
   audio_obj.mute(False)
-  print(" [Play]")
+  print(" [ Play ]")
   time.sleep(5)
   audio_obj.stop()
 
@@ -90,12 +94,11 @@ def mic():
   audio_obj.play(filename="stream.wav", out='local', volume=-2000)
   time.sleep(5)
   audio_obj.stop()
+  os.remove("stream.wav")
 
 def camera():
-  img = camera_obj.read()
-  img = camera_obj.convert_img(img)
-  camera_obj.imwrite("test.jpg", img)
-  oled_obj.draw_image("test.jpg")
+  img = camera_obj.read(128, 64)
+  oled_obj.draw_data(img)
   oled_obj.show()
   time.sleep(5)
   oled_obj.clear()
@@ -115,37 +118,37 @@ def pir():
     device_obj.send_cmd(Device.code_list['PIR'], "on")
     time.sleep(1)
     data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
-    if data[0]:
-      print(' [', data[0], ']')
-    i += 1
+    result = data[0] if data[0] != '' else "nobody"
+    print(f' [ {result} ]')
 
 def touch():
   for i in range(10):
     time.sleep(1)
     data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
-    print(' [', data[1] if data[1] else "No signal", ']')
-    i += 1
+    result = data[1] if data[1] else "No signal"
+    print(f' [ {result} ]')
 
 def button():
   for i in range(10):
     time.sleep(1)
     data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
-    print(' [', data[3] if data[3] else "No signal", ']')
-    i += 1
+    result = data[3] if data[3] else "No signal"
+    print(f' [ {result} ]')
 
 def dc():
   time.sleep(1)
-  data = device_obj.send_cmd(Device.code_list['DC_CONN'])
-  print(' [', data[3:], ']')
-  for i in range(9):
+  data = device_obj.send_cmd(Device.code_list['DC_CONN']).split(':')[1]
+  print(f' [ {data} ]')
+  for i in range(10):
     time.sleep(1)
     data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
-    print(' [', data[2] if data[2] else "No signal", ']')
-    i += 1
+    result = data[2] if data[2] else "No signal"
+    print(f' [ {result} ]')
 
 def battery():
-  data = device_obj.send_cmd(Device.code_list['BATTERY'])
-  print("[BATTERY]: {}".format(data.split(':')[1]))
+  time.sleep(1)
+  data = device_obj.send_cmd(Device.code_list['BATTERY']).split(":")[1]
+  print(f' [ [white]{data}[/white] ]')
 
 
 if __name__ == "__main__":
@@ -182,6 +185,7 @@ if __name__ == "__main__":
     console.print("           [bold yellow]<< HARDWARE_TEST >>[bold /yellow]")
     console.print(get_serial())
     console.print(get_fw())
+    console.print(get_board())
     console.print(get_memory())
     table.add_column("NAME                 ")
     table.add_column("STATE          ", justify="center")
