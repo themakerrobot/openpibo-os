@@ -112,9 +112,9 @@ def neopixel():
 
 def pir():
   for i in range(20):
-    device_obj.send_cmd(device_obj.code['PIR'], "on")
+    device_obj.send_cmd(Device.code_list['PIR'], "on")
     time.sleep(1)
-    data = device_obj.send_cmd(device_obj.code['SYSTEM']).split(':')[1].split('-')
+    data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
     if data[0]:
       print(' [', data[0], ']')
     i += 1
@@ -122,29 +122,29 @@ def pir():
 def touch():
   for i in range(10):
     time.sleep(1)
-    data = device_obj.send_cmd(device_obj.code['SYSTEM']).split(':')[1].split('-')
+    data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
     print(' [', data[1] if data[1] else "No signal", ']')
     i += 1
 
 def button():
   for i in range(10):
     time.sleep(1)
-    data = device_obj.send_cmd(device_obj.code['SYSTEM']).split(':')[1].split('-')
+    data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
     print(' [', data[3] if data[3] else "No signal", ']')
     i += 1
 
 def dc():
   time.sleep(1)
-  data = device_obj.send_cmd(device_obj.code['DC_CONN'])
+  data = device_obj.send_cmd(Device.code_list['DC_CONN'])
   print(' [', data[3:], ']')
   for i in range(9):
     time.sleep(1)
-    data = device_obj.send_cmd(device_obj.code['SYSTEM']).split(':')[1].split('-')
+    data = device_obj.send_cmd(Device.code_list['SYSTEM']).split(':')[1].split('-')
     print(' [', data[2] if data[2] else "No signal", ']')
     i += 1
 
 def battery():
-  data = device_obj.send_cmd(device_obj.code['BATTERY'])
+  data = device_obj.send_cmd(Device.code_list['BATTERY'])
   print("[BATTERY]: {}".format(data.split(':')[1]))
 
 
