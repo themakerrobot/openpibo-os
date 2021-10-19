@@ -1,10 +1,8 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 from openpibo.motion import Motion
-from copy import copy
-import json
+import os,json,shutil
 import argparse
-
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -22,13 +20,20 @@ motors = {
   'Left Hand' : 9,
 }
 
-current_d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0]
-pos_table = []
+# current d value
+__d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0]
+# current pos list value
+__p = []
+# current json value
+__j = {}
 
 pibo = Motion()
-pibo.set_speeds([20,50,40,20, 20,10, 20,50,40,20])
-pibo.set_accelerations([10,10,10,10, 10,10, 10,10,10,10])
-pibo.set_motors(current_d)
+pibo.set_speeds([30,30,30,30,30, 30,30,30,30,30])
+pibo.set_accelerations([0,0,0,0,0,0,0,0,0,0])
+pibo.set_motors(__d)
+
+def make_raw():
+  return {'init_def':1, 'init':__p[0]['d'], 'pos':__p[1:]} if __p[0]['seq'] == 0 else {'init_def':0, 'pos':__p}
 
 
 @app.route("/")
@@ -37,67 +42,116 @@ def main():
 
 @socketio.on('motor_init')
 def init():
-  socketio.emit('init_motion', current_d)
-  socketio.emit('disp_record', pos_table)
+  socketio.emit('init_motion', __d)
+  socketio.emit('disp_record', __p)
 
 @socketio.on('set_pos')
 def set_pos(motor_idx, motor_val):
-  global current_d
-  current_d[motor_idx] = motor_val
+  global __d
+  __d[motor_idx] = motor_val
+  pibo.set_speed(motor_idx, 30)
+  pibo.set_acceleration(motor_idx, 0)
   pibo.set_motor(motor_idx, motor_val)
+
 
 @socketio.on('add_frame')
 def add_frame(seq):
-  if int(seq) not in map(lambda x: x['seq'], pos_table):
-    pos_table.append({"d": copy(current_d), "seq": int(seq)})
-    pos_table.sort(key=lambda x: x['seq'])
-    socketio.emit('disp_record', pos_table)
+  global __p
+  seq = int(seq)
+  _check = False
+  for idx, pos in enumerate(__p):
+    if pos['seq'] == seq:
+      __p[idx] = {"d": __d[:], "seq": int(seq)}
+      _check = True
+      break
+
+  if _check == False:
+    __p.append({"d": __d[:], "seq": int(seq)})
+    __p.sort(key=lambda x: x['seq'])
+
+  socketio.emit('disp_record', __p)
+
 
 @socketio.on('remove_frame')
 def remove_frame(seq):
-  for idx, pos in enumerate(pos_table):
+  for idx, pos in enumerate(__p):
     if pos['seq'] == seq:
-      del pos_table[idx]
+      del __p[idx]
       break
+
 
 @socketio.on('init_frame')
 def init_frame():
-  global pos_table
-  pos_table = []
+  global __p
+  __p = []
 
-def make_raw():
-  raw = {}
-  if pos_table[0]['seq'] == 0:
-    raw.setdefault('init_def', 1)
-    raw.setdefault('init', pos_table[0]['d'])
-  else:
-    raw.setdefault('init_def', 0)
-  raw.setdefault('pos', pos_table)
-  return raw
 
 @socketio.on('play_frame')
 def set_motion(cycle):
   raw = make_raw()
   pibo.set_motion_raw(raw, int(cycle))
 
-@socketio.on('export')
-def export(motion_name):
-  if not pos_table:
-    socketio.emit('disp_code', "작성된 동작이 없습니다.")
-  else:
-    raw = make_raw()
-    if motion_name == "":
-      motion_name = 'TEST'
-    code = {motion_name: raw}
-    # json파일 만들기
-    with open(f"{motion_name}.json", "w") as f:
-      json.dump(code, f)
-    code = "module.exports="+str(code)
-    socketio.emit('disp_code', code)
+
+@socketio.on('add_motion')
+def add_motion(name):
+  __j[name] = make_raw()
+  socketio.emit('disp_code', __j)
+
+
+@socketio.on('load_motion')
+def load_motion(name):
+  global __p
+
+  if name in __j:
+    __p = []
+    a = __j[name]
+
+    if 'init_def' in a and 'init' in a:
+      __p.append({'d':a['init'], 'seq':0})
+    if 'pos' in a:
+      for item in a['pos']:
+        __p.append(item)
+  socketio.emit('disp_record', __p)
+
+
+@socketio.on('del_motion')
+def del_motion(name):
+  if name in __j:
+    del __j[name]
+  socketio.emit('disp_code', __j)
+
+
+@socketio.on('save')
+def export():
+  with open("/home/pi/mymotion.json", "w") as f:
+    json.dump(__j, f)
+  shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
+  socketio.emit('disp_code', __j)
+
+
+@socketio.on('display')
+def display():
+  socketio.emit('disp_code', __j)
+
+
+@socketio.on('reset')
+def reset():
+  __j = {}
+  os.remove('/home/pi/mymotion.json')
+  socketio.emit('disp_code', __j)
 
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--port', help='set port number', default=8888)
   args = parser.parse_args()
+
+  try:
+    with open("/home/pi/mymotion.json", "rb") as f:
+      __j = json.load(f)
+  except Exception as ex:
+    print("Error:", ex)
+    pass
+  
+  socketio.emit('disp_code', __j)
   socketio.run(app, host='0.0.0.0', port=args.port)

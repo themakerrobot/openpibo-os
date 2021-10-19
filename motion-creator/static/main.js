@@ -23,13 +23,26 @@ const motorsRange = {
   'Left Arm'  : 80,
   'Left Hand' : 30,
 }
+const motorInit = {
+  'Right Foot': 0,
+  'Right Leg' : 0,
+  'Right Arm' : -80,
+  'Right Hand': 0,
+  'Head Pan'  : 0,
+  'Head Tilt' : 0,
+  'Left Foot' : 0,
+  'Left Leg'  : 0,
+  'Left Arm'  : 80,
+  'Left Hand' : 0,
+}
 
 // initial
 $(document).ready(function(){
   $('.motor').each(function(){
     let id = $(this).attr("id")
     $(this).append(
-      '(' + motorsIdx[id] + ')' + id + '<br>',
+      //'(' + motorsIdx[id] + ')' + id + '<br>',
+      id + '[' + motorsIdx[id] + ']<br>',
       $('<input type="range" class="motor-range form-range">')
         .attr("min", -motorsRange[id]).attr("max", motorsRange[id]),
       $('<input type="number" class="motor-value form-control">')
@@ -37,9 +50,9 @@ $(document).ready(function(){
     )
   })
   socket.emit("motor_init")
-  socket.on('init_motion', function(currentD){
+  socket.on('init_motion', function(data){
     $('.motor').each(function(){
-      let motorVal = currentD[motorsIdx[$(this).attr("id")]]
+      let motorVal = data[motorsIdx[$(this).attr("id")]]
       $(this).children(".motor-value").val(motorVal)
       $(this).children(".motor-range").val(motorVal)
     })
@@ -48,41 +61,39 @@ $(document).ready(function(){
 
 // 모터 제어
 $(function(){
-  let motor = $('.motor'),
-      range = $('.motor-range'),
-      value = $('.motor-value')
+  $('.motor').each(function(){
+    let motor = $(this)
+    motor.children(".motor-value").on("input", function(){
+      motor.children('.motor-range').val($(this).val())
+    });
 
-  motor.each(function(){
-    value.each(function(){
-      $(this).val($(this).prev(range).val())
-    })
-    range.on('input', function(){
-      $(this).next(value).val(this.value)
-    })
-    
-    range.each(function(){
-      $(this).val($(this).next(value).val())
-    })
-    value.on('input', function(){
-      $(this).prev(range).val(this.value)
-    })
-    
-    $(this).on('input', function(){
-      let motorName = $(this).attr('id')
-      let motorVal = $(this).children(".motor-range").val()
+    motor.children(".motor-range").on("input", function(){
+      motor.children(".motor-value").val($(this).val())
+    });
+
+    motor.on('input', function(){
+      let motorName = motor.attr('id')
+      let motorVal = motor.children(".motor-range").val()
       socket.emit('set_pos', motorsIdx[motorName], Number(motorVal))
     })
   })
 
-  // 타임라인 동기화
-  let timeLine = $('#timeline'),
-      timeVal = $('#time_val')
+  $('#init_bt').click(function(){
+    $('.motor').each(function(){
+      let motorName = $(this).attr('id')
+      let motorVal = motorInit[motorName]
+      $(this).children('.motor-range').val(motorVal)
+      $(this).children(".motor-value").val(motorVal)
+      socket.emit('set_pos', motorsIdx[motorName], Number(motorVal))
+    });
+  });
 
-  timeLine.on("input", function(){
-    timeVal.val($(this).val())
+  // 타임라인 동기화
+  $('#timeline').on("input", function(){
+    $('#time_val').val($(this).val())
   })
-  timeVal.on("input", function(){
-    timeLine.val($(this).val())
+  $('#time_val').on("input", function(){
+    $('#timeline').val($(this).val())
   })
 
   // 저장 버튼
@@ -113,13 +124,20 @@ $(function(){
         }, function(){
           $(this).attr("style", "")
         }).click(function(){
-          let seq = Number($(this).text().split(' ms')[0])
-          socket.emit('remove_frame', seq)
-          $(this).remove()
+          if(confirm("삭제하시겠습니까?")){
+            socket.emit('remove_frame', Number($(this).text().split(' ms')[0]))
+            $(this).remove()
+          }
         })
       );
     }
   })
+  
+  // 테이블 초기화
+  $("#init_frame_bt").click(function () {
+    socket.emit("init_frame")
+    $("#record_table > tbody").empty();
+  });
 
   // 동작 재생
   $("#play_frame_bt").click(function () {
@@ -131,18 +149,38 @@ $(function(){
     }
   });
 
-  // 테이블 초기화
-  $("#init_frame_bt").click(function () {
-    socket.emit("init_frame")
-    $("#record_table > tbody").empty();
+  // 모션 추가
+  $("#add_motion_bt").click(function () {
+    let motionName = $("#motion_name_val").val()
+    socket.emit("add_motion", motionName);
+  });
+
+  // 모션 불러오기 
+  $("#load_motion_bt").click(function () {
+    let motionName = $("#motion_name_val").val()
+    socket.emit("load_motion", motionName);
+  });
+
+  // 모션 삭제
+  $("#del_motion_bt").click(function () {
+    let motionName = $("#motion_name_val").val()
+    socket.emit("del_motion", motionName);
+  });
+
+  // 코드 생성
+  $("#save_bt").click(function () {
+    socket.emit("save");
+  });
+
+  $("#display_bt").click(function () {
+    socket.emit("display");
   });
   
-  // 코드 생성
-  $("#export_bt").click(function () {
-    let motionName = $("#export_val").val()
-    socket.emit("export", motionName);
+  $("#reset_bt").click(function () {
+    socket.emit("reset");
   });
+  
   socket.on("disp_code", function(code){
-    $("#code").text(code)
+    $("#code").text(JSON.stringify(code))
   })
 })
