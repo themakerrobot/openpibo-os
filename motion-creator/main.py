@@ -28,7 +28,7 @@ __p = []
 __j = {}
 
 pibo = Motion()
-pibo.set_speeds([30,30,30,30,30, 30,30,30,30,30])
+pibo.set_speeds([50,50,50,50,50, 50,50,50,50,50])
 pibo.set_accelerations([0,0,0,0,0,0,0,0,0,0])
 pibo.set_motors(__d)
 
@@ -38,7 +38,7 @@ def make_raw():
 
 @app.route("/")
 def main():
-  return render_template('main.html')
+  return render_template('index.html')
 
 @socketio.on('motor_init')
 def init():
@@ -49,7 +49,7 @@ def init():
 def set_pos(motor_idx, motor_val):
   global __d
   __d[motor_idx] = motor_val
-  pibo.set_speed(motor_idx, 30)
+  pibo.set_speed(motor_idx, 50)
   pibo.set_acceleration(motor_idx, 0)
   pibo.set_motor(motor_idx, motor_val)
 
