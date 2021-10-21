@@ -109,12 +109,18 @@ const motorInit = {
     $('#time_val').val($(this).val())
   })
   $('#time_val').on("input", function(){
-    $('#timeline').val($(this).val())
+    if ($(this).val() % 50 == 0)
+      $('#timeline').val($(this).val())
   })
+
 
   // 저장 버튼
   $('#add_frame_bt').click(function(){
     let seq = $('#time_val').val()
+    if (seq % 50 != 0){
+      alert("타임라인을 50ms 단위로 설정해주세요.")
+      return
+    }
     socket.emit('add_frame', seq);
   });
 
@@ -148,7 +154,7 @@ const motorInit = {
       );
     }
   })
-  
+
   // 테이블 초기화
   $("#init_frame_bt").click(function () {
     socket.emit("init_frame")
@@ -171,7 +177,7 @@ const motorInit = {
     socket.emit("add_motion", motionName);
   });
 
-  // 모션 불러오기 
+  // 모션 불러오기
   $("#load_motion_bt").click(function () {
     let motionName = $("#motion_name_val").val()
     socket.emit("load_motion", motionName);
@@ -211,7 +217,6 @@ const motorInit = {
       <div class="d-flex justify-content-between">
         <div class="col">
           <button id="init_bt" class="btn btn-danger" type="button" id="button-addon2">초기화</button>
-
           <div class="d-flex flex-column align-items-center mb-5">
             <div id="Head Tilt" class="motor m-1" align="center"></div>
             <div id="Head Pan" class="motor m-1" align="center"></div>
@@ -241,11 +246,13 @@ const motorInit = {
               <button id="add_frame_bt" class="btn btn-success">저장</button>
             </div>
             <div style="float: left">0ms</div>
-            <div style="float: right">20000ms</div>
-            <input type="range" id="timeline" min="0" max="20000" step="50" style="width: 100%" value="0"/>
+            <div style="float: right">60000ms</div>
+            <input type="range" id="timeline" min="0" max="60000" step="50" style="width: 100%" value="0"/>
           </div>
         </div>
+
         <div class='col-1'></div>
+
         <div class="col d-flex flex-column justify-content-between">
           <div class="row-cols-1">
             <div class="d-flex justify-content-between">
@@ -275,7 +282,7 @@ const motorInit = {
               <tbody></tbody>
             </table>
           </div>
-          
+
           <div>
             <b>파일 저장</b>
             <div class="input-group my-4">
@@ -284,10 +291,11 @@ const motorInit = {
               <button id="display_bt" class="btn btn-warning" type="button" id="button-addon2">조회</button>
               <button id="reset_bt" class="btn btn-danger" type="button" id="button-addon2">삭제</button>
             </div>
-	  <textarea id="code" class="border bg-light" style="width:100%;height:150px"></textarea>
+            <textarea id="code" class="border bg-light" style="width:100%;height:150px"></textarea>
           </div>
         </div>
+
       </div>
-    </body>
-  </div>
+    </div>
+  </body>
 </html>
