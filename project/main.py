@@ -146,6 +146,9 @@ if __name__ == '__main__':
   parser.add_argument('--port', help='set port number', default=8888)
   args = parser.parse_args()
 
+  import network_disp
+  print("Network Display:", network_disp.run())
+
   try:
     with open("/home/pi/mymotion.json", "rb") as f:
       __j = json.load(f)

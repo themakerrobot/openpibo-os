@@ -91,6 +91,9 @@ if __name__ == '__main__':
   parser.add_argument('--port', help='set port number', default=8888)
   args = parser.parse_args()
 
+  import network_disp
+  print("Network Display:", network_disp.run())
+
   send_message(Device.code_list['BATTERY'], "on")
   send_message(Device.code_list['PIR'], "on")
   send_message(Device.code_list['DC_CONN'])
