@@ -91,7 +91,7 @@ def motor():
 def mic():
   cmd = "arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d 5 -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw"
   os.system(cmd)
-  audio_obj.play(filename="stream.wav", out='local', volume=-2000)
+  audio_obj.play(filename="stream.wav", out='local', volume=-1000)
   time.sleep(5)
   audio_obj.stop()
   os.remove("stream.wav")
