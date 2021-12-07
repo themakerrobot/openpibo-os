@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>VISION SIMULATOR</title>
+    <!--<script src='/socket.io/socket.io.js'></script>-->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js'></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      $(function(){
+        const socket = io();
+	socket.on('stream', function(data){
+          $('#im_in').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data);
+	});
+
+	$('#detect').click(function(){
+	  socket.emit('detect', '');
+	});
+	socket.on('detect', function(data){
+          $('#im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data);
+	});
+
+        $('#cartoon').click(function(){
+	  socket.emit('cartoon', '');
+	});
+	socket.on('cartoon', function(data){
+          $('#im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data);
+	});
+      });
+    </script>
+  </head>
+  <body>
+  <div style="width:1280px;border-radius:10px/10px;text-align:center;">
+    <h1> 카메라 제어하기</h1>
+  </div>
+  <div style="width:1280px;border-radius:5px;border:1px dotted; padding:10px;">
+  <table>
+    <tr>
+      <th><i>모니터</i></th>
+      <th><i>결과</i></th>
+    </tr>
+    <tr>
+      <td><img width="640" id="im_in"></td>
+      <td><img width="640" id="im_out"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button id="cartoon">만화사진으로 바꾸기</button>
+        <button id="detect">사물/QR코드 인식하기</button>
+      </td>
+    </tr>
+  </table>
+</div>
+© Copyright 2021, Circulus Education
+</body>
+</html>

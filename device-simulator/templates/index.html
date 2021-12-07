@@ -68,19 +68,26 @@
         });
       });
     </script>
+  <style>
+    table, td, th {
+      border-collapse: collapse;
+      border: 2px solid black;
+    };
+  </style>
   </head>
   <body>
-  <div style="width:600px;border-radius:10px/10px;text-align:center;background:#9ffafa;">
-    <h2> 디바이스 제어하기</h2>
+  <div style="width:1000px;border-radius:10px/10px;text-align:center;">
+    <h1> 디바이스 제어하기</h1>
   </div>
-  <table border=1 style="width:600px;">
+  <div style="width:1000px;border-radius:5px;border:1px dotted; padding:10px;center">
+  <table style="width:1000px;">
     <tr>
-      <th colspan="2"><i>눈 색상 조절하기</i></th>
+      <th colspan="2" style="width:200px;"><i>눈 색상 조절하기</i></th>
       <th colspan="2"><i>디바이스 상태 정보</i></th>
     </tr>
     <tr>
       <td rowspan="5">
-        (<i>Right Eye</i>)<br>
+        (<i>오른쪽</i>)<br>
         R:<input type='range'  id='left_r' value='0' min='0' step='5' max='255' />
         <span id='n_left_r'></span><br>
         G:<input type='range'  id='left_g' value='0' min='0' step='5' max='255' />
@@ -89,7 +96,7 @@
         <span id='n_left_b'></span>
       </td>
       <td rowspan="5">
-        (<i>Left Eye</i>)<br>
+        (<i>왼쪽</i>)<br>
         R:<input type='range' id='right_r' value='0' min='0' step='5' max='255' />
         <span id='n_right_r'></span><br>
         G:<input type='range' id='right_g' value='0' min='0' step='5' max='255' />
@@ -97,25 +104,27 @@
         B:<input type='range' id='right_b' value='0' min='0' step='5' max='255' />
         <span id='n_right_b'></span><br>
       </td>
-      <td>Battery:</td>
+      <td>배터리:</td>
       <td style="width:75px;"><span id='battery'></span></td>
     </tr>
     <tr>
-      <td>DC JACK:</td>
+      <td>전원코드:</td>
       <td><span id='dc'></span></td>
     </tr>
     <tr>
-      <td>Button:</td>
+      <td>버튼:</td>
       <td><span id='button'></span></td>
     </tr>
     <tr>
-      <td>PIR sensor:</td>
+      <td>인체감지센서(PIR):</td>
       <td><span id='pir'></span></td>
     </tr>
     <tr>
-      <td>Touch sensor:</td>
+      <td>터치센서:</td>
       <td><span id='touch'></span></td>
     </tr>
   </table>
+  </div>
+© Copyright 2021, Circulus Education
 </body>
 </html>
