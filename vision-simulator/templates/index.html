@@ -18,7 +18,10 @@
 	  socket.emit('detect', '');
 	});
 	socket.on('detect', function(data){
-          $('#im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data);
+          $('#im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data['img']);
+          $('#res_face').text(data['data']['face'])
+          $('#res_qr').text(data['data']['qr'])
+          $('#res_obj').text(data['data']['object'])
 	});
 
         $('#cartoon').click(function(){
@@ -29,30 +32,40 @@
 	});
       });
     </script>
+  <style>
+    table, td, th {
+      border-collapse: collapse;
+      border: 2px solid black;
+    };
+  </style>
   </head>
   <body>
-  <div style="width:1280px;border-radius:10px/10px;text-align:center;">
+  <div style="width:1000px;border-radius:10px/10px;text-align:center;">
     <h1> 카메라 제어하기</h1>
   </div>
-  <div style="width:1280px;border-radius:5px;border:1px dotted; padding:10px;">
+  <div style="width:1000px;border-radius:5px;border:1px dotted; padding:10px;">
   <table>
     <tr>
-      <th><i>모니터</i></th>
+      <th><i>카메라</i></th>
       <th><i>결과</i></th>
     </tr>
     <tr>
-      <td><img width="640" id="im_in"></td>
-      <td><img width="640" id="im_out"></td>
+      <td><img width="500" id="im_in"></td>
+      <td><img width="500" id="im_out"></td>
     </tr>
     <tr>
-      <td></td>
       <td>
         <button id="cartoon">만화사진으로 바꾸기</button>
-        <button id="detect">사물/QR코드 인식하기</button>
+        <button id="detect">얼굴/사물/QR코드 인식하기</button>
+      </td>
+      <td>
+	얼굴: <span id="res_face"></span><br>
+	QR코드: <span id="res_qr"></span><br>
+	사물인식: <span id="res_obj"></span>
       </td>
     </tr>
   </table>
 </div>
-© Copyright 2021, Circulus Education
+© Copyright 2021, Circulus Education - THE MAKER
 </body>
 </html>

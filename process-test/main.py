@@ -195,6 +195,7 @@ if __name__ == "__main__":
       )
 
     console.print(table)
+    console.print("© Copyright 2021, Circulus Education - THE MAKER\n")
     console.print(f'[yellow]# "quit" to exit[/yellow]')
     if invalid_cmd:
       print(f"[red]No such command: {cmd}[/red]")

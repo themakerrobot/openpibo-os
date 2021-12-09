@@ -50,23 +50,16 @@ async def async_detect_qr(im):
 #def video_feed():
 #  return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
+def to_base64(im):
+  im = cv2.imencode('.jpg', cv2.resize(im,(320,240)))[1].tobytes()
+  return base64.b64encode(im).decode('utf-8')
+
 def update():
   global frame
   while True:
     frame = cam.read()  # read the camera frame
     im = frame.copy()
-    faces = fac.detect(im)
-    if len(faces) > 0:
-      x,y,w,h = faces[0]
-      ret = fac.get_ageGender(frame, faces[0])
-      
-      color = (150,50,0) if ret["gender"] == "Male" else (50,150,0)
-      cam.rectangle(im, (x,y), (x+w, y+h), color, 2)
-      cam.putText(im, ret["gender"]+ret["age"], (x-10, y-10),0.8,color,2)
-    im = cv2.imencode('.jpg', im)[1].tobytes()
-    im = base64.b64encode(im).decode('utf-8')
-    socketio.emit('stream', im, callback=None)
-    time.sleep(0.1)
+    socketio.emit('stream', to_base64(im), callback=None)
 
 @app.route('/')
 def sessions():
@@ -77,33 +70,46 @@ def sessions():
 
 @socketio.on('cartoon')
 def f_cartoon(d, method=['GET', 'POST']):
+  im = frame.copy()
   im = cam.cartoonize(frame)
-  im = cv2.imencode('.jpg', im)[1].tobytes()
-  im = base64.b64encode(im).decode('utf-8')
-  socketio.emit('cartoon', im, callback=None)
+  socketio.emit('cartoon', to_base64(im), callback=None)
 
 @socketio.on('detect')
 def f_detect(d, method=['GET', 'POST']):
   im = frame.copy()
-  objs = det.detect_object(im)
-  qr = det.detect_qr(im)
-
   asyncio.set_event_loop(asyncio.new_event_loop())
   loop = asyncio.get_event_loop()
-  funcs = [async_detect_object(im), async_detect_qr(im)]
-  objs, qr = loop.run_until_complete(asyncio.gather(*funcs))
+  funcs = [async_detect_face(im), async_detect_object(im), async_detect_qr(im)]
+  faces, objs, qr = loop.run_until_complete(asyncio.gather(*funcs))
+
+  res_face = ""
+  res_qr = ""
+  res_object = ""
+
+
+  if len(faces) > 0:
+    x,y,w,h = faces[0]
+    face = fac.get_ageGender(frame, faces[0])
+    colors = (200,100,0) if face["gender"] == "Male" else (100,200,0)
+    cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
+    cam.putText(im, face["gender"]+face["age"], (x-10, y-10),0.6,colors,2)
+    res_face += "[{}/{}-({},{})] ".format(face["gender"], face["age"], x, y)
 
   if qr["type"] != "":
-    cam.putText(im, qr["data"], (30, 30),1,(0,0,255),2)
+    x1,y1,x2,y2 = qr["position"]
+    colors = (100,0,200)
+    cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
+    cam.putText(im, "QR", (x1-10, y1-10),0.6,colors,2)
+    res_qr += "[{}-({},{})] ".format(qr["data"], x1, y1)
 
   for obj in objs:
     x1,y1,x2,y2 = obj["position"]
-    cam.rectangle(im, (x1,y1), (x2, y2),(0,255,0),2)
-    cam.putText(im, obj["name"], (x1-10, y1-10),0.8,(0,255,0),2)
+    colors = (200,200,200)
+    cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
+    cam.putText(im, obj["name"], (x1-10, y1-10),0.6,colors,2)
+    res_object += "[{}-({},{})] ".format(obj["name"], x1, y1)
   
-  im = cv2.imencode('.jpg', im)[1].tobytes()
-  im = base64.b64encode(im).decode('utf-8')
-  socketio.emit('detect', im, callback=None)
+  socketio.emit('detect', {"img":to_base64(im), "data":{"face":res_face, "qr":res_qr, "object":res_object}}, callback=None)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
