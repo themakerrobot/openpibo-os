@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <title>CHATBOT SIMULATOR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      $(function(){
+        const socket = io()
+
+        $("#question").on("keyup", function() {
+          $(this).val($(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9]/g,""));
+        });
+
+        $('#question').keypress(function(key){
+          if(key.keyCode == 13){ // enter
+            q = $('#question').val().trim()
+	    socket.emit('question', q)
+	  }
+	});
+
+        socket.on("answer", function(data){
+          $("#answer").val(data['answer'])
+          $('#record > tbody').empty()
+          rec = data['record']  
+	  $('#record').append(
+	    $('<tr>').append(
+	      $('<td>').append($('<b>').append("시간")),
+	      $('<td>').append($('<b>').append("질문")),
+	      $('<td>').append($('<b>').append("대답"))
+	    )
+	  )
+	  
+	  for(idx in rec){
+	    if(rec[idx].length == 0)
+	      continue
+            
+	    $('#record').append(
+	      $('<tr>').append(
+	        $('<td>').append(rec[idx][0]),
+	        $('<td>').append(rec[idx][1]),
+	        $('<td>').append(rec[idx][2])
+	      )
+	    )
+	  }
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div style="width:1000px;border-radius:10px/10px;text-align:center;">
+      <h1>파이보의 즉문즉답</h1>
+    </div>
+
+    <h2>질문하기</h2>
+    <div style="width:1000px;border:1px dotted; padding:10px;">
+    질문: <br>
+    <input type="text" id="question" value="안녕하세요. 반갑습니다." style="width:100%">
+    <br><br>
+    대답: <br>
+    <input type="text" id="answer" disabled style="width:100%">
+    </div>
+    <br><br>
+   
+    <h2>대화기록</h2>
+    <div style="width:1000px;border:1px dotted; padding:10px;">
+      <table id="record" style="width:100%"><tbody></tbody></table>
+    </div>
+    <br><br>
+
+© Copyright 2021, Circulus Education - THE MAKER
+  </body>
+</html>
