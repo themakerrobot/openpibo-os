@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <title>Simulator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous"/>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!--
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+    <script src="../static/main.js"></script>
+    -->
+    <script>
+$(function(){
+const socket = io()
+const motorsIdx = {
+  'Right Foot': 0,
+  'Right Leg' : 1,
+  'Right Arm' : 2,
+  'Right Hand': 3,
+  'Head Pan'  : 4,
+  'Head Tilt' : 5,
+  'Left Foot' : 6,
+  'Left Leg'  : 7,
+  'Left Arm'  : 8,
+  'Left Hand' : 9,
+}
+const motorsRange = {
+  'Right Foot': 25,
+  'Right Leg' : 35,
+  'Right Arm' : 80,
+  'Right Hand': 30,
+  'Head Pan'  : 50,
+  'Head Tilt' : 25,
+  'Left Foot' : 25,
+  'Left Leg'  : 35,
+  'Left Arm'  : 80,
+  'Left Hand' : 30,
+}
+const motorInit = {
+  'Right Foot': 0,
+  'Right Leg' : 0,
+  'Right Arm' : -80,
+  'Right Hand': 0,
+  'Head Pan'  : 0,
+  'Head Tilt' : 0,
+  'Left Foot' : 0,
+  'Left Leg'  : 0,
+  'Left Arm'  : 80,
+  'Left Hand' : 0,
+}
+
+// initial
+//$(document).ready(function(){
+  $('.motor').each(function(){
+    let id = $(this).attr("id")
+    $(this).append(
+      //'(' + motorsIdx[id] + ')' + id + '<br>',
+      id + '[' + motorsIdx[id] + ']<br>',
+      $('<input type="range" class="motor-range form-range">')
+        .attr("min", -motorsRange[id]).attr("max", motorsRange[id]),
+      $('<input type="number" class="motor-value form-control">')
+        .attr("min", -motorsRange[id]).attr("max", motorsRange[id])
+    )
+  })
+  socket.emit("motor_init")
+  socket.on('init_motion', function(data){
+    $('.motor').each(function(){
+      let motorVal = data[motorsIdx[$(this).attr("id")]]
+      $(this).children(".motor-value").val(motorVal)
+      $(this).children(".motor-range").val(motorVal)
+    })
+  })
+//})
+
+// 모터 제어
+//$(function(){
+  $('.motor').each(function(){
+    let motor = $(this)
+    motor.children(".motor-value").on("input", function(){
+      motor.children('.motor-range').val($(this).val())
+    });
+
+    motor.children(".motor-range").on("input", function(){
+      motor.children(".motor-value").val($(this).val())
+    });
+
+    motor.on('input', function(){
+      let motorName = motor.attr('id')
+      let motorVal = motor.children(".motor-range").val()
+      socket.emit('set_pos', motorsIdx[motorName], Number(motorVal))
+    })
+  })
+
+  $('#init_bt').click(function(){
+    $('.motor').each(function(){
+      let motorName = $(this).attr('id')
+      let motorVal = motorInit[motorName]
+      $(this).children('.motor-range').val(motorVal)
+      $(this).children(".motor-value").val(motorVal)
+      socket.emit('set_pos', motorsIdx[motorName], Number(motorVal))
+    });
+  });
+
+  // 타임라인 동기화
+  $('#timeline').on("input", function(){
+    $('#time_val').val($(this).val())
+  })
+  $('#time_val').on("input", function(){
+    $('#timeline').val($(this).val())
+  })
+
+  // 저장 버튼
+  $('#add_frame_bt').click(function(){
+    let seq = $('#time_val').val()
+    socket.emit('add_frame', seq);
+  });
+
+  // 테이블 작성
+  socket.on('disp_record', function(data){
+    $('#record_table > tbody').empty();
+    for(let i=0; i < data.length;i++){
+      $('#record_table > tbody').append(
+        $('<tr>').append(
+          $('<td>').append(data[i].seq +' ms'),
+          $('<td>').append(data[i].d[0]),
+          $('<td>').append(data[i].d[1]),
+          $('<td>').append(data[i].d[2]),
+          $('<td>').append(data[i].d[3]),
+          $('<td>').append(data[i].d[4]),
+          $('<td>').append(data[i].d[5]),
+          $('<td>').append(data[i].d[6]),
+          $('<td>').append(data[i].d[7]),
+          $('<td>').append(data[i].d[8]),
+          $('<td>').append(data[i].d[9]),
+        ).hover(function(){ // 포즈 하나 삭제 옵션
+          $(this).attr("style", "background-color:pink")
+        }, function(){
+          $(this).attr("style", "")
+        }).click(function(){
+          if(confirm("삭제하시겠습니까?")){
+            socket.emit('remove_frame', Number($(this).text().split(' ms')[0]))
+            $(this).remove()
+          }
+        })
+      );
+    }
+  })
+  
+  // 테이블 초기화
+  $("#init_frame_bt").click(function () {
+    socket.emit("init_frame")
+    $("#record_table > tbody").empty();
+  });
+
+  // 동작 재생
+  $("#play_frame_bt").click(function () {
+    if ($('#record_table > tbody').text()) {
+      let cycle = $("#play_cycle_val").val()
+      socket.emit("play_frame", cycle);
+    } else {
+      alert("저장된 동작이 없습니다.\n먼저 동작을 저장해주세요.")
+    }
+  });
+
+  // 모션 추가
+  $("#add_motion_bt").click(function () {
+    let motionName = $("#motion_name_val").val()
+    socket.emit("add_motion", motionName);
+  });
+
+  // 모션 불러오기 
+  $("#load_motion_bt").click(function () {
+    let motionName = $("#motion_name_val").val()
+    socket.emit("load_motion", motionName);
+  });
+
+  // 모션 삭제
+  $("#del_motion_bt").click(function () {
+    let motionName = $("#motion_name_val").val()
+    socket.emit("del_motion", motionName);
+  });
+
+  // 코드 생성
+  $("#save_bt").click(function () {
+    socket.emit("save");
+  });
+
+  $("#display_bt").click(function () {
+    socket.emit("display");
+  });
+  
+  $("#reset_bt").click(function () {
+    socket.emit("reset");
+  });
+  
+  socket.on("disp_code", function(code){
+    $("#code").text(JSON.stringify(code))
+  })
+})
+
+    </script>
+  </head>
+  <body>
+    <div class="text-center py-3 m-5" style="background-color: #9ffafa; border-radius:25px;">
+      <h2><b>Simualtor - 공사중</b></h2>
+      </form>
+    </div>
+    
+    <!--container start-->
+    <div class="container">
+      <!--row1 start-->
+      <div class="d-flex justify-content-between">
+        <div class="col">
+          <button id="init_bt" class="btn btn-danger" type="button" id="button-addon2">초기화</button>
+          <div class="d-flex flex-column align-items-center mb-5">
+            <div id="Head Tilt" class="motor m-1" align="center"></div>
+            <div id="Head Pan" class="motor m-1" align="center"></div>
+            <div class="d-flex">
+              <div id="Right Hand" class="motor m-1" align="center"></div>
+              <div id="Right Arm" class="motor m-1" align="center"></div>
+              <div id="Left Arm" class="motor m-1" align="center"></div>
+              <div id="Left Hand" class="motor m-1" align="center"></div>
+            </div>
+            <div class="d-flex">
+              <div id="Right Leg" class="motor m-1" align="center"></div>
+              <div id="Left Leg" class="motor m-1" align="center"></div>
+            </div>
+            <div class="d-flex">
+              <div id="Right Foot" class="motor m-1" align="center"></div>
+              <div id="Left Foot" class="motor m-1" align="center"></div>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="col-1"></div>
+        <div class="col">
+          <b>타임라인</b>
+          <div class="p-3 mt-3" style="background-color: #9ffafa; border-radius: 10px;">
+            <div class="d-flex justify-content-between">
+              <div class="input-group" style="width:200px">
+                <input type="number" id="time_val" class="form-control" min="0" max="20000" step="50" value="0"/>
+                <span class="input-group-text">ms</span>
+              </div>
+              <button id="add_frame_bt" class="btn btn-success">저장</button>
+            </div>
+            <div style="float: left">0ms</div>
+            <div style="float: right">20000ms</div>
+            <input type="range" id="timeline" min="0" max="20000" step="50" style="width: 100%" value="0"/>
+          </div>
+          <br> 
+          <b>파일 저장</b>
+          <div class="input-group my-4">
+            <input id="filename" type="text" class="form-control" placeholder="/home/pi/mymotion.json" disabled>
+            <button id="save_bt" class="btn btn-success" type="button" id="button-addon2">저장</button>
+            <button id="display_bt" class="btn btn-warning" type="button" id="button-addon2">조회</button>
+            <button id="reset_bt" class="btn btn-danger" type="button" id="button-addon2">삭제</button>
+          </div>
+	  <textarea id="code" class="border bg-light" style="width:100%;height:150px"></textarea>
+        </div>
+      </div>
+      <!--row1 end-->
+
+      <!--row2 start-->
+      <div class='row heigher aligin-items-start'>
+        <div class="input-group my-4">
+          <span class="input-group-text">횟수</span>
+          <input type="number" id="play_cycle_val" class="form-control" min="1" max="99" value="1"/>
+          <button id="play_frame_bt" class="btn btn-primary">재생</button>
+          <button id="init_frame_bt" class="btn btn-danger">초기화</button>
+          <span class="input-group-text">  </span>
+          <input id="motion_name_val" type="text" class="form-control" placeholder="모션이름">
+          <button id="add_motion_bt" class="btn btn-success">추가</button>
+          <button id="load_motion_bt" class="btn btn-warning">불러오기</button>
+          <button id="del_motion_bt" class="btn btn-danger">삭제</button>
+        </div>
+        <table id="record_table" class="table table-striped table-bordered my-3" border="1" style="border: 1px solid; font-size: 11 pt" >
+          <thead>
+            <tr>
+              <td class="px-4"><b>Time</b></td>
+              <script>
+                for (let i = 0; i < 10; i++) {
+                  document.write("<td><b>M"+i+"</b></td>")
+                }
+                document.write("<td><b>Eye</b></td>")
+                document.write("<td><b>Speak</b></td>")
+                document.write("<td><b>Oled</b></td>")
+              </script>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <!--row2 end-->
+
+    </div>
+    <!--container end-->
+  </body>
+</html>
