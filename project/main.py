@@ -43,7 +43,7 @@ async def async_detect_qr(im):
   return await loop.run_in_executor(None, f)
 
 def to_base64(im):
-  im = cv2.imencode('.jpg', cv2.resize(im,(320,240)))[1].tobytes()
+  im = cv2.imencode('.jpg', im)[1].tobytes()
   return base64.b64encode(im).decode('utf-8')
 
 def vision_loop():
@@ -51,7 +51,7 @@ def vision_loop():
   while True:
     frame = cam.read()  # read the camera frame
     im = frame.copy()
-    socketio.emit('stream', to_base64(im), callback=None)
+    socketio.emit('stream', to_base64(cv2.resize(im, (320,240))), callback=None)
 
 @socketio.on('cartoon')
 def f_cartoon(d, method=['GET', 'POST']):
@@ -282,7 +282,7 @@ def system_loop():
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--port', help='set port number', default=8888)
+  parser.add_argument('--port', help='set port number', default=80)
   args = parser.parse_args()
 
   import network_disp

@@ -17,6 +17,10 @@
         $('#question').keypress(function(key){
           if(key.keyCode == 13){ // enter
             q = $('#question').val().trim()
+	    if(q == ''){
+	      alert("질문을 입력하세요")
+	      return;
+	    }
 	    socket.emit('question', q)
 	  }
 	});
@@ -48,16 +52,28 @@
         })
       })
     </script>
+    <style type="text/css">
+      @font-face {
+        font-family: 'DungGeunMo';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }      
+      input{font-family: 'DungGeunMo';}
+      body{
+        font-family: 'DungGeunMo';
+      }
+    </style>
   </head>
   <body>
     <div style="width:1000px;border-radius:10px/10px;text-align:center;">
-      <h1>파이보의 즉문즉답</h1>
+      <h1>로봇과 대화하기</h1>
     </div>
 
-    <h2>질문하기</h2>
+    <h2>질문하기(한글만 가능)</h2>
     <div style="width:1000px;border:1px dotted; padding:10px;">
     질문: <br>
-    <input type="text" id="question" value="안녕하세요. 반갑습니다." style="width:100%">
+    <input type="text" id="question" placeholder="질문을 입력하세요" style="width:100%">
     <br><br>
     대답: <br>
     <input type="text" id="answer" disabled style="width:100%">

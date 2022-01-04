@@ -51,7 +51,7 @@ async def async_detect_qr(im):
 #  return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 def to_base64(im):
-  im = cv2.imencode('.jpg', cv2.resize(im,(320,240)))[1].tobytes()
+  im = cv2.imencode('.jpg', im)[1].tobytes()
   return base64.b64encode(im).decode('utf-8')
 
 def update():
@@ -59,7 +59,7 @@ def update():
   while True:
     frame = cam.read()  # read the camera frame
     im = frame.copy()
-    socketio.emit('stream', to_base64(im), callback=None)
+    socketio.emit('stream', to_base64(cv2.resize(im,(320,240))), callback=None)
 
 @app.route('/')
 def sessions():
@@ -97,14 +97,14 @@ def f_detect(d, method=['GET', 'POST']):
 
   if qr["type"] != "":
     x1,y1,x2,y2 = qr["position"]
-    colors = (100,0,200)
+    colors = (50,200,50)
     cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
     cam.putText(im, "QR", (x1-10, y1-10),0.6,colors,2)
     res_qr += "[{}-({},{})] ".format(qr["data"], x1, y1)
 
   for obj in objs:
     x1,y1,x2,y2 = obj["position"]
-    colors = (200,200,200)
+    colors = (50,50,200)
     cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
     cam.putText(im, obj["name"], (x1-10, y1-10),0.6,colors,2)
     res_object += "[{}-({},{})] ".format(obj["name"], x1, y1)

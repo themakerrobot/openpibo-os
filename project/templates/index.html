@@ -283,9 +283,17 @@
       })
     </script>
     <style type='text/css'>
+      @font-face {
+        font-family: 'DungGeunMo';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      input{font-family: 'DungGeunMo';}
       body{
         color: #4c5052;
-        font:14px '맑은 고딕';
+        font-size:14px;
+        font-family: 'DungGeunMo';
       }
       /*
       table,td,th{
@@ -297,11 +305,14 @@
         padding:10px 30px;
       }
       td{
-        font:12px '맑은 고딕';
+        font-size:12px';
       }
       th{
-        font:14px '맑은 고딕';
+        font-size:14px;
         font-weight:bolder;
+      }
+      button {
+        font-family: 'DungGeunMo';
       }
       footer {
         position: fixed;
@@ -317,6 +328,7 @@
         float: left;
         width: 19%;
         font-weight: bold;
+        font-family: 'DungGeunMo';
         height: 100%;
         background-color: transparent;
         border: none;
@@ -331,15 +343,15 @@
         <tr>
           <td width='50'>OS버전</td>
           <td ><span id='s_os_version'></span></td>
-          <td width='50'>CPU온도</td>
+          <td width='100'>CPU온도</td>
           <td><span id='s_cpu_temp'></span></td>
           <td width='50'>메모리</td>
           <td><span id='s_memory'></span></td>
-          <td width='50'>동작시간</td>
+          <td width='100'>동작시간</td>
           <td><span id='s_runtime'></span></td>
           <td width='50'>배터리</td>
           <td><span id='d_battery_val'></span></td>
-          <td width='50'>전원코드</td>
+          <td width='100'>전원코드</td>
           <td><span id='d_dc_val'></span></td>
         </tr>
       </table>
@@ -359,18 +371,21 @@
               <li>QR코드인식</li>
             </ul>
           </li>
+	  <br>
           <li>Motion
             <ul>
               <li>모터시뮬레이터</li>
               <li>모션생성</li>
             </ul>
           </li>
+	  <br>
           <li>
             Chatbot
             <ul>
               <li>챗봇시험</li>
             </ul>
           </li>
+	  <br>
           <li>
             Device
             <ul>
@@ -619,7 +634,7 @@
       © Copyright 2021, Circulus Education - THE MAKER
     </div>
     <footer>
-      <button name='home_bt'>홈</button>
+      <button name='home_bt'>Home</button>
       <button name='vision_bt'>Vision</button>
       <button name='motion_bt'>Motion</button>
       <button name='chatbot_bt'>Chatbot</button>
