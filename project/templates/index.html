@@ -3,8 +3,8 @@
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
     <title>OPENPIBO-TOOLS</title>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js'></script>
-    <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
+    <script src="{{url_for('static', filename='socket.io.js')}}"></script>
+    <script src="{{url_for('static', filename='jquery-3.1.1.min.js')}}"></script>
     <script>
       $(function(){
         const socket = io()
