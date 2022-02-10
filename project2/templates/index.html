@@ -3,11 +3,24 @@
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
     <title>OPENPIBO-TOOLS</title>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js'></script>
-    <script src='https://code.jquery.com/jquery-3.1.1.min.js'></script>
+    <script src="{{url_for('static', filename='socket.io.js')}}"></script>
+    <script src="{{url_for('static', filename='jquery-3.1.1.min.js')}}"></script>
     <script>
       $(function(){
         const socket = io()
+
+        socket.emit('onoff');
+
+        socket.on('onoff', function(d){
+          $('input[name=onoff_sel]').prop("disabled", false);
+          $('input:radio[name=onoff_sel]:input[value=' + d + ']').attr("checked", true);
+        });
+
+        $('input[name=onoff_sel]').change(function(){
+          let sel = $('input[name=onoff_sel]:checked').val();
+          $('input[name=onoff_sel]').prop("disabled", true);
+          socket.emit('onoff', sel)
+        });
 
         socket.on('system', function(data){
           $('#s_os_version').text(data[0]);
@@ -24,6 +37,7 @@
         $('#v_detect_bt').click(function(){
           socket.emit('detect', '');
         });
+
         socket.on('detect', function(data){
           $('#v_im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data['img']);
           $('#v_res_face').text(data['data']['face'])
@@ -116,7 +130,7 @@
         // motion
         const motor_default=[0,0,-80,0,0,0,0,0,80,0]
 
-        socket.emit("motor_init")
+        //socket.emit("motor_init")
 
         socket.on('init_motion', function(data){
           for(let i=0;i<10;i++){
@@ -285,8 +299,10 @@
     <style type='text/css'>
       @font-face {
         font-family: 'DungGeunMo';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
-        font-weight: normal;
+        /*
+	        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+	      */
+        src: url("{{url_for('static', filename='DungGeunMo.woff')}}") format('woff');        font-weight: normal;
         font-style: normal;
       }
       input{font-family: 'DungGeunMo';}
@@ -341,6 +357,11 @@
     <header>
       <table border=1 width='100%'>
         <tr>
+          <td width='50'>동작</td>
+          <td width='50'>
+            <input type='radio' name='onoff_sel' value='on' disabled>ON
+            <input type='radio' name='onoff_sel' value='off' disabled>OFF
+          </td>
           <td width='50'>OS버전</td>
           <td ><span id='s_os_version'></span></td>
           <td width='100'>CPU온도</td>
