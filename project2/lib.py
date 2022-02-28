@@ -2,6 +2,7 @@ from openpibo.vision import Camera
 from openpibo.vision import Face
 from openpibo.vision import Detect
 from openpibo.device import Device
+from openpibo.audio import Audio
 from openpibo.oled import Oled
 from openpibo.speech import Dialog
 from openpibo.motion import Motion
@@ -9,6 +10,7 @@ from openpibo.motion import Motion
 import time, datetime
 import base64
 import cv2
+import os
 from queue import Queue
 from threading import Thread, Lock
 
@@ -92,6 +94,7 @@ class Pibo:
         self.device_flag = True
         self.dev = Device()
         self.ole = Oled()
+        self.aud = Audio()
         Thread(name="device_loop", target=self.device_loop, args=(), daemon=True).start()
 
         self.send_message(Device.code_list['BATTERY'], "on")
@@ -160,6 +163,12 @@ class Pibo:
         self.ole.set_font(size=d['size'])
         self.ole.draw_text((d['x'], d['y']), d['text'])
         self.ole.show()
+
+    def mic(self, d=5):
+      cmd = "arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw".format(d)
+      os.system(cmd)
+      self.aud.play(filename="stream.wav", out='local', volume=-1000, background=False)
+      os.remove("stream.wav")
 
     ## chatbot
     def chatbot_start(self):

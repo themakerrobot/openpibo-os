@@ -127,6 +127,10 @@
           }
         });
 
+	$('#mic_bt').click(function(){
+          socket.emit('mic', $('#mic_time_val').val())
+	});
+
         // motion
         const motor_default=[0,0,-80,0,0,0,0,0,80,0]
 
@@ -605,7 +609,7 @@
             <th colspan='2'><i>눈 색상 조절하기</i></th>
           </tr>
           <tr>
-            <td>오른쪽</td>
+            <td style="width:50%;">오른쪽</td>
             <td>왼쪽</td>
           </tr>
           <tr>
@@ -647,6 +651,13 @@
             <td>
               <input type='text' id='d_otext_val' placeholder="문자를 입력하세요" size="100%" />
             </td>
+	    <tr>
+	      <th colspan='2'><i>마이크 사용하기(녹음 후, 재생)</i></th>
+	    </tr>
+	    <tr>
+              <td>녹음시간:<input type='number' id='mic_time_val' value='5' min='1' max='30' />초</td>
+	      <td><button id='mic_bt'>실행</button></td>
+	    </tr>
           </tr>
         </table>
       </section>

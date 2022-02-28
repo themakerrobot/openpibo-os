@@ -36,6 +36,11 @@ def f_set_oled(d, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.set_oled(d)
 
+@socketio.on('mic')
+def f_mic(d, method=['GET', 'POST']):
+  if pibo.onoff:
+    pibo.mic(d)
+
 # chatbot
 @socketio.on('question')
 def question(q):
