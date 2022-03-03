@@ -9,6 +9,19 @@
       $(function(){
         const socket = io()
 
+        socket.emit('onoff');
+
+        socket.on('onoff', function(d){
+          $('input[name=onoff_sel]').prop("disabled", false);
+          $('input:radio[name=onoff_sel]:input[value=' + d + ']').attr("checked", true);
+        });
+
+        $('input[name=onoff_sel]').change(function(){
+          let sel = $('input[name=onoff_sel]:checked').val();
+          $('input[name=onoff_sel]').prop("disabled", true);
+          socket.emit('onoff', sel)
+        });
+
         socket.on('system', function(data){
           $('#s_os_version').text(data[0]);
           $('#s_runtime').text(Math.floor(data[1]/3600) + ' Hours');
@@ -24,6 +37,7 @@
         $('#v_detect_bt').click(function(){
           socket.emit('detect', '');
         });
+
         socket.on('detect', function(data){
           $('#v_im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data['img']);
           $('#v_res_face').text(data['data']['face'])
@@ -113,10 +127,14 @@
           }
         });
 
+	$('#mic_bt').click(function(){
+          socket.emit('mic', $('#mic_time_val').val())
+	});
+
         // motion
         const motor_default=[0,0,-80,0,0,0,0,0,80,0]
 
-        socket.emit("motor_init")
+        //socket.emit("motor_init")
 
         socket.on('init_motion', function(data){
           for(let i=0;i<10;i++){
@@ -286,10 +304,10 @@
       @font-face {
         font-family: 'DungGeunMo';
         /*
-	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
 	*/
         src: url("{{url_for('static', filename='DungGeunMo.woff')}}") format('woff');
-        font-weight: normal;
+	font-weight: normal;
         font-style: normal;
       }
       input{font-family: 'DungGeunMo';}
@@ -344,7 +362,12 @@
     <header>
       <table border=1 width='100%'>
         <tr>
-          <td width='50'>OS버전</td>
+          <td width='50'>동작</td>
+          <td width='50'>
+            <input type='radio' name='onoff_sel' value='on' disabled>ON
+            <input type='radio' name='onoff_sel' value='off' disabled>OFF
+          </td>
+          <td width='50'>버전</td>
           <td ><span id='s_os_version'></span></td>
           <td width='100'>CPU온도</td>
           <td><span id='s_cpu_temp'></span></td>
@@ -354,48 +377,47 @@
           <td><span id='s_runtime'></span></td>
           <td width='50'>배터리</td>
           <td><span id='d_battery_val'></span></td>
-          <td width='100'>전원코드</td>
+          <td width='100'>전원</td>
           <td><span id='d_dc_val'></span></td>
         </tr>
       </table>
     </header>
     <article>
       <section id='home_section'>
-        <h2>Openpibo Tools</h2>
+        <h2># Openpibo Tools</h2>
+	<br>
         <h3>
         <ul>
           <li>
             Vision
             <ul>
-              <li>촬영</li>
+              <li>스트리밍</li>
               <li>만화화</li>
-              <li>얼굴인식/분석</li>
-              <li>사물인식</li>
-              <li>QR코드인식</li>
+              <li>이미지 분석(얼굴인식/분석, 사물인식, QR코드인식)</li>
             </ul>
           </li>
-	  <br>
+	  <br><br>
           <li>Motion
             <ul>
               <li>모터시뮬레이터</li>
               <li>모션생성</li>
             </ul>
           </li>
-	  <br>
+	  <br><br>
           <li>
             Chatbot
             <ul>
               <li>챗봇시험</li>
             </ul>
           </li>
-	  <br>
+	  <br><br>
           <li>
             Device
             <ul>
               <li>눈색상 조절하기</li>
-              <li>버튼인식</li>
-              <li>센서시험(인체감지/터치)</li>
-              <li>OLED 시험하기</li>
+              <li>제어보드 시험하기(버튼인식, 인체감지/터치센서)</li>
+              <li>디스플레이 시험하기</li>
+              <li>마이크 시험하기</li>
             </ul>
           </li>
         </ul>
@@ -418,7 +440,7 @@
               <button id='v_detect_bt'>얼굴/사물/QR코드 인식하기</button>
             </td>
             <td>
-               얼굴: <span id='v_res_face'></span><br>
+              얼굴: <span id='v_res_face'></span><br>
               QR코드: <span id='v_res_qr'></span><br>
               사물인식: <span id='v_res_obj'></span>
             </td>
@@ -575,7 +597,7 @@
           <input type='text' id='c_answer_text' disabled style='width:100%'>
           </div>
           <br><br>
-          <h2>대화기록</h2>
+          <h2>대화기록(최근 대화 5개 저장)</h2>
           <div style='width:98%;border:1px dotted; padding:10px;'>
             <table id='c_record_tb' style='width:100%'><tbody></tbody></table>
           </div>
@@ -587,7 +609,7 @@
             <th colspan='2'><i>눈 색상 조절하기</i></th>
           </tr>
           <tr>
-            <td>오른쪽</td>
+            <td style="width:50%;">오른쪽</td>
             <td>왼쪽</td>
           </tr>
           <tr>
@@ -629,6 +651,13 @@
             <td>
               <input type='text' id='d_otext_val' placeholder="문자를 입력하세요" size="100%" />
             </td>
+	    <tr>
+	      <th colspan='2'><i>마이크 사용하기(녹음 후, 재생)</i></th>
+	    </tr>
+	    <tr>
+              <td>녹음시간:<input type='number' id='mic_time_val' value='5' min='1' max='30' />초</td>
+	      <td><button id='mic_bt'>실행</button></td>
+	    </tr>
           </tr>
         </table>
       </section>
