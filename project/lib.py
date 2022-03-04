@@ -1,9 +1,11 @@
+import openpibo
 from openpibo.vision import Camera
 from openpibo.vision import Face
 from openpibo.vision import Detect
 from openpibo.device import Device
 from openpibo.audio import Audio
 from openpibo.oled import Oled
+from openpibo.speech import Speech
 from openpibo.speech import Dialog
 from openpibo.motion import Motion
 
@@ -28,6 +30,9 @@ class Pibo:
             print("No emit_func")
         else:
             self.emit_func(key, data)
+
+    def config(self, d):
+        openpibo.config = d
         
     ## vision
     def vision_start(self):
@@ -174,16 +179,17 @@ class Pibo:
     def chatbot_start(self):
         self.chat_list = []
         self.dialog = Dialog()
+        self.speech = Speech()
 
     def chatbot_stop(self):
         self.chat_list = []
-        del self.dialog
+        del self.dialog, self.speech
 
     def question(self, q):
         ans = self.dialog.get_dialog(q)
         self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
         self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
-
+        self.speech.tts(ans)
         if len(self.chat_list) == 5:
             self.chat_list.pop(0)
 

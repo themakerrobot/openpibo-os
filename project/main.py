@@ -5,7 +5,7 @@ import argparse
 from lib import Pibo
 
 from threading import Thread
-import time, datetime, os
+import time, datetime, os, json, shutil
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -43,79 +43,106 @@ def f_mic(d, method=['GET', 'POST']):
 
 # chatbot
 @socketio.on('question')
-def question(q):
+def question(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.question(q)
+    pibo.question(d)
 
 # motion
 @socketio.on('motor_init')
-def motor_init():
+def motor_init(d, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.motion_init()
 
 @socketio.on('set_pos')
-def set_pos(idx, pos):
+def set_pos(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.set_pos(idx, pos)
+    pibo.set_pos(d['idx'], d['pos'])
 
 @socketio.on('add_frame')
-def add_frame(seq):
+def add_frame(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.add_frame(seq)
+    pibo.add_frame(d)
 
 @socketio.on('remove_frame')
-def remove_frame(seq):
+def remove_frame(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.remove_frame(seq)
+    pibo.remove_frame(d)
 
 @socketio.on('init_frame')
-def init_frame():
+def init_frame(d, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.init_frame()
 
 @socketio.on('play_frame')
-def play_frame(cycle):
+def play_frame(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.play_frame(cycle)
+    pibo.play_frame(d)
 
 @socketio.on('add_motion')
-def add_motion(name):
+def add_motion(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.add_motion(name)
+    pibo.add_motion(d)
 
 @socketio.on('load_motion')
-def load_motion(name):
+def load_motion(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.load_motion(name)
+    pibo.load_motion(d)
 
 @socketio.on('del_motion')
-def del_motion(name):
+def del_motion(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.del_motion(name)
+    pibo.del_motion(d)
 
 @socketio.on('save')
-def save():
+def save(d, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.save()
+    pibo.save(d)
 
 @socketio.on('display')
-def display():
+def display(d, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.display()
 
 @socketio.on('reset')
-def reset():
+def reset(d, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.reset()
 
 @socketio.on('onoff')
-def onoff(d=None):
+def onoff(d=None, method=['GET', 'POST']):
   if d != None:
     if d == 'on':
       pibo.start()
     if d == 'off':
       pibo.stop()
   socketio.emit('onoff', "on" if pibo.onoff else "off")
+
+@socketio.on('wifi')
+def wifi(d=None, method=['GET', 'POST']):
+  if d == None:
+    with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
+      tmp = f.readlines()
+      socketio.emit('wifi', {'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]})
+  else:
+    print(d)
+
+@socketio.on('config')
+def config(d=None, method=['GET', 'POST']):
+  with open('/home/pi/config.json', 'r') as f:
+    tmp = json.load(f)
+
+  if d == None:
+    socketio.emit('config', {'DATA_PATH':tmp['DATA_PATH'], 'KAKAO_ACCOUNT':tmp['KAKAO_ACCOUNT']})
+  else:
+    print(d)
+    #if 'datapath' in d:
+    #  tmp['DATAPATH'] = d['datapath']
+    #elif 'kakao_account' in d:
+    #  tmp['KAKAO_ACCOUNT'] = d['kakao_account']
+    #with open('/home/pi/config.json', 'w') as f:
+    #  json.dump(tmp, f)
+    #shutil.chown('/home/pi/config.json', 'pi', 'pi')
+    #pibo.config(tmp)
 
 def emit(__key, __data, callback=None):
   socketio.emit(__key, __data, callback=callback)

@@ -10,7 +10,6 @@
         const socket = io()
 
         socket.emit('onoff');
-
         socket.on('onoff', function(d){
           $('input[name=onoff_sel]').prop("disabled", false);
           $('input:radio[name=onoff_sel]:input[value=' + d + ']').attr("checked", true);
@@ -27,6 +26,38 @@
           $('#s_runtime').text(Math.floor(data[1]/3600) + ' Hours');
           $('#s_cpu_temp').text(data[2]);
           $('#s_memory').text(Math.floor(data[4]/data[3]/4*100) + ' %');
+          $('#s_ip').text(data[5]);
+        });
+
+        socket.emit('wifi')
+        socket.on('wifi', function(data){
+          $('#ssid_val').val(data['ssid']);
+          $('#psk_val').val(data['psk']);
+        });
+
+        $('#wifi_bt').click(function(){
+          socket.emit('wifi', {
+            'ssid':$('#ssid_val').val(),
+            'psk':$('#psk_val').val()
+          });
+        });
+
+        socket.emit('config')
+        socket.on('config', function(data){
+          $('#datapath_val').val(data['DATA_PATH']);
+          $('#kakao_account_val').val(data['KAKAO_ACCOUNT']);
+        });
+
+        $('#datapath_bt').click(function(){
+          socket.emit('config', {
+            'datapath': $('#datapath_val').val()
+          });
+        });
+
+        $('#kakao_account_bt').click(function(){
+          socket.emit('config', {
+            'kakao_account':$('#kakao_account_val').val()
+          });
         });
 
         // vision
@@ -55,7 +86,7 @@
 
         // chatbot
         $("#c_question_text").on("keyup", function() {
-          $(this).val($(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9]/g,""));
+          $(this).val($(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g,""));
         });
 
         $('#c_question_text').keypress(function(key){
@@ -127,13 +158,12 @@
           }
         });
 
-	$('#mic_bt').click(function(){
+        $('#mic_bt').click(function(){
           socket.emit('mic', $('#mic_time_val').val())
-	});
+        });
 
         // motion
         const motor_default=[0,0,-80,0,0,0,0,0,80,0]
-
         //socket.emit("motor_init")
 
         socket.on('init_motion', function(data){
@@ -152,13 +182,13 @@
           $(trange).on('input', function(d){
             var pos = $(trange).val();
             $(tval).val(pos);
-            socket.emit('set_pos', i, Number(pos)); 
+            socket.emit('set_pos', {'idx':i, 'pos':Number(pos)});
           })
 
           $(tval).click(function(){
             var pos = $(tval).val();
             $(trange).val(pos)
-            socket.emit('set_pos', i, Number(pos));
+            socket.emit('set_pos', {'idx':i, 'pos':Number(pos)});
           })
         }
 
@@ -168,7 +198,7 @@
             let trange = '#m'+i+'_range';
             $(tval).val(motor_default[i]);
             $(trange).val(motor_default[i])
-            socket.emit('set_pos', i, Number(motor_default[i]))
+            socket.emit('set_pos', {'idx':i, 'pos':Number(motor_default[i])})
           }
         });
 
@@ -279,6 +309,8 @@
         $('#home_section').show('slide');
 
         $('button[name=home_bt]').click(function(){
+          socket.emit('config')
+          socket.emit('wifi')
           $('section').not('#home_section').hide('slide');
           $('#home_section').show('slide');
         });
@@ -305,34 +337,25 @@
         font-family: 'DungGeunMo';
         /*
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
-	*/
+	      */
         src: url("{{url_for('static', filename='DungGeunMo.woff')}}") format('woff');
-	font-weight: normal;
+	      font-weight: normal;
         font-style: normal;
       }
       input{font-family: 'DungGeunMo';}
       body{
         color: #4c5052;
-        font-size:14px;
+        font-size:16px;
         font-family: 'DungGeunMo';
       }
-      /*
-      table,td,th{
-        border:1px solid;
-        border-collapse: collapse;
-      }
-      */
       td,th{
-        padding:10px 30px;
-      }
-      td{
-        font-size:12px';
+         padding:10px 30px;
       }
       th{
-        font-size:14px;
         font-weight:bolder;
       }
       button {
+        font-size: 16px;
         font-family: 'DungGeunMo';
       }
       footer {
@@ -360,68 +383,98 @@
   </head>
   <body id='body'>
     <header>
+
       <table border=1 width='100%'>
         <tr>
-          <td width='50'>동작</td>
-          <td width='50'>
+          <td width='100'>동작</td>
+          <td width='100'>
             <input type='radio' name='onoff_sel' value='on' disabled>ON
             <input type='radio' name='onoff_sel' value='off' disabled>OFF
           </td>
-          <td width='50'>버전</td>
-          <td ><span id='s_os_version'></span></td>
+          <td width='100'>ip주소</td>
+          <td width='150'><span id='s_ip'></span></td>
           <td width='100'>CPU온도</td>
-          <td><span id='s_cpu_temp'></span></td>
-          <td width='50'>메모리</td>
-          <td><span id='s_memory'></span></td>
+          <td width='100'><span id='s_cpu_temp'></span></td>
+          <td width='100'>메모리</td>
+          <td width='100'><span id='s_memory'></span></td>
+        </tr>
+        <tr>
+          <td width='100'>배터리</td>
+          <td width='100'><span id='d_battery_val'></span></td>
+          <td width='100'>버전</td>
+          <td width='150'><span id='s_os_version'></span></td>
           <td width='100'>동작시간</td>
-          <td><span id='s_runtime'></span></td>
-          <td width='50'>배터리</td>
-          <td><span id='d_battery_val'></span></td>
+          <td width='100'><span id='s_runtime'></span></td>
           <td width='100'>전원</td>
-          <td><span id='d_dc_val'></span></td>
+          <td width='100'><span id='d_dc_val'></span></td>
         </tr>
       </table>
     </header>
     <article>
       <section id='home_section'>
-        <h2># Openpibo Tools</h2>
-	<br>
-        <h3>
-        <ul>
-          <li>
-            Vision
-            <ul>
-              <li>스트리밍</li>
-              <li>만화화</li>
-              <li>이미지 분석(얼굴인식/분석, 사물인식, QR코드인식)</li>
-            </ul>
-          </li>
-	  <br><br>
-          <li>Motion
-            <ul>
-              <li>모터시뮬레이터</li>
-              <li>모션생성</li>
-            </ul>
-          </li>
-	  <br><br>
-          <li>
-            Chatbot
-            <ul>
-              <li>챗봇시험</li>
-            </ul>
-          </li>
-	  <br><br>
-          <li>
-            Device
-            <ul>
-              <li>눈색상 조절하기</li>
-              <li>제어보드 시험하기(버튼인식, 인체감지/터치센서)</li>
-              <li>디스플레이 시험하기</li>
-              <li>마이크 시험하기</li>
-            </ul>
-          </li>
-        </ul>
-        </h3>
+        <h2>Openpibo Tools</h2>
+        <li>
+          기능 설명
+          <ul>
+            <li>
+              Vision
+              <ul>
+                <li>스트리밍</li>
+                <li>만화화</li>
+                <li>이미지 분석(얼굴인식/분석, 사물인식, QR코드인식)</li>
+              </ul>
+            </li>
+            <li>Motion
+              <ul>
+                <li>모터시뮬레이터</li>
+                <li>모션생성</li>
+              </ul>
+            </li>
+            <li>
+              Chatbot
+              <ul>
+                <li>챗봇시험</li>
+              </ul>
+            </li>
+            <li>
+              Device
+              <ul>
+                <li>눈색상 조절하기</li>
+                <li>제어보드 시험하기(버튼인식, 인체감지/터치센서)</li>
+                <li>디스플레이 시험하기</li>
+                <li>마이크 시험하기</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <br>
+        <li>
+          시스템 설정
+          <table>
+            <tr>
+              <td>WIFI설정(pibo/!pibo0314): </td>
+              <td>
+                <input id="ssid_val" type="text" placeholder="SSID" disabled>
+                <input id="psk_val" type="text" placeholder="비밀번호" disabled>
+                <!--<button id="wifi_bt">수정</button>-->
+              </td>
+            </tr>
+            <tr>
+              <td>openpibo-files 경로: </td>
+              <td>
+                <input id="datapath_val" type="text" disabled>
+                <!--<button id="datapath_bt">수정</button>-->
+              </td>
+            </tr>
+            <tr>
+              <td>카카오 개발 계정: </td>
+              <td>
+                <input id="kakao_account_val" type="text" disabled>
+                <!--<button id="kakao_account_bt">수정</button>-->
+              </td>
+            </tr>
+          </table>
+        </li>
       </section>
       <section id='vision_section'>
         <h2>VISION</h2>
@@ -547,7 +600,7 @@
               <button id='save_bt'>저장</button>
               <button id='display_bt'>조회</button>
               <button id='reset_bt'>삭제</button>
-              <textarea id='code' cols='100%' rows='20' wrap='hard'></textarea>
+              <textarea id='code' cols='100%' rows='20' wrap='hard' style="width:100%;"></textarea>
             </td>
           </tr>
           <tr>
