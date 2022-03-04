@@ -124,7 +124,18 @@ def wifi(d=None, method=['GET', 'POST']):
       tmp = f.readlines()
       socketio.emit('wifi', {'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]})
   else:
-    print(d)
+    tmp='country=KR\n'
+    tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
+    tmp+='update_config=1\n'
+    tmp+='network={\n'
+    tmp+='\tssid="{}"\n'.format(d['ssid'])
+    tmp+='\tpsk="{}"\n'.format(d['psk'])
+    tmp+='\tkey_mgmt=WPA-PSK\n'
+    tmp+='}\n'
+
+    with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
+      f.write(tmp)
+    os.system('wpa_cli -i wlan0 reconfigure')
 
 @socketio.on('config')
 def config(d=None, method=['GET', 'POST']):
@@ -144,14 +155,13 @@ def config(d=None, method=['GET', 'POST']):
     #shutil.chown('/home/pi/config.json', 'pi', 'pi')
     #pibo.config(tmp)
 
+@socketio.on('system')
+def system(d=None, method=['GET', 'POST']):
+  res = os.popen('/home/pi/openpibo-tools/project/system.sh').read().split(',')
+  socketio.emit("system", res)
+
 def emit(__key, __data, callback=None):
   socketio.emit(__key, __data, callback=callback)
-
-def system_loop():
-  while True:
-    res = os.popen('/home/pi/openpibo-tools/project/system.sh').read().split(',')
-    socketio.emit("system", res)
-    time.sleep(10)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
@@ -160,8 +170,6 @@ if __name__ == '__main__':
 
   import network_disp
   print("Network Display:", network_disp.run())
-
-  Thread(name="system_loop", target=system_loop, args=(), daemon=True).start()
 
   pibo = Pibo(emit)
   socketio.run(app, host='0.0.0.0', port=args.port)

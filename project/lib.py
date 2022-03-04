@@ -33,6 +33,7 @@ class Pibo:
 
     def config(self, d):
         openpibo.config = d
+        #self.speech.kakao_account = d['KAKAO_ACCOUNT']
         
     ## vision
     def vision_start(self):
@@ -189,7 +190,8 @@ class Pibo:
         ans = self.dialog.get_dialog(q)
         self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
         self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
-        self.speech.tts(ans)
+        #self.speech.tts("<speak><voice name='MAN_READ_CALM'>"+ans +"</voice></speak>", "test.mp3")
+        #self.aud.play(filename="test.mp3", out='local', volume=-1000)
         if len(self.chat_list) == 5:
             self.chat_list.pop(0)
 
