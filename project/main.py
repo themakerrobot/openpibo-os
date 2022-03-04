@@ -145,15 +145,14 @@ def config(d=None, method=['GET', 'POST']):
   if d == None:
     socketio.emit('config', {'DATA_PATH':tmp['DATA_PATH'], 'KAKAO_ACCOUNT':tmp['KAKAO_ACCOUNT']})
   else:
-    print(d)
-    #if 'datapath' in d:
-    #  tmp['DATAPATH'] = d['datapath']
-    #elif 'kakao_account' in d:
-    #  tmp['KAKAO_ACCOUNT'] = d['kakao_account']
-    #with open('/home/pi/config.json', 'w') as f:
-    #  json.dump(tmp, f)
-    #shutil.chown('/home/pi/config.json', 'pi', 'pi')
-    #pibo.config(tmp)
+    if 'datapath' in d:
+      tmp['DATAPATH'] = d['datapath']
+    elif 'kakao_account' in d:
+      tmp['KAKAO_ACCOUNT'] = d['kakao_account']
+    with open('/home/pi/config.json', 'w') as f:
+      json.dump(tmp, f)
+    shutil.chown('/home/pi/config.json', 'pi', 'pi')
+    pibo.config(tmp)
 
 @socketio.on('system')
 def system(d=None, method=['GET', 'POST']):

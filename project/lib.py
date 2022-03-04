@@ -24,6 +24,7 @@ class Pibo:
     def __init__(self, emit_func=None):
         self.emit_func = emit_func
         self.onoff = False
+        self.kakao_account = None
     
     def emit(self, key, data, callback=None):
         if self.emit_func == None:
@@ -33,7 +34,10 @@ class Pibo:
 
     def config(self, d):
         openpibo.config = d
-        #self.speech.kakao_account = d['KAKAO_ACCOUNT']
+        if 'speech' in dir(self):
+            self.speech.kakao_account = d['KAKAO_ACCOUNT']
+        else:
+            self.kakao_account = d['KAKAO_ACCOUNT']
         
     ## vision
     def vision_start(self):
@@ -181,17 +185,20 @@ class Pibo:
         self.chat_list = []
         self.dialog = Dialog()
         self.speech = Speech()
+        if self.kakao_account != None:
+            self.speech.kakao_account = self.kakao_account
 
     def chatbot_stop(self):
         self.chat_list = []
+        self.kakao_account = None
         del self.dialog, self.speech
 
     def question(self, q):
         ans = self.dialog.get_dialog(q)
         self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
         self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
-        #self.speech.tts("<speak><voice name='MAN_READ_CALM'>"+ans +"</voice></speak>", "test.mp3")
-        #self.aud.play(filename="test.mp3", out='local', volume=-1000)
+        self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "test.mp3")
+        self.aud.play(filename="test.mp3", out='local', volume=-1000, background=False)
         if len(self.chat_list) == 5:
             self.chat_list.pop(0)
 
