@@ -17,10 +17,9 @@
         socket.emit("onoff");
         socket.on("onoff", function (d) {
           $("input[name=onoff_sel]").prop("disabled", false);
-          console.log(d);
-          $("input:[name=onoff_sel]:input[value=" + d + "]").attr(
+          $("input:checkbox[name=onoff_sel]").attr(
             "checked",
-            true
+            d=='on'?true:false
           );
         });
 
@@ -29,7 +28,48 @@
           $("input[name=onoff_sel]").prop("disabled", true);
           socket.emit("onoff", sel);
         });
+
+        socket.emit("system");
+        setInterval(function(){socket.emit("system")}, 10000);
+        socket.on("system", function(data){
+          $("#s_os_version").text(data[0]);
+          $("#s_runtime").text(Math.floor(data[1]/3600) + " Hours");
+          $("#s_cpu_temp").text(data[2]);
+          $("#s_memory").text(Math.floor(data[4]/data[3]/4*100) + " %");
+          $("#s_network").text(data[5] + "/" + data[6].replace("\n",""));
+        });
+
+        socket.emit("wifi");
+        socket.on("wifi", function(data){
+          $("#ssid").val(data["ssid"]);
+          $("#password").val(data["psk"]);
+        });
+        
+        $("input[type=submit]").click(function(){
+                alert("준비 중에요.");
+        });
+
+        socket.emit("config");
+        socket.on("config", function(data){
+          $("#path").val(data["DATA_PATH"]);
+          $("#kakao").val(data["KAKAO_ACCOUNT"]);
+        });
+
+        $("#path_bt").click(function(){
+          alert("준비 중에요.");
+          //socket.emit("config", {
+          //  "datapath": $("#path").val()
+          //});
+        });
+
+        $("#kakao_bt").click(function(){
+          alert("준비 중에요.");
+          //socket.emit("config", {
+          //  "kakao_account":$("#kakao").val()
+          //});
+        });
       };
+
       const getVisions = (socket) => {
         socket.on("stream", function (data) {
           $("#v_im_in").attr(
@@ -39,7 +79,7 @@
         });
 
         $("#v_detect_bt").click(function () {
-          socket.emit("detect", "");
+          socket.emit("detect");
         });
 
         socket.on("detect", function (data) {
@@ -53,7 +93,7 @@
         });
 
         $("#v_cartoon_bt").click(function () {
-          socket.emit("cartoon", "");
+          socket.emit("cartoon");
         });
 
         socket.on("cartoon", function (data) {
@@ -69,7 +109,7 @@
 
         socket.on("init_motion", function (data) {
           for (let i = 0; i < 10; i++) {
-            let tval = "#m" + i + "_val";
+            let tval = "#m" + i + "_value";
             let trange = "#m" + i + "_range";
             $(tval).val(data[i]);
             $(trange).val(data[i]);
@@ -77,7 +117,7 @@
         });
 
         for (let i = 0; i < 10; i++) {
-          let tval = "#m" + i + "_val";
+          let tval = "#m" + i + "_value";
           let trange = "#m" + i + "_range";
 
           $(trange).on("input", function (d) {
@@ -95,7 +135,7 @@
 
         $("#init_bt").click(function () {
           for (let i = 0; i < 10; i++) {
-            let tval = "#m" + i + "_val";
+            let tval = "#m" + i + "_value";
             let trange = "#m" + i + "_range";
             $(tval).val(motor_default[i]);
             $(trange).val(motor_default[i]);
@@ -201,7 +241,6 @@
         $("#save_bt").click(function () {
           socket.emit("save");
         });
-
         $("#display_bt").click(function () {
           socket.emit("display");
         });
@@ -439,6 +478,7 @@
               <div class="system-config-item">
                 <label for="path">openpibo-files 경로</label>
                 <input type="text" name="path" id="path" style="width: 327px" />
+                <button id="path_bt">수정</button>
               </div>
               <div class="system-config-item">
                 <label for="kakao">카카오 개발 계정</label>
@@ -448,6 +488,7 @@
                   id="kakao"
                   style="width: 327px"
                 />
+                <button id="kakao_bt">수정</button>
               </div>
             </section>
           </article>
@@ -491,9 +532,10 @@
                       <input
                         type="number"
                         name="head_tilt_value"
-                        id="m5_val"
+                        id="m5_value"
                         min="-25"
                         max="25"
+			style="width:50px;"
                       />
                     </div>
                     <input
@@ -512,9 +554,10 @@
                       <input
                         type="number"
                         name="head_pan_value"
-                        id="m4_val"
+                        id="m4_value"
                         min="-50"
                         max="50"
+			style="width:50px;"
                       />
                     </div>
                     <input
@@ -529,32 +572,14 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(8)Left Arm</span>
-                      <input
-                        type="number"
-                        name="left_arm_number"
-                        id="m8_value"
-                        min="-80"
-                        max="80"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="left_arm_range"
-                      id="m8_range"
-                      min="-80"
-                      max="80"
-                    />
-                  </div>
-                  <div>
-                    <div class="motion-input-label">
                       <span class="label">(2)Right Arm</span>
                       <input
                         type="number"
-                        name="right_arm_number"
+                        name="right_arm_value"
                         id="m2_value"
                         min="-80"
                         max="80"
+			style="width:50px;"
                       />
                     </div>
                     <input
@@ -565,28 +590,29 @@
                       max="80"
                     />
                   </div>
-                </div>
-                <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(9)Left Hand</span>
+                      <span class="label">(8)Left Arm</span>
                       <input
                         type="number"
-                        name="left_hand_value"
-                        id="m9_value"
-                        min="-30"
-                        max="30"
+                        name="left_arm_value"
+                        id="m8_value"
+                        min="-80"
+                        max="80"
+			style="width:50px;"
                       />
                     </div>
                     <input
                       type="range"
-                      name="left_hand_range"
-                      id="m9_range"
-                      min="-30"
-                      max="30"
+                      name="left_arm_range"
+                      id="m8_range"
+                      min="-80"
+                      max="80"
                     />
                   </div>
-                  <div>
+                </div>
+                <div class="motion-input-row">
+                  <div>                    
                     <div class="motion-input-label">
                       <span class="label">(3)Right Hand</span>
                       <input
@@ -595,6 +621,7 @@
                         id="m3_value"
                         min="-30"
                         max="30"
+			style="width:50px;"
                       />
                     </div>
                     <input
@@ -605,27 +632,28 @@
                       max="30"
                     />
                   </div>
-                </div>
-                <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(7)Left Leg</span>
+                      <span class="label">(9)Left Hand</span>
                       <input
                         type="number"
-                        name="left_leg_value"
-                        id="m7_value"
-                        min="-35"
-                        max="35"
+                        name="left_hand_value"
+                        id="m9_value"
+                        min="-30"
+                        max="30"
+			style="width:50px;"
                       />
                     </div>
                     <input
                       type="range"
-                      name="left_leg_range"
-                      id="m7_range"
-                      min="-35"
-                      max="35"
+                      name="left_hand_range"
+                      id="m9_range"
+                      min="-30"
+                      max="30"
                     />
                   </div>
+                </div>
+                <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
                       <span class="label">(1)Right Leg</span>
@@ -635,6 +663,7 @@
                         id="m1_value"
                         min="-35"
                         max="35"
+			style="width:50px;"
                       />
                     </div>
                     <input
@@ -645,27 +674,28 @@
                       max="35"
                     />
                   </div>
-                </div>
-                <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(6)Left Foot</span>
+                      <span class="label">(7)Left Leg</span>
                       <input
                         type="number"
-                        name="left_foot_value"
-                        id="m6_value"
-                        min="-25"
-                        max="25"
+                        name="left_leg_value"
+                        id="m7_value"
+                        min="-35"
+                        max="35"
+			style="width:50px;"
                       />
                     </div>
                     <input
                       type="range"
-                      name="left_foot_range"
-                      id="m6_range"
-                      min="-25"
-                      max="25"
+                      name="left_leg_range"
+                      id="m7_range"
+                      min="-35"
+                      max="35"
                     />
                   </div>
+                </div>
+                <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
                       <span class="label">(0)Right Foot</span>
@@ -675,12 +705,33 @@
                         id="m0_value"
                         min="-25"
                         max="25"
+			style="width:50px;"
                       />
                     </div>
                     <input
                       type="range"
                       name="right_foot_range"
                       id="m0_range"
+                      min="-25"
+                      max="25"
+                    />
+                  </div>
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(6)Left Foot</span>
+                      <input
+                        type="number"
+                        name="left_foot_value"
+                        id="m6_value"
+                        min="-25"
+                        max="25"
+			style="width:50px;"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="left_foot_range"
+                      id="m6_range"
                       min="-25"
                       max="25"
                     />
@@ -812,7 +863,7 @@
             <section>
               <h3 class="mark">대화기록 (최근 대화 5개 저장)</h3>
               <div>
-                <table id="c_record_tb"></table>
+                <table id="c_record_tb"><tbody></tbody></table>
               </div>
             </section>
           </article>

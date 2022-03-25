@@ -16,95 +16,95 @@ def main():
 
 # vision
 @socketio.on('cartoon')
-def f_cartoon(d, method=['GET', 'POST']):
+def f_cartoon(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.cartoon()
 
 @socketio.on('detect')
-def f_detect(d, method=['GET', 'POST']):
+def f_detect(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.object_detect()
 
 # device
 @socketio.on('set_neopixel')
-def f_set_neopixel(d, methods=['GET', 'POST']):
+def f_set_neopixel(d=None, methods=['GET', 'POST']):
   if pibo.onoff:
     pibo.set_neopixel(d)
 
 @socketio.on('set_oled')
-def f_set_oled(d, method=['GET', 'POST']):
+def f_set_oled(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.set_oled(d)
 
 @socketio.on('mic')
-def f_mic(d, method=['GET', 'POST']):
+def f_mic(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.mic(d)
 
 # chatbot
 @socketio.on('question')
-def question(d, method=['GET', 'POST']):
+def question(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.question(d)
 
 # motion
 @socketio.on('motor_init')
-def motor_init(d, method=['GET', 'POST']):
+def motor_init(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.motion_init()
 
 @socketio.on('set_pos')
-def set_pos(d, method=['GET', 'POST']):
+def set_pos(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.set_pos(d['idx'], d['pos'])
 
 @socketio.on('add_frame')
-def add_frame(d, method=['GET', 'POST']):
+def add_frame(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.add_frame(d)
 
 @socketio.on('remove_frame')
-def remove_frame(d, method=['GET', 'POST']):
+def remove_frame(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.remove_frame(d)
 
 @socketio.on('init_frame')
-def init_frame(d, method=['GET', 'POST']):
+def init_frame(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.init_frame()
 
 @socketio.on('play_frame')
-def play_frame(d, method=['GET', 'POST']):
+def play_frame(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.play_frame(d)
 
 @socketio.on('add_motion')
-def add_motion(d, method=['GET', 'POST']):
+def add_motion(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.add_motion(d)
 
 @socketio.on('load_motion')
-def load_motion(d, method=['GET', 'POST']):
+def load_motion(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.load_motion(d)
 
 @socketio.on('del_motion')
-def del_motion(d, method=['GET', 'POST']):
+def del_motion(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.del_motion(d)
 
 @socketio.on('save')
-def save(d, method=['GET', 'POST']):
+def save(d=None, method=['GET', 'POST']):
   if pibo.onoff:
-    pibo.save(d)
+    pibo.save()
 
 @socketio.on('display')
-def display(d, method=['GET', 'POST']):
+def display(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.display()
 
 @socketio.on('reset')
-def reset(d, method=['GET', 'POST']):
+def reset(d=None, method=['GET', 'POST']):
   if pibo.onoff:
     pibo.reset()
 
