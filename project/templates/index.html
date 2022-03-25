@@ -1,292 +1,199 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
   <head>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0 user-scalable=no"
+    />
     <title>OPENPIBO-TOOLS</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="{{url_for('static', filename='socket.io.js')}}"></script>
-    <script src="{{url_for('static', filename='jquery-3.1.1.min.js')}}"></script>
+    <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
+    <script src="../static/socket.io.js"></script>
+    <script src="../static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="../static/index.css" />
     <script>
-      $(function(){
-        const socket = io()
-
-        socket.emit('onoff');
-        socket.on('onoff', function(d){
-          $('input[name=onoff_sel]').prop("disabled", false);
-          $('input:radio[name=onoff_sel]:input[value=' + d + ']').attr("checked", true);
+      const getStatus = (socket) => {
+        socket.emit("onoff");
+        socket.on("onoff", function (d) {
+          $("input[name=onoff_sel]").prop("disabled", false);
+          console.log(d);
+          $("input:[name=onoff_sel]:input[value=" + d + "]").attr(
+            "checked",
+            true
+          );
         });
 
-        $('input[name=onoff_sel]').change(function(){
-          let sel = $('input[name=onoff_sel]:checked').val();
-          $('input[name=onoff_sel]').prop("disabled", true);
-          socket.emit('onoff', sel)
+        $("input[name=onoff_sel]").change(function () {
+          let sel = $("input[name=onoff_sel]:checked").val(); //sel = 'on'
+          $("input[name=onoff_sel]").prop("disabled", true);
+          socket.emit("onoff", sel);
+        });
+      };
+      const getVisions = (socket) => {
+        socket.on("stream", function (data) {
+          $("#v_im_in").attr(
+            "src",
+            "data:image/jpeg;charset=utf-8;base64," + data
+          );
         });
 
-	socket.emit('system')
-	setInterval(function(){socket.emit('system')}, 10000);
-	socket.on('system', function(data){
-          $('#s_os_version').text(data[0]);
-          $('#s_runtime').text(Math.floor(data[1]/3600) + ' Hours');
-          $('#s_cpu_temp').text(data[2]);
-          $('#s_memory').text(Math.floor(data[4]/data[3]/4*100) + ' %');
-          $('#s_network').text(data[5] + '/' + data[6].replace('\n',''));
+        $("#v_detect_bt").click(function () {
+          socket.emit("detect", "");
         });
 
-        socket.emit('wifi')
-        socket.on('wifi', function(data){
-          $('#ssid_val').val(data['ssid']);
-          $('#psk_val').val(data['psk']);
+        socket.on("detect", function (data) {
+          $("#v_im_out").attr(
+            "src",
+            "data:image/jpeg;charset=utf-8;base64," + data["img"]
+          );
+          $("#v_res_face").text(data["data"]["face"]);
+          $("#v_res_qr").text(data["data"]["qr"]);
+          $("#v_res_obj").text(data["data"]["object"]);
         });
 
-        $('#wifi_bt').click(function(){
-          socket.emit('wifi', {
-            'ssid':$('#ssid_val').val(),
-            'psk':$('#psk_val').val()
-          });
+        $("#v_cartoon_bt").click(function () {
+          socket.emit("cartoon", "");
         });
 
-        socket.emit('config')
-        socket.on('config', function(data){
-          $('#datapath_val').val(data['DATA_PATH']);
-          $('#kakao_account_val').val(data['KAKAO_ACCOUNT']);
+        socket.on("cartoon", function (data) {
+          $("#v_im_out").attr(
+            "src",
+            "data:image/jpeg;charset=utf-8;base64," + data
+          );
         });
-
-        $('#datapath_bt').click(function(){
-          socket.emit('config', {
-            'datapath': $('#datapath_val').val()
-          });
-        });
-
-        $('#kakao_account_bt').click(function(){
-          socket.emit('config', {
-            'kakao_account':$('#kakao_account_val').val()
-          });
-        });
-
-        // vision
-        socket.on('stream', function(data){
-          $('#v_im_in').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data);
-        });
-
-        $('#v_detect_bt').click(function(){
-          socket.emit('detect', '');
-        });
-
-        socket.on('detect', function(data){
-          $('#v_im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data['img']);
-          $('#v_res_face').text(data['data']['face'])
-          $('#v_res_qr').text(data['data']['qr'])
-          $('#v_res_obj').text(data['data']['object'])
-        });
-
-        $('#v_cartoon_bt').click(function(){
-          socket.emit('cartoon', '');
-        });
-
-        socket.on('cartoon', function(data){
-          $('#v_im_out').attr('src', 'data:image/jpeg;charset=utf-8;base64,'+data);
-        });
-
-        // chatbot
-        $("#c_question_text").on("keyup", function() {
-          $(this).val($(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g,""));
-        });
-
-        $('#c_question_text').keypress(function(key){
-          if(key.keyCode == 13){ // enter
-            q = $('#c_question_text').val().trim()
-            socket.emit('question', q)
-          }
-        });
-
-        socket.on("answer", function(data){
-          $("#c_answer_text").val(data['answer'])
-          $('#c_record_tb > tbody').empty()
-          rec = data['chat_list']
-          $('#c_record_tb').append(
-            $('<tr>').append(
-              $('<td>').append($('<b>').append("시간")),
-              $('<td>').append($('<b>').append("질문")),
-              $('<td>').append($('<b>').append("대답"))
-            )
-          )
-
-          for(idx in rec){
-            if(rec[idx].length == 0)
-              continue
-
-            $('#c_record_tb').append(
-              $('<tr>').append(
-                $('<td>').append(rec[idx][0]),
-                $('<td>').append(rec[idx][1]),
-                $('<td>').append(rec[idx][2])
-              )
-            )
-          }
-        });
-
-        // device
-        socket.on('update_neopixel', function(data){
-          for(let i=0;i<6;i++){
-            $('#d_n'+i+'_val').val(data[i])
-          }
-        });
-
-        socket.on('update_battery', function(data){
-          $('#d_battery_val').text(data);
-        });
-
-        socket.on('update_device', function(data){
-          $('#d_pir_val').text(data[0].toUpperCase());
-          $('#d_touch_val').text(data[1].toUpperCase());
-          $('#d_dc_val').text(data[2].toUpperCase());
-          $('#d_button_val').text(data[3].toUpperCase());
-        });
-
-        for(let i=0;i<6;i++){
-          $('#d_n'+i+'_val').on('input', function(){
-            var v = $('#d_n'+i+'_val').val();
-            socket.emit('set_neopixel', {idx:i, value:v});
-          });
-        }
-
-        $('#d_otext_val').keypress(function(key){
-          if(key.keyCode == 13){ // enter
-            var text = $('#d_otext_val').val().trim()
-            var x = $('#d_ox_val').val()
-            var y = $('#d_oy_val').val()
-            var size = $('#d_osize_val').val()
-
-            socket.emit('set_oled', {"x":Number(x), "y":Number(y), "size":Number(size), "text":text})
-          }
-        });
-
-        $('#mic_bt').click(function(){
-          socket.emit('mic', $('#mic_time_val').val())
-        });
-
-        // motion
-        const motor_default=[0,0,-80,0,0,0,0,0,80,0]
+      };
+      const getMotions = (socket) => {
+        const motor_default = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0];
         //socket.emit("motor_init")
 
-        socket.on('init_motion', function(data){
-          for(let i=0;i<10;i++){
-            let tval = '#m'+i+'_val';
-            let trange = '#m'+i+'_range';
+        socket.on("init_motion", function (data) {
+          for (let i = 0; i < 10; i++) {
+            let tval = "#m" + i + "_val";
+            let trange = "#m" + i + "_range";
             $(tval).val(data[i]);
-            $(trange).val(data[i])
+            $(trange).val(data[i]);
           }
-        })
+        });
 
-        for(let i=0;i<10;i++){
-          let tval = '#m'+i+'_val';
-          let trange = '#m'+i+'_range';
+        for (let i = 0; i < 10; i++) {
+          let tval = "#m" + i + "_val";
+          let trange = "#m" + i + "_range";
 
-          $(trange).on('input', function(d){
+          $(trange).on("input", function (d) {
             var pos = $(trange).val();
             $(tval).val(pos);
-            socket.emit('set_pos', {'idx':i, 'pos':Number(pos)});
-          })
+            socket.emit("set_pos", { idx: i, pos: Number(pos) });
+          });
 
-          $(tval).click(function(){
+          $(tval).click(function () {
             var pos = $(tval).val();
-            $(trange).val(pos)
-            socket.emit('set_pos', {'idx':i, 'pos':Number(pos)});
-          })
+            $(trange).val(pos);
+            socket.emit("set_pos", { idx: i, pos: Number(pos) });
+          });
         }
 
-        $('#init_bt').click(function(){
-          for(let i=0;i<10;i++){
-            let tval = '#m'+i+'_val';
-            let trange = '#m'+i+'_range';
+        $("#init_bt").click(function () {
+          for (let i = 0; i < 10; i++) {
+            let tval = "#m" + i + "_val";
+            let trange = "#m" + i + "_range";
             $(tval).val(motor_default[i]);
-            $(trange).val(motor_default[i])
-            socket.emit('set_pos', {'idx':i, 'pos':Number(motor_default[i])})
+            $(trange).val(motor_default[i]);
+            socket.emit("set_pos", { idx: i, pos: Number(motor_default[i]) });
           }
         });
 
         // 타임라인 동기화
-        $('#timeline').on("input", function(){
-          $('#time_val').val($(this).val())
-        })
+        $("#timeline").on("input", function () {
+          $("#time_val").val($(this).val());
+        });
 
-        $('#time_val').on("input", function(){
-          if ($(this).val() % 50 == 0)
-            $('#timeline').val($(this).val())
-        })
+        $("#time_val").on("input", function () {
+          if ($(this).val() % 50 == 0) $("#timeline").val($(this).val());
+        });
 
         // 저장 버튼
-        $('#add_frame_bt').click(function(){
-          let seq = $('#time_val').val()
-          if (seq % 50 != 0){
-            alert("타임라인을 50ms 단위로 설정해주세요.")
-            return
+        $("#add_frame_bt").click(function () {
+          let seq = $("#time_val").val();
+          if (seq % 50 != 0) {
+            alert("타임라인을 50ms 단위로 설정해주세요.");
+            return;
           }
-          socket.emit('add_frame', seq);
+          socket.emit("add_frame", seq);
         });
 
         // 테이블 작성
-        socket.on('disp_record', function(data){
-          $('#record_table > tbody').empty();
-          for(let i=0; i < data.length;i++){
-            $('#record_table > tbody').append(
-              $('<tr>').append(
-                $('<td>').append(data[i].seq +' ms'),
-                $('<td>').append(data[i].d[0]),
-                $('<td>').append(data[i].d[1]),
-                $('<td>').append(data[i].d[2]),
-                $('<td>').append(data[i].d[3]),
-                $('<td>').append(data[i].d[4]),
-                $('<td>').append(data[i].d[5]),
-                $('<td>').append(data[i].d[6]),
-                $('<td>').append(data[i].d[7]),
-                $('<td>').append(data[i].d[8]),
-                $('<td>').append(data[i].d[9]),
-              ).hover(function(){ // 포즈 하나 삭제 옵션
-                $(this).attr("style", "background-color:pink")
-              }, function(){
-                $(this).attr("style", "")
-              }).click(function(){
-                if(confirm("삭제하시겠습니까?")){
-                  socket.emit('remove_frame', Number($(this).text().split(' ms')[0]))
-                  $(this).remove()
-                }
-              })
+        socket.on("disp_record", function (data) {
+          $("#record_table > tbody").empty();
+          for (let i = 0; i < data.length; i++) {
+            $("#record_table > tbody").append(
+              $("<tr>")
+                .append(
+                  $("<td>").append(data[i].seq + " ms"),
+                  $("<td>").append(data[i].d[0]),
+                  $("<td>").append(data[i].d[1]),
+                  $("<td>").append(data[i].d[2]),
+                  $("<td>").append(data[i].d[3]),
+                  $("<td>").append(data[i].d[4]),
+                  $("<td>").append(data[i].d[5]),
+                  $("<td>").append(data[i].d[6]),
+                  $("<td>").append(data[i].d[7]),
+                  $("<td>").append(data[i].d[8]),
+                  $("<td>").append(data[i].d[9])
+                )
+                .hover(
+                  function () {
+                    // 포즈 하나 삭제 옵션
+                    $(this).attr("style", "background-color:pink");
+                  },
+                  function () {
+                    $(this).attr("style", "");
+                  }
+                )
+                .click(function () {
+                  if (confirm("삭제하시겠습니까?")) {
+                    socket.emit(
+                      "remove_frame",
+                      Number($(this).text().split(" ms")[0])
+                    );
+                    $(this).remove();
+                  }
+                })
             );
           }
-        })
+        });
 
         // 테이블 초기화
         $("#init_frame_bt").click(function () {
-          socket.emit("init_frame")
+          socket.emit("init_frame");
           $("#record_table > tbody").empty();
         });
 
         // 동작 재생
         $("#play_frame_bt").click(function () {
-          if ($('#record_table > tbody').text()) {
-            let cycle = $("#play_cycle_val").val()
+          if ($("#record_table > tbody").text()) {
+            let cycle = $("#play_cycle_val").val();
             socket.emit("play_frame", cycle);
           } else {
-            alert("저장된 동작이 없습니다.\n먼저 동작을 저장해주세요.")
+            alert("저장된 동작이 없습니다.\n먼저 동작을 저장해주세요.");
           }
         });
 
         // 모션 추가
         $("#add_motion_bt").click(function () {
-          let motionName = $("#motion_name_val").val()
+          let motionName = $("#motion_name_val").val();
           socket.emit("add_motion", motionName);
         });
 
         // 모션 불러오기
         $("#load_motion_bt").click(function () {
-          let motionName = $("#motion_name_val").val()
+          let motionName = $("#motion_name_val").val();
           socket.emit("load_motion", motionName);
         });
 
         // 모션 삭제
         $("#del_motion_bt").click(function () {
-          let motionName = $("#motion_name_val").val()
+          let motionName = $("#motion_name_val").val();
           socket.emit("del_motion", motionName);
         });
 
@@ -303,429 +210,777 @@
           socket.emit("reset");
         });
 
-        socket.on("disp_code", function(code){
-          $("#code").text(JSON.stringify(code))
-        })
+        socket.on("disp_code", function (code) {
+          $("#code").text(JSON.stringify(code));
+        });
+      };
+      const getChatbots = (socket) => {
+        $("#c_question_text").on("keyup", function () {
+          $(this).val(
+            $(this)
+              .val()
+              .replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
+          );
+        });
 
-        // footer
-        $('section').not('#home_section').hide('slide');
-        $('#home_section').show('slide');
+        $("#c_question_text").keypress(function (key) {
+          if (key.keyCode == 13) {
+            // enter
+            q = $("#c_question_text").val().trim();
+            socket.emit("question", q);
+          }
+        });
 
-        $('button[name=home_bt]').click(function(){
-          socket.emit('config')
-          socket.emit('wifi')
-          $('section').not('#home_section').hide('slide');
-          $('#home_section').show('slide');
+        socket.on("answer", function (data) {
+          $("#c_answer_text").val(data["answer"]);
+          $("#c_record_tb > tbody").empty();
+          rec = data["chat_list"];
+          $("#c_record_tb").append(
+            $("<tr>").append(
+              $("<td>").append($("<b>").append("시간")),
+              $("<td>").append($("<b>").append("질문")),
+              $("<td>").append($("<b>").append("대답"))
+            )
+          );
+
+          for (idx in rec) {
+            if (rec[idx].length == 0) continue;
+
+            $("#c_record_tb").append(
+              $("<tr>").append(
+                $("<td>").append(rec[idx][0]),
+                $("<td>").append(rec[idx][1]),
+                $("<td>").append(rec[idx][2])
+              )
+            );
+          }
         });
-        $('button[name=vision_bt]').click(function(){
-          $('section').not('#vision_section').hide('slide');
-          $('#vision_section').show('slide');
+      };
+      const getDevices = (socket) => {
+        socket.on("update_neopixel", function (data) {
+          for (let i = 0; i < 6; i++) {
+            $("#d_n" + i + "_val").val(data[i]);
+          }
         });
-        $('button[name=motion_bt]').click(function(){
-          $('section').not('#motion_section').hide('slide');
-          $('#motion_section').show('slide');
+
+        socket.on("update_battery", function (data) {
+          $("#d_battery_val").text(data);
         });
-        $('button[name=chatbot_bt]').click(function(){
-          $('section').not('#chatbot_section').hide('slide');
-          $('#chatbot_section').show('slide');
+
+        socket.on("update_device", function (data) {
+          $("#d_pir_val").text(data[0].toUpperCase());
+          $("#d_touch_val").text(data[1].toUpperCase());
+          $("#d_dc_val").text(data[2].toUpperCase());
+          $("#d_button_val").text(data[3].toUpperCase());
         });
-        $('button[name=device_bt]').click(function(){
-          $('section').not('#device_section').hide('slide');
-          $('#device_section').show('slide');
+
+        for (let i = 0; i < 6; i++) {
+          $("#d_n" + i + "_val").on("input", function () {
+            var v = $("#d_n" + i + "_val").val();
+            socket.emit("set_neopixel", { idx: i, value: v });
+          });
+        }
+
+        $("#d_otext_val").keypress(function (key) {
+          if (key.keyCode == 13) {
+            // enter
+            var text = $("#d_otext_val").val().trim();
+            var x = $("#d_ox_val").val();
+            var y = $("#d_oy_val").val();
+            var size = $("#d_osize_val").val();
+
+            socket.emit("set_oled", {
+              x: Number(x),
+              y: Number(y),
+              size: Number(size),
+              text: text,
+            });
+          }
         });
-      })
+
+        $("#mic_bt").click(function () {
+          socket.emit("mic", $("#mic_time_val").val());
+        });
+      };
+
+      $(function () {
+        const socket = io();
+
+        getStatus(socket);
+        getVisions(socket);
+        getMotions(socket);
+        getChatbots(socket);
+        getDevices(socket);
+
+        const handleMenu = (name) => {
+          if (name === "home") {
+            socket.emit("config");
+            socket.emit("wifi");
+          }
+          $("h2#content_header").text(name.toUpperCase());
+          $("nav").find("button").removeClass("menu-selected");
+          $(`button[name=${name}]`).addClass("menu-selected");
+          $("article").not(`#article_${name}`).hide("slide");
+          $(`#article_${name}`).show("slide");
+        };
+
+        handleMenu("home");
+        const menus = $("nav").find("button");
+        menus.each((idx) => {
+          const element = menus.get(idx);
+          const name = element.getAttribute("name");
+          element.addEventListener("click", () => handleMenu(name));
+        });
+      });
     </script>
-    <style type='text/css'>
-      @font-face {
-        font-family: 'DungGeunMo';
-        /*
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
-	      */
-        src: url("{{url_for('static', filename='DungGeunMo.woff')}}") format('woff');
-	      font-weight: normal;
-        font-style: normal;
-      }
-      input{font-family: 'DungGeunMo';}
-      body{
-        color: #4c5052;
-        font-size:16px;
-        font-family: 'DungGeunMo';
-      }
-      td,th{
-         padding:10px 30px;
-      }
-      th{
-        font-weight:bolder;
-      }
-      button {
-        font-size: 16px;
-        font-family: 'DungGeunMo';
-      }
-      footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 48px;
-        z-index: 999;
-        color: #4c5052;
-        border:1px dotted;
-        background-color: #f8f8f8;
-      }
-      footer button {
-        float: left;
-        width: 19%;
-        font-weight: bold;
-        font-family: 'DungGeunMo';
-        height: 100%;
-        background-color: transparent;
-        border: none;
-        color: #4c5052;
-        font-size: 17px;
-      }
-    </style>
   </head>
-  <body id='body'>
-    <header>
-      <table border=1 width='100%'>
-        <tr>
-          <td width='100'>동작</td>
-          <td width='100'>
-            <input type='radio' name='onoff_sel' value='on' disabled>ON
-            <input type='radio' name='onoff_sel' value='off' disabled>OFF
-          </td>
-          <td width='100'>WIFI(wlan0)</td>
-          <td width='150'><span id='s_network'></span></td>
-          <td width='100'>CPU온도</td>
-          <td width='100'><span id='s_cpu_temp'></span></td>
-          <td width='100'>메모리</td>
-          <td width='100'><span id='s_memory'></span></td>
-        </tr>
-        <tr>
-          <td width='100'>배터리</td>
-          <td width='100'><span id='d_battery_val'></span></td>
-          <td width='100'>버전</td>
-          <td width='150'><span id='s_os_version'></span></td>
-          <td width='100'>동작시간</td>
-          <td width='100'><span id='s_runtime'></span></td>
-          <td width='100'>전원</td>
-          <td width='100'><span id='d_dc_val'></span></td>
-        </tr>
-      </table>
+  <body>
+    <header class="title">
+      <h1>Openpibo Tools Beta</h1>
     </header>
-    <article>
-      <section id='home_section'>
-        <h2>Openpibo Tools(베타 버전)</h2>
-        <li>
-          기능 설명
-          <ul>
-            <li>
-              Vision
+    <main>
+      <nav>
+        <button name="home">Home</button>
+        <button name="vision">Vision</button>
+        <button name="motion">Motion</button>
+        <button name="chatbot">Chatbot</button>
+        <button name="device">Device</button>
+      </nav>
+      <aside class="status">
+        <div>
+          <div class="status_row">
+            <span>동작</span>
+            <span>
+              <label class="toggle">
+                <span class="toggle-label">Off</span>
+                <input
+                  class="toggle-checkbox"
+                  type="checkbox"
+                  name="onoff_sel"
+                />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label">On</span>
+              </label>
+            </span>
+            <span>Wi-Fi (wlan0)</span>
+            <span id="s_network"></span>
+            <span>CPU 온도</span>
+            <span id="s_cpu_temp"></span>
+            <span>메모리</span>
+            <span id="s_memory"></span>
+          </div>
+          <div class="status_row">
+            <span>배터리</span>
+            <span id="d_battery_val"></span>
+            <span>버전</span>
+            <span id="s_os_version"></span>
+            <span>동작시간</span>
+            <span id="s_runtime"></span>
+            <span>전원</span>
+            <span id="d_dc_val"></span>
+          </div>
+        </div>
+      </aside>
+      <div class="content">
+        <div class="wrapper">
+          <h2 id="content_header">HOME</h2>
+          <article id="article_home">
+            <section>
+              <h3 class="mark">기능 설명</h3>
               <ul>
-                <li>스트리밍</li>
-                <li>만화화</li>
-                <li>이미지 분석(얼굴인식/분석, 사물인식, QR코드인식)</li>
+                <li>
+                  Vision
+                  <ul>
+                    <li>스트리밍</li>
+                    <li>만화화</li>
+                    <li>이미지 분석(얼굴인식/분석, 사물인식, QR코드인식)</li>
+                  </ul>
+                </li>
+                <li>
+                  Motion
+                  <ul>
+                    <li>모터시뮬레이터</li>
+                    <li>모션생성</li>
+                  </ul>
+                </li>
+                <li>
+                  Chatbot
+                  <ul>
+                    <li>챗봇시험</li>
+                  </ul>
+                </li>
+                <li>
+                  Device
+                  <ul>
+                    <li>눈색상 조절하기</li>
+                    <li>제어보드 시험하기(버튼인식, 인체감지/터치센서)</li>
+                    <li>디스플레이 시험하기</li>
+                    <li>마이크 시험하기</li>
+                  </ul>
+                </li>
               </ul>
-            </li>
-            <li>Motion
-              <ul>
-                <li>모터시뮬레이터</li>
-                <li>모션생성</li>
-              </ul>
-            </li>
-            <li>
-              Chatbot
-              <ul>
-                <li>챗봇시험</li>
-              </ul>
-            </li>
-            <li>
-              Device
-              <ul>
-                <li>눈색상 조절하기</li>
-                <li>제어보드 시험하기(버튼인식, 인체감지/터치센서)</li>
-                <li>디스플레이 시험하기</li>
-                <li>마이크 시험하기</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <br>
-        <li>
-          시스템 설정 (TEST)
-          <table>
-            <tr>
-              <td>WIFI설정(pibo/!pibo0314): </td>
-              <td>
-                ssid:<input id="ssid_val" type="text" disabled>
-                psk:<input id="psk_val" type="text" disabled>
-                <!--<button id="wifi_bt">수정</button>-->
-              </td>
-            </tr>
-            <tr>
-              <td>openpibo-files 경로: </td>
-              <td>
-                <input id="datapath_val" type="text" disabled>
-                <!--<button id="datapath_bt">수정</button>-->
-              </td>
-            </tr>
-            <tr>
-              <td>카카오 개발 계정: </td>
-              <td>
-                <input id="kakao_account_val" type="text" disabled>
-                <!--<button id="kakao_account_bt">수정</button>-->
-              </td>
-            </tr>
-          </table>
-        </li>
-      </section>
-      <section id='vision_section'>
-        <h2>VISION</h2>
-        <table border=1 width=100%>
-          <tr>
-            <th><i>카메라</i></th>
-            <th><i>결과</i></th>
-          </tr>
-          <tr>
-            <td align='center'><img width='640' height='480' id='v_im_in'></td>
-            <td align='center'><img width='640' height='480' id='v_im_out'></td>
-          </tr>
-          <tr>
-            <td>
-              <button id='v_cartoon_bt'>만화사진으로 바꾸기</button>
-              <button id='v_detect_bt'>얼굴/사물/QR코드 인식하기</button>
-            </td>
-            <td>
-              얼굴: <span id='v_res_face'></span><br>
-              QR코드: <span id='v_res_qr'></span><br>
-              사물인식: <span id='v_res_obj'></span>
-            </td>
-          </tr>
-        </table>
-      </section>
-      <section id='motion_section'>
-        <h2>MOTION</h2>
-        <table>
-          <tr>
-            <td>
-              <table>
-                <tr>
-                  <td>
-                    <button id='init_bt'>초기화</button>
-                  </td>
-                  <td colspan='2' align='center'>
-                    (5)Head Tilt<br>
-                    <input type='range' id='m5_range' min='-25' max='25' /><br>
-                    <input type='number' id='m5_val' min='-25' max='25' />
-                  </td>
-                  <td>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                  </td>
-                  <td colspan='2' align='center'>
-                    (4)Head Pan<br>
-                    <input type='range' id='m4_range' min='-50' max='50' /><br>
-                    <input type='number' id='m4_val' min='-50' max='50' />
-                  </td>
-                  <td>
-                  </td>
-                </tr>
-                <tr>
-                  <td align='center'>
-                    (3)Right Hand<br>
-                    <input type='range' id='m3_range' min='-30' max='30' /><br>
-                    <input type='number' id='m3_val' min='-30' max='30' />
-                  </td>
-                  <td align='center'>
-                    (2)Right Arm<br>
-                    <input type='range' id='m2_range' min='-80' max='80' /><br>
-                    <input type='number' id='m2_val' min='-80' max='80' />
-                  </td>
-                  <td align='center'>
-                    (8)Left Arm<br>
-                    <input type='range' id='m8_range' min='-80' max='80' /><br>
-                    <input type='number' id='m8_val' min='-80' max='80' />
-                  </td>
-                  <td align='center'>
-                    (9)Left Hand<br>
-                    <input type='range' id='m9_range' min='-30' max='30' /><br>
-                    <input type='number' id='m9_val' min='-30' max='30' />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                  </td>
-                  <td align='center'>
-                    (1)Right Leg<br>
-                    <input type='range' id='m1_range' min='-35' max='35' /><br>
-                    <input type='number' id='m1_val' min='-35' max='35' />
-                  </td>
-                  <td align='center'>
-                    (7)Left Leg<br>
-                    <input type='range' id='m7_range' min='-35' max='35' /><br>
-                    <input type='number' id='m7_val' min='-35' max='35' />
-                  </td>
-                  <td>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                  </td>
-                  <td align='center'>
-                    (0)Right Foot<br>
-                    <input type='range' id='m0_range' min='-25' max='25' /><br>
-                    <input type='number' id='m0_val' min='-25' max='25' />
-                  </td>
-                  <td align='center'>
-                    (6)Left Foot<br>
-                    <input type='range' id='m6_range' min='-25' max='25' /><br>
-                    <input type='number' id='m6_val' min='-25' max='25' />
-                  </td>
-                  <td>
-                  </td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <div>
-                <div style='float:left;'>0ms</div>
-                <div style='float:right;'>20000ms</div>
+            </section>
+            <section>
+              <h3 class="mark">시스템 설정 (TEST)</h3>
+              <form action="" method="get" class="system-config-item">
+                <header>Wi-Fi 설정 (pibo/!pibo0314)</header>
+                <div class="input-group-wifi">
+                  <div class="group-labels">
+                    <label for="ssid" class="label">ssid: </label>
+                    <label for="password" class="label">password: </label>
+                  </div>
+                  <div class="group-inputs">
+                    <input type="text" name="ssid" id="ssid" required />
+                    <input type="text" name="password" id="password" required />
+                  </div>
+                  <input type="submit" value="연결" class="btn-group-wifi" />
+                </div>
+              </form>
+              <div class="system-config-item">
+                <label for="path">openpibo-files 경로</label>
+                <input type="text" name="path" id="path" style="width: 327px" />
               </div>
-              <br>
-              <div style='float:left;'></div><input type='number' id='time_val' min='0' max='20000' step='50' value='0' /></div>
-              <div style='float:right;'></div><button id='add_frame_bt'>저장</button></div>
-              <br>
-              <input type='range' id='timeline' min='0' max='20000' step='50' value='0' style="width:100%;" />
-              <br>
-              <input id="filename" type="text" placeholder="/home/pi/mymotion.json" disabled>
-              <button id='save_bt'>저장</button>
-              <button id='display_bt'>조회</button>
-              <button id='reset_bt'>삭제</button>
-              <textarea id='code' cols='100%' rows='20' wrap='hard' style="width:100%;"></textarea>
-            </td>
-          </tr>
-          <tr>
-            <td colspan='2'>
-              횟수: <input type='number' id='play_cycle_val' min='1' max='100' value='1' /> -
-              <button id='play_frame_bt'>재생</button> /
-              <button id='init_frame_bt'>초기화</button>
-              <input id='motion_name_val' placeholder='모션이름'>
-              <button id='add_motion_bt'>추가</button>
-              <button id='load_motion_bt'>불러오기</button>
-              <button id='del_motion_bt'>삭제</button>
-              <br><br>
-              <table id='record_table' border=1>
+              <div class="system-config-item">
+                <label for="kakao">카카오 개발 계정</label>
+                <input
+                  type="text"
+                  name="kakao"
+                  id="kakao"
+                  style="width: 327px"
+                />
+              </div>
+            </section>
+          </article>
+          <article id="article_vision">
+            <section>
+              <h3 class="mark">카메라</h3>
+              <img id="v_im_in" />
+              <div class="vertical gap-8">
+                <button id="v_cartoon_bt">만화 사진으로 바꾸기</button>
+                <button id="v_detect_bt">얼굴/사물/QR코드 인식하기</button>
+              </div>
+            </section>
+            <section>
+              <h3 class="mark">결과</h3>
+              <img id="v_im_out" />
+              <div class="vertical gap-8">
+                <div>
+                  <span class="label">얼굴:</span>
+                  <span id="v_res_face"></span>
+                </div>
+                <div>
+                  <span class="label">QR코드:</span>
+                  <span id="v_res_qr"></span>
+                </div>
+                <div>
+                  <span class="label">사물인식:</span>
+                  <span id="v_res_obj"></span>
+                </div>
+              </div>
+            </section>
+          </article>
+          <article id="article_motion">
+            <section class="pibo-section">
+              <img src="../static/pibo_body.png" alt="pibo body" />
+              <button id="init_bt">초기화</button>
+              <div class="motion-input-group">
+                <div class="motion-input-row">
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(5)Head Tilt</span>
+                      <input
+                        type="number"
+                        name="head_tilt_value"
+                        id="m5_val"
+                        min="-25"
+                        max="25"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="head_tilt_range"
+                      id="m5_range"
+                      min="-25"
+                      max="25"
+                    />
+                  </div>
+                </div>
+                <div class="motion-input-row">
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(4)Head Pan</span>
+                      <input
+                        type="number"
+                        name="head_pan_value"
+                        id="m4_val"
+                        min="-50"
+                        max="50"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="head_pan_range"
+                      id="m4_range"
+                      min="-50"
+                      max="50"
+                    />
+                  </div>
+                </div>
+                <div class="motion-input-row">
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(8)Left Arm</span>
+                      <input
+                        type="number"
+                        name="left_arm_number"
+                        id="m8_value"
+                        min="-80"
+                        max="80"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="left_arm_range"
+                      id="m8_range"
+                      min="-80"
+                      max="80"
+                    />
+                  </div>
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(2)Right Arm</span>
+                      <input
+                        type="number"
+                        name="right_arm_number"
+                        id="m2_value"
+                        min="-80"
+                        max="80"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="right_arm_range"
+                      id="m2_range"
+                      min="-80"
+                      max="80"
+                    />
+                  </div>
+                </div>
+                <div class="motion-input-row">
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(9)Left Hand</span>
+                      <input
+                        type="number"
+                        name="left_hand_value"
+                        id="m9_value"
+                        min="-30"
+                        max="30"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="left_hand_range"
+                      id="m9_range"
+                      min="-30"
+                      max="30"
+                    />
+                  </div>
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(3)Right Hand</span>
+                      <input
+                        type="number"
+                        name="right_hand_value"
+                        id="m3_value"
+                        min="-30"
+                        max="30"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="right_hand_range"
+                      id="m3_range"
+                      min="-30"
+                      max="30"
+                    />
+                  </div>
+                </div>
+                <div class="motion-input-row">
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(7)Left Leg</span>
+                      <input
+                        type="number"
+                        name="left_leg_value"
+                        id="m7_value"
+                        min="-35"
+                        max="35"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="left_leg_range"
+                      id="m7_range"
+                      min="-35"
+                      max="35"
+                    />
+                  </div>
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(1)Right Leg</span>
+                      <input
+                        type="number"
+                        name="right_leg_value"
+                        id="m1_value"
+                        min="-35"
+                        max="35"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="right_leg_range"
+                      id="m1_range"
+                      min="-35"
+                      max="35"
+                    />
+                  </div>
+                </div>
+                <div class="motion-input-row">
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(6)Left Foot</span>
+                      <input
+                        type="number"
+                        name="left_foot_value"
+                        id="m6_value"
+                        min="-25"
+                        max="25"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="left_foot_range"
+                      id="m6_range"
+                      min="-25"
+                      max="25"
+                    />
+                  </div>
+                  <div>
+                    <div class="motion-input-label">
+                      <span class="label">(0)Right Foot</span>
+                      <input
+                        type="number"
+                        name="right_foot_value"
+                        id="m0_value"
+                        min="-25"
+                        max="25"
+                      />
+                    </div>
+                    <input
+                      type="range"
+                      name="right_foot_range"
+                      id="m0_range"
+                      min="-25"
+                      max="25"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <div class="motion-timeline-group">
+                <div class="motion-timeline-range">
+                  <div class="motion-timeline-label">
+                    <span>0ms</span><span>20000ms</span>
+                  </div>
+                  <input
+                    type="range"
+                    name="timeline"
+                    id="timeline"
+                    min="0"
+                    max="20000"
+                    step="50"
+                    value="0"
+                  />
+                </div>
+                <div class="motion-timeline-input">
+                  <input
+                    type="number"
+                    name="time_val"
+                    id="time_val"
+                    min="0"
+                    max="20000"
+                    step="50"
+                    value="0"
+                  />
+                  <button id="add_frame_bt">저장</button>
+                </div>
+              </div>
+              <div class="motion-path">
+                <input
+                  type="text"
+                  id="filename"
+                  placeholder="/home/pi/mymotion.json"
+                  disabled
+                />
+                <button id="save_bt">저장</button>
+                <button id="display_bt">조회</button>
+                <button id="reset_bt">삭제</button>
+                <textarea
+                  name="code"
+                  id="code"
+                  rows="48"
+                  wrap="hard"
+                ></textarea>
+              </div>
+            </section>
+            <section class="motion-sequece-group">
+              <div>
+                <div>
+                  <span>횟수: </span>
+                  <input
+                    type="number"
+                    name="play_cycle_val"
+                    id="play_cycle_val"
+                    min="1"
+                    max="100"
+                    value="1"
+                  />
+                  <span> - </span>
+                  <button id="play_frame_bt">재생</button> /
+                  <button id="init_frame_bt">초기화</button>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="motion_name_val"
+                    id="motion_name_val"
+                    placeholder="모션이름"
+                  />
+                  <button id="add_motion_bt">추가</button>
+                  <button id="load_motion_bt">불러오기</button>
+                  <button id="del_motion_bt">삭제</button>
+                </div>
+              </div>
+              <table id="record_table">
                 <thead>
                   <tr>
-                    <td><b>Time</b></td>
-                    <td><b>Motor0</b></td>
-                    <td><b>Motor1</b></td>
-                    <td><b>Motor2</b></td>
-                    <td><b>Motor3</b></td>
-                    <td><b>Motor4</b></td>
-                    <td><b>Motor5</b></td>
-                    <td><b>Motor6</b></td>
-                    <td><b>Motor7</b></td>
-                    <td><b>Motor8</b></td>
-                    <td><b>Motor9</b></td>
+                    <td>Time</td>
+                    <td>Motor0</td>
+                    <td>Motor1</td>
+                    <td>Motor2</td>
+                    <td>Motor3</td>
+                    <td>Motor4</td>
+                    <td>Motor5</td>
+                    <td>Motor6</td>
+                    <td>Motor7</td>
+                    <td>Motor8</td>
+                    <td>Motor9</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td colspan='11'></td>
+                    <td colspan="11"></td>
                   </tr>
                 </tbody>
               </table>
-            </td>
-          </tr>
-        </table>
-      </section>
-      <section id='chatbot_section'>
-        <h2>CHATBOT</h2>
-          <h2>질문하기</h2>
-          <div style='width:99%;border:1px dotted; padding:10px;'>
-          질문: <br>
-          <input type='text' id='c_question_text' placeholder='안녕하세요. 반갑습니다.' style='width:100%'>
-          <br><br>
-          대답: <br>
-          <input type='text' id='c_answer_text' disabled style='width:100%'>
-          </div>
-          <br><br>
-          <h2>대화기록(최근 대화 5개 저장)</h2>
-          <div style='width:98%;border:1px dotted; padding:10px;'>
-            <table id='c_record_tb' style='width:100%'><tbody></tbody></table>
-          </div>
-      </section>
-      <section id='device_section'>
-        <h2>DEVICE</h2>
-        <table border=1>
-          <tr>
-            <th colspan='2'><i>눈 색상 조절하기</i></th>
-          </tr>
-          <tr>
-            <td style="width:50%;">오른쪽</td>
-            <td>왼쪽</td>
-          </tr>
-          <tr>
-            <td>
-              빨강:<input type='number'  id='d_n0_val' value='0' min='0' step='5' max='255' />
-              초록:<input type='number'  id='d_n1_val' value='0' min='0' step='5' max='255' />
-              파랑:<input type='number'  id='d_n2_val' value='0' min='0' step='5' max='255' />
-            </td>
-            <td>
-              빨강:<input type='number' id='d_n3_val' value='0' min='0' step='5' max='255' />
-              초록:<input type='number' id='d_n4_val' value='0' min='0' step='5' max='255' />
-              파랑:<input type='number' id='d_n5_val' value='0' min='0' step='5' max='255' />
-            </td>
-          </tr>
-          <tr>
-            <th colspan='2'><i>디바이스 상태 정보</i></th>
-          </tr>
-          <tr>
-            <td><b>버튼 인식</b></td>
-            <td><span id='d_button_val'></span></td>
-          </tr>
-          <tr>
-            <td><b>인체 감지 센서(PIR)</b></td>
-            <td><span id='d_pir_val'></span></td>
-          </tr>
-          <tr>
-            <td><b>터치 센서</b></td>
-            <td><span id='d_touch_val'></span></td>
-          </tr>
-          <tr>
-            <th colspan='2'><i>OLED 사용하기</i></th>
-          </tr>
-          <tr>
-            <td>
-              X:<input type='number' id='d_ox_val' value='0' min='0' max='128' />
-              Y:<input type='number' id='d_oy_val' value='0' min='0' max='64' />
-              Size:<input type='number' id='d_osize_val' value='10' min='0' max='50' />
-            </td>
-            <td>
-              <input type='text' id='d_otext_val' placeholder="문자를 입력하세요" size="100%" />
-            </td>
-	    <tr>
-	      <th colspan='2'><i>마이크 사용하기(녹음 후, 재생)</i></th>
-	    </tr>
-	    <tr>
-              <td>녹음시간:<input type='number' id='mic_time_val' value='5' min='1' max='30' />초</td>
-	      <td><button id='mic_bt'>실행</button></td>
-	    </tr>
-          </tr>
-        </table>
-      </section>
-    </article>
-    <div style='position:absolute;right:50;bottom:70'>
-      © Copyright 2022, Circulus Education - THE MAKER
-    </div>
-    <footer>
-      <button name='home_bt'>Home</button>
-      <button name='vision_bt'>Vision</button>
-      <button name='motion_bt'>Motion</button>
-      <button name='chatbot_bt'>Chatbot</button>
-      <button name='device_bt'>Device</button>
-    </footer>
+            </section>
+          </article>
+          <article id="article_chatbot">
+            <section>
+              <h3 class="mark">질문하기</h3>
+              <div class="chatbot-input-group">
+                <span class="label">질문:</span>
+                <input
+                  type="text"
+                  name="c_question_text"
+                  id="c_question_text"
+                  placeholder="안녕하세요. 반갑습니다."
+                />
+              </div>
+              <div class="chatbot-input-group">
+                <span class="label">대답:</span>
+                <input
+                  type="text"
+                  name="c_answer_text"
+                  id="c_answer_text"
+                  disabled
+                />
+              </div>
+            </section>
+            <section>
+              <h3 class="mark">대화기록 (최근 대화 5개 저장)</h3>
+              <div>
+                <table id="c_record_tb"></table>
+              </div>
+            </section>
+          </article>
+          <article id="article_device">
+            <section>
+              <h3 class="mark">눈 색상 조절하기</h3>
+              <div class="eye-color-group">
+                <div class="eye-color-input-group">
+                  <span class="label">왼쪽</span>
+                  <div>
+                    <div>
+                      <label for="d_n3_val" class="label">빨강</label>
+                      <input
+                        type="number"
+                        name="d_n3_val"
+                        id="d_n3_val"
+                        value="0"
+                        min="0"
+                        step="5"
+                        max="255"
+                      />
+                    </div>
+                    <div>
+                      <label for="d_n4_val" class="label">초록</label>
+                      <input
+                        type="number"
+                        name="d_n4_val"
+                        id="d_n4_val"
+                        value="0"
+                        min="0"
+                        step="5"
+                        max="255"
+                      />
+                    </div>
+                    <div>
+                      <label for="d_n5_val" class="label">파랑</label>
+                      <input
+                        type="number"
+                        name="d_n5_val"
+                        id="d_n5_val"
+                        value="0"
+                        min="0"
+                        step="5"
+                        max="255"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="eye-color-input-group">
+                  <span class="label">오른쪽</span>
+                  <div>
+                    <div>
+                      <label for="d_n0_val" class="label">빨강</label>
+                      <input
+                        type="number"
+                        name="d_n0_val"
+                        id="d_n0_val"
+                        value="0"
+                        min="0"
+                        step="5"
+                        max="255"
+                      />
+                    </div>
+                    <div>
+                      <label for="d_n1_val" class="label">초록</label>
+                      <input
+                        type="number"
+                        name="d_n1_val"
+                        id="d_n1_val"
+                        value="0"
+                        min="0"
+                        step="5"
+                        max="255"
+                      />
+                    </div>
+                    <div>
+                      <label for="d_n2_val" class="label">파랑</label>
+                      <input
+                        type="number"
+                        name="d_n2_val"
+                        id="d_n2_val"
+                        value="0"
+                        min="0"
+                        step="5"
+                        max="255"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h3 class="mark">디바이스 상태 정보</h3>
+              <div class="device-status-group">
+                <div>
+                  <span class="label">버튼 인식</span>
+                  <span id="d_button_val"></span>
+                </div>
+                <div>
+                  <span class="label">인체 감지 센서(PIR)</span>
+                  <span id="d_pir_val"></span>
+                </div>
+                <div>
+                  <span class="label">터치 센서</span>
+                  <span id="d_touch_val"></span>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h3 class="mark">OLED 사용하기</h3>
+              <div class="oled-group">
+                <label for="d_ox_val" class="label">X: </label>
+                <input
+                  type="number"
+                  name="d_ox_val"
+                  id="d_ox_val"
+                  value="0"
+                  min="0"
+                  max="128"
+                />
+                <label for="d_oy_val" class="label">Y: </label>
+                <input
+                  type="number"
+                  name="d_oy_val"
+                  id="d_oy_val"
+                  value="0"
+                  min="0"
+                  max="64"
+                />
+                <label for="d_osize_val" class="label">Size: </label>
+                <input
+                  type="number"
+                  name="d_osize_val"
+                  id="d_osize_val"
+                  value="10"
+                  min="0"
+                  max="50"
+                />
+                <div>
+                  <input
+                    type="text"
+                    name="d_otext_val"
+                    id="d_otext_val"
+                    placeholder="문자를 입력하세요."
+                  />
+                </div>
+              </div>
+            </section>
+            <section>
+              <h3 class="mark">마이크 사용하기(녹음 후, 재생)</h3>
+              <div>
+                <label for="mic_time_val" class="label">녹음시간: </label>
+                <input
+                  type="number"
+                  name="mic_time_val"
+                  id="mic_time_val"
+                  value="5"
+                  min="1"
+                  max="30"
+                />
+                <span class="label">초</span>
+                <button id="mic_bt">실행</button>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+    <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
   </body>
 </html>
