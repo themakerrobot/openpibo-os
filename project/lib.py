@@ -197,10 +197,10 @@ class Pibo:
         ans = self.dialog.get_dialog(q)
         self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
         self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
-        self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "test.mp3")
-        self.aud.play(filename="test.mp3", out='local', volume=-1000, background=False)
         if len(self.chat_list) == 5:
             self.chat_list.pop(0)
+        self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "test.mp3")
+        self.aud.play(filename="test.mp3", out='local', volume=-1000, background=False)
 
     ## motion
     def motion_start(self):
