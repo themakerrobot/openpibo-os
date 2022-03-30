@@ -50,8 +50,9 @@ def question(d=None, method=['GET', 'POST']):
 # motion
 @socketio.on('motor_init')
 def motor_init(d=None, method=['GET', 'POST']):
+  print('motor_init')
   if pibo.onoff:
-    pibo.motion_init()
+    pibo.motor_init()
 
 @socketio.on('set_pos')
 def set_pos(d=None, method=['GET', 'POST']):
@@ -143,12 +144,12 @@ def config(d=None, method=['GET', 'POST']):
     tmp = json.load(f)
 
   if d == None:
-    socketio.emit('config', {'DATA_PATH':tmp['DATA_PATH'], 'KAKAO_ACCOUNT':tmp['KAKAO_ACCOUNT']})
+    socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey']})
   else:
     if 'datapath' in d:
-      tmp['DATAPATH'] = d['datapath']
-    elif 'kakao_account' in d:
-      tmp['KAKAO_ACCOUNT'] = d['kakao_account']
+      tmp['datapath'] = d['datapath']
+    elif 'kakaokey' in d:
+      tmp['kakaokey'] = d['kakaokey']
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')

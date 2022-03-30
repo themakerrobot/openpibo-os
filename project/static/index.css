@@ -567,7 +567,7 @@ label.label {
 .motion-path > textarea {
   width: 100%;
   margin-top: 1em;
-  max-height: 760px;
+  max-height: 100px;
   resize: none;
 }
 

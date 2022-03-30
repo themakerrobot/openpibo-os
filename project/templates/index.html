@@ -16,53 +16,56 @@
       const getStatus = (socket) => {
         socket.emit("onoff");
         socket.on("onoff", function (d) {
-          $("input[name=onoff_sel]").prop("disabled", false);
+          $("input:checkbox[name=onoff_sel]").prop("disabled", false);
           $("input:checkbox[name=onoff_sel]").attr(
             "checked",
             d=='on'?true:false
           );
+
+          if(d=='on') socket.emit("motor_init");
         });
 
-        $("input[name=onoff_sel]").change(function () {
-          let sel = $("input[name=onoff_sel]:checked").val(); //sel = 'on'
-          $("input[name=onoff_sel]").prop("disabled", true);
+        $("input:checkbox[name=onoff_sel]").change(function () {
+          let sel = $("input:checkbox[name=onoff_sel]").is(":checked");
+          sel = sel?"on":"off";
+          $("input:checkbox[name=onoff_sel]").prop("disabled", true);
           socket.emit("onoff", sel);
         });
 
-        socket.emit("system");
         setInterval(function(){socket.emit("system")}, 10000);
         socket.on("system", function(data){
-          $("#s_os_version").text(data[0]);
-          $("#s_runtime").text(Math.floor(data[1]/3600) + " Hours");
-          $("#s_cpu_temp").text(data[2]);
-          $("#s_memory").text(Math.floor(data[4]/data[3]/4*100) + " %");
-          $("#s_network").text(data[5] + "/" + data[6].replace("\n",""));
+          $("#s_serial").text(data[0]);
+          $("#s_os_version").text(data[1]);
+          $("#s_runtime").text(Math.floor(data[2]/3600) + " Hours");
+          $("#s_cpu_temp").text(data[3]);
+          $("#s_memory").text(Math.floor(data[5]/data[4]/4*100) + " %");
+          $("#s_network").text(data[6] + "/" + data[7].replace("\n",""));
         });
 
-        socket.emit("wifi");
+        setTimeout(function(){socket.emit("wifi");},1000);
         socket.on("wifi", function(data){
           $("#ssid").val(data["ssid"]);
           $("#password").val(data["psk"]);
         });
         
         $("input[type=submit]").click(function(){
-                alert("준비 중에요.");
+          alert("준비 중에요.");
         });
 
-        socket.emit("config");
+        setTimeout(function(){socket.emit("config");},1000);
         socket.on("config", function(data){
-          $("#path").val(data["DATA_PATH"]);
-          $("#kakao").val(data["KAKAO_ACCOUNT"]);
+          $("#datapath").val(data["datapath"]);
+          $("#kakaokey").val(data["kakaokey"]);
         });
 
-        $("#path_bt").click(function(){
+        $("#datapath_bt").click(function(){
           alert("준비 중에요.");
           //socket.emit("config", {
           //  "datapath": $("#path").val()
           //});
         });
 
-        $("#kakao_bt").click(function(){
+        $("#kakaokey_bt").click(function(){
           alert("준비 중에요.");
           //socket.emit("config", {
           //  "kakao_account":$("#kakao").val()
@@ -105,7 +108,7 @@
       };
       const getMotions = (socket) => {
         const motor_default = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0];
-        //socket.emit("motor_init")
+        //socket.emit("motor_init");
 
         socket.on("init_motion", function (data) {
           for (let i = 0; i < 10; i++) {
@@ -309,7 +312,7 @@
         socket.on("update_device", function (data) {
           $("#d_pir_val").text(data[0].toUpperCase());
           $("#d_touch_val").text(data[1].toUpperCase());
-          $("#d_dc_val").text(data[2].toUpperCase());
+          $("#d_dc_val").text(data[2].toUpperCase()=="ON"?"(충전중)":"(충전중아님)");
           $("#d_button_val").text(data[3].toUpperCase());
         });
 
@@ -388,7 +391,7 @@
       <aside class="status">
         <div>
           <div class="status_row">
-            <span>동작</span>
+            <span>동  작</span>
             <span>
               <label class="toggle">
                 <span class="toggle-label">Off</span>
@@ -409,14 +412,18 @@
             <span id="s_memory"></span>
           </div>
           <div class="status_row">
-            <span>배터리</span>
-            <span id="d_battery_val"></span>
+            <span>일련번호</span>
+            <span id="s_serial"></span>
             <span>버전</span>
             <span id="s_os_version"></span>
             <span>동작시간</span>
             <span id="s_runtime"></span>
-            <span>전원</span>
-            <span id="d_dc_val"></span>
+            <span>배터리</span>
+            <span>
+              <label>
+                <span id="d_battery_val"></span> <span id="d_dc_val"></span>
+              </label>
+            </span>
           </div>
         </div>
       </aside>
@@ -476,19 +483,19 @@
                 </div>
               </form>
               <div class="system-config-item">
-                <label for="path">openpibo-files 경로</label>
-                <input type="text" name="path" id="path" style="width: 327px" />
-                <button id="path_bt">수정</button>
+                <label for="datapath">openpibo-files 경로</label>
+                <input type="text" name="datapath" id="datapath" style="width: 327px" />
+                <button id="datapath_bt">수정</button>
               </div>
               <div class="system-config-item">
-                <label for="kakao">카카오 개발 계정</label>
+                <label for="kakaokey">카카오 개발 계정</label>
                 <input
                   type="text"
-                  name="kakao"
-                  id="kakao"
+                  name="kakaokey"
+                  id="kakaokey"
                   style="width: 327px"
                 />
-                <button id="kakao_bt">수정</button>
+                <button id="kakaokey_bt">수정</button>
               </div>
             </section>
           </article>
@@ -523,7 +530,7 @@
           <article id="article_motion">
             <section class="pibo-section">
               <img src="../static/pibo_body.png" alt="pibo body" />
-              <button id="init_bt">초기화</button>
+              <button id="init_bt">원래자세로</button>
               <div class="motion-input-group">
                 <div class="motion-input-row">
                   <div>
@@ -535,7 +542,7 @@
                         id="m5_value"
                         min="-25"
                         max="25"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -557,7 +564,7 @@
                         id="m4_value"
                         min="-50"
                         max="50"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -579,7 +586,7 @@
                         id="m2_value"
                         min="-80"
                         max="80"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -599,7 +606,7 @@
                         id="m8_value"
                         min="-80"
                         max="80"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -621,7 +628,7 @@
                         id="m3_value"
                         min="-30"
                         max="30"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -641,7 +648,7 @@
                         id="m9_value"
                         min="-30"
                         max="30"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -663,7 +670,7 @@
                         id="m1_value"
                         min="-35"
                         max="35"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -683,7 +690,7 @@
                         id="m7_value"
                         min="-35"
                         max="35"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -705,7 +712,7 @@
                         id="m0_value"
                         min="-25"
                         max="25"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -725,7 +732,7 @@
                         id="m6_value"
                         min="-25"
                         max="25"
-			                  style="width:50px;"
+                        style="width:50px;"
                       />
                     </div>
                     <input
@@ -776,20 +783,20 @@
                   disabled
                 />
                 <button id="save_bt">저장</button>
-                <button id="display_bt">조회</button>
-                <button id="reset_bt">삭제</button>
+                <button id="display_bt">읽어오기</button>
+                <button id="reset_bt">초기화</button>
+              </div>
                 <textarea
                   name="code"
                   id="code"
                   rows="48"
                   wrap="hard"
                 ></textarea>
-              </div>
             </section>
             <section class="motion-sequece-group">
               <div>
                 <div>
-                  <span>횟수: </span>
+                  <span>재생횟수: </span>
                   <input
                     type="number"
                     name="play_cycle_val"
@@ -799,15 +806,15 @@
                     value="1"
                   />
                   <span> - </span>
-                  <button id="play_frame_bt">재생</button> /
-                  <button id="init_frame_bt">초기화</button>
+                  <button id="play_frame_bt">재생</button>/
+                  <button id="init_frame_bt">모두지우기</button>
                 </div>
                 <div>
+                  <span>모션이름: </span>
                   <input
                     type="text"
                     name="motion_name_val"
                     id="motion_name_val"
-                    placeholder="모션이름"
                   />
                   <button id="add_motion_bt">추가</button>
                   <button id="load_motion_bt">불러오기</button>
@@ -818,16 +825,16 @@
                 <thead>
                   <tr>
                     <td>Time</td>
-                    <td>Motor0</td>
-                    <td>Motor1</td>
-                    <td>Motor2</td>
-                    <td>Motor3</td>
-                    <td>Motor4</td>
-                    <td>Motor5</td>
-                    <td>Motor6</td>
-                    <td>Motor7</td>
-                    <td>Motor8</td>
-                    <td>Motor9</td>
+                    <td>M0</td>
+                    <td>M1</td>
+                    <td>M2</td>
+                    <td>M3</td>
+                    <td>M4</td>
+                    <td>M5</td>
+                    <td>M6</td>
+                    <td>M7</td>
+                    <td>M8</td>
+                    <td>M9</td>
                   </tr>
                 </thead>
                 <tbody>
