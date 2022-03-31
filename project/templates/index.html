@@ -32,6 +32,7 @@
           socket.emit("onoff", sel);
         });
 
+        socket.emit("system");
         setInterval(function(){socket.emit("system")}, 10000);
         socket.on("system", function(data){
           $("#s_serial").text(data[0]);
@@ -378,7 +379,7 @@
   </head>
   <body>
     <header class="title">
-      <h1>Openpibo Tools Beta</h1>
+      <h1>Openpibo Tools</h1>
     </header>
     <main>
       <nav>
@@ -467,7 +468,7 @@
               </ul>
             </section>
             <section>
-              <h3 class="mark">시스템 설정 (TEST)</h3>
+              <h3 class="mark">시스템 설정 (Beta)</h3>
               <form action="" method="get" class="system-config-item">
                 <header>Wi-Fi 설정 (pibo/!pibo0314)</header>
                 <div class="input-group-wifi">

@@ -1,5 +1,10 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+
+# ValueError: Too many packets in payload issue
+from engineio.payload import Payload
+Payload.max_decode_packets = 50
+
 import argparse
 
 from lib import Pibo
