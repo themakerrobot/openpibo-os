@@ -26,8 +26,7 @@
         });
 
         $("input:checkbox[name=onoff_sel]").change(function () {
-          let sel = $("input:checkbox[name=onoff_sel]").is(":checked");
-          sel = sel?"on":"off";
+          let sel = $("input:checkbox[name=onoff_sel]").is(":checked")?"on":"off";
           $("input:checkbox[name=onoff_sel]").prop("disabled", true);
           socket.emit("onoff", sel);
         });
@@ -130,7 +129,7 @@
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
 
-          $(tval).click(function () {
+          $(tval).on("input", function () {
             var pos = $(tval).val();
             $(trange).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
@@ -400,6 +399,7 @@
                   class="toggle-checkbox"
                   type="checkbox"
                   name="onoff_sel"
+                  disabled
                 />
                 <div class="toggle-switch"></div>
                 <span class="toggle-label">On</span>

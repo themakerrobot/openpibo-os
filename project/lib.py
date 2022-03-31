@@ -147,22 +147,24 @@ class Pibo:
         while True:
             if self.device_flag == False:
                 break
+            try:
+                if self.devque.qsize() > 0:
+                    data = self.dev.send_raw(self.devque.get())
+                    self.decode_pkt(data)
 
-            if self.devque.qsize() > 0:
-                data = self.dev.send_raw(self.devque.get())
-                self.decode_pkt(data)
+                if time.time() - system_check_time > 1:  # 시스템 메시지 1초 간격 전송
+                    data = self.dev.send_cmd(Device.code_list['SYSTEM'])
+                    self.decode_pkt(data)
+                    system_check_time = time.time()
 
-            if time.time() - system_check_time > 1:  # 시스템 메시지 1초 간격 전송
-                data = self.dev.send_cmd(Device.code_list['SYSTEM'])
-                self.decode_pkt(data)
-                system_check_time = time.time()
-
-            if time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
-                data = self.dev.send_cmd(Device.code_list['BATTERY'])
-                self.decode_pkt(data)
-                battery_check_time = time.time()
-
-                time.sleep(0.01)
+                if time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
+                    data = self.dev.send_cmd(Device.code_list['BATTERY'])
+                    self.decode_pkt(data)
+                    battery_check_time = time.time()
+            except Exception as ex:
+                print("Error:", ex)
+                pass
+            time.sleep(0.1)
 
     def set_neopixel(self, d):
         self.neopixel_value[d['idx']] = d['value']
@@ -199,8 +201,13 @@ class Pibo:
         self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
         if len(self.chat_list) == 5:
             self.chat_list.pop(0)
-        self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "test.mp3")
-        self.aud.play(filename="test.mp3", out='local', volume=-1000, background=False)
+
+        try:
+            self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "test.mp3")
+            self.aud.play(filename="test.mp3", out='local', volume=-1000, background=False)
+        except Exception as ex:
+            print("Error:", ex)
+            pass
 
     ## motion
     def motion_start(self):
@@ -303,6 +310,8 @@ class Pibo:
         self.emit('disp_code', self.__j)
 
     def start(self):
+        if self.onoff == True:
+          print("Already Start")
         self.vision_start()
         self.device_start()
         self.chatbot_start()
@@ -310,6 +319,8 @@ class Pibo:
         self.onoff = True
 
     def stop(self):
+        if self.onoff == False:
+          print("Already Stop")
         self.vision_stop()
         self.device_stop()
         self.chatbot_stop()

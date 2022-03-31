@@ -166,7 +166,11 @@ def system(d=None, method=['GET', 'POST']):
   socketio.emit("system", res)
 
 def emit(__key, __data, callback=None):
-  socketio.emit(__key, __data, callback=callback)
+  try:
+    socketio.emit(__key, __data, callback=callback)
+  except Exception as ex:
+    print("Error:", ex)
+    pass
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
