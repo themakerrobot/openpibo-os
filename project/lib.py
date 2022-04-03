@@ -162,7 +162,7 @@ class Pibo:
                     self.decode_pkt(data)
                     battery_check_time = time.time()
             except Exception as ex:
-                print("Error:", ex)
+                print("[device_loop] Error:", ex)
                 pass
             time.sleep(0.1)
 
@@ -203,10 +203,10 @@ class Pibo:
             self.chat_list.pop(0)
 
         try:
-            self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "test.mp3")
-            self.aud.play(filename="test.mp3", out='local', volume=-1000, background=False)
+            self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "chat.mp3")
+            self.aud.play(filename="chat.mp3", out='local', volume=-1000, background=False)
         except Exception as ex:
-            print("Error:", ex)
+            print("[question] Error:", ex)
             pass
 
     ## motion
@@ -224,7 +224,7 @@ class Pibo:
                 self.__j = json.load(f)
                 self.emit('disp_code', self.__j)
         except Exception as ex:
-            print("Error:", ex)
+            print("[motion_start] Error:", ex)
             pass
 
     def motion_stop(self):
@@ -312,6 +312,8 @@ class Pibo:
     def start(self):
         if self.onoff == True:
           print("Already Start")
+          return
+
         self.vision_start()
         self.device_start()
         self.chatbot_start()
@@ -321,6 +323,8 @@ class Pibo:
     def stop(self):
         if self.onoff == False:
           print("Already Stop")
+          return
+
         self.vision_stop()
         self.device_stop()
         self.chatbot_stop()

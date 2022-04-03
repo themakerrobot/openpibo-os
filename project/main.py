@@ -3,7 +3,7 @@ from flask_socketio import SocketIO
 
 # ValueError: Too many packets in payload issue
 from engineio.payload import Payload
-Payload.max_decode_packets = 50
+Payload.max_decode_packets = 100
 
 import argparse
 
@@ -169,7 +169,7 @@ def emit(__key, __data, callback=None):
   try:
     socketio.emit(__key, __data, callback=callback)
   except Exception as ex:
-    print("Error:", ex)
+    print("[emit] Error:", ex)
     pass
 
 if __name__ == '__main__':
