@@ -436,33 +436,33 @@
               <h3 class="mark">기능 설명</h3>
               <ul>
                 <li>
-                  Vision
+                  Device
                   <ul>
-                    <li>스트리밍</li>
-                    <li>만화화</li>
-                    <li>이미지 분석(얼굴인식/분석, 사물인식, QR코드인식)</li>
+                    <li>눈 색상 조정하기</li>
+                    <li>센서인식(인체감지/터치센서, 버튼)하기</li>
+                    <li>디스플레이(OLED) 사용하기</li>
+                    <li>마이크 사용하기</li>
                   </ul>
                 </li>
                 <li>
                   Motion
                   <ul>
-                    <li>모터시뮬레이터</li>
-                    <li>모션생성</li>
+                    <li>모터 시뮬레이터 사용하기</li>
+                    <li>모션 생성하기</li>
+                  </ul>
+                </li>
+                <li>
+                  Vision
+                  <ul>
+                    <li>카메라 사용하기</li>
+                    <li>만화 이미지로 바꾸기</li>
+                    <li>이미지 분석하기(얼굴인식/분석, 사물인식, QR코드인식)</li>
                   </ul>
                 </li>
                 <li>
                   Chatbot
                   <ul>
-                    <li>챗봇시험</li>
-                  </ul>
-                </li>
-                <li>
-                  Device
-                  <ul>
-                    <li>눈색상 조절하기</li>
-                    <li>제어보드 시험하기(버튼인식, 인체감지/터치센서)</li>
-                    <li>디스플레이 시험하기</li>
-                    <li>마이크 시험하기</li>
+                    <li>대화하기</li>
                   </ul>
                 </li>
               </ul>
@@ -505,8 +505,8 @@
               <h3 class="mark">카메라</h3>
               <img id="v_im_in" />
               <div class="vertical gap-8">
-                <button id="v_cartoon_bt">만화 사진으로 바꾸기</button>
-                <button id="v_detect_bt">얼굴/사물/QR코드 인식하기</button>
+                <button id="v_cartoon_bt">만화 이미지로 바꾸기</button>
+                <button id="v_detect_bt"> 이미지 분석하기(QR코드/얼굴/사물)</button>
               </div>
             </section>
             <section>
@@ -514,12 +514,12 @@
               <img id="v_im_out" />
               <div class="vertical gap-8">
                 <div>
-                  <span class="label">얼굴:</span>
-                  <span id="v_res_face"></span>
-                </div>
-                <div>
                   <span class="label">QR코드:</span>
                   <span id="v_res_qr"></span>
+                </div>
+                <div>
+                  <span class="label">얼굴:</span>
+                  <span id="v_res_face"></span>
                 </div>
                 <div>
                   <span class="label">사물인식:</span>
@@ -531,7 +531,7 @@
           <article id="article_motion">
             <section class="pibo-section">
               <img src="../static/pibo_body.png" alt="pibo body" />
-              <button id="init_bt">원래자세로</button>
+              <button id="init_bt">원래자세</button>
               <div class="motion-input-group">
                 <div class="motion-input-row">
                   <div>
@@ -751,14 +751,14 @@
               <div class="motion-timeline-group">
                 <div class="motion-timeline-range">
                   <div class="motion-timeline-label">
-                    <span>0ms</span><span>20000ms</span>
+                    <span>0ms</span><span>30000ms</span>
                   </div>
                   <input
                     type="range"
                     name="timeline"
                     id="timeline"
                     min="0"
-                    max="20000"
+                    max="30000"
                     step="50"
                     value="0"
                   />
@@ -769,11 +769,11 @@
                     name="time_val"
                     id="time_val"
                     min="0"
-                    max="20000"
+                    max="30000"
                     step="50"
                     value="0"
                   />
-                  <button id="add_frame_bt">저장</button>
+                  <button id="add_frame_bt">추가하기</button>
                 </div>
               </div>
               <div class="motion-path">
@@ -783,9 +783,9 @@
                   placeholder="/home/pi/mymotion.json"
                   disabled
                 />
-                <button id="save_bt">저장</button>
+                <button id="save_bt">저장하기</button>
                 <button id="display_bt">읽어오기</button>
-                <button id="reset_bt">초기화</button>
+                <button id="reset_bt">지우기</button>
               </div>
                 <textarea
                   name="code"
@@ -807,7 +807,7 @@
                     value="1"
                   />
                   <span> - </span>
-                  <button id="play_frame_bt">재생</button>/
+                  <button id="play_frame_bt">실행하기</button>/
                   <button id="init_frame_bt">모두지우기</button>
                 </div>
                 <div>
@@ -817,9 +817,9 @@
                     name="motion_name_val"
                     id="motion_name_val"
                   />
-                  <button id="add_motion_bt">추가</button>
+                  <button id="add_motion_bt">등록하기</button>
                   <button id="load_motion_bt">불러오기</button>
-                  <button id="del_motion_bt">삭제</button>
+                  <button id="del_motion_bt">삭제하기</button>
                 </div>
               </div>
               <table id="record_table">
@@ -869,7 +869,7 @@
               </div>
             </section>
             <section>
-              <h3 class="mark">대화기록 (최근 대화 5개 저장)</h3>
+              <h3 class="mark">대화기록 (최근 대화 5개)</h3>
               <div>
                 <table id="c_record_tb"><tbody></tbody></table>
               </div>
@@ -877,7 +877,7 @@
           </article>
           <article id="article_device">
             <section>
-              <h3 class="mark">눈 색상 조절하기</h3>
+              <h3 class="mark">눈 색상 조정하기</h3>
               <div class="eye-color-group">
                 <div class="eye-color-input-group">
                   <span class="label">오른쪽</span>
@@ -964,12 +964,8 @@
               </div>
             </section>
             <section>
-              <h3 class="mark">디바이스 상태 정보</h3>
+              <h3 class="mark">센서인식 하기</h3>
               <div class="device-status-group">
-                <div>
-                  <span class="label">버튼 인식</span>
-                  <span id="d_button_val"></span>
-                </div>
                 <div>
                   <span class="label">인체 감지 센서(PIR)</span>
                   <span id="d_pir_val"></span>
@@ -978,10 +974,14 @@
                   <span class="label">터치 센서</span>
                   <span id="d_touch_val"></span>
                 </div>
+                <div>
+                  <span class="label">버튼 인식</span>
+                  <span id="d_button_val"></span>
+                </div>
               </div>
             </section>
             <section>
-              <h3 class="mark">OLED 사용하기</h3>
+              <h3 class="mark">디스플레이(OLED) 사용하기</h3>
               <div class="oled-group">
                 <label for="d_ox_val" class="label">X: </label>
                 <input
