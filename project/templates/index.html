@@ -67,17 +67,15 @@
         });
 
         $("#datapath_bt").click(function () {
-          alert("준비 중에요.");
-          //socket.emit("config", {
-          //  "datapath": $("#path").val()
-          //});
+          socket.emit("config", {
+            "datapath": $("#datapath").val()
+          });
         });
 
         $("#kakaokey_bt").click(function () {
-          alert("준비 중에요.");
-          //socket.emit("config", {
-          //  "kakao_account":$("#kakao").val()
-          //});
+          socket.emit("config", {
+            "kakaokey":$("#kakaokey").val()
+          });
         });
       };
 
@@ -195,14 +193,14 @@
                 .hover(
                   function () {
                     // 포즈 하나 삭제 옵션
-                    $(this).attr("style", "background-color:pink");
+                    $(this).animate({opacity: '0.5'});
                   },
                   function () {
-                    $(this).attr("style", "");
+                    $(this).animate({opacity: '1'});
                   }
                 )
                 .click(function () {
-                  if (confirm("삭제하시겠습니까?")) {
+                  if (confirm($(this).text().split(" ms")[0] + " ms 을 삭제하시겠습니까?")) {
                     socket.emit(
                       "remove_frame",
                       Number($(this).text().split(" ms")[0])
@@ -277,7 +275,20 @@
           if (key.keyCode == 13) {
             // enter
             q = $("#c_question_text").val().trim();
-            socket.emit("question", q);
+
+            $("#c_question_text").prop("disabled", true);
+
+	    setTimeout(function(){$("#c_question_text").val(".");}, 100);
+	    setTimeout(function(){$("#c_question_text").val("..");}, 300);
+	    setTimeout(function(){$("#c_question_text").val("...");}, 500);
+	    setTimeout(function(){$("#c_question_text").val("....");}, 700);
+	    setTimeout(function(){$("#c_question_text").val(".....");}, 900);
+
+	    setTimeout(function(){
+              socket.emit("question", q);
+              $("#c_question_text").prop("disabled", false);
+	      $("#c_question_text").val(q);
+	    }, 1000);
           }
         });
 
@@ -369,6 +380,14 @@
             socket.emit("config");
             socket.emit("wifi");
           }
+	  else if (name === "chatbot"){
+            $("#c_question_text").val("")
+            $("#c_answer_text").val("")
+	  }
+	  else if (name === "device"){
+            $("#d_otext_val").val("")
+	  }
+          
           $("h2#content_header").text(name.toUpperCase());
           $("nav").find("button").removeClass("menu-selected");
           $(`button[name=${name}]`).addClass("menu-selected");

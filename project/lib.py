@@ -15,6 +15,8 @@ import cv2
 import os, json, shutil
 from queue import Queue
 from threading import Thread, Lock
+import log
+logger = log.configure_logger()
 
 def to_base64(im):
   im = cv2.imencode('.jpg', im)[1].tobytes()
@@ -28,16 +30,16 @@ class Pibo:
     
     def emit(self, key, data, callback=None):
         if self.emit_func == None:
-            print("No emit_func")
+            logger.debug("No emit_func")
         else:
             self.emit_func(key, data)
 
     def config(self, d):
-        openpibo.config = d
+        openpibo.datapath = d['datapath']
         if 'speech' in dir(self):
-            self.speech.kakao_account = d['KAKAO_ACCOUNT']
+            self.speech.kakao_account = d['kakaokey']
         else:
-            self.kakao_account = d['KAKAO_ACCOUNT']
+            self.kakao_account = d['kakaokey']
         
     ## vision
     def vision_start(self):
@@ -120,7 +122,7 @@ class Pibo:
         self.devque.put("#{}:{}!".format(code, data))
 
     def decode_pkt(self, pkt):
-        print("Recv:", pkt, pkt.split(":")[1].split("-"))
+        logger.info(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
         pkt = pkt.split(":")
         code, data = pkt[0], pkt[1]
 
@@ -132,13 +134,14 @@ class Pibo:
             self.emit('update_device', self.system_value, callback=None)
 
         if code == "40": # system
-            data = data.split("-")
+            item = data.split("-")
 
-            if data[2] == '':
-                data[2] = self.system_value[2]
+            if item[2] == '':
+                item[2] = self.system_value[2]
 
-            self.system_value = data
-            self.emit('update_device', self.system_value, callback=None)
+            self.system_value = item
+            if data != '-----':
+                self.emit('update_device', self.system_value, callback=None)
 
     def device_loop(self):
         system_check_time = time.time()
@@ -162,7 +165,7 @@ class Pibo:
                     self.decode_pkt(data)
                     battery_check_time = time.time()
             except Exception as ex:
-                print("[device_loop] Error:", ex)
+                logger.error(f'[device_loop] Error: {ex}')
                 pass
             time.sleep(0.1)
 
@@ -206,7 +209,7 @@ class Pibo:
             self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "chat.mp3")
             self.aud.play(filename="chat.mp3", out='local', volume=-1000, background=False)
         except Exception as ex:
-            print("[question] Error:", ex)
+            logger.error(f'[question] Error: {ex}')
             pass
 
     ## motion
@@ -224,7 +227,7 @@ class Pibo:
                 self.__j = json.load(f)
                 self.emit('disp_code', self.__j)
         except Exception as ex:
-            print("[motion_start] Error:", ex)
+            logger.error(f'[motion_start] Error: {ex}')
             pass
 
     def motion_stop(self):
@@ -311,7 +314,7 @@ class Pibo:
 
     def start(self):
         if self.onoff == True:
-          print("Already Start")
+          logger.info("Already Start")
           return
 
         self.vision_start()
@@ -322,7 +325,7 @@ class Pibo:
 
     def stop(self):
         if self.onoff == False:
-          print("Already Stop")
+          logger.info("Already Stop")
           return
 
         self.vision_stop()

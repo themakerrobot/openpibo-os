@@ -3,17 +3,21 @@ from flask_socketio import SocketIO
 
 # ValueError: Too many packets in payload issue
 from engineio.payload import Payload
-Payload.max_decode_packets = 100
+Payload.max_decode_packets = 50
 
 import argparse
-
 from lib import Pibo
-
 from threading import Thread
 import time, datetime, os, json, shutil
+import network_disp
+import log
+logger = log.configure_logger()
 
-app = Flask(__name__)
-socketio = SocketIO(app)
+try:
+  app = Flask(__name__)
+  socketio = SocketIO(app)
+except Exception as ex:
+  logger.error("Flask Error" + str(ex))  
 
 @app.route("/")
 def main():
@@ -55,7 +59,6 @@ def question(d=None, method=['GET', 'POST']):
 # motion
 @socketio.on('motor_init')
 def motor_init(d=None, method=['GET', 'POST']):
-  print('motor_init')
   if pibo.onoff:
     pibo.motor_init()
 
@@ -119,8 +122,10 @@ def onoff(d=None, method=['GET', 'POST']):
   if d != None:
     if d == 'on':
       pibo.start()
+      network_disp.run()
     if d == 'off':
       pibo.stop()
+      network_disp.run()
   socketio.emit('onoff', "on" if pibo.onoff else "off")
 
 @socketio.on('wifi')
@@ -147,18 +152,19 @@ def wifi(d=None, method=['GET', 'POST']):
 def config(d=None, method=['GET', 'POST']):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
-
-  if d == None:
-    socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey']})
-  else:
+  print("111111", tmp)
+  if d != None:
     if 'datapath' in d:
       tmp['datapath'] = d['datapath']
     elif 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
+    print("2222", tmp)
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
+
+  socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey']})
 
 @socketio.on('system')
 def system(d=None, method=['GET', 'POST']):
@@ -169,7 +175,7 @@ def emit(__key, __data, callback=None):
   try:
     socketio.emit(__key, __data, callback=callback)
   except Exception as ex:
-    print("[emit] Error:", ex)
+    logger.error(f'[emit] Error: {ex}')
     pass
 
 if __name__ == '__main__':
@@ -177,8 +183,7 @@ if __name__ == '__main__':
   parser.add_argument('--port', help='set port number', default=80)
   args = parser.parse_args()
 
-  import network_disp
-  print("Network Display:", network_disp.run())
+  logger.info(f'Network Display: {network_disp.run()}')
 
   pibo = Pibo(emit)
   socketio.run(app, host='0.0.0.0', port=args.port)
