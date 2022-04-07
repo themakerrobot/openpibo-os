@@ -19,53 +19,61 @@
           $("input:checkbox[name=onoff_sel]").prop("disabled", false);
           $("input:checkbox[name=onoff_sel]").attr(
             "checked",
-            d=='on'?true:false
+            d == "on" ? true : false
           );
 
-          if(d=='on') socket.emit("motor_init");
+          if (d == "on") socket.emit("motor_init");
         });
 
         $("input:checkbox[name=onoff_sel]").change(function () {
-          let sel = $("input:checkbox[name=onoff_sel]").is(":checked")?"on":"off";
+          let sel = $("input:checkbox[name=onoff_sel]").is(":checked")
+            ? "on"
+            : "off";
           $("input:checkbox[name=onoff_sel]").prop("disabled", true);
           socket.emit("onoff", sel);
         });
 
         socket.emit("system");
-        setInterval(function(){socket.emit("system")}, 10000);
-        socket.on("system", function(data){
+        setInterval(function () {
+          socket.emit("system");
+        }, 10000);
+        socket.on("system", function (data) {
           $("#s_serial").text(data[0]);
           $("#s_os_version").text(data[1]);
-          $("#s_runtime").text(Math.floor(data[2]/3600) + " Hours");
+          $("#s_runtime").text(Math.floor(data[2] / 3600) + " Hours");
           $("#s_cpu_temp").text(data[3]);
-          $("#s_memory").text(Math.floor(data[5]/data[4]/4*100) + " %");
-          $("#s_network").text(data[6] + "/" + data[7].replace("\n",""));
+          $("#s_memory").text(Math.floor((data[5] / data[4] / 4) * 100) + " %");
+          $("#s_network").text(data[6] + "/" + data[7].replace("\n", ""));
         });
 
-        setTimeout(function(){socket.emit("wifi");},1000);
-        socket.on("wifi", function(data){
+        setTimeout(function () {
+          socket.emit("wifi");
+        }, 1000);
+        socket.on("wifi", function (data) {
           $("#ssid").val(data["ssid"]);
           $("#password").val(data["psk"]);
         });
-        
-        $("input[type=submit]").click(function(){
+
+        $("input[type=submit]").click(function () {
           alert("준비 중에요.");
         });
 
-        setTimeout(function(){socket.emit("config");},1000);
-        socket.on("config", function(data){
+        setTimeout(function () {
+          socket.emit("config");
+        }, 1000);
+        socket.on("config", function (data) {
           $("#datapath").val(data["datapath"]);
           $("#kakaokey").val(data["kakaokey"]);
         });
 
-        $("#datapath_bt").click(function(){
+        $("#datapath_bt").click(function () {
           alert("준비 중에요.");
           //socket.emit("config", {
           //  "datapath": $("#path").val()
           //});
         });
 
-        $("#kakaokey_bt").click(function(){
+        $("#kakaokey_bt").click(function () {
           alert("준비 중에요.");
           //socket.emit("config", {
           //  "kakao_account":$("#kakao").val()
@@ -312,7 +320,9 @@
         socket.on("update_device", function (data) {
           $("#d_pir_val").text(data[0].toUpperCase());
           $("#d_touch_val").text(data[1].toUpperCase());
-          $("#d_dc_val").text(data[2].toUpperCase()=="ON"?"(충전중)":"(충전중아님)");
+          $("#d_dc_val").text(
+            data[2].toUpperCase() == "ON" ? "(충전중)" : "(충전중아님)"
+          );
           $("#d_button_val").text(data[3].toUpperCase());
         });
 
@@ -391,7 +401,7 @@
       <aside class="status">
         <div>
           <div class="status_row">
-            <span>동  작</span>
+            <span>동 작</span>
             <span>
               <label class="toggle">
                 <span class="toggle-label">Off</span>
@@ -456,7 +466,9 @@
                   <ul>
                     <li>카메라 사용하기</li>
                     <li>만화 이미지로 바꾸기</li>
-                    <li>이미지 분석하기(얼굴인식/분석, 사물인식, QR코드인식)</li>
+                    <li>
+                      이미지 분석하기(얼굴인식/분석, 사물인식, QR코드인식)
+                    </li>
                   </ul>
                 </li>
                 <li>
@@ -485,7 +497,12 @@
               </form>
               <div class="system-config-item">
                 <label for="datapath">openpibo-files 경로</label>
-                <input type="text" name="datapath" id="datapath" style="width: 327px" />
+                <input
+                  type="text"
+                  name="datapath"
+                  id="datapath"
+                  style="width: 327px"
+                />
                 <button id="datapath_bt">수정</button>
               </div>
               <div class="system-config-item">
@@ -506,7 +523,9 @@
               <img id="v_im_in" />
               <div class="vertical gap-8">
                 <button id="v_cartoon_bt">만화 이미지로 바꾸기</button>
-                <button id="v_detect_bt"> 이미지 분석하기(QR코드/얼굴/사물)</button>
+                <button id="v_detect_bt">
+                  이미지 분석하기(QR코드/얼굴/사물)
+                </button>
               </div>
             </section>
             <section>
@@ -543,7 +562,7 @@
                         id="m5_value"
                         min="-25"
                         max="25"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -565,7 +584,7 @@
                         id="m4_value"
                         min="-50"
                         max="50"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -587,7 +606,7 @@
                         id="m2_value"
                         min="-80"
                         max="80"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -607,7 +626,7 @@
                         id="m8_value"
                         min="-80"
                         max="80"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -620,7 +639,7 @@
                   </div>
                 </div>
                 <div class="motion-input-row">
-                  <div>                    
+                  <div>
                     <div class="motion-input-label">
                       <span class="label">(3)Right Hand</span>
                       <input
@@ -629,7 +648,7 @@
                         id="m3_value"
                         min="-30"
                         max="30"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -649,7 +668,7 @@
                         id="m9_value"
                         min="-30"
                         max="30"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -671,7 +690,7 @@
                         id="m1_value"
                         min="-35"
                         max="35"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -691,7 +710,7 @@
                         id="m7_value"
                         min="-35"
                         max="35"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -713,7 +732,7 @@
                         id="m0_value"
                         min="-25"
                         max="25"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -733,7 +752,7 @@
                         id="m6_value"
                         min="-25"
                         max="25"
-                        style="width:50px;"
+                        style="width: 50px"
                       />
                     </div>
                     <input
@@ -773,29 +792,10 @@
                     step="50"
                     value="0"
                   />
-                  <button id="add_frame_bt">추가하기</button>
+                  <button id="add_frame_bt" class="btn-teal">추가하기</button>
                 </div>
               </div>
-              <div class="motion-path">
-                <input
-                  type="text"
-                  id="filename"
-                  placeholder="/home/pi/mymotion.json"
-                  disabled
-                />
-                <button id="save_bt">저장하기</button>
-                <button id="display_bt">읽어오기</button>
-                <button id="reset_bt">지우기</button>
-              </div>
-                <textarea
-                  name="code"
-                  id="code"
-                  rows="48"
-                  wrap="hard"
-                ></textarea>
-            </section>
-            <section class="motion-sequece-group">
-              <div>
+              <div class="motion-record">
                 <div>
                   <span>재생횟수: </span>
                   <input
@@ -807,43 +807,56 @@
                     value="1"
                   />
                   <span> - </span>
-                  <button id="play_frame_bt">실행하기</button>/
-                  <button id="init_frame_bt">모두지우기</button>
+                  <button id="play_frame_bt" class="btn-teal">실행하기</button>
+                  /
+                  <button id="init_frame_bt" class="btn-teal">
+                    모두지우기
+                  </button>
                 </div>
-                <div>
+                <div class="motion-table-wrap">
+                  <table id="record_table">
+                    <thead>
+                      <tr>
+                        <td>Time</td>
+                        <td>M0</td>
+                        <td>M1</td>
+                        <td>M2</td>
+                        <td>M3</td>
+                        <td>M4</td>
+                        <td>M5</td>
+                        <td>M6</td>
+                        <td>M7</td>
+                        <td>M8</td>
+                        <td>M9</td>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <div class="motion-name-wrap">
                   <span>모션이름: </span>
                   <input
                     type="text"
                     name="motion_name_val"
                     id="motion_name_val"
                   />
-                  <button id="add_motion_bt">등록하기</button>
+                  <button id="add_motion_bt" class="btn-red">등록하기</button>
                   <button id="load_motion_bt">불러오기</button>
                   <button id="del_motion_bt">삭제하기</button>
                 </div>
               </div>
-              <table id="record_table">
-                <thead>
-                  <tr>
-                    <td>Time</td>
-                    <td>M0</td>
-                    <td>M1</td>
-                    <td>M2</td>
-                    <td>M3</td>
-                    <td>M4</td>
-                    <td>M5</td>
-                    <td>M6</td>
-                    <td>M7</td>
-                    <td>M8</td>
-                    <td>M9</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="11"></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="motion-path">
+                <input
+                  type="text"
+                  id="filename"
+                  placeholder="/home/pi/mymotion.json"
+                  disabled
+                />
+                <button id="save_bt" class="btn-red">저장하기</button>
+                <button id="display_bt">읽어오기</button>
+                <button id="reset_bt">지우기</button>
+              </div>
+              <textarea name="code" id="code" rows="48" wrap="hard"></textarea>
             </section>
           </article>
           <article id="article_chatbot">
@@ -871,7 +884,9 @@
             <section>
               <h3 class="mark">대화기록 (최근 대화 5개)</h3>
               <div>
-                <table id="c_record_tb"><tbody></tbody></table>
+                <table id="c_record_tb">
+                  <tbody></tbody>
+                </table>
               </div>
             </section>
           </article>

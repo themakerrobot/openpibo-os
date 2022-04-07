@@ -22,6 +22,10 @@ body {
   --dark-yellow: #f4d85a;
   --light-green: #edf5e0;
   --light-yellow: rgb(248, 242, 172);
+  --teal: #13bfd5;
+  --dark-teal: #11abbf;
+  --red: #f16449;
+  --dark-red: #d85a41;
 }
 html:lang(ko) {
   font-family: "DungGeunMo";
@@ -341,6 +345,49 @@ input[type="submit"]:active {
   transform: translateY(2px);
 }
 
+button.btn-teal,
+input[type="submit"] {
+  font-family: "DungGeunMo";
+  padding: 0.5rem 1rem;
+  outline: none;
+  background-color: var(--teal);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px #074c55;
+}
+button.btn-teal:hover,
+input[type="submit"]:hover {
+  background-color: var(--dark-teal);
+}
+button.btn-teal:active,
+input[type="submit"]:active {
+  background-color: var(--dark-teal);
+  box-shadow: 0 2px #074c55;
+  transform: translateY(2px);
+}
+
+button.btn-red,
+input[type="submit"] {
+  color: white;
+  font-family: "DungGeunMo";
+  padding: 0.5rem 1rem;
+  outline: none;
+  background-color: var(--red);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px #903c2b;
+}
+button.btn-red:hover,
+input[type="submit"]:hover {
+  background-color: var(--dark-red);
+}
+button.btn-red:active,
+input[type="submit"]:active {
+  background-color: var(--dark-red);
+  box-shadow: 0 2px #903c2b;
+  transform: translateY(2px);
+}
+
 footer {
   /* position: fixed; */
   /* bottom: 0; */
@@ -561,26 +608,55 @@ label.label {
   flex: 1;
   gap: 8px;
 }
+
+input[id="motion_name_val"] {
+  width: 205px;
+}
+
+.motion-table-wrap {
+  height: 510px;
+  overflow-y: scroll;
+  margin: 0.5em 0;
+  border: 1px solid var(--light-green);
+  border-radius: 2px;
+}
+.motion-record {
+  display: flex;
+  flex-flow: column;
+}
+
 .motion-path > input#filename {
   width: 50%;
 }
-.motion-path > textarea {
+.motion-path + textarea {
   width: 100%;
   margin-top: 1em;
   max-height: 100px;
   resize: none;
 }
-
-section.motion-sequece-group {
-  width: 100%;
+.motion-name-wrap {
+  margin-bottom: 0.5em;
 }
-section.motion-sequece-group > div {
-  display: flex;
-  justify-content: space-between;
+.motion-name-wrap button,
+.motion-path button {
+  width: 74px;
 }
 
 #record_table {
-  margin: 1em 0.5em;
+  width: 100%;
+  flex: 1;
+  text-align: center;
+  border-spacing: 1px;
+}
+
+#record_table thead td:nth-child(n + 2) {
+  background: var(--light-green);
+}
+#record_table tbody td:first-child {
+  background: var(--light-yellow);
+}
+#record_table tbody td:nth-child(n + 2) {
+  background: white;
 }
 
 thead {
