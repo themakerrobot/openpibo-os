@@ -278,17 +278,22 @@
 
             $("#c_question_text").prop("disabled", true);
 
-	    setTimeout(function(){$("#c_question_text").val(".");}, 100);
-	    setTimeout(function(){$("#c_question_text").val("..");}, 300);
-	    setTimeout(function(){$("#c_question_text").val("...");}, 500);
-	    setTimeout(function(){$("#c_question_text").val("....");}, 700);
-	    setTimeout(function(){$("#c_question_text").val(".....");}, 900);
+            setTimeout(function(){$("#c_question_text").val(".");}, 100);
+            setTimeout(function(){$("#c_question_text").val("..");}, 300);
+            setTimeout(function(){$("#c_question_text").val("...");}, 500);
+            setTimeout(function(){$("#c_question_text").val("....");}, 700);
+            setTimeout(function(){$("#c_question_text").val(".....");}, 900);
 
-	    setTimeout(function(){
-              socket.emit("question", q);
+            setTimeout(function(){
+              socket.emit("question", {
+                      'question':q,
+                      'voice_type':$('select[name=c_voice_type]').val(),
+                      'voice_mode':$('select[name=c_voice_mode]').val(),
+                      'volume':Number($('select[name=volume]').val())
+                      });
               $("#c_question_text").prop("disabled", false);
-	      $("#c_question_text").val(q);
-	    }, 1000);
+              $("#c_question_text").val(q);
+            }, 1200);
           }
         });
 
@@ -296,13 +301,6 @@
           $("#c_answer_text").val(data["answer"]);
           $("#c_record_tb > tbody").empty();
           rec = data["chat_list"];
-          $("#c_record_tb").append(
-            $("<tr>").append(
-              $("<td>").append($("<b>").append("시간")),
-              $("<td>").append($("<b>").append("질문")),
-              $("<td>").append($("<b>").append("대답"))
-            )
-          );
 
           for (idx in rec) {
             if (rec[idx].length == 0) continue;
@@ -362,7 +360,10 @@
         });
 
         $("#mic_bt").click(function () {
-          socket.emit("mic", $("#mic_time_val").val());
+          socket.emit("mic", {
+            time:$("#mic_time_val").val(),
+            'volume': Number($('select[name=volume]').val())
+          });
         });
       };
 
@@ -380,14 +381,14 @@
             socket.emit("config");
             socket.emit("wifi");
           }
-	  else if (name === "chatbot"){
-            $("#c_question_text").val("")
-            $("#c_answer_text").val("")
-	  }
-	  else if (name === "device"){
-            $("#d_otext_val").val("")
-	  }
-          
+          else if (name === "chatbot"){
+            $("#c_question_text").val("");
+            $("#c_answer_text").val("");
+          }
+          else if (name === "device"){
+            $("#d_otext_val").val("");
+          }
+
           $("h2#content_header").text(name.toUpperCase());
           $("nav").find("button").removeClass("menu-selected");
           $(`button[name=${name}]`).addClass("menu-selected");
@@ -533,6 +534,16 @@
                   style="width: 327px"
                 />
                 <button id="kakaokey_bt">수정</button>
+              </div>
+              <div class="system-config-item">
+                <label for="volume">음량 조절</label>
+                <select name="volume">
+                  <option value="-1000">중간</option>
+                  <option value="-500">크게</option>
+                  <option value="-1500">작게</option>
+                  <option value="0">아주크게</option>
+                  <option value="-2000">아주작게</option>
+                </select>
               </div>
             </section>
           </article>
@@ -903,7 +914,27 @@
             <section>
               <h3 class="mark">대화기록 (최근 대화 5개)</h3>
               <div>
+                목소리:
+                <select name="c_voice_type">
+                  <option value="WOMAN_READ_CALM">차분한 여성</option>
+                  <option value="MAN_READ_CALM">차분한 남성</option>
+                  <option value="WOMAN_DIALOG_BRIGHT">밝은 여성</option>
+                  <option value="MAN_DIALOG_BRIGHT">밝은 남성</option>
+                </select>
+                <select name="c_voice_mode">
+                  <option value="default">기본 말투</option>
+                  <option value="friendly">친근한 말투</option>
+                </select>
+              </div>
+              <div>
                 <table id="c_record_tb">
+                  <thead>
+                    <tr>
+                      <td><b>시간</b></td>
+                      <td><b>질문</b></td>
+                      <td><b>대답</b></td>
+                    </tr>
+                  </thead>
                   <tbody></tbody>
                 </table>
               </div>

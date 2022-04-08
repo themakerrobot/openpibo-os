@@ -152,13 +152,11 @@ def wifi(d=None, method=['GET', 'POST']):
 def config(d=None, method=['GET', 'POST']):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
-  print("111111", tmp)
   if d != None:
     if 'datapath' in d:
       tmp['datapath'] = d['datapath']
     elif 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
-    print("2222", tmp)
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')

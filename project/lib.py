@@ -180,9 +180,11 @@ class Pibo:
         self.ole.show()
 
     def mic(self, d=5):
-      cmd = "arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw".format(d)
+      record_time = d['time']
+      volume = d['volume'] - 500
+      cmd = f"arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw"
       os.system(cmd)
-      self.aud.play(filename="stream.wav", out='local', volume=-1000, background=False)
+      self.aud.play(filename="stream.wav", out='local', volume=volume, background=False)
       os.remove("stream.wav")
 
     ## chatbot
@@ -198,7 +200,11 @@ class Pibo:
         self.kakao_account = None
         del self.dialog, self.speech
 
-    def question(self, q):
+    def question(self, d):
+        q = d['question']
+        voice_type = d['voice_type']
+        voice_mode = d['voice_mode']
+        volume = d['volume']
         ans = self.dialog.get_dialog(q)
         self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
         self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
@@ -206,8 +212,9 @@ class Pibo:
             self.chat_list.pop(0)
 
         try:
-            self.speech.tts("<speak><voice name='MAN_DIALOG_BRIGHT'>"+ans +"<break time='500ms'/></voice></speak>", "chat.mp3")
-            self.aud.play(filename="chat.mp3", out='local', volume=-1000, background=False)
+            self.speech.tts("<speak><kakao:effect tone='"+voice_mode+"'><voice name='"+voice_type+"'>"+ans+"<break time='500ms'/></voice></kakao:effect></speak>", "chat.mp3")
+            self.aud.play(filename="chat.mp3", out='local', volume=volume, background=False)
+            os.remove("chat.mp3")
         except Exception as ex:
             logger.error(f'[question] Error: {ex}')
             pass
