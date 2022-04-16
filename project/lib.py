@@ -166,7 +166,9 @@ class Pibo:
                     battery_check_time = time.time()
             except Exception as ex:
                 logger.error(f'[device_loop] Error: {ex}')
-                pass
+                del self.dev
+                self.dev = Device()
+                time.sleep(3)
             time.sleep(0.1)
 
     def set_neopixel(self, d):
