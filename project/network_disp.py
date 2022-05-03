@@ -10,6 +10,7 @@ def run():
     o.draw_text((0, 5), "SN: {}".format(sn))
     o.draw_text((0,25), "I P: {}".format(wip.strip()))
     o.draw_text((0,45), "AP: {}".format(ssid))
+    o.show()
     ret = True, ""
   except Exception as ex:
     ret = False, str(ex)
