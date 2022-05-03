@@ -6,16 +6,10 @@ def run():
     v = subprocess.check_output(["/boot/get_network.sh"]).decode('utf-8').strip('\n').split(',')
     o = Oled()
     o.set_font(size=12)
-    eip = v[1] if v[0] == "" else v[0]
-    wip = v[4] if v[2] == "" else v[2]
-    ssid = v[5] if v[3] == "" else v[3]
-    sn = v[6] if len(v) > 6 else "NETWORK"
-
-    o.draw_text((7, 0), "### {} ###".format(sn))
-    o.draw_text((0,16), "[E]:{}".format(eip))
-    o.draw_text((0,32), "[W]:{}".format(wip))
-    o.draw_text((0,48), "[S]:{}".format(ssid))
-    o.show()
+    wip, ssid, sn = v[2] if v[0] == "" else v[0], v[3] if v[1] == "" else v[1], v[4]
+    o.draw_text((0, 5), "SN: {}".format(sn))
+    o.draw_text((0,25), "I P: {}".format(wip.strip()))
+    o.draw_text((0,45), "AP: {}".format(ssid))
     ret = True, ""
   except Exception as ex:
     ret = False, str(ex)
