@@ -88,7 +88,7 @@ def f_set_neopixel(d, methods=['GET', 'POST']):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--port', help='set port number', default=80)
+  parser.add_argument('--port', help='set port number', default=50002)
   args = parser.parse_args()
 
   import network_disp
