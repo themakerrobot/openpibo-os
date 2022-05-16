@@ -27,7 +27,7 @@ def question(q):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--port', help='set port number', default=50004)
+  parser.add_argument('--port', help='set port number', default=80)
   args = parser.parse_args()
 
   import network_disp

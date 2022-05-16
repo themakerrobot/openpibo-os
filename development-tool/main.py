@@ -115,7 +115,7 @@ def compile(text):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--port', help='set port number', default=50005)
+  parser.add_argument('--port', help='set port number', default=50000)
   args = parser.parse_args()
 
   os.system('v4l2-ctl -c vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3')

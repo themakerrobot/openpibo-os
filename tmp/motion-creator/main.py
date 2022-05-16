@@ -143,7 +143,7 @@ def reset():
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--port', help='set port number', default=50001)
+  parser.add_argument('--port', help='set port number', default=80)
   args = parser.parse_args()
 
   import network_disp
