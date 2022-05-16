@@ -54,6 +54,7 @@ class Pibo:
     del self.cam, self.fac, self.det
 
   def vision_loop(self):
+    self.cam.cap.set(cv2.CAP_PROP_FPS, 5)
     while True:
       if self.vision_flag == False:
         break
