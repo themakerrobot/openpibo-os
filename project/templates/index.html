@@ -55,15 +55,20 @@
         });
 
         $("input[type=submit]").click(function () {
-          alert("준비 중에요.");
+	  socket.emit("wifi", {"ssid":$("#ssid").val(), "psk":$("password").val()});
         });
 
         setTimeout(function () {
           socket.emit("config");
         }, 1000);
         socket.on("config", function (data) {
+	  console.log('config:' + data);
           $("#datapath").val(data["datapath"]);
           $("#kakaokey").val(data["kakaokey"]);
+          $("#eyeled").val(data["eyeled"]);
+          for (let i = 0; i < 6; i++) {
+            $("#d_n" + i + "_val").val(data["eyeled"].split(",")[i]);
+          }
         });
 
         $("#datapath_bt").click(function () {
@@ -341,6 +346,19 @@
             socket.emit("set_neopixel", { idx: i, value: v });
           });
         }
+        
+	$("#eyeled_bt").click(function(){
+	  let eyeval = "";
+          for (let i = 0; i < 6; i++) {
+	    eyeval += $("#d_n" + i + "_val").val();
+	    if (i == 5) break;
+	    else eyeval += ",";
+          }
+	  console.log("eyeled_bt:"+ eyeval)
+          socket.emit("config", {
+            "eyeled":eyeval
+          });
+	});
 
         $("#d_otext_val").keypress(function (key) {
           if (key.keyCode == 13) {
@@ -534,6 +552,16 @@
                   style="width: 327px"
                 />
                 <button id="kakaokey_bt">수정</button>
+              </div>
+              <div class="system-config-item">
+                <label for="eyeled">눈 색상</label>
+                <input
+                  type="text"
+                  name="eyeled"
+                  id="eyeled"
+                  style="width: 327px"
+		  disabled
+                />
               </div>
               <div class="system-config-item">
                 <label for="volume">음량 조절</label>
@@ -1026,6 +1054,7 @@
                     </div>
                   </div>
                 </div>
+                <button id="eyeled_bt">저장</button>
               </div>
             </section>
             <section>

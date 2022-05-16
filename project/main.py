@@ -17,7 +17,7 @@ try:
   app = Flask(__name__)
   socketio = SocketIO(app)
 except Exception as ex:
-  logger.error("Flask Error" + str(ex))  
+  logger.error("Flask Error" + str(ex))
 
 @app.route("/")
 def main():
@@ -147,6 +147,7 @@ def wifi(d=None, method=['GET', 'POST']):
     with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
       f.write(tmp)
     os.system('wpa_cli -i wlan0 reconfigure')
+    network_disp.run()
 
 @socketio.on('config')
 def config(d=None, method=['GET', 'POST']):
@@ -157,12 +158,14 @@ def config(d=None, method=['GET', 'POST']):
       tmp['datapath'] = d['datapath']
     elif 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
+    elif 'eyeled' in d:
+      tmp['eyeled'] = d['eyeled']
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
 
-  socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey']})
+  socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey'], 'eyeled':tmp['eyeled']})
 
 @socketio.on('system')
 def system(d=None, method=['GET', 'POST']):
