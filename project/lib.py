@@ -30,7 +30,7 @@ class Pibo:
 
   def emit(self, key, data, callback=None):
     if self.emit_func == None:
-      logger.debug("No emit_func")
+      logger.debug('No emit_func')
     else:
       self.emit_func(key, data)
 
@@ -47,7 +47,7 @@ class Pibo:
     self.fac = Face()
     self.det = Detect()
     self.vision_flag = True
-    Thread(name="vision_loop", target=self.vision_loop, args=(), daemon=True).start()
+    Thread(name='vision_loop', target=self.vision_loop, args=(), daemon=True).start()
 
   def vision_stop(self):
     self.vision_flag = False
@@ -71,33 +71,33 @@ class Pibo:
     objs = self.det.detect_object(im)
     qr = self.det.detect_qr(im)
 
-    res_face = ""
-    res_qr = ""
-    res_object = ""
+    res_face = ''
+    res_qr = ''
+    res_object = ''
 
     if len(faces) > 0:
       x,y,w,h = faces[0]
       face = self.fac.get_ageGender(im, faces[0])
-      colors = (200,100,0) if face["gender"] == "Male" else (100,200,0)
+      colors = (200,100,0) if face['gender'] == 'Male' else (100,200,0)
       self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
-      self.cam.putText(im, face["gender"]+face["age"], (x-10, y-10),0.6,colors,2)
-      res_face += "[{}/{}-({},{})] ".format(face["gender"], face["age"], x, y)
+      self.cam.putText(im, face['gender']+face['age'], (x-10, y-10),0.6,colors,2)
+      res_face += '[{}/{}-({},{})] '.format(face['gender'], face['age'], x, y)
 
-    if qr["type"] != "":
-      x1,y1,x2,y2 = qr["position"]
+    if qr['type'] != '':
+      x1,y1,x2,y2 = qr['position']
       colors = (100,0,200)
       self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
-      self.cam.putText(im, "QR", (x1-10, y1-10),0.6,colors,2)
-      res_qr += "[{}-({},{})] ".format(qr["data"], x1, y1)
+      self.cam.putText(im, 'QR', (x1-10, y1-10),0.6,colors,2)
+      res_qr += '[{}-({},{})] '.format(qr['data'], x1, y1)
 
     for obj in objs:
-      x1,y1,x2,y2 = obj["position"]
+      x1,y1,x2,y2 = obj['position']
       colors = (100,100,200)
       self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
-      self.cam.putText(im, obj["name"], (x1-10, y1-10),0.6,colors,2)
-      res_object += "[{}-({},{})] ".format(obj["name"], x1, y1)
+      self.cam.putText(im, obj['name'], (x1-10, y1-10),0.6,colors,2)
+      res_object += '[{}-({},{})] '.format(obj['name'], x1, y1)
 
-    self.emit('detect', {"img":to_base64(im), "data":{"face":res_face, "qr":res_qr, "object":res_object}}, callback=None)
+    self.emit('detect', {'img':to_base64(im), 'data':{'face':res_face, 'qr':res_qr, 'object':res_object}}, callback=None)
 
   ## device
   def device_start(self):
@@ -108,33 +108,33 @@ class Pibo:
     self.dev = Device()
     self.ole = Oled()
     self.aud = Audio()
-    Thread(name="device_loop", target=self.device_loop, args=(), daemon=True).start()
+    Thread(name='device_loop', target=self.device_loop, args=(), daemon=True).start()
 
-    self.send_message(Device.code_list['BATTERY'], "on")
-    self.send_message(Device.code_list['PIR'], "on")
+    self.send_message(Device.code_list['BATTERY'], 'on')
+    self.send_message(Device.code_list['PIR'], 'on')
     self.send_message(Device.code_list['DC_CONN'])
-    self.send_message(Device.code_list['NEOPIXEL_EACH'], ",".join([str(_) for _ in self.neopixel_value]))
+    self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
 
   def device_stop(self):
     self.device_flag = False
     del self.dev, self.ole
 
   def send_message(self, code, data=""):
-    self.devque.put("#{}:{}!".format(code, data))
+    self.devque.put(f'#{code}:{data}!')
 
   def decode_pkt(self, pkt):
     logger.info(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
     pkt = pkt.split(":")
     code, data = pkt[0], pkt[1]
 
-    if code == "15": # battery
+    if code == '15': # battery
       self.emit('update_battery', data, callback=None)
 
-    if code == "14": # dc
+    if code == '14': # dc
       self.system_value[2] = data
       self.emit('update_device', self.system_value, callback=None)
 
-    if code == "40": # system
+    if code == '40': # system
       item = data.split("-")
 
       if item[2] == '':
@@ -174,7 +174,7 @@ class Pibo:
 
   def set_neopixel(self, d):
     self.neopixel_value[d['idx']] = d['value']
-    self.send_message(Device.code_list['NEOPIXEL_EACH'], ",".join([str(_) for _ in self.neopixel_value]))
+    self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
 
   def set_oled(self, d):
     self.ole.clear()
@@ -185,10 +185,10 @@ class Pibo:
   def mic(self, d=5):
     record_time = d['time']
     volume = d['volume'] - 500
-    cmd = f"arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw"
+    cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw'
     os.system(cmd)
-    self.aud.play(filename="stream.wav", out='local', volume=volume, background=False)
-    os.remove("stream.wav")
+    self.aud.play(filename='stream.wav', out='local', volume=volume, background=False)
+    os.remove('stream.wav')
 
   ## chatbot
   def chatbot_start(self):
@@ -210,14 +210,14 @@ class Pibo:
     volume = d['volume']
     ans = self.dialog.get_dialog(q)
     self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
-    self.emit('answer', {"answer":ans, "chat_list":list(reversed(self.chat_list))})
+    self.emit('answer', {'answer':ans, 'chat_list':list(reversed(self.chat_list))})
     if len(self.chat_list) == 5:
       self.chat_list.pop(0)
 
     try:
-      self.speech.tts("<speak><kakao:effect tone='"+voice_mode+"'><voice name='"+voice_type+"'>"+ans+"<break time='500ms'/></voice></kakao:effect></speak>", "chat.mp3")
-      self.aud.play(filename="chat.mp3", out='local', volume=volume, background=False)
-      os.remove("chat.mp3")
+      self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', 'chat.mp3')
+      self.aud.play(filename='chat.mp3', out='local', volume=volume, background=False)
+      os.remove('chat.mp3')
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')
       pass
@@ -233,7 +233,7 @@ class Pibo:
     self.mot.set_motors(self.__d)
 
     try:
-      with open("/home/pi/mymotion.json", "rb") as f:
+      with open('/home/pi/mymotion.json', 'rb') as f:
         self.__j = json.load(f)
         self.emit('disp_code', self.__j)
     except Exception as ex:
@@ -264,12 +264,12 @@ class Pibo:
     _check = False
     for idx, pos in enumerate(self.__p):
       if pos['seq'] == seq:
-        self.__p[idx] = {"d": self.__d[:], "seq": int(seq)}
+        self.__p[idx] = {'d': self.__d[:], 'seq': int(seq)}
         _check = True
         break
 
     if _check == False:
-      self.__p.append({"d": self.__d[:], "seq": int(seq)})
+      self.__p.append({'d': self.__d[:], 'seq': int(seq)})
       self.__p.sort(key=lambda x: x['seq'])
 
     self.emit('disp_record', self.__p)
@@ -309,7 +309,7 @@ class Pibo:
     self.emit('disp_code', self.__j)
 
   def save(self):
-    with open("/home/pi/mymotion.json", "w") as f:
+    with open('/home/pi/mymotion.json', 'w') as f:
       json.dump(self.__j, f)
     shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
     self.emit('disp_code', self.__j)
@@ -324,7 +324,7 @@ class Pibo:
 
   def start(self):
     if self.onoff == True:
-      logger.info("Already Start")
+      logger.info('Already Start')
       return
 
     self.vision_start()
@@ -335,7 +335,7 @@ class Pibo:
 
   def stop(self):
     if self.onoff == False:
-      logger.info("Already Stop")
+      logger.info('Already Stop')
       return
 
     self.vision_stop()

@@ -17,9 +17,9 @@ try:
   app = Flask(__name__)
   socketio = SocketIO(app)
 except Exception as ex:
-  logger.error("Flask Error" + str(ex))
+  logger.error(f'Flask Error:{str(ex)}')
 
-@app.route("/")
+@app.route('/')
 def main():
   return render_template('index.html')
 
@@ -126,7 +126,7 @@ def onoff(d=None, method=['GET', 'POST']):
     if d == 'off':
       pibo.stop()
       network_disp.run()
-  socketio.emit('onoff', "on" if pibo.onoff else "off")
+  socketio.emit('onoff', 'on' if pibo.onoff else 'off')
 
 @socketio.on('wifi')
 def wifi(d=None, method=['GET', 'POST']):
@@ -158,19 +158,19 @@ def config(d=None, method=['GET', 'POST']):
       tmp['datapath'] = d['datapath']
     elif 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
-    elif 'eyeled' in d:
-      tmp['eyeled'] = d['eyeled']
+    elif 'eye' in d:
+      tmp['eye'] = d['eye']
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
 
-  socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey'], 'eyeled':tmp['eyeled']})
+  socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey'], 'eye':tmp['eye']})
 
 @socketio.on('system')
 def system(d=None, method=['GET', 'POST']):
   res = os.popen('/home/pi/openpibo-tools/project/system.sh').read().split(',')
-  socketio.emit("system", res)
+  socketio.emit('system', res)
 
 def emit(__key, __data, callback=None):
   try:

@@ -65,9 +65,9 @@
 	  console.log('config:' + data);
           $("#datapath").val(data["datapath"]);
           $("#kakaokey").val(data["kakaokey"]);
-          $("#eyeled").val(data["eyeled"]);
+          $("#eye").val(data["eye"]);
           for (let i = 0; i < 6; i++) {
-            $("#d_n" + i + "_val").val(data["eyeled"].split(",")[i]);
+            $("#d_n" + i + "_val").val(data["eye"].split(",")[i]);
           }
         });
 
@@ -347,16 +347,15 @@
           });
         }
         
-	$("#eyeled_bt").click(function(){
+	$("#eye_save_bt").click(function(){
 	  let eyeval = "";
           for (let i = 0; i < 6; i++) {
 	    eyeval += $("#d_n" + i + "_val").val();
 	    if (i == 5) break;
 	    else eyeval += ",";
           }
-	  console.log("eyeled_bt:"+ eyeval)
           socket.emit("config", {
-            "eyeled":eyeval
+            "eye":eyeval
           });
 	});
 
@@ -554,11 +553,11 @@
                 <button id="kakaokey_bt">수정</button>
               </div>
               <div class="system-config-item">
-                <label for="eyeled">눈 색상</label>
+                <label for="eye">눈 색상</label>
                 <input
                   type="text"
-                  name="eyeled"
-                  id="eyeled"
+                  name="eye"
+                  id="eye"
                   style="width: 327px"
 		  disabled
                 />
@@ -1054,7 +1053,7 @@
                     </div>
                   </div>
                 </div>
-                <button id="eyeled_bt">저장</button>
+                <button id="eye_save_bt">저장</button>
               </div>
             </section>
             <section>
