@@ -1,0 +1,87 @@
+header.title {
+  text-align: center;
+  color: black;
+  cursor: default;
+}
+.title h1 {
+  margin: 0.3em;
+}
+
+@font-face {
+  font-family: 'DungGeunMo';
+  src: url("../static/DungGeunMo.woff") format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+input{
+  font-family: 'DungGeunMo';
+}
+
+button{
+  width:100%;
+  font-family: 'DungGeunMo';
+}
+
+textarea{
+  /*
+  font-family: 'DungGeunMo';
+  */
+}
+
+body{
+  font-family: 'DungGeunMo';
+}
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 20vh;
+  background-image: url("menu_bg.png");
+  background-repeat: repeat-x;
+  background-position-y: 5px;
+}
+
+nav {
+  /* position: fixed;
+  bottom: 0; */
+  position: sticky;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  list-style-type: none;
+  background-color: #f4d85a;
+}
+
+nav button {
+  background: none;
+  border: 0;
+  font: inherit;
+  line-height: 1;
+  transition: 0.25s;
+  cursor: pointer;
+  padding: 0.3em;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+nav button:hover {
+  box-shadow: inset 0 0 0 2em rgba(0, 0, 0, 0.05);
+}
+
+nav button.menu-selected,
+nav button:focus,
+nav button:hover {
+  transform: skewX(-15deg);
+}
+
+footer {
+  /* position: fixed; */
+  /* bottom: 0; */
+  width: 100%;
+  text-align: center;
+  margin: 40px auto 20px;
+  bottom: 0;
+}
