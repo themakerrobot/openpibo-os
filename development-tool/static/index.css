@@ -9,7 +9,7 @@ header.title {
 
 @font-face {
   font-family: 'DungGeunMo';
-  src: url("../static/DungGeunMo.woff") format('woff');
+  src: url("DungGeunMo.woff") format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -29,17 +29,33 @@ textarea{
   */
 }
 
+/* 링크 스타일 */
+a:link,
+a:visited {
+  color: #0896d9;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #0896d9;
+}
+
 body{
   font-family: 'DungGeunMo';
 }
+
 main {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 20vh;
+  min-height: 89vh;
   background-image: url("menu_bg.png");
   background-repeat: repeat-x;
-  background-position-y: 5px;
+  background-position-y: 26px;
+}
+main div.wrapper {
+  width: 100%;
 }
 
 nav {

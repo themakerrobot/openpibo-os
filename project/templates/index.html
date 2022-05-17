@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="../static/index.css" />
     <script>
       const getStatus = (socket) => {
+        $('#devtool_bt').click(function(){
+          $(location).attr('href', 'http://'+window.location.hostname + ':50000');
+	});
+
         socket.emit("onoff");
         socket.on("onoff", function (d) {
           $("input:checkbox[name=onoff_sel]").prop("disabled", false);
@@ -62,7 +66,6 @@
           socket.emit("config");
         }, 1000);
         socket.on("config", function (data) {
-	  console.log('config:' + data);
           $("#datapath").val(data["datapath"]);
           $("#kakaokey").val(data["kakaokey"]);
           $("#eye").val(data["eye"]);
@@ -1135,6 +1138,7 @@
         </div>
       </div>
     </main>
+    <a id='devtool_bt' >[Development Tool]</a>
     <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
   </body>
 </html>

@@ -17,7 +17,7 @@ try:
   app = Flask(__name__)
   socketio = SocketIO(app)
 except Exception as ex:
-  logger.error(f'Flask Error:{str(ex)}')
+  logger.error(f'Flask Error:{ex}')
 
 @app.route('/')
 def main():

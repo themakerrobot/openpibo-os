@@ -11,6 +11,9 @@
     <script>
       $(function(){
         const socket = io();
+        $('#tool_bt').click(function(){
+          $(location).attr('href', 'http://'+window.location.hostname + ':80');
+	});
 
 	$('#stop').click(function(){
 	  socket.emit('stop');
@@ -70,6 +73,7 @@
         </div>
       </div>
     </main>
+    <a id='tool_bt'>[openpibo-tools]</a>
     <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
   </body>
 </html>
