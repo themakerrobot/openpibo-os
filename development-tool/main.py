@@ -7,12 +7,12 @@ import os,sys,subprocess,time,argparse
 import cv2,base64
 
 try:
-  from flask_codemirror import CodeMirror
+  #from flask_codemirror import CodeMirror
   from flask_codemirror.fields import CodeMirrorField
   from flask_wtf import FlaskForm
 except:
   os.system('sudo pip3 install -r /home/pi/openpibo-tools/development-tool/requirements.txt')
-  from flask_codemirror import CodeMirror
+  #from flask_codemirror import CodeMirror
   from flask_codemirror.fields import CodeMirrorField
   from flask_wtf import FlaskForm
 
@@ -64,7 +64,7 @@ class MyForm(FlaskForm):
   source_code = CodeMirrorField(language='python', config=code_configs)
 
 # mandatory
-CODEMIRROR_LANGUAGES = ['python']
+#CODEMIRROR_LANGUAGES = ['python']
 #CODEMIRROR_LANGUAGES = ['python', 'yaml', 'htmlembedded']
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'secret'
@@ -76,7 +76,7 @@ CODEMIRROR_THEME = 'cobalt'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-codemirror = CodeMirror(app)
+#codemirror = CodeMirror(app)
 socketio = SocketIO(app)
 
 @app.route('/', methods = ['GET', 'POST'])

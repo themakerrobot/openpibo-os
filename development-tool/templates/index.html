@@ -1,17 +1,17 @@
 <html>
   <head>
-    <!--{{ codemirror.include_codemirror() }}-->
-    <meta charset='utf-8' /> 
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>OPENPIBO-IDE</title>
+    <title>Openpibo Ide</title>
     <script src="../static/codemirror.js"></script>
     <link rel="stylesheet" href="../static/codemirror.css">
-    <script src="../static/python.js"></script>
     <link rel="stylesheet" href="../static/cobalt.css">
+    <script src="../static/python.js"></script>
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../static/index.css" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="../static/index.css" />
     <script>
       $(function(){
         const socket = io();
@@ -58,21 +58,19 @@
         <button id='stop'>Stop</button>
         <button id="show">View</button>
       </nav>
-      <h4>File Path:</h4>
-      <input type='text' value='{{ form.codepath }}, {{ form.imgpath }}' disabled>
-    
-      <h3># Editor</h3>
+      <br><br><br><br><br>
+      <h2># Editor - <i>{{ form.codepath }}</i> </h2>
       <div style="border:1px dotted;border-radius:5px;padding:5px">
         <form id='code_form'> {{ form.source_code }} </form>
       </div>
 
       <div style="width:100%;height:400px">
         <div style="width:calc(100% - 420px);height:400px;float:left">
-          <h3># Output[Log]</h3>
+          <h2># Output[Log]</h2>
           <textarea id='updatelog' style="border:1px dotted;border-radius:5px;padding:5px;width:100%;height:300px" disabled></textarea>
         </div>
         <div style="width:400px;height:400px;float:right">
-          <h3># Output[Image]</h3>
+          <h2># Output[Image] - <i>{{ form.imgpath }}</i></h2>
           <img id='image' width="400" height="300" style="border:1px dotted;border-radius:5px" />
         </div>
       </div>
