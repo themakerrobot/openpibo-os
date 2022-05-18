@@ -24,9 +24,7 @@ button{
 }
 
 textarea{
-  /*
-  font-family: 'DungGeunMo';
-  */
+  font-family: monospace;
 }
 
 /* 링크 스타일 */

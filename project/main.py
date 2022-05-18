@@ -122,10 +122,9 @@ def onoff(d=None, method=['GET', 'POST']):
   if d != None:
     if d == 'on':
       pibo.start()
-      network_disp.run()
     if d == 'off':
       pibo.stop()
-      network_disp.run()
+    network_disp.run()
   socketio.emit('onoff', 'on' if pibo.onoff else 'off')
 
 @socketio.on('wifi')
@@ -147,7 +146,6 @@ def wifi(d=None, method=['GET', 'POST']):
     with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
       f.write(tmp)
     os.system('wpa_cli -i wlan0 reconfigure')
-    network_disp.run()
 
 @socketio.on('config')
 def config(d=None, method=['GET', 'POST']):

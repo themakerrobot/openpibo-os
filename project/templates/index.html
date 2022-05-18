@@ -59,8 +59,14 @@
         });
 
         $("input[type=submit]").click(function () {
-	  socket.emit("wifi", {"ssid":$("#ssid").val(), "psk":$("password").val()});
-        });
+	  let comment = "[THE MAKER] WIFI 정보를 변경하시겠습니까?";
+	  comment += "\n===========================================";
+	  comment += "\nssid: " + $("#ssid").val();
+	  comment += "\npassword: " + $("#password").val();
+	  if(confirm(comment)){
+	    socket.emit("wifi", {"ssid":$("#ssid").val(), "psk":$("#password").val()});
+          }
+	});
 
         setTimeout(function () {
           socket.emit("config");

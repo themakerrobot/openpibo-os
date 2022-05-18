@@ -64,14 +64,15 @@ class MyForm(FlaskForm):
   source_code = CodeMirrorField(language='python', config=code_configs)
 
 # mandatory
-CODEMIRROR_LANGUAGES = ['python', 'yaml', 'htmlembedded']
+CODEMIRROR_LANGUAGES = ['python']
+#CODEMIRROR_LANGUAGES = ['python', 'yaml', 'htmlembedded']
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'secret'
 # optional
 CODEMIRROR_THEME = 'cobalt'
-CODEMIRROR_ADDONS = (
-    ('fold','foldgutter'),
-)
+#CODEMIRROR_ADDONS = (
+#    ('fold','foldgutter'),
+#)
 
 app = Flask(__name__)
 app.config.from_object(__name__)
