@@ -50,7 +50,6 @@ def python_exec(code):
     while p.poll() == None:
       return_log += p.stdout.readline()
       socketio.emit('updatelog', return_log)
-      time.sleep(0.001)
   finally:
     return_log += 'All programs terminated'
     socketio.emit('updatelog', return_log)
