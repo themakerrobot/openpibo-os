@@ -1,2 +1,0 @@
-flask-codemirror==1.2
-Flask-WTF==1.0.0

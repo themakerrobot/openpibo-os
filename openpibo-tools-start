@@ -2,6 +2,6 @@
 #
 # openpibo-tools-start
 #
-cd /home/pi/openpibo-tools/development-tool;sudo python3 main.py &
+cd /home/pi/openpibo-tools/development-tool;sudo node main.js &
 cd /home/pi/openpibo-tools/project;sudo python3 main.py &
 exit 0

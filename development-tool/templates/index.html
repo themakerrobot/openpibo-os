@@ -18,11 +18,9 @@
         $('#tool_bt').click(function(){
           $(location).attr('href', 'http://'+window.location.hostname + ':80');
 	});
-
 	$('#stop').click(function(){
 	  socket.emit('stop');
 	});
-	
 	$('#show').click(function(){
 	  socket.emit('show');
 	});
@@ -33,18 +31,27 @@
             "data:image/jpeg;charset=utf-8;base64," + data
           );
 	});
-	
+
 	$('#code_form').on("submit", function(event){
-          $("#updatelog").text('')
+          $("#update").text('')
           event.preventDefault();
+
+          console.log($(this).find('[name=source_code]').val())
           socket.emit('compile', $(this).find('[name=source_code]').val())
 	});
 
-	socket.on('updatelog', function(data){
-          $("#updatelog").text(data) 
-	  const top = $('#updatelog').prop('scrollHeight');
-	  $('#updatelog').scrollTop(top);
+	socket.on('update', function(data){
+          $("#update").text(data)
+	  const top = $('#update').prop('scrollHeight');
+	  $('#update').scrollTop(top);
         });
+
+        socket.emit('info')
+	socket.on('info', function(data){
+          console.log(data)
+	  $('#codepath').text(data['codepath'])
+	  $('#imgpath').text(data['imgpath'])
+	});
       });
     </script>
   </head>
@@ -54,23 +61,34 @@
     </header>
     <main>
       <nav>
-        <button type="submit" form="code_form">Run</button>
+        <button type='submit' form='code_form'>Run</button>
         <button id='stop'>Stop</button>
         <button id="show">View</button>
       </nav>
       <br><br><br><br><br>
-      <h2># Editor - <i>{{ form.codepath }}</i> </h2>
+      <h2># Editor - <i><span id='codepath'></span></i> </h2>
       <div style="border:1px dotted;border-radius:5px;padding:5px">
-        <form id='code_form'> {{ form.source_code }} </form>
+        <form id='code_form'>
+	  <textarea id='codemirror-code' name='source_code'></textarea>
+          <script>
+            var editor_for_source_code = CodeMirror.fromTextArea(
+              document.getElementById('codemirror-code'), {
+                "lineNumbers": "true",
+                "mode": "python",
+                "theme": "cobalt"
+              }
+            );
+          </script>
+	</form>
       </div>
 
       <div style="width:100%;height:400px">
         <div style="width:calc(100% - 420px);height:400px;float:left">
           <h2># Output[Log]</h2>
-          <textarea id='updatelog' style="border:1px dotted;border-radius:5px;padding:5px;width:100%;height:300px" disabled></textarea>
+          <textarea id='update' style="border:1px dotted;border-radius:5px;padding:5px;width:100%;height:300px" disabled></textarea>
         </div>
         <div style="width:400px;height:400px;float:right">
-          <h2># Output[Image] - <i>{{ form.imgpath }}</i></h2>
+          <h2># Output[Image] - <i><span id='imgpath'></span></i></h2>
           <img id='image' width="400" height="300" style="border:1px dotted;border-radius:5px" />
         </div>
       </div>
