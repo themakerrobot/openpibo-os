@@ -55,6 +55,11 @@ io.on('connection', function(socket){
       io.emit('update', record);
     });
 
+    ps.stderr.on('data', function(data){
+      record += data.toString();
+      io.emit('update', record);
+    });
+
     ps.on('close', function(code){
       record += '\n## All programs terminated ##'
       io.emit('update', record);
