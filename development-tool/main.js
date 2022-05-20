@@ -46,8 +46,8 @@ io.on('connection', function(socket){
     execSync('/home/pi/openpibo-tools/development-tool/stop.sh');
     fs.writeFileSync(CODEPATH, data);
 
-    record = new Date().toString() + ': pi@themaker:~ $ sudo python3 ' + CODEPATH;
-    record += '\n----------------------------------------------------------------------------------------------\n';
+    record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo python3 ' + CODEPATH + ' >> \n\n';
+    io.emit('update', record);
     ps = spawn('python3', ['-u', CODEPATH]);
 
     ps.stdout.on('data', function(data){
@@ -56,8 +56,7 @@ io.on('connection', function(socket){
     });
 
     ps.on('close', function(code){
-      record += '\n----------------------------------------------------------------------------------------------\n';
-      record += 'All programs terminated'
+      record += '\n## All programs terminated ##'
       io.emit('update', record);
     });
   });

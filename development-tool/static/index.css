@@ -14,6 +14,12 @@ header.title {
   font-style: normal;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 input{
   font-family: 'DungGeunMo';
 }
@@ -39,18 +45,25 @@ a:focus {
   color: #0896d9;
 }
 
+html,
 body{
+  height: 100%;
   font-family: 'DungGeunMo';
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }
 
 main {
   display: flex;
-  flex-direction: column;
   flex: 1;
-  min-height: 89vh;
+  flex-direction: column;
+  min-height: 80vh;
   background-image: url("menu_bg.png");
   background-repeat: repeat-x;
-  background-position-y: 26px;
 }
 main div.wrapper {
   width: 100%;
