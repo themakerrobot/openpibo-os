@@ -27,10 +27,10 @@
 	});
 
 	socket.on("show", function(data){
-          $("#image").attr(
-            "src",
-            "data:image/jpeg;charset=utf-8;base64," + data
-          );
+          $("#image").attr({
+	      "src":"data:image/jpeg;charset=utf-8;base64," + data,
+              "height":"240"
+	  });
 	});
 
 	$('#code_form').on("submit", function(event){
@@ -84,11 +84,11 @@
         </div>
         <div style="width:600px;height:650px;padding:5px;float:right">
           <h4><i class="fa-solid fa-laptop"> Output(Image)</i></h4>
-	  <div style="width:320px;height:240px;text-align:center;">
-            <img id='image'/>
+	  <div style="width:320px;height:240px;margin:auto">
+            <img id='image' />
 	  </div>
           <h4><i class="fa-solid fa-laptop-code"> Output</i></h4>
-          <textarea id='update' style="width:600px;height:330px;border:1px dotted;border-radius:5px;padding:5px" disabled></textarea>
+          <textarea id='update' style="width:600px;height:330px;padding:5px" disabled></textarea>
         </div> 
 
       </div>
