@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Openpibo Ide</title>
+    <script src="../static/8fb5dc8e84.js" crossorigin="anonymous"></script>
     <script src="../static/codemirror.js"></script>
     <link rel="stylesheet" href="../static/codemirror.css">
     <link rel="stylesheet" href="../static/cobalt.css">
@@ -49,8 +50,7 @@
         socket.emit('info')
 	socket.on('info', function(data){
           console.log(data)
-	  $('#codepath').text(data['codepath'])
-	  $('#imgpath').text(data['imgpath'])
+	  $('#path').text(data['codepath'] + ", " + data['imgpath'])
 	});
       });
     </script>
@@ -61,12 +61,13 @@
     </header>
     <main>
       <nav>
-        <button type='submit' form='code_form'>Run</button>
-        <button id='stop'>Stop</button>
-        <button id="show">View</button>
+        <button type='submit' form='code_form'><i class="fa fa-solid fa-play"></i></button>
+        <button id='stop'><i class="fa-solid fa-stop"></i></button>
+        <button id="show"><i class="fa-solid fa-image"></i></button>
       </nav>
-      <br><br><br><br><br>
-      <h2># Editor - <i><span id='codepath'></span></i> </h2>
+      <h2><i class="fa-regular fa-hand-point-right"> <span id='path'></span></i></h2>
+      <br>
+      <h2><i class="fa-solid fa-code"> python3</i></h2>
       <div style="border:1px dotted;border-radius:5px;padding:5px">
         <form id='code_form'>
 	  <textarea id='codemirror-code' name='source_code'></textarea>
@@ -84,11 +85,11 @@
 
       <div style="width:100%;height:400px">
         <div style="width:calc(100% - 420px);height:400px;float:left">
-          <h2># Output[Log]</h2>
+          <h2><i class="fa-solid fa-laptop-code"> Output</i></h2>
           <textarea id='update' style="border:1px dotted;border-radius:5px;padding:5px;width:100%;height:300px" disabled></textarea>
         </div>
         <div style="width:400px;height:400px;float:right">
-          <h2># Output[Image] - <i><span id='imgpath'></span></i></h2>
+          <h2><i class="fa-solid fa-laptop"> Output(Image)</i></h2>
           <img id='image' width="400" height="300" style="border:1px dotted;border-radius:5px" />
         </div>
       </div>
