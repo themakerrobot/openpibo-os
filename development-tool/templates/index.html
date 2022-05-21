@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../static/codemirror.css">
     <link rel="stylesheet" href="../static/cobalt.css">
     <script src="../static/python.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/javascript/javascript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/shell/shell.js"></script>
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
@@ -16,42 +18,53 @@
     <script>
       $(function(){
         const socket = io();
-        $('#tool_bt').click(function(){
-          $(location).attr('href', 'http://'+window.location.hostname + ':80');
-	});
-	$('#stop').click(function(){
-	  socket.emit('stop');
-	});
-	$('#show').click(function(){
-	  socket.emit('show');
-	});
+        const codeMirrorMode = {'python':'python', 'nodejs':'javascript', 'shell':'shell'};
+        const filePath = {'python':'/tmp/test.py', 'nodejs':'/tmp/test.js', 'shell':'/tmp/test.sh'};
+        let editor_for_source_code = CodeMirror.fromTextArea(
+            document.getElementById('codemirror-code'), 
+                {
+                  "lineNumbers": "true",
+                  "mode": codeMirrorMode[$('input[name=codetype]:checked').val()],
+                  "theme": "cobalt"
+                }
+            );
 
-	socket.on("show", function(data){
-          $("#image").attr({
-	      "src":"data:image/jpeg;charset=utf-8;base64," + data,
-              "height":"240"
-	  });
-	});
-
-	$('#code_form').on("submit", function(event){
-          $("#update").text('')
-          event.preventDefault();
-
-          console.log($(this).find('[name=source_code]').val())
-          socket.emit('compile', $(this).find('[name=source_code]').val())
-	});
-
-	socket.on('update', function(data){
-          $("#update").text(data)
-	  const top = $('#update').prop('scrollHeight');
-	  $('#update').scrollTop(top);
+        $('input[name=codetype]').change(function(){
+          let code_type = $('input[name=codetype]:checked').val();
+          editor_for_source_code.setOption("mode", codeMirrorMode[code_type]);
+          $('#codepath').val(filePath[code_type]);
         });
 
-        socket.emit('info')
-	socket.on('info', function(data){
-          console.log(data)
-	  $('#path').text(data['codepath'] + ", " + data['imgpath'])
-	});
+        $('#tool_bt').click(function(){
+          $(location).attr('href', 'http://'+window.location.hostname + ':80');
+        });
+
+        $('#stop').click(function(){
+          socket.emit('stop', $('#codepath').val());
+        });
+
+        $('#show').click(function(){
+          socket.emit('show', $('#imgpath').val());
+        });
+
+    socket.on("show", function(data){
+          $("#image").attr({
+          "src":"data:image/jpeg;charset=utf-8;base64," + data,
+              "height":"240"
+      });
+    });
+
+    $('#code_form').on("submit", function(event){
+          $("#update").text('')
+          event.preventDefault();
+          socket.emit('compile', {'type':$('input[name=codetype]:checked').val(), 'path':$('#codepath').val(), 'text':$(this).find('[name=source_code]').val()});
+    });
+
+    socket.on('update', function(data){
+          $("#update").text(data)
+      const top = $('#update').prop('scrollHeight');
+      $('#update').scrollTop(top);
+        });
       });
     </script>
   </head>
@@ -65,32 +78,30 @@
         <button id='stop'><i class="fa-solid fa-stop"></i></button>
         <button id="show"><i class="fa-solid fa-image"></i></button>
       </nav>
-      <h3><i class="fa-regular fa-hand-point-right"> <span id='path'></span></i></h3>
+      <h3><i class="fa-regular fa-hand-point-right">Write your code and Test it !!!</i></h3>
       <div style="margin:0 auto">
         <div style="width:1000px;height:650px;padding: 5px;float:left">
-          <h4><i class="fa-solid fa-code"> python3</i></h4>
+          <h4>
+            <i class="fa-solid fa-code">
+              <input type='radio' name='codetype' value='python' checked>Python</input>
+              <input type='radio' name='codetype' value='nodejs'>Node.js</input>
+              <input type='radio' name='codetype' value='shell'>Shell</input>
+            </i>
+          </h4>
+          <input type='text' id='codepath' value="/tmp/test.py" />
           <form id='code_form'>
-	    <textarea id='codemirror-code' name='source_code'></textarea>
-            <script>
-              var editor_for_source_code = CodeMirror.fromTextArea(
-                document.getElementById('codemirror-code'), {
-                  "lineNumbers": "true",
-                  "mode": "python",
-                  "theme": "cobalt"
-                }
-              );
-            </script>
-	  </form>
+        <textarea id='codemirror-code' name='source_code'></textarea>
+      </form>
         </div>
         <div style="width:600px;height:650px;padding:5px;float:right">
           <h4><i class="fa-solid fa-laptop"> Output(Image)</i></h4>
-	  <div style="width:320px;height:240px;margin:auto">
+          <input type='text' id='imgpath' value="/tmp/test.jpg" />
+      <div style="width:320px;height:240px;margin:auto">
             <img id='image' />
-	  </div>
+      </div>
           <h4><i class="fa-solid fa-laptop-code"> Output</i></h4>
           <textarea id='update' style="width:600px;height:330px;padding:5px" disabled></textarea>
         </div> 
-
       </div>
     </main>
     <a id='tool_bt'>[Go to the <u>Openpibo Tools</u>]</a>
