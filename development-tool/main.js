@@ -34,10 +34,18 @@ io.on('connection', function(socket){
       spawn('kill', [ '-9', ps.pid]);
   });
 
-  socket.on('show', function(path){
+  socket.on('view', function(path){
     fs.readFile(path, function(err, data){
-      if(!err) io.emit('show', Buffer.from(data).toString('base64'));
-      else io.emit('show', null);
+      if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'record':'## Image file load ... done ##'});
+      else io.emit('update', {'record':err.toString()});
+    });
+  });
+
+  socket.on('load', function(path){
+    fs.readFile(path, function(err, data){
+      console.log(typeof err)
+      if(!err) io.emit('update', {'code': data.toString(), 'record':'## Code file load ... done ##'});
+      else io.emit('update', {'code':'', 'record':err.toString()});
     });
   });
 
@@ -50,7 +58,7 @@ io.on('connection', function(socket){
     fs.writeFileSync(codepath, d['text']);
 
     record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
-    io.emit('update', record);
+    io.emit('update', {'record':record});
 
     // python3 / node / sh
     if(EXEC == 'python3')
@@ -60,18 +68,17 @@ io.on('connection', function(socket){
 
     ps.stdout.on('data', function(data){
       record += data.toString();
-      io.emit('update', record);
+      io.emit('update', {'record':record});
     });
 
     ps.stderr.on('data', function(data){
       record += data.toString();
-      io.emit('update', record);
+      io.emit('update', {'record':record});
     });
 
     ps.on('close', function(code){
       record += '\n## All programs terminated ##'
-      io.emit('update', record);
-      record = '';
+      io.emit('update', {'record':record});
     });
   });
 });

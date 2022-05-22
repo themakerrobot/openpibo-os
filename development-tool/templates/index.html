@@ -20,8 +20,7 @@
         const socket = io();
         const codeMirrorMode = {'python':'python', 'nodejs':'javascript', 'shell':'shell'};
         const filePath = {'python':'/tmp/test.py', 'nodejs':'/tmp/test.js', 'shell':'/tmp/test.sh'};
-        let editor_for_source_code = CodeMirror.fromTextArea(
-            document.getElementById('codemirror-code'), 
+        let editor = CodeMirror.fromTextArea(document.getElementById('codemirror-code'),
                 {
                   "lineNumbers": "true",
                   "mode": codeMirrorMode[$('input[name=codetype]:checked').val()],
@@ -31,39 +30,58 @@
 
         $('input[name=codetype]').change(function(){
           let code_type = $('input[name=codetype]:checked').val();
-          editor_for_source_code.setOption("mode", codeMirrorMode[code_type]);
+          editor.setOption('mode', codeMirrorMode[code_type]);
           $('#codepath').val(filePath[code_type]);
         });
 
-        $('#tool_bt').click(function(){
-          $(location).attr('href', 'http://'+window.location.hostname + ':80');
+        $('input[name=codepath]').keypress(function(evt){
+          if(evt.keyCode == 13){
+            let comment = "[THE MAKER] 아래 파일을 불러오겠습니까?";
+            comment += "\n=========================================";
+            comment += "\nFile: " + $('#codepath').val();
+            if(confirm(comment)) socket.emit('load', $('#codepath').val());
+          }
+        });
+
+        $('#code_form').on("submit", function(event){
+          $("#update").text('')
+          event.preventDefault();
+          socket.emit('compile', {
+            'type':$('input[name=codetype]:checked').val(),
+            'path':$('#codepath').val(),
+            'text':$(this).find('[name=source_code]').val()
+          });
+        });
+
+        $('#view').click(function(){
+          socket.emit('view', $('#imgpath').val());
+        });
+
+        socket.on('update', function(data){
+          if('code' in data){
+            editor.setOption('value', '');
+            editor.setOption('value', data['code']);
+          }
+
+          if('image' in data){
+            $("#image").attr({
+              "src":"data:image/jpeg;charset=utf-8;base64," + data['image'],
+              "height":"240"
+            });
+          }
+
+          if('record' in data){
+            $("#update").text(data['record'])
+            $('#update').scrollTop($('#update').prop('scrollHeight'));
+          }
         });
 
         $('#stop').click(function(){
           socket.emit('stop', $('#codepath').val());
         });
 
-        $('#show').click(function(){
-          socket.emit('show', $('#imgpath').val());
-        });
-
-    socket.on("show", function(data){
-          $("#image").attr({
-          "src":"data:image/jpeg;charset=utf-8;base64," + data,
-              "height":"240"
-      });
-    });
-
-    $('#code_form').on("submit", function(event){
-          $("#update").text('')
-          event.preventDefault();
-          socket.emit('compile', {'type':$('input[name=codetype]:checked').val(), 'path':$('#codepath').val(), 'text':$(this).find('[name=source_code]').val()});
-    });
-
-    socket.on('update', function(data){
-          $("#update").text(data)
-      const top = $('#update').prop('scrollHeight');
-      $('#update').scrollTop(top);
+        $('#tool_bt').click(function(){
+          $(location).attr('href', 'http://'+window.location.hostname + ':80');
         });
       });
     </script>
@@ -76,7 +94,7 @@
       <nav>
         <button type='submit' form='code_form'><i class="fa fa-solid fa-play"></i></button>
         <button id='stop'><i class="fa-solid fa-stop"></i></button>
-        <button id="show"><i class="fa-solid fa-image"></i></button>
+        <button id="view"><i class="fa-solid fa-image"></i></button>
       </nav>
       <h3><i class="fa-regular fa-hand-point-right">Write your code and Test it !!!</i></h3>
       <div style="margin:0 auto">
@@ -88,7 +106,7 @@
               <input type='radio' name='codetype' value='shell'>Shell</input>
             </i>
           </h4>
-          <input type='text' id='codepath' value="/tmp/test.py" />
+          <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
           <form id='code_form'>
         <textarea id='codemirror-code' name='source_code'></textarea>
       </form>
@@ -96,9 +114,9 @@
         <div style="width:600px;height:650px;padding:5px;float:right">
           <h4><i class="fa-solid fa-laptop"> Output(Image)</i></h4>
           <input type='text' id='imgpath' value="/tmp/test.jpg" />
-      <div style="width:320px;height:240px;margin:auto">
+          <div style="width:320px;height:240px;margin:auto">
             <img id='image' />
-      </div>
+          </div>
           <h4><i class="fa-solid fa-laptop-code"> Output</i></h4>
           <textarea id='update' style="width:600px;height:330px;padding:5px" disabled></textarea>
         </div> 
