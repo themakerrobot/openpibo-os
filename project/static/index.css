@@ -1,6 +1,5 @@
 @font-face {
-  font-family: "DungGeunMo";
-  src: url("DungGeunMo.woff") format("woff");
+  font-family: monospace;
   font-weight: normal;
   font-style: normal;
 }
@@ -28,14 +27,15 @@ body {
   --dark-red: #d85a41;
 }
 html:lang(ko) {
-  font-family: "DungGeunMo";
+  font-family: monospace;
 }
 html:lang(en) {
-  font-family: "DungGeunMo";
+  font-family: monospace;
 }
 
 body {
-  font-family: "DungGeunMo";
+  font-family: monospace;
+  font-weight: bold;
   color: black;
   background-color: white;
   box-sizing: border-box;
@@ -124,9 +124,9 @@ select,
 input {
   /* font-size: 10px; */
   color: black;
-  font-weight: 100;
+  font-weight: bold;
   outline: none;
-  font-family: "DungGeunMo";
+  font-family: monospace;
 }
 
 select,input {
@@ -326,7 +326,7 @@ nav button:hover {
 
 button,
 input[type="submit"] {
-  font-family: "DungGeunMo";
+  font-family: monospace;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--yellow);
@@ -347,7 +347,7 @@ input[type="submit"]:active {
 
 button.btn-teal,
 input[type="submit"] {
-  font-family: "DungGeunMo";
+  font-family: monospace;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--teal);
@@ -369,7 +369,7 @@ input[type="submit"]:active {
 button.btn-red,
 input[type="submit"] {
   color: white;
-  font-family: "DungGeunMo";
+  font-family: monospace;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--red);
@@ -559,6 +559,7 @@ label.label {
   width: 42px;
 }
 .motion-input-label span {
+  font-size: 12px;
   width: 100%;
 }
 .motion-input-row:nth-child(2) {
@@ -639,6 +640,7 @@ input[id="motion_name_val"] {
 }
 .motion-name-wrap button,
 .motion-path button {
+  font-size: 12px;
   width: 74px;
 }
 

@@ -3,6 +3,7 @@ const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const execSync = require('child_process').execSync;
+const spawnSync = require('child_process').spawnSync;
 const spawn = require('child_process').spawn;
 const fs = require('fs');
 
@@ -31,7 +32,7 @@ io.on('connection', function(socket){
 
   socket.on('stop', function(path){
     if(ps != undefined)
-      spawn('kill', [ '-9', ps.pid]);
+      spawnSync('kill', [ '-9', ps.pid]);
   });
 
   socket.on('view', function(path){
@@ -43,7 +44,6 @@ io.on('connection', function(socket){
 
   socket.on('load', function(path){
     fs.readFile(path, function(err, data){
-      console.log(typeof err)
       if(!err) io.emit('update', {'code': data.toString(), 'record':'## Code file load ... done ##'});
       else io.emit('update', {'code':'', 'record':err.toString()});
     });
@@ -53,7 +53,7 @@ io.on('connection', function(socket){
     const EXEC = codeExec[d['type']];
     const codepath = d['path'];
     if(ps != undefined)
-      spawn('kill', [ '-9', ps.pid]);
+      spawnSync('kill', [ '-9', ps.pid]);
    
     fs.writeFileSync(codepath, d['text']);
 
@@ -61,10 +61,7 @@ io.on('connection', function(socket){
     io.emit('update', {'record':record});
 
     // python3 / node / sh
-    if(EXEC == 'python3')
-      ps = spawn(EXEC, ['-u', codepath]);
-    else
-      ps = spawn(EXEC, [codepath]);
+    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]);
 
     ps.stdout.on('data', function(data){
       record += data.toString();

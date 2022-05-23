@@ -1,15 +1,5 @@
-header.title {
-  text-align: center;
-  color: black;
-  cursor: default;
-}
-.title h1 {
-  margin: 0.3em;
-}
-
 @font-face {
-  font-family: 'DungGeunMo';
-  src: url("DungGeunMo.woff") format('woff');
+  font-family: monospace;
   font-weight: normal;
   font-style: normal;
 }
@@ -20,13 +10,25 @@ header.title {
   box-sizing: border-box;
 }
 
+header.title {
+  text-align: center;
+  outline: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: black;
+  cursor: default;
+}
+.title h1 {
+  margin: 0.3em;
+}
+
 input{
-  /*font-family: 'DungGeunMo';*/
+  /*font-family: monospace;*/
 }
 
 button{
   width:100%;
-  font-family: 'DungGeunMo';
+  font-family: monospace;
 }
 
 textarea{
@@ -48,7 +50,8 @@ a:focus {
 html,
 body{
   height: 100%;
-  font-family: 'DungGeunMo';
+  font-family: monospace;
+  font-weight: bold;
 }
 
 body{
@@ -64,6 +67,7 @@ main {
   min-height: 80vh;
   background-image: url("menu_bg.png");
   background-repeat: repeat-x;
+  background-position-y: 26px;
 }
 main div.wrapper {
   width: 100%;
@@ -84,12 +88,12 @@ nav {
 
 nav button {
   background: none;
-  border: 0;
+  border: none;
   font: inherit;
   line-height: 1;
   transition: 0.25s;
   cursor: pointer;
-  padding: 0.3em;
+  padding: 0.7em;
   border-radius: 0;
   box-shadow: none;
 }
@@ -111,4 +115,5 @@ footer {
   text-align: center;
   margin: 40px auto 20px;
   bottom: 0;
+  font-size: 1.2rem;
 }

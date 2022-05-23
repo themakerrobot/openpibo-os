@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="../static/codemirror.css">
     <link rel="stylesheet" href="../static/cobalt.css">
     <script src="../static/python.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/javascript/javascript.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.0/mode/shell/shell.js"></script>
+    <script src="../static/javascript.js"></script>
+    <script src="../static/shell.js"></script>
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
@@ -34,13 +34,14 @@
           $('#codepath').val(filePath[code_type]);
         });
 
-        $('input[name=codepath]').keypress(function(evt){
-          if(evt.keyCode == 13){
+        $('#load').click(function(){
+        //$('input[name=codepath]').keypress(function(evt){
+        //  if(evt.keyCode == 13){
             let comment = "[THE MAKER] 아래 파일을 불러오겠습니까?";
             comment += "\n=========================================";
             comment += "\nFile: " + $('#codepath').val();
             if(confirm(comment)) socket.emit('load', $('#codepath').val());
-          }
+        //  }
         });
 
         $('#code_form').on("submit", function(event){
@@ -92,37 +93,42 @@
     </header>
     <main>
       <nav>
-        <button type='submit' form='code_form'><i class="fa fa-solid fa-play"></i></button>
-        <button id='stop'><i class="fa-solid fa-stop"></i></button>
-        <button id="view"><i class="fa-solid fa-image"></i></button>
+        <button type='submit' form='code_form'>실행하기</button>
+        <button id='stop'>정지하기</button>
+        <button id="load">코드 불러오기</button>
+        <button id="view">이미지 불러오기</button>
       </nav>
-      <h3><i class="fa-regular fa-hand-point-right">Write your code and Test it !!!</i></h3>
+      <h3>
+        <i class="fa-regular fa-hand-point-right"> Learn & Run with Real Robot! </i>
+      </h3>
+      <br><br>
       <div style="margin:0 auto">
         <div style="width:1000px;height:650px;padding: 5px;float:left">
           <h4>
             <i class="fa-solid fa-code">
+	      프로그램 선택: 
               <input type='radio' name='codetype' value='python' checked>Python</input>
               <input type='radio' name='codetype' value='nodejs'>Node.js</input>
               <input type='radio' name='codetype' value='shell'>Shell</input>
             </i>
           </h4>
-          <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
+          파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
           <form id='code_form'>
-        <textarea id='codemirror-code' name='source_code'></textarea>
-      </form>
+            <textarea id='codemirror-code' name='source_code'></textarea>
+          </form>
         </div>
         <div style="width:600px;height:650px;padding:5px;float:right">
-          <h4><i class="fa-solid fa-laptop"> Output(Image)</i></h4>
-          <input type='text' id='imgpath' value="/tmp/test.jpg" />
+          <h4><i class="fa-solid fa-laptop"> 이미지보기</i></h4>
+          파일경로: <input type='text' id='imgpath' value="/tmp/test.jpg" />
           <div style="width:320px;height:240px;margin:auto">
             <img id='image' />
           </div>
-          <h4><i class="fa-solid fa-laptop-code"> Output</i></h4>
-          <textarea id='update' style="width:600px;height:330px;padding:5px" disabled></textarea>
+          <h4><i class="fa-solid fa-laptop-code"> 실행결과</i></h4>
+          <textarea id='update' style="width:600px;height:340px;padding:5px" disabled></textarea>
         </div> 
       </div>
     </main>
-    <a id='tool_bt'>[Go to the <u>Openpibo Tools</u>]</a>
+    <a id='tool_bt'>[<u>Openpibo Tools</u>로 바로가기]</a>
     <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
   </body>
 </html>
