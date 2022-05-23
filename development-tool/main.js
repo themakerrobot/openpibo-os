@@ -49,12 +49,17 @@ io.on('connection', function(socket){
     });
   });
 
+  socket.on('system', function(){
+    res = execSync('/home/pi/openpibo-tools/development-tool/system.sh').toString().split(',')
+    io.emit('system', res)
+  });
+
   socket.on('compile', function(d){
     const EXEC = codeExec[d['type']];
     const codepath = d['path'];
     if(ps != undefined)
       spawnSync('kill', [ '-9', ps.pid]);
-   
+
     fs.writeFileSync(codepath, d['text']);
 
     record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';

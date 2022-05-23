@@ -84,6 +84,19 @@
         $('#tool_bt').click(function(){
           $(location).attr('href', 'http://'+window.location.hostname + ':80');
         });
+
+        socket.emit("system");
+        setInterval(function () {
+          socket.emit("system");
+        }, 10000);
+        socket.on("system", function (data) {
+          $("#s_serial").text(data[0]);
+          $("#s_os_version").text(data[1]);
+          $("#s_runtime").text(Math.floor(data[2] / 3600) + " Hours");
+          $("#s_cpu_temp").text(data[3]);
+          $("#s_memory").text(Math.floor((data[5] / data[4] / 4) * 100) + " %");
+          $("#s_network").text(data[6] + "/" + data[7].replace("\n", ""));
+        });
       });
     </script>
   </head>
@@ -98,10 +111,26 @@
         <button id="load">코드 불러오기</button>
         <button id="view">이미지 불러오기</button>
       </nav>
-      <h3>
-        <i class="fa-regular fa-hand-point-right"> Learn & Run with Real Robot! </i>
-      </h3>
-      <br><br>
+      <aside class="status">
+        <div>
+          <div class="status_row">
+            <span>Wi-Fi (wlan0)</span>
+            <span id="s_network"></span>
+            <span>CPU 온도</span>
+            <span id="s_cpu_temp"></span>
+            <span>메모리</span>
+            <span id="s_memory"></span>
+          </div>
+          <div class="status_row">
+            <span>일련번호</span>
+            <span id="s_serial"></span>
+            <span>버전</span>
+            <span id="s_os_version"></span>
+            <span>동작시간</span>
+            <span id="s_runtime"></span>
+          </div>
+        </div>
+      </aside>
       <div style="margin:0 auto">
         <div style="width:1000px;height:650px;padding: 5px;float:left">
           <h4>

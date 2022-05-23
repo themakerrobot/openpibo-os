@@ -559,7 +559,7 @@ label.label {
   width: 42px;
 }
 .motion-input-label span {
-  font-size: 12px;
+  font-size:1.15rem;
   width: 100%;
 }
 .motion-input-row:nth-child(2) {
