@@ -22,12 +22,9 @@ header.title {
   margin: 0.3em;
 }
 
-input{
-  /*font-family: monospace;*/
-}
-
 button{
-  width:100%;
+  /*width:100%;*/
+  font-weight: bold;
   font-family: monospace;
 }
 
@@ -42,6 +39,7 @@ aside {
   /* background-color: var(--light-green); */
   padding: 0 calc(calc(100% - 1200px) / 2);
   font-size: 12px;
+  font-weight: bold;
   /* margin-top: 1.25em; */
 }
 
@@ -72,6 +70,7 @@ aside td {
 }
 
 a {
+  font-weight: bold;
   font-size:1.22rem;
 }
 /* 링크 스타일 */
@@ -90,7 +89,7 @@ html,
 body{
   height: 100%;
   font-family: monospace;
-  font-weight: bold;
+  font-weight: normal;
 }
 
 body{
@@ -117,22 +116,23 @@ nav {
   bottom: 0; */
   position: sticky;
   left: 0;
-  width: 100%;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
   list-style-type: none;
   background-color: #f4d85a;
+  font-weight: bold;
 }
 
 nav button {
+  width:100%;
   background: none;
   border: none;
   font: inherit;
   line-height: 1;
   transition: 0.25s;
   cursor: pointer;
-  padding: 0.7em;
+  padding: 0.6em;
   border-radius: 0;
   box-shadow: none;
 }
@@ -144,7 +144,25 @@ nav button:hover {
 nav button.menu-selected,
 nav button:focus,
 nav button:hover {
-  transform: skewX(-15deg);
+  /*transform: skewX(-15deg);*/
+}
+
+button {
+  background: #edeef0;
+  border: none;
+  font: inherit;
+  font-weight: bold;
+  outline: none;
+  line-height: 1;
+  transition: 0.25s;
+  cursor: pointer;
+  padding: 0.7em;
+  border-radius: 5px;
+}
+
+button:active {
+  position: relative;
+  top:2px;
 }
 
 footer {
@@ -155,4 +173,5 @@ footer {
   margin: 40px auto 20px;
   bottom: 0;
   font-size: 1.2rem;
+  font-weight: bold;
 }

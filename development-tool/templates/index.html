@@ -108,8 +108,6 @@
       <nav>
         <button type='submit' form='code_form'>실행하기</button>
         <button id='stop'>정지하기</button>
-        <button id="load">코드 불러오기</button>
-        <button id="view">이미지 불러오기</button>
       </nav>
       <aside class="status">
         <div>
@@ -131,24 +129,29 @@
           </div>
         </div>
       </aside>
+      <br>
       <div style="margin:0 auto">
-        <div style="width:1000px;height:650px;padding: 5px;float:left">
-          <h4>
+        <div style="width:1000px;height:640px;padding:5px;float:left">
             <i class="fa-solid fa-code">
 	      프로그램 선택: 
               <input type='radio' name='codetype' value='python' checked>Python</input>
               <input type='radio' name='codetype' value='nodejs'>Node.js</input>
               <input type='radio' name='codetype' value='shell'>Shell</input>
             </i>
-          </h4>
-          파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
+	    <br>
+            파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
+            <button id="load">불러오기</button>
+	    <br>
           <form id='code_form'>
             <textarea id='codemirror-code' name='source_code'></textarea>
           </form>
         </div>
-        <div style="width:600px;height:650px;padding:5px;float:right">
-          <h4><i class="fa-solid fa-laptop"> 이미지보기</i></h4>
+        <div style="width:600px;height:640px;padding:5px;float:right">
+          <i class="fa-solid fa-laptop"> 이미지보기</i>
+	  <br>
           파일경로: <input type='text' id='imgpath' value="/tmp/test.jpg" />
+          <button id="view">불러오기</button>
+	  <br>
           <div style="width:320px;height:240px;margin:auto">
             <img id='image' />
           </div>
