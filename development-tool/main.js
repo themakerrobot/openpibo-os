@@ -17,61 +17,91 @@ const port = process.argc > 2 ? Number(process.argv[2]):50000;
 let record = '';
 let ps;
 
-server.listen(port, function(){
+const sleep = (t) => {
+  return new Promise(resolve=>setTimeout(resolve,t));
+}
+
+class Mutex {
+  constructor() {
+    this.lock = false;
+  }
+  async acquire() {
+    while(true) {
+      if (this.lock === false) break;
+      await sleep(100);
+    }
+    this.lock = true;
+  }
+  release() {
+    this.lock = false;
+  }
+}
+const mutex = new Mutex();
+
+const compile = (EXEC, codepath) => {
+  return new Promise((res, rej) => {
+    record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
+    io.emit('update', {'record':record});
+    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]); // python3/node/sh
+    ps.stdout.on('data', (data) => {
+      record += data.toString();
+      io.emit('update', {'record':record});
+    });
+
+    ps.stderr.on('data', (data) => {
+      record += data.toString();
+      io.emit('update', {'record':record});
+    });
+    ps.on('error', (err) => {
+      console.log('err', err);
+
+    });
+    ps.on('close', (code) => {
+      record += "## code finished";
+      io.emit('update', {'record':record});
+      mutex.release();
+      res();
+    });
+  });
+}
+
+server.listen(port, () => {
   ps = spawn('v4l2-ctl', ['-c','vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3'])
   console.log('Server Start: ', port);
 });
 
 app.use('/static', express.static(__dirname + '/static'));
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/templates/index.html')
 });
 
-io.on('connection', function(socket){
-  socket.on('stop', function(path){
+io.on('connection', (socket) => {
+  socket.on('stop', (path) => {
     spawnSync('kill', [ '-9', ps.pid]);
   });
 
-  socket.on('view', function(path){
-    fs.readFile(path, function(err, data){
+  socket.on('view', (path) => {
+    fs.readFile(path, (err, data) => {
       if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'record':'## Load File: ' + path});
       else io.emit('update', {'record':err.toString()});
     });
   });
 
-  socket.on('load', function(path){
-    fs.readFile(path, function(err, data){
+  socket.on('load', (path) =>{
+    fs.readFile(path, (err, data) => {
       if(!err) io.emit('update', {'code': data.toString(), 'record':'## Load File: ' + path});
       else io.emit('update', {'code':'', 'record':err.toString()});
     });
   });
 
-  socket.on('system', function(){
+  socket.on('system', () => {
     io.emit('system', execSync('/home/pi/openpibo-tools/development-tool/system.sh').toString().split(','));
   });
 
-  socket.on('compile', function(d){
-    const EXEC = codeExec[d['type']];
-    const codepath = d['path'];
-
+  socket.on('compile', async (d) => {
     spawnSync('kill', [ '-9', ps.pid]);
-    fs.writeFileSync(codepath, d['text']);
-
-    record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
-
-    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]); // python3/node/sh
-    ps.stdout.on('data', function(data){
-      record += data.toString();
-      io.emit('update', {'record':record});
-    });
-
-    ps.stderr.on('data', function(data){
-      record += data.toString();
-      io.emit('update', {'record':record});
-    });
-
-    ps.on('close', function(code){
-      // pass
-    });
+    fs.writeFileSync(d['path'], d['text']);
+    await mutex.acquire();
+    await compile(codeExec[d['type']], d['path'])
   });
 });
