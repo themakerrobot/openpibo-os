@@ -28,6 +28,15 @@
                 }
             );
 
+        socket.emit('init');
+        socket.on('init', function(d){
+          editor.setOption('mode', codeMirrorMode[d['type']]);
+          //editor.setOption('value', '');
+          editor.setOption('value', d['text']);
+          $('input[name=codetype]:input[value='+d['type'] + ']').attr('checked', true);
+          $('#codepath').val(d['path']);
+        });
+
         $('input[name=codetype]').change(function(){
           let code_type = $('input[name=codetype]:checked').val();
           editor.setOption('mode', codeMirrorMode[code_type]);
@@ -35,13 +44,11 @@
         });
 
         $('#load').click(function(){
-        //$('input[name=codepath]').keypress(function(evt){
-        //  if(evt.keyCode == 13){
             let comment = "[THE MAKER] 아래 파일을 불러오겠습니까?";
             comment += "\n=========================================";
             comment += "\nFile: " + $('#codepath').val();
-            if(confirm(comment)) socket.emit('load', $('#codepath').val());
-        //  }
+            if(confirm(comment))
+              socket.emit('load', $('#codepath').val());
         });
 
         $('#code_form').on("submit", function(event){
@@ -60,7 +67,7 @@
 
         socket.on('update', function(data){
           if('code' in data){
-            editor.setOption('value', '');
+            //editor.setOption('value', '');
             editor.setOption('value', data['code']);
           }
 
