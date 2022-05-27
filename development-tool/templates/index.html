@@ -20,20 +20,29 @@
         const socket = io();
         const codeMirrorMode = {'python':'python', 'nodejs':'javascript', 'shell':'shell'};
         const filePath = {'python':'/tmp/test.py', 'nodejs':'/tmp/test.js', 'shell':'/tmp/test.sh'};
-        let editor = CodeMirror.fromTextArea(document.getElementById('codemirror-code'),
+        let save_code = '';
+	let editor = CodeMirror.fromTextArea(document.getElementById('codemirror-code'),
                 {
                   "lineNumbers": "true",
                   "mode": codeMirrorMode[$('input[name=codetype]:checked').val()],
-                  "theme": "cobalt"
+                  "theme": "cobalt",
+		  "extraKeys": {
+                       "F11": function(cm) {
+                         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                       },
+                       "Ctrl-S": function(instance) { 
+                         socket.emit("save", {'path':$('#codepath').val(), 'text': editor.getValue()})
+                       },  
+		  }
                 }
             );
-
-        socket.emit('init');
+        
+	socket.emit('init');
         socket.on('init', function(d){
           editor.setOption('mode', codeMirrorMode[d['type']]);
-          //editor.setOption('value', '');
-          editor.setOption('value', d['text']);
-          $('input[name=codetype]:input[value='+d['type'] + ']').attr('checked', true);
+          editor.setValue(d['text']);
+	  save_code = d['text'];
+	  $('input[name=codetype]:input[value='+d['type'] + ']').attr('checked', true);
           $('#codepath').val(d['path']);
         });
 
@@ -43,6 +52,13 @@
           $('#codepath').val(filePath[code_type]);
         });
 
+        editor.on('change', function(c, o){
+          if(save_code != editor.getValue())
+	    $('#codecheck').text('o')
+	  else
+	    $('#codecheck').text('')
+	});
+
         $('#load').click(function(){
             let comment = "[THE MAKER] 아래 파일을 불러오겠습니까?";
             comment += "\n=========================================";
@@ -51,13 +67,13 @@
               socket.emit('load', $('#codepath').val());
         });
 
-        $('#code_form').on("submit", function(event){
-          $("#update").text('')
-          event.preventDefault();
+        $('#compile').click(function(){
+          $("#update").text('');
+	  save_code = editor.getValue();
           socket.emit('compile', {
             'type':$('input[name=codetype]:checked').val(),
             'path':$('#codepath').val(),
-            'text':$(this).find('[name=source_code]').val()
+            'text':editor.getValue(),
           });
         });
 
@@ -67,8 +83,7 @@
 
         socket.on('update', function(data){
           if('code' in data){
-            //editor.setOption('value', '');
-            editor.setOption('value', data['code']);
+            editor.setValue(data['code'])
           }
 
           if('image' in data){
@@ -113,7 +128,7 @@
     </header>
     <main>
       <nav>
-        <button type='submit' form='code_form'>실행하기</button>
+        <button id='compile'>실행하기</button>
         <button id='stop'>정지하기</button>
       </nav>
       <aside class="status">
@@ -147,7 +162,7 @@
             </i>
 	    <br>
             파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
-            <button id="load">불러오기</button>
+            <button id="load">불러오기</button> <span id='codecheck'></span>
 	    <br>
           <form id='code_form'>
             <textarea id='codemirror-code' name='source_code'></textarea>

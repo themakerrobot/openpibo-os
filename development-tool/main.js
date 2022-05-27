@@ -18,7 +18,7 @@ let record = '';
 let ps;
 let codeType = 'python';
 let codeText = '';
-let codePath = '/tmp/test.py';
+let codePath = '/home/pi/code/test.py';
 
 const sleep = (t) => {
   return new Promise(resolve=>setTimeout(resolve,t));
@@ -107,12 +107,17 @@ io.on('connection', (socket) => {
     io.emit('system', execSync('/home/pi/openpibo-tools/development-tool/system.sh').toString().split(','));
   });
 
+  socket.on('save', (d) => {
+    fs.writeFileSync(d['path'], d['text']);
+  });
+
   socket.on('compile', async (d) => {
-    codeType = d['type']
-    codeText = d['text']
-    codePath = d['path']
+    codeType = d['type'];
+    codeText = d['text'];
+    codePath = d['path'];
     spawnSync('kill', [ '-9', ps.pid]);
     fs.writeFileSync(d['path'], d['text']);
-    await compile(codeExec[d['type']], d['path'])
+    execSync('chown -R pi:pi ' + d['path']);
+    await compile(codeExec[d['type']], d['path']);
   });
 });
