@@ -21,28 +21,28 @@
         const codeMirrorMode = {'python':'python', 'nodejs':'javascript', 'shell':'shell'};
         const filePath = {'python':'/tmp/test.py', 'nodejs':'/tmp/test.js', 'shell':'/tmp/test.sh'};
         let save_code = '';
-	let editor = CodeMirror.fromTextArea(document.getElementById('codemirror-code'),
+        let editor = CodeMirror.fromTextArea(document.getElementById('codemirror-code'),
                 {
                   "lineNumbers": "true",
                   "mode": codeMirrorMode[$('input[name=codetype]:checked').val()],
                   "theme": "cobalt",
-		  "extraKeys": {
+                  "extraKeys": {
                        "F11": function(cm) {
                          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
                        },
                        "Ctrl-S": function(instance) { 
                          socket.emit("save", {'path':$('#codepath').val(), 'text': editor.getValue()})
-                       },  
-		  }
+                       },
+                  }
                 }
             );
-        
-	socket.emit('init');
+
+        socket.emit('init');
         socket.on('init', function(d){
+          save_code = d['text'];
           editor.setOption('mode', codeMirrorMode[d['type']]);
           editor.setValue(d['text']);
-	  save_code = d['text'];
-	  $('input[name=codetype]:input[value='+d['type'] + ']').attr('checked', true);
+          $('input[name=codetype]:input[value='+d['type'] + ']').attr('checked', true);
           $('#codepath').val(d['path']);
         });
 
@@ -52,12 +52,9 @@
           $('#codepath').val(filePath[code_type]);
         });
 
-        editor.on('change', function(c, o){
-          if(save_code != editor.getValue())
-	    $('#codecheck').text('o')
-	  else
-	    $('#codecheck').text('')
-	});
+        editor.on('change', function(){
+	  $('#codecheck').text(save_code == editor.getValue()?'':'●');
+        });
 
         $('#load').click(function(){
             let comment = "[THE MAKER] 아래 파일을 불러오겠습니까?";
@@ -69,7 +66,8 @@
 
         $('#compile').click(function(){
           $("#update").text('');
-	  save_code = editor.getValue();
+          save_code = editor.getValue();
+	  $('#codecheck').text(save_code == editor.getValue()?'':'●');
           socket.emit('compile', {
             'type':$('input[name=codetype]:checked').val(),
             'path':$('#codepath').val(),
@@ -154,26 +152,26 @@
       <br>
       <div style="margin:0 auto">
         <div style="width:1000px;height:640px;padding:5px;float:left">
-            <i class="fa-solid fa-code">
-	      프로그램 선택: 
-              <input type='radio' name='codetype' value='python' checked>Python</input>
-              <input type='radio' name='codetype' value='nodejs'>Node.js</input>
-              <input type='radio' name='codetype' value='shell'>Shell</input>
-            </i>
-	    <br>
-            파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
-            <button id="load">불러오기</button> <span id='codecheck'></span>
-	    <br>
+          <i class="fa-solid fa-code">
+            프로그램 선택:
+            <input type='radio' name='codetype' value='python' checked>Python</input>
+            <input type='radio' name='codetype' value='nodejs'>Node.js</input>
+            <input type='radio' name='codetype' value='shell'>Shell</input>
+          </i>
+          <br>
+          파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
+          <button id="load">불러오기</button> <span id='codecheck'></span>
+          <br>
           <form id='code_form'>
             <textarea id='codemirror-code' name='source_code'></textarea>
           </form>
         </div>
         <div style="width:600px;height:640px;padding:5px;float:right">
           <i class="fa-solid fa-laptop"> 이미지보기</i>
-	  <br>
+          <br>
           파일경로: <input type='text' id='imgpath' value="/tmp/test.jpg" />
           <button id="view">불러오기</button>
-	  <br>
+          <br>
           <div style="width:320px;height:240px;margin:auto">
             <img id='image' />
           </div>

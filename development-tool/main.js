@@ -18,7 +18,7 @@ let record = '';
 let ps;
 let codeType = 'python';
 let codeText = '';
-let codePath = '/home/pi/code/test.py';
+let codePath = '/tmp/test.py';
 
 const sleep = (t) => {
   return new Promise(resolve=>setTimeout(resolve,t));
