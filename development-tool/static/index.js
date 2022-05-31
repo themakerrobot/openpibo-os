@@ -74,7 +74,7 @@ codetypes.forEach(codetype => {
 });
 
 editor.on('change', () => {
-  codecheck.value = (save_code == editor.getValue())?'':'●';
+  codecheck.textContent = (save_code == editor.getValue())?'':'●';
 });
 
 document.getElementById('load').addEventListener('click', () => {

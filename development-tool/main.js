@@ -84,7 +84,11 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   socket.on('init', () => {
-    io.emit('init', {'type':codeType, 'path': codePath, 'text':codeText});
+    fs.readFile(codePath, (err, data) => {
+      if(!err) codeText = data.toString()
+      else codeText = '';
+      io.emit('init', {'type':codeType, 'path': codePath, 'text':codeText});
+    });
   });
 
   socket.on('stop', (path) => {
@@ -112,7 +116,7 @@ io.on('connection', (socket) => {
   socket.on('save', (d) => {
     execSync('mkdir -p ' + path.dirname(d['path']));
     fs.writeFileSync(d['path'], d['text']);
-    execSync('chown -R pi:pi ' + d['path']);
+    execSync('chown -R pi:pi ' + path.dirname(d['path']));
   });
 
   socket.on('compile', async (d) => {
@@ -122,7 +126,7 @@ io.on('connection', (socket) => {
     if(ps) ps.kill('SIGKILL');
     execSync('mkdir -p ' + path.dirname(d['path']));
     fs.writeFileSync(d['path'], d['text']);
-    execSync('chown -R pi:pi ' + d['path']);
+    execSync('chown -R pi:pi ' + path.dirname(d['path']));
     await compile(codeExec[d['type']], d['path']);
   });
 });
