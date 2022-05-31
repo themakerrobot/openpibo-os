@@ -6,119 +6,14 @@
     <title>Openpibo Ide</title>
     <script src="../static/8fb5dc8e84.js" crossorigin="anonymous"></script>
     <script src="../static/codemirror.js"></script>
-    <link rel="stylesheet" href="../static/codemirror.css">
-    <link rel="stylesheet" href="../static/cobalt.css">
     <script src="../static/python.js"></script>
     <script src="../static/javascript.js"></script>
     <script src="../static/shell.js"></script>
-    <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
-    <script src="../static/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="../static/codemirror.css">
+    <link rel="stylesheet" href="../static/cobalt.css">
+    <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <link rel="stylesheet" href="../static/index.css" />
-    <script>
-      $(function(){
-        const socket = io();
-        const codeMirrorMode = {'python':'python', 'nodejs':'javascript', 'shell':'shell'};
-        const filePath = {'python':'/tmp/test.py', 'nodejs':'/tmp/test.js', 'shell':'/tmp/test.sh'};
-        let save_code = '';
-        let editor = CodeMirror.fromTextArea(document.getElementById('codemirror-code'),
-                {
-                  "lineNumbers": "true",
-                  "mode": codeMirrorMode[$('input[name=codetype]:checked').val()],
-                  "theme": "cobalt",
-                  "extraKeys": {
-                       "F11": function(cm) {
-                         cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-                       },
-                       "Ctrl-S": function(instance) { 
-                         socket.emit("save", {'path':$('#codepath').val(), 'text': editor.getValue()})
-                       },
-                  }
-                }
-            );
-
-        socket.emit('init');
-        socket.on('init', function(d){
-          save_code = d['text'];
-          editor.setOption('mode', codeMirrorMode[d['type']]);
-          editor.setValue(d['text']);
-          $('input[name=codetype]:input[value='+d['type'] + ']').attr('checked', true);
-          $('#codepath').val(d['path']);
-        });
-
-        $('input[name=codetype]').change(function(){
-          let code_type = $('input[name=codetype]:checked').val();
-          editor.setOption('mode', codeMirrorMode[code_type]);
-          $('#codepath').val(filePath[code_type]);
-        });
-
-        editor.on('change', function(){
-	  $('#codecheck').text(save_code == editor.getValue()?'':'●');
-        });
-
-        $('#load').click(function(){
-            let comment = "[THE MAKER] 아래 파일을 불러오겠습니까?";
-            comment += "\n=========================================";
-            comment += "\nFile: " + $('#codepath').val();
-            if(confirm(comment))
-              socket.emit('load', $('#codepath').val());
-        });
-
-        $('#compile').click(function(){
-          $("#update").text('');
-          save_code = editor.getValue();
-	  $('#codecheck').text(save_code == editor.getValue()?'':'●');
-          socket.emit('compile', {
-            'type':$('input[name=codetype]:checked').val(),
-            'path':$('#codepath').val(),
-            'text':editor.getValue(),
-          });
-        });
-
-        $('#view').click(function(){
-          socket.emit('view', $('#imgpath').val());
-        });
-
-        socket.on('update', function(data){
-          if('code' in data){
-            editor.setValue(data['code'])
-          }
-
-          if('image' in data){
-            $("#image").attr({
-              "src":"data:image/jpeg;charset=utf-8;base64," + data['image'],
-              "height":"240"
-            });
-          }
-
-          if('record' in data){
-            $("#update").text(data['record'])
-            $('#update').scrollTop($('#update').prop('scrollHeight'));
-          }
-        });
-
-        $('#stop').click(function(){
-          socket.emit('stop', $('#codepath').val());
-        });
-
-        $('#tool_bt').click(function(){
-          $(location).attr('href', 'http://'+window.location.hostname + ':80');
-        });
-
-        socket.emit("system");
-        setInterval(function () {
-          socket.emit("system");
-        }, 10000);
-        socket.on("system", function (data) {
-          $("#s_serial").text(data[0]);
-          $("#s_os_version").text(data[1]);
-          $("#s_runtime").text(Math.floor(data[2] / 3600) + " Hours");
-          $("#s_cpu_temp").text(data[3]);
-          $("#s_memory").text(Math.floor((data[5] / data[4] / 4) * 100) + " %");
-          $("#s_network").text(data[6] + "/" + data[7].replace("\n", ""));
-        });
-      });
-    </script>
   </head>
   <body>
     <header class='title'>
@@ -154,9 +49,9 @@
         <div style="width:1000px;height:640px;padding:5px;float:left">
           <i class="fa-solid fa-code">
             프로그램 선택:
-            <input type='radio' name='codetype' value='python' checked>Python</input>
-            <input type='radio' name='codetype' value='nodejs'>Node.js</input>
-            <input type='radio' name='codetype' value='shell'>Shell</input>
+            <input type='radio' name='codetype' id='python' value='python' checked>Python</input>
+            <input type='radio' name='codetype' id='nodejs' value='nodejs'>Node.js</input>
+            <input type='radio' name='codetype' id='shell' value='shell'>Shell</input>
           </i>
           <br>
           파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
@@ -169,7 +64,7 @@
         <div style="width:600px;height:640px;padding:5px;float:right">
           <i class="fa-solid fa-laptop"> 이미지보기</i>
           <br>
-          파일경로: <input type='text' id='imgpath' value="/tmp/test.jpg" />
+          파일경로: <input type='text' id='imgpath' value="/home/pi/code/test.jpg" />
           <button id="view">불러오기</button>
           <br>
           <div style="width:320px;height:240px;margin:auto">
@@ -182,5 +77,6 @@
     </main>
     <a id='tool_bt'>[<u>Openpibo Tools</u>로 바로가기]</a>
     <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
+    <script src="../static/index.js"></script>
   </body>
 </html>

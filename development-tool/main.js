@@ -6,6 +6,7 @@ const execSync = require('child_process').execSync;
 const spawnSync = require('child_process').spawnSync;
 const spawn = require('child_process').spawn;
 const fs = require('fs');
+const path = require('path');
 
 const codeExec = {
   'python': 'python3',
@@ -13,12 +14,13 @@ const codeExec = {
   'shell': 'sh',
   };
 const port = process.argc > 2 ? Number(process.argv[2]):50000;
+const DIR = '/home/pi/code';
 
 let record = '';
-let ps;
+let ps = undefined;
 let codeType = 'python';
 let codeText = '';
-let codePath = '/tmp/test.py';
+let codePath = DIR + '/test.py';
 
 const sleep = (t) => {
   return new Promise(resolve=>setTimeout(resolve,t));
@@ -71,7 +73,7 @@ const compile = async(EXEC, codepath) => {
 }
 
 server.listen(port, () => {
-  ps = spawn('v4l2-ctl', ['-c','vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3'])
+  execSync('v4l2-ctl -c vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3');
   console.log('Server Start: ', port);
 });
 
@@ -86,7 +88,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stop', (path) => {
-    spawnSync('kill', [ '-9', ps.pid]);
+    if(ps) ps.kill('SIGKILL');
   });
 
   socket.on('view', (path) => {
@@ -108,14 +110,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on('save', (d) => {
+    execSync('mkdir -p ' + path.dirname(d['path']));
     fs.writeFileSync(d['path'], d['text']);
+    execSync('chown -R pi:pi ' + d['path']);
   });
 
   socket.on('compile', async (d) => {
     codeType = d['type'];
     codeText = d['text'];
     codePath = d['path'];
-    spawnSync('kill', [ '-9', ps.pid]);
+    if(ps) ps.kill('SIGKILL');
+    execSync('mkdir -p ' + path.dirname(d['path']));
     fs.writeFileSync(d['path'], d['text']);
     execSync('chown -R pi:pi ' + d['path']);
     await compile(codeExec[d['type']], d['path']);
