@@ -124,7 +124,7 @@ select,
 input {
   /* font-size: 10px; */
   color: black;
-  font-weight: bold;
+  font-weight: normal;
   outline: none;
   font-family: monospace;
 }
