@@ -58,12 +58,12 @@ setInterval(function () {
 }, 10000);
 
 socket.on("system", function (data) {
-  document.getElementById("s_serial").value = data[0];
-  document.getElementById("s_os_version").value = data[1];
-  document.getElementById("s_runtime").value = Math.floor(data[2] / 3600) + " Hours";
-  document.getElementById("s_cpu_temp").value = data[3];
-  document.getElementById("s_memory").value = Math.floor((data[5] / data[4] / 4) * 100) + " %";
-  document.getElementById("s_network").value = data[6] + "/" + data[7].replace("\n", "");
+  document.getElementById("s_serial").textContent = data[0];
+  document.getElementById("s_os_version").textContent = data[1];
+  document.getElementById("s_runtime").textContent = Math.floor(data[2] / 3600) + " Hours";
+  document.getElementById("s_cpu_temp").textContent = data[3];
+  document.getElementById("s_memory").textContent = Math.floor((data[5] / data[4] / 4) * 100) + " %";
+  document.getElementById("s_network").textContent = data[6] + "/" + data[7].replace("\n", "");
 });
 
 codetypes.forEach(codetype => {
