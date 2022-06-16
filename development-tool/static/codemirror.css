@@ -4,8 +4,8 @@
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
   font-size: 14px; /* added by yjlee */
-  width: 100%; /* changed by yjlee 300px --> 630px */
-  height: 490px; /* changed by yjlee 300px --> 630px */
+  width: 100%;
+  height: 600px; /* changed by yjlee 300px --> 600px */
   color: black;
   direction: ltr;
 }
