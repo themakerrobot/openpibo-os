@@ -25,6 +25,12 @@ const editor = CodeMirror.fromTextArea(
   }
 );
 
+const fontsize = document.getElementById('fontsize');
+fontsize.addEventListener('input', () => {
+  document.querySelector('div.codemirror.cm-s-cobalt').style.fontSize = fontsize.value;
+  editor.refresh()
+});
+
 socket.on('update', function(data){
   if('code' in data){
     save_code = data['code'];

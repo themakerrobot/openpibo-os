@@ -46,7 +46,7 @@
       </aside>
       <br>
       <div style="margin:0 auto">
-        <div style="width:1000px;height:640px;padding:5px;float:left">
+        <div style="width:800px;height:550px;padding:5px;float:left">
           <i class="fa-solid fa-code">
             프로그램 선택:
             <input type='radio' name='codetype' id='python' value='python' checked>Python</input>
@@ -56,27 +56,30 @@
           <br>
           파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
           <button id="load">불러오기</button> <span id='codecheck'></span>
-          <br>
+          글자크기:<input type='number' id='fontsize' min='14' max='50' value='14'/>
+          <br><br>
           <form id='code_form'>
             <textarea id='codemirror-code' name='source_code'></textarea>
           </form>
         </div>
-        <div style="width:600px;height:640px;padding:5px;float:right">
+        <div style="width:620px;height:550px;padding:5px;float:right">
           <i class="fa-solid fa-laptop"> 이미지보기</i>
           <br>
           파일경로: <input type='text' id='imgpath' value="/home/pi/code/test.jpg" />
           <button id="view">불러오기</button>
-          <br>
+          <br><br>
           <div style="width:320px;height:240px;margin:auto">
             <img id='image' />
           </div>
           <h4><i class="fa-solid fa-laptop-code"> 실행결과</i></h4>
-          <textarea id='update' style="width:600px;height:340px;padding:5px" disabled></textarea>
+          <textarea id='update' style="width:600px;height:200px;padding:5px" disabled></textarea>
         </div> 
       </div>
     </main>
-    <a id='tool_bt'>[<u>Openpibo Tools</u>로 바로가기]</a>
-    <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
+    <footer>
+    © Copyrpight 2022, Circulus Education - THE MAKER
+    <button id='tool_bt' style="font-size:12px"> >> Openpibo Tools</button>
+    </footer>
     <script src="../static/index.js"></script>
   </body>
 </html>

@@ -93,6 +93,8 @@ body{
 }
 
 body{
+  --yellow: #f4de3d;
+  --mid-gray: #6c6c6c;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -148,15 +150,18 @@ nav button:hover {
 }
 
 button {
-  background: #edeef0;
+  /*background: #edeef0;*/
+  background-color: var(--yellow);
+  box-shadow: 0 4px var(--mid-gray);
   border: none;
   font: inherit;
-  font-weight: bold;
+  font-weight: normal;
   outline: none;
   line-height: 1;
   transition: 0.25s;
   cursor: pointer;
   padding: 0.7em;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
 }
 
@@ -166,7 +171,7 @@ button:active {
 }
 
 footer {
-  /* position: fixed; */
+  /*position: fixed;*/
   /* bottom: 0; */
   width: 100%;
   text-align: center;
