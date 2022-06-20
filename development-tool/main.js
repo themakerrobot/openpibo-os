@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stop', (path) => {
-    execSync('pkill omxplayer');
+    exec('pkill omxplayer');
     if(ps) ps.kill('SIGKILL');
   });
 
