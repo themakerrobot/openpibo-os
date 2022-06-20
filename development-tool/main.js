@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
+const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
 const spawnSync = require('child_process').spawnSync;
 const spawn = require('child_process').spawn;
@@ -92,6 +93,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('stop', (path) => {
+    execSync('pkill omxplayer');
     if(ps) ps.kill('SIGKILL');
   });
 
