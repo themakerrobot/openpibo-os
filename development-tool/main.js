@@ -67,7 +67,7 @@ const compile = async(EXEC, codepath) => {
 
     ps.on('close', (code) => {
       record += "\n종료됨.";
-      io.emit('update', {'record':record});
+      io.emit('update', {'record':record, 'exit':true});
       res(mutex.release());
     });
   });
@@ -99,20 +99,20 @@ io.on('connection', (socket) => {
 
   socket.on('view', (path) => {
     fs.readFile(path, (err, data) => {
-      if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'record':'## Load File: ' + path});
+      if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'dialog':'불러오기 완료: ' + path});
       else io.emit('update', {'record':err.toString()});
     });
   });
 
   socket.on('load', (path) =>{
     fs.readFile(path, (err, data) => {
-      if(!err) io.emit('update', {'code': data.toString(), 'record':'## Load File: ' + path});
+      if(!err) io.emit('update', {'code': data.toString(), 'dialog':'불러오기 완료: ' + path});
       else io.emit('update', {'code':'', 'record':err.toString()});
     });
   });
 
   socket.on('system', () => {
-    io.emit('system', execSync('/home/pi/openpibo-tools/development-tool/system.sh').toString().split(','));
+    io.emit('system', execSync('/home/pi/openpibo-tools/ide/system.sh').toString().split(','));
   });
 
   socket.on('save', (d) => {

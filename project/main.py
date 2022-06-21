@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 from flask_socketio import SocketIO
 
 # ValueError: Too many packets in payload issue
@@ -167,7 +167,7 @@ def config(d=None, method=['GET', 'POST']):
 
 @socketio.on('system')
 def system(d=None, method=['GET', 'POST']):
-  res = os.popen('/home/pi/openpibo-tools/project/system.sh').read().split(',')
+  res = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')
   socketio.emit('system', res)
 
 def emit(__key, __data, callback=None):

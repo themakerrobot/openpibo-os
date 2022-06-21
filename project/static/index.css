@@ -1,26 +1,4 @@
 @font-face {
-  font-family: "Verdana";
-  font-style: normal;
-  font-weight: 400;
-  src: local("Noto Sans Verdana"), url("font/eot/NotoSansKR-Regular-Hestia.eot"),
-    url("font/eot/NotoSansKR-Regular-Hestia.eot?#iefix")
-      format("embedded-opentype"),
-    url("font/woff/NotoSansKR-Regular-Hestia.woff") format("woff"),
-    url("font/otf/NotoSansKR-Regular-Hestia.otf") format("opentype");
-}
-@font-face {
-  font-family: "Noto Sans Bold";
-  font-style: normal;
-  font-weight: 700;
-  src: local("Noto Sans Bold"), local("NotoSans-Bold"),
-    url("font/eot/NotoSansKR-Bold-Hestia.eot"),
-    url("font/eot/NotoSansKR-Bold-Hestia.eot?#iefix")
-      format("embedded-opentype"),
-    url("font/woff/NotoSansKR-Bold-Hestia.woff") format("woff"),
-    url("font/otf/NotoSansKR-Bold-Hestia.otf") format("opentype");
-}
-
-@font-face {
   font-family: "Malgun Gothic";
   fornt-style: noraml;
   font-size: 300;
@@ -52,14 +30,10 @@ html:lang(ko) {
   font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
 }
-html:lang(en) {
-  font-family: "Noto Sans Regular", sans-serif;
-}
 
 body {
   font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
-  font-weight: bold;
   color: black;
   background-color: white;
   box-sizing: border-box;
@@ -71,9 +45,11 @@ body {
   margin: 0 auto;
 }
 
-nav button {
-  width: calc(100% / 5);
+header,
+label {
+  font-weight: bold;
 }
+
 @media (max-width: 699px) {
   #article_device > section {
     width: 96% !important;
@@ -218,6 +194,29 @@ legend {
   visibility: hidden;
 }
 
+body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+,
+body::-webkit-scrollbar-track {
+  borderradius: 3px;
+  margin: 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+,
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+,
+body::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+,
 div {
   touch-action: pan-x pan-y;
 }
@@ -275,6 +274,7 @@ aside > table {
 .status_row > span:nth-child(odd) {
   width: 75px;
   text-align: right;
+  font-weight: bold;
 }
 .status_row > span:nth-child(2n) {
   width: 150px;
@@ -346,6 +346,9 @@ nav button {
   padding: 0.3em;
   border-radius: 0;
   box-shadow: none;
+  width: calc(100% / 5);
+  font-weight: bold;
+  font-family: Tahoma, sans-serif;
 }
 
 nav button[name="home"]::after {
@@ -430,6 +433,10 @@ input[type="submit"]:active {
   box-shadow: 0 2px #074c55;
   transform: translateY(2px);
 }
+button.disabled {
+  opacity: 0.5;
+  filter: grayscale(0.5);
+}
 
 button.btn-red,
 input[type="submit"] {
@@ -468,11 +475,15 @@ header.title {
   color: black;
   cursor: default;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  width: 100%;
 }
 .title h1 {
-  margin: 0.3em;
+  margin: 0.3em auto;
+  font-family: Tahoma, sans-serif;
+  letter-spacing: 1px;
 }
 
 .title a.mark {
@@ -504,6 +515,19 @@ main div.wrapper {
 }
 
 main h2#content_header {
+  width: 100%;
+  margin: 0.8em auto;
+}
+
+main div.wrapper.ide {
+  margin-top: 5rem;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 0.5em;
+}
+main h2#content_header.ide {
   width: 100%;
   margin: 0.8em auto;
 }
@@ -822,4 +846,72 @@ tbody {
 .oled-group > div > input {
   width: 100%;
   margin-top: 8px;
+}
+
+div[name="codetype"] {
+  display: flex;
+  border: 1px solid var(--yellow);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+div[name="codetype"] > button {
+  background: transparent;
+  box-shadow: none;
+  padding: 0.5em 1em;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 1.5rem;
+  border-radius: 0;
+  font-weight: 300 !important;
+}
+
+i.fa > span {
+  font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
+    "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
+  font-weight: 600;
+  /* font-weight: 300; */
+  padding-left: 0.25em;
+}
+
+div[name="codetype"] > button > i > span {
+  font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
+    "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
+  font-weight: 300;
+  padding-left: 0.5em;
+}
+
+div[name="codetype"] > button.checked {
+  background: var(--yellow);
+  color: rgba(0, 0, 0);
+  font-weight: bold;
+}
+div[name="codetype"] > button {
+  min-width: 108px;
+}
+
+.editor-row {
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+  gap: 1em;
+  min-height: 28.5px;
+}
+.fullWidth {
+  width: 100%;
+}
+.editor-col {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+#code-form {
+  margin: 0;
+  margin-block-end: 0;
+}
+
+img.preview-img {
+  width: 320px;
+  height: 240px;
+  background-color: var(--light-green);
 }

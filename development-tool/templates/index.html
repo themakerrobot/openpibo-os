@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang='ko'>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,22 +9,22 @@
     />
     <title>Openpibo Ide</title>
     <script
-      src="../../resource/static/8fb5dc8e84.js"
+      src="../static/8fb5dc8e84.js"
       crossorigin="anonymous"
     ></script>
-    <script src="../../resource/static/codemirror.js"></script>
-    <script src="../../resource/static/python.js"></script>
-    <script src="../../resource/static/javascript.js"></script>
-    <script src="../../resource/static/shell.js"></script>
-    <script src="../../resource/static/socket.io.js"></script>
-    <link rel="stylesheet" href="../../resource/static/codemirror.css" />
-    <link rel="stylesheet" href="../../resource/static/cobalt.css" />
+    <script src="../static/codemirror.js"></script>
+    <script src="../static/python.js"></script>
+    <script src="../static/javascript.js"></script>
+    <script src="../static/shell.js"></script>
+    <script src="../static/socket.io.js"></script>
+    <link rel="stylesheet" href="../static/codemirror.css" />
+    <link rel="stylesheet" href="../static/cobalt.css" />
     <link
       rel="shortcut icon"
-      href="../../resource/static/icon.png"
+      href="../static/icon.png"
       type="image/x-icon"
     />
-    <link rel="stylesheet" href="../../resource/static/index.css" />
+    <link rel="stylesheet" href="../static/index.css" />
   </head>
   <body>
     <header class="title">
@@ -68,7 +68,7 @@
                     ><span>프로그램: </span></i
                   >
                   <div name="codetype">
-                    <button name="python" class="checked">
+                    <button name="python">
                       <i class="fa fa-brands fa-python"><span>Python</span></i>
                     </button>
                     <button
@@ -106,14 +106,15 @@
                     value="14"
                     step="1"
                   />
+		  <span id='codecheck'></span>
                 </div>
               </div>
             </div>
             <div class="editor-col" style="align-items: end">
-              <button id="compile" class="btn-teal disabled">
+              <button id="compile" class="btn-teal">
                 <i class="fa fa-solid fa-play"> 실행</i>
               </button>
-              <button id="stop" class="btn-red">
+              <button id="stop" class="btn-red disabled">
                 <i class="fa fa-solid fa-stop"> 정지</i>
               </button>
             </div>
@@ -164,7 +165,7 @@
         </div>
       </div>
     </main>
-    <footer>© Copyrpight 2022, Circulus Education - THE MAKER</footer>
-    <script src="../../resource/static/index.js"></script>
+    <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
+    <script src="../static/index.js"></script>
   </body>
 </html>
