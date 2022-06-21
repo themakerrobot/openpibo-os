@@ -1,29 +1,41 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <title>Openpibo Ide</title>
-    <script src="../static/8fb5dc8e84.js" crossorigin="anonymous"></script>
-    <script src="../static/codemirror.js"></script>
-    <script src="../static/python.js"></script>
-    <script src="../static/javascript.js"></script>
-    <script src="../static/shell.js"></script>
-    <script src="../static/socket.io.js"></script>
-    <link rel="stylesheet" href="../static/codemirror.css">
-    <link rel="stylesheet" href="../static/cobalt.css">
-    <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../static/index.css" />
+    <script
+      src="../../resource/static/8fb5dc8e84.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../../resource/static/codemirror.js"></script>
+    <script src="../../resource/static/python.js"></script>
+    <script src="../../resource/static/javascript.js"></script>
+    <script src="../../resource/static/shell.js"></script>
+    <script src="../../resource/static/socket.io.js"></script>
+    <link rel="stylesheet" href="../../resource/static/codemirror.css" />
+    <link rel="stylesheet" href="../../resource/static/cobalt.css" />
+    <link
+      rel="shortcut icon"
+      href="../../resource/static/icon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="../../resource/static/index.css" />
   </head>
   <body>
-    <header class='title'>
+    <header class="title">
+      <a id="home_bt" class="mark">〈〈 Tools로 이동</a>
       <h1>Openpibo IDE</h1>
+      <a id="devtool_bt" class="mark" style="visibility: hidden"
+        >IDE로 이동 〉</a
+      >
     </header>
     <main>
-      <nav>
-        <button id='compile'>실행하기</button>
-        <button id='stop'>정지하기</button>
-      </nav>
+      <nav style="height: 32px; width: 100%"></nav>
       <aside class="status">
         <div>
           <div class="status_row">
@@ -44,42 +56,115 @@
           </div>
         </div>
       </aside>
-      <br>
-      <div style="margin:0 auto">
-        <div style="width:1000px;height:650px;padding:5px;float:left">
-          <i class="fa-solid fa-code">
-            프로그램 선택:
-            <input type='radio' name='codetype' id='python' value='python' checked>Python</input>
-            <input type='radio' name='codetype' id='nodejs' value='nodejs'>Node.js</input>
-            <input type='radio' name='codetype' id='shell' value='shell'>Shell</input>
-          </i>
-          <br>
-          파일경로: <input type='text' id='codepath' name='codepath' value="/tmp/test.py" />
-          <button id="load">불러오기</button> <span id='codecheck'></span>
-          글자크기:<input type='number' id='fontsize' min='14' max='50' value='14'/>
-          <br><br>
-          <form id='code_form'>
-            <textarea id='codemirror-code' name='source_code'></textarea>
-          </form>
-        </div>
-        <div style="width:620px;height:650px;padding:5px;float:right">
-          <i class="fa-solid fa-laptop"> 이미지보기</i>
-          <br>
-          파일경로: <input type='text' id='imgpath' value="/home/pi/code/test.jpg" />
-          <button id="view">불러오기</button>
-          <br><br>
-          <div style="width:320px;height:240px;margin:auto">
-            <img id='image' />
+      <div class="content ide" style="gap: 2rem">
+        <div class="wrapper ide" style="flex: 1 0 700px; max-width: 700px">
+          <div
+            style="display: flex; justify-content: space-between; width: 100%"
+          >
+            <div style="display: flex; flex-flow: column; gap: 4px">
+              <div class="editor-row">
+                <div class="editor-col">
+                  <i class="fa fa-solid fa-laptop-code"
+                    ><span>프로그램: </span></i
+                  >
+                  <div name="codetype">
+                    <button name="python" class="checked">
+                      <i class="fa fa-brands fa-python"><span>Python</span></i>
+                    </button>
+                    <button
+                      name="nodejs"
+                      style="
+                        border-right: 1px solid var(--yellow);
+                        border-left: 1px solid var(--yellow);
+                      "
+                    >
+                      <i class="fa fa-brands fa-node"><span>node.js</span></i>
+                    </button>
+                    <button name="shell">
+                      <i class="fa fa-solid fa-code"><span>Shell</span></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="editor-row">
+                <div class="editor-col">
+                  <span>파일경로: </span>
+                  <input
+                    type="text"
+                    id="codepath"
+                    name="codepath"
+                    value="/tmp/test.py"
+                  /><button id="load">불러오기</button>
+                </div>
+                <div class="editor-col">
+                  <span>글자크기:</span
+                  ><input
+                    type="number"
+                    id="fontsize"
+                    min="14"
+                    max="50"
+                    value="14"
+                    step="1"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="editor-col" style="align-items: end">
+              <button id="compile" class="btn-teal disabled">
+                <i class="fa fa-solid fa-play"> 실행</i>
+              </button>
+              <button id="stop" class="btn-red">
+                <i class="fa fa-solid fa-stop"> 정지</i>
+              </button>
+            </div>
           </div>
-          <h4><i class="fa-solid fa-laptop-code"> 실행결과</i></h4>
-          <textarea id='update' style="width:600px;height:310px;padding:5px" disabled></textarea>
-        </div> 
+          <div class="editor-row fullWidth">
+            <form id="code_form" class="fullWidth" style="margin: 0">
+              <textarea id="codemirror-code" name="source_code"></textarea>
+            </form>
+          </div>
+        </div>
+        <div class="wrapper ide" style="flex: 0 1 500px; gap: 10px">
+          <div class="editor-row">
+            <div class="editor-col">
+              <i class="fa fa-regular fa-image"><span>이미지보기</span></i>
+            </div>
+          </div>
+          <div class="editor-row">
+            <div class="editor-col">
+              <span>파일경로: </span
+              ><input
+                type="text"
+                id="imgpath"
+                value="/home/pi/code/test.jpg"
+              /><button id="view">불러오기</button>
+            </div>
+          </div>
+          <div class="editor-row">
+            <div class="editor-col">
+              <div style="width: 320px; height: 240px; margin: auto">
+                <img id="image" class="preview-img" />
+              </div>
+            </div>
+          </div>
+          <div class="editor-row">
+            <div class="editor-col">
+              <i class="fa fa-regular fa-file-lines"><span>실행결과</span></i>
+            </div>
+          </div>
+          <div class="editor-row" style="width: 100%">
+            <div class="editor-col" style="width: 100%">
+              <textarea
+                id="update"
+                style="width: 100%; height: 310px; padding: 5px"
+                disabled
+              ></textarea>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
-    <footer>
-    © Copyrpight 2022, Circulus Education - THE MAKER
-    <button id='tool_bt' style="font-size:12px"> >> Openpibo Tools</button>
-    </footer>
-    <script src="../static/index.js"></script>
+    <footer>© Copyrpight 2022, Circulus Education - THE MAKER</footer>
+    <script src="../../resource/static/index.js"></script>
   </body>
 </html>
