@@ -101,13 +101,17 @@ class Pibo:
 
   ## device
   def device_start(self):
-    self.system_value = ['','','','','','']
-    self.neopixel_value = [0,0,0,0,0,0]
     self.devque = Queue()
     self.device_flag = True
     self.dev = Device()
     self.ole = Oled()
     self.aud = Audio()
+    self.system_value = ['','','','','','']
+    
+    with open('/home/pi/config.json', 'r') as f:
+      tmp = json.load(f)
+      self.neopixel_value = tmp['eye'].split(',') if 'eye' in tmp else [0,0,0,0,0,0]
+    
     Thread(name='device_loop', target=self.device_loop, args=(), daemon=True).start()
 
     self.send_message(Device.code_list['BATTERY'], 'on')
