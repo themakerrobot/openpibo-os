@@ -126,7 +126,6 @@
         for (let i = 0; i < 10; i++) {
           let tval = "#m" + i + "_value";
           let trange = "#m" + i + "_range";
-
           $(trange).on("input", function (d) {
             var pos = $(trange).val();
             $(tval).val(pos);
@@ -338,14 +337,15 @@
         });
 
         socket.on("update_battery", function (data) {
-          $("#d_battery_val").text(data);
+	  let bat = Number(data.split('%')[0]);
+          $("#d_battery_val").html("<i class='fa fa-battery-" + Math.floor(bat/25)+ "' aria-hidden='true'></i>" + data);
         });
 
         socket.on("update_device", function (data) {
           $("#d_pir_val").text(data[0].toUpperCase());
           $("#d_touch_val").text(data[1].toUpperCase());
-          $("#d_dc_val").text(
-            data[2].toUpperCase() == "ON" ? "(충전중)" : "(충전중아님)"
+          $("#d_dc_val").html(
+            data[2].toUpperCase() == "ON" ? "<i class='fa fa-plug' aria-hidden='true'></i>" : ""
           );
           $("#d_button_val").text(data[3].toUpperCase());
         });

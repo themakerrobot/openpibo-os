@@ -100,14 +100,14 @@ io.on('connection', (socket) => {
   socket.on('view', (path) => {
     fs.readFile(path, (err, data) => {
       if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'dialog':'불러오기 완료: ' + path});
-      else io.emit('update', {'record':err.toString()});
+      else io.emit('update', {'dialog':'오류: ' + err.toString()});
     });
   });
 
   socket.on('load', (path) =>{
     fs.readFile(path, (err, data) => {
       if(!err) io.emit('update', {'code': data.toString(), 'dialog':'불러오기 완료: ' + path});
-      else io.emit('update', {'code':'', 'record':err.toString()});
+      else io.emit('update', {'code':'', 'dialog':'오류: ' + err.toString()});
     });
   });
 
