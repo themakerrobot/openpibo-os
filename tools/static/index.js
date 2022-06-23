@@ -58,21 +58,26 @@
           socket.emit("config");
         }, 1000);
         socket.on("config", function (data) {
-          $("#datapath").val(data["datapath"]);
           $("#kakaokey").val(data["kakaokey"]);
           $("#eye").val(data["eye"]);
-        });
-
-        $("#datapath_bt").click(function () {
-          socket.emit("config", {
-            datapath: $("#datapath").val(),
-          });
         });
 
         $("#kakaokey_bt").click(function () {
           socket.emit("config", {
             kakaokey: $("#kakaokey").val(),
           });
+        });
+
+        $("#poweroff_bt").click(function () {
+          socket.emit("poweroff");
+        });
+
+        $("#restart_bt").click(function () {
+          socket.emit("restart");
+        });
+
+        $("#swupdate_bt").click(function () {
+	  //socket.emit("swupdate");
         });
       };
 

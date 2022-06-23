@@ -170,6 +170,16 @@ def system(d=None, method=['GET', 'POST']):
   res = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')
   socketio.emit('system', res)
 
+@socketio.on('poweroff')
+def poweroff(d=None, method=['GET', 'POST']):
+  pibo.stop()
+  os.system('shutdown -h now &')
+  os.system('echo "#11:!" > /dev/ttyS0')
+
+@socketio.on('restart')
+def restart(d=None, method=['GET', 'POST']):
+  os.system("shutdown -r now")
+
 def emit(__key, __data, callback=None):
   try:
     socketio.emit(__key, __data, callback=callback)
