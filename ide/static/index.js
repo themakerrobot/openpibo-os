@@ -38,8 +38,7 @@ const editor = CodeMirror.fromTextArea(
 
 const fontsize = document.getElementById("fontsize");
 fontsize.addEventListener("input", () => {
-  document.querySelector("div.codemirror.cm-s-cobalt").style.fontSize =
-    fontsize.value;
+  document.querySelector("div.CodeMirror").style.fontSize = fontsize.value + 'px';
   editor.refresh();
 });
 
