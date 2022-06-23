@@ -42,7 +42,7 @@
         });
 
         $("input[type=submit]").click(function () {
-          let comment = "[THE MAKER] WIFI 정보를 변경하시겠습니까?";
+          let comment = "WIFI 정보를 변경하시겠습니까?";
           comment += "\n===========================================";
           comment += "\nssid: " + $("#ssid").val();
           comment += "\npassword: " + $("#password").val();
@@ -63,17 +63,20 @@
         });
 
         $("#kakaokey_bt").click(function () {
+          if (confirm("카카오 개발 계정을 업데이트하시겠습니까?"))
           socket.emit("config", {
             kakaokey: $("#kakaokey").val(),
           });
         });
 
         $("#poweroff_bt").click(function () {
-          socket.emit("poweroff");
+          if (confirm("정말 종료하시겠습니까?"))
+            socket.emit("poweroff");
         });
 
         $("#restart_bt").click(function () {
-          socket.emit("restart");
+          if (confirm("재시작하시겠습니까?"))
+            socket.emit("restart");
         });
 
         $("#swupdate_bt").click(function () {

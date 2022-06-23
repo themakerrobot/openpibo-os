@@ -152,9 +152,7 @@ def config(d=None, method=['GET', 'POST']):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
   if d != None:
-    if 'datapath' in d:
-      tmp['datapath'] = d['datapath']
-    elif 'kakaokey' in d:
+    if 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
     elif 'eye' in d:
       tmp['eye'] = d['eye']
@@ -163,7 +161,7 @@ def config(d=None, method=['GET', 'POST']):
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
 
-  socketio.emit('config', {'datapath':tmp['datapath'], 'kakaokey':tmp['kakaokey'], 'eye':tmp['eye']})
+  socketio.emit('config', {'kakaokey':tmp['kakaokey'], 'eye':tmp['eye']})
 
 @socketio.on('system')
 def system(d=None, method=['GET', 'POST']):

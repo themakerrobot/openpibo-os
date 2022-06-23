@@ -35,7 +35,6 @@ class Pibo:
       self.emit_func(key, data)
 
   def config(self, d):
-    openpibo.datapath = d['datapath']
     if 'speech' in dir(self):
       self.speech.kakao_account = d['kakaokey']
     else:
