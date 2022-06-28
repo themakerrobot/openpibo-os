@@ -372,9 +372,12 @@
             if (i == 5) break;
             else eyeval += ",";
           }
-          socket.emit("config", {
-            eye: eyeval,
-          });
+
+	  if (confirm("눈 색상을 저장하시겠습니까?")){
+            socket.emit("config", {
+              eye: eyeval,
+            });
+	  }
         });
 
         $("#d_otext_val").keypress(function (key) {
