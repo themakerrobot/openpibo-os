@@ -116,7 +116,7 @@ editor.on("change", () => {
 });
 
 document.getElementById("load").addEventListener("click", () => {
-  let comment = "[Openpibo IDE] 아래 파일을 불러오겠습니까?";
+  let comment = "아래 파일을 불러오겠습니까?";
   comment += "\n파일이름: " + codepath.value;
 
   if (confirm(comment)) {
@@ -150,7 +150,12 @@ stop.addEventListener("click", () => {
 });
 
 document.getElementById("view").addEventListener("click", () => {
-  socket.emit("view", imgpath.value);
+  let comment = "아래 사진을 불러오겠습니까?";
+  comment += "\n파일이름: " + imgpath.value;
+
+  if (confirm(comment)) {
+    socket.emit("view", imgpath.value);
+  }
 });
 
 document.getElementById("home_bt").addEventListener("click", () => {
