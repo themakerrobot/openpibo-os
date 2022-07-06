@@ -63,6 +63,7 @@ def audio():
 def motor():
   motor_list = ['foot_right', 'leg_right', 'shoulder_right', 'hand_right', 'head_pan', 'head_tilt', 'foot_left', 'leg_left', 'shoulder_left', 'hand_left']
   motion_obj.set_motors([0,0,0,0,0,0,0,0,0,0])
+  time.sleep(1)
   for i in range(10):
     print(f"({i+1}/10) '{motor_list[i]}' motor test ...")
     motion_obj.set_speed(i, 30)
@@ -96,7 +97,7 @@ def neopixel():
   time.sleep(0.3)
   device_obj.send_raw("#20:0,0,255!")
   time.sleep(0.3)
-  device_obj.send_raw("#20:255,255,255!")
+  device_obj.send_raw("#20:0,0,0!")
 
 def system():
   print(f"PIR/Touch/Button/DC test ...")
@@ -126,16 +127,16 @@ if __name__ == "__main__":
   from rich.console import Console
   from rich.table import Table
 
-  items = {
-    'oled':{"_func":oled, "state":"ready"},
-    'audio':{"_func":audio, "state":"ready"},
-    'motor':{"_func":motor, "state":"ready"},
-    'mic':{"_func":mic, "state":"ready"},
-    'camera':{"_func":camera, "state":"ready"},
-    'neopixel':{"_func":neopixel, "state":"ready"},
-    'system':{"_func":system, "state":"ready"},
-    'battery':{"_func":battery, "state":"ready"},
-  }
+  items = [
+    {"name": 'oled', "_func":oled, "state":"ready"},
+    {"name": 'audio', "_func":audio, "state":"ready"},
+    {"name": 'motor', "_func":motor, "state":"ready"},
+    {"name": 'mic', "_func":mic, "state":"ready"},
+    {"name": 'camera', "_func":camera, "state":"ready"},
+    {"name": 'neopixel', "_func":neopixel, "state":"ready"},
+    {"name": 'system', "_func":system, "state":"ready"},
+    {"name": 'battery', "_func":battery, "state":"ready"},
+  ]
 
   oled_obj = Oled()
   audio_obj = Audio()
@@ -154,16 +155,18 @@ if __name__ == "__main__":
     console.print(get_fw())
     console.print(get_board())
     console.print(get_memory())
+    table.add_column("NO                 ")
     table.add_column("NAME                 ")
     table.add_column("STATE          ", justify="center")
-    for item, value in items.items():
+    for i in range(len(items)):
+      value = items[i]
       table.add_row(
-          item if item != 'system' else 'system(pir/touch/dc/button)', value['state']
+          str(i), value['name'] if value['name'] != 'system' else 'system(pir/touch/dc/button)', value['state']
       )
 
     console.print(table)
     console.print("© Copyright 2022, Circulus Education - THE MAKER\n")
-    console.print(f'[yellow]# "quit" to exit[/yellow] / [red]# "halt" to poweroff[/red]')
+    console.print(f'[yellow]# Input 0 - 7 [/yellow] / [red]# "quit" - exit, "halt" - poweroff[/red]')
     if invalid_cmd:
       print(f"[red]No such command: {cmd}[/red]")
     console.print('Input: ', end='')
@@ -175,7 +178,8 @@ if __name__ == "__main__":
 
     if cmd == "quit":
       success_cnt = fail_cnt = no_test_cnt = 0
-      for item, value in items.items():
+      for i in range(len(items)):
+        value = items[i]
         if 'success' in value['state']:
           success_cnt += 1
         elif 'fail' in value['state']:
@@ -188,7 +192,8 @@ if __name__ == "__main__":
       print("no test:   ", no_test_cnt)
       break
     
-    if cmd in items:
+    if cmd.isdigit():
+      cmd = int(cmd)
       invalid_cmd = False
       items[cmd]['_func']()
       while True:
