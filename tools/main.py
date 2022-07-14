@@ -1,15 +1,8 @@
-#from flask import Flask, render_template, send_from_directory
-#from flask_app.sio import SocketIO
-
 from fastapi_socketio import SocketManager
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
-# ValueError: Too many packets in payload issue
-from engineio.payload import Payload
-Payload.max_decode_packets = 50
 
 import argparse
 from lib import Pibo
@@ -19,30 +12,20 @@ import time, datetime, os, json, shutil
 import network_disp
 import log
 import cv2
-#logger = log.configure_logger()
 
 try:
-  #app = Flask(__name__)
-  #app.sio = SocketIO(app)
   app = FastAPI()
   app.mount("/static", StaticFiles(directory="static"), name="static")
   templates = Jinja2Templates(directory="templates")
   socketio = SocketManager(app=app)
 except Exception as ex:
-  logger.error(f'Flask Error:{ex}')
+  logger.error(f'Server Error:{ex}')
 
-#@app.route('/')
 @app.get('/', response_class=HTMLResponse)
 async def main(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
-  #return render_template('index.html')
 
 # vision
-@app.sio.on('stream')
-async def f_stream(sid, d=None):
-  if pibo.onoff:
-    await emit('stream', to_base64(cv2.resize(pibo.frame.copy(), (320,240))))
-
 @app.sio.on('cartoon')
 async def f_cartoon(sid, d=None):
   if pibo.onoff:
@@ -146,7 +129,6 @@ async def onoff(sid, d=None):
         logger.info('Already Start')
       pibo.motion_start()
       await emit('disp_motor_record', pibo.motion_j)
-      logger.info('motor init')
       pibo.chatbot_start()
       pibo.device_start()
       pibo.vision_start()
@@ -233,8 +215,5 @@ if __name__ == '__main__':
   parser.add_argument('--port', help='set port number', default=80)
   args = parser.parse_args()
 
-  #logger.info(f'Network Display: {network_disp.run()}')
   import uvicorn
   uvicorn.run("main:app", host="0.0.0.0", port=args.port)
-  #pibo = Pibo(emit)
-  #app.sio.run(app, host='0.0.0.0', port=args.port)
