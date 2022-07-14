@@ -134,13 +134,13 @@
         for (let i = 0; i < 10; i++) {
           let tval = "#m" + i + "_value";
           let trange = "#m" + i + "_range";
-          $(trange).on("input", function (d) {
+          $(trange).click(function (d) {
             var pos = $(trange).val();
             $(tval).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
 
-          $(tval).on("input", function () {
+          $(tval).click(function () {
             var pos = $(tval).val();
             $(trange).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
@@ -359,7 +359,7 @@
         });
 
         for (let i = 0; i < 6; i++) {
-          $("#d_n" + i + "_val").on("input", function () {
+          $("#d_n" + i + "_val").click(function () {
             var v = $("#d_n" + i + "_val").val();
             socket.emit("set_neopixel", { idx: i, value: v });
           });
