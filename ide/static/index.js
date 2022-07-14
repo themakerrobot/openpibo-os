@@ -37,7 +37,7 @@ const editor = CodeMirror.fromTextArea(
 );
 
 const fontsize = document.getElementById("fontsize");
-fontsize.addEventListener("input", () => {
+fontsize.addEventListener("click", () => {
   document.querySelector("div.CodeMirror").style.fontSize = fontsize.value + 'px';
   editor.refresh();
 });
