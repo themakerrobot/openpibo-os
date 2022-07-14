@@ -1,5 +1,10 @@
       const getStatus = (socket) => {
-        $("#devtool_bt").click(() =>  $(location).attr( "href", "http://" + window.location.hostname + ":50000"));
+        $("#devtool_bt").click(function(){
+          if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
+            socket.emit("onoff", "off");
+            $(location).attr( "href", "http://" + window.location.hostname + ":50000");
+          }
+        });
 
         socket.emit("onoff");
         socket.on("onoff", function (d) {
@@ -135,13 +140,13 @@
           let tval = "#m" + i + "_value";
           let trange = "#m" + i + "_range";
           $(trange).click(function (d) {
-            var pos = $(trange).val();
+            let pos = $(trange).val();
             $(tval).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
 
           $(tval).click(function () {
-            var pos = $(tval).val();
+            let pos = $(tval).val();
             $(trange).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
@@ -360,7 +365,7 @@
 
         for (let i = 0; i < 6; i++) {
           $("#d_n" + i + "_val").click(function () {
-            var v = $("#d_n" + i + "_val").val();
+            let v = $("#d_n" + i + "_val").val();
             socket.emit("set_neopixel", { idx: i, value: v });
           });
         }
@@ -383,17 +388,17 @@
         $("#d_otext_val").keypress(function (key) {
           if (key.keyCode == 13) {
             // enter
-            var text = $("#d_otext_val").val().trim();
-            var x = $("#d_ox_val").val();
-            var y = $("#d_oy_val").val();
-            var size = $("#d_osize_val").val();
+            let text = $("#d_otext_val").val().trim();
+            let x = Number($("#d_ox_val").val());
+            let y = Number($("#d_oy_val").val());
+            let size = Number($("#d_osize_val").val());
 
-            socket.emit("set_oled", {
-              x: Number(x),
-              y: Number(y),
-              size: Number(size),
-              text: text,
-            });
+            if (x > 128 || y > 64 || size > 50)
+	      alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50")
+            else
+              socket.emit("set_oled", {
+                x: x, y: y, size: size, text: text,
+              });
           }
         });
 

@@ -159,5 +159,6 @@ document.getElementById("view").addEventListener("click", () => {
 });
 
 document.getElementById("home_bt").addEventListener("click", () => {
-  window.location.replace("http://" + window.location.hostname + ":80");
+  if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
+    window.location.replace("http://" + window.location.hostname + ":80");
 });
