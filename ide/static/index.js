@@ -116,7 +116,7 @@ editor.on("change", () => {
 });
 
 document.getElementById("load").addEventListener("click", () => {
-  let comment = "아래 파일을 불러오겠습니까?";
+  let comment = "아래 파일을 불러오겠습니까?(파일이 없으면 생성됩니다.)";
   comment += "\n파일이름: " + codepath.value;
 
   if (confirm(comment)) {
@@ -145,7 +145,7 @@ compile.addEventListener("click", () => {
 });
 
 stop.addEventListener("click", () => {
-  socket.emit("stop", codepath.value);
+  socket.emit("stop");
   stop.disabled = true;
 });
 

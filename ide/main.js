@@ -92,22 +92,30 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('stop', (path) => {
+  socket.on('stop', () => {
     exec('pkill omxplayer');
     if(ps) ps.kill('SIGKILL');
   });
 
-  socket.on('view', (path) => {
-    fs.readFile(path, (err, data) => {
-      if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'dialog':'불러오기 완료: ' + path});
+  socket.on('view', (p) => {
+    fs.readFile(p, (err, data) => {
+      if(!err) io.emit('update', {'image':Buffer.from(data).toString('base64'), 'dialog':'불러오기 완료: ' + p});
       else io.emit('update', {'dialog':'오류: ' + err.toString()});
     });
   });
 
-  socket.on('load', (path) =>{
-    fs.readFile(path, (err, data) => {
-      if(!err) io.emit('update', {'code': data.toString(), 'dialog':'불러오기 완료: ' + path});
-      else io.emit('update', {'code':'', 'dialog':'오류: ' + err.toString()});
+  socket.on('load', (p) => {
+    fs.exists(p, function(exists) {
+      if(!exists) {
+        execSync('mkdir -p ' + path.dirname(p));
+        execSync('touch ' + p);
+        execSync('chown -R pi:pi ' + path.dirname(p));
+      }
+
+      fs.readFile(p, (err, data) => {
+        if(!err) io.emit('update', {'code': data.toString(), 'dialog':'불러오기 완료: ' + p});
+        else io.emit('update', {'code':'', 'dialog':'오류: ' + err.toString()});
+      });
     });
   });
 
