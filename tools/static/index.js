@@ -2,9 +2,9 @@
         $("#devtool_bt").click(function(){
           if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
             socket.emit("onoff", "off");
-            $(location).attr( "href", "http://" + window.location.hostname + ":50000");
-          }
-        });
+	    $(location).attr( "href", "http://" + window.location.hostname + ":50000");
+	  }
+	});
 
         socket.emit("onoff");
         socket.on("onoff", function (d) {
@@ -69,9 +69,9 @@
 
         $("#kakaokey_bt").click(function () {
           if (confirm("카카오 개발 계정을 업데이트하시겠습니까?"))
-          socket.emit("config", {
-            kakaokey: $("#kakaokey").val(),
-          });
+            socket.emit("config", {
+              kakaokey: $("#kakaokey").val(),
+            });
         });
 
         $("#poweroff_bt").click(function () {
@@ -168,27 +168,27 @@
         });
 
         $("#time_val").on("input", function () {
-          if ($(this).val() % 50 == 0) $("#timeline").val($(this).val());
+          $("#timeline").val($(this).val());
         });
 
         // 저장 버튼
         $("#add_frame_bt").click(function () {
           let seq = $("#time_val").val();
-          if (seq % 50 != 0) {
-            alert("타임라인을 50ms 단위로 설정해주세요.");
+          if (seq * 10 != Math.floor(seq*10)) {
+            alert("타임라인을 0.1초 단위로 설정해주세요.");
             return;
           }
-          socket.emit("add_frame", seq);
+          socket.emit("add_frame", seq*1000);
         });
 
         // 테이블 작성
-        socket.on("disp_record", function (data) {
-          $("#record_table > tbody").empty();
+        socket.on("disp_motor_table", function (data) {
+          $("#motor_table > tbody").empty();
           for (let i = 0; i < data.length; i++) {
-            $("#record_table > tbody").append(
+            $("#motor_table > tbody").append(
               $("<tr>")
                 .append(
-                  $("<td>").append(data[i].seq + " ms"),
+                  $("<td>").append(data[i].seq/1000 + " 초"),
                   $("<td>").append(data[i].d[0]),
                   $("<td>").append(data[i].d[1]),
                   $("<td>").append(data[i].d[2]),
@@ -212,13 +212,13 @@
                 .click(function () {
                   if (
                     confirm(
-                      $(this).text().split(" ms")[0] +
-                        " ms 을 삭제하시겠습니까?"
+                      $(this).text().split(" 초")[0] +
+                        " 초 항목을 삭제하시겠습니까?"
                     )
                   ) {
                     socket.emit(
                       "remove_frame",
-                      Number($(this).text().split(" ms")[0])
+                      Number($(this).text().split(" 초")[0])*1000
                     );
                     $(this).remove();
                   }
@@ -230,12 +230,12 @@
         // 테이블 초기화
         $("#init_frame_bt").click(function () {
           socket.emit("init_frame");
-          $("#record_table > tbody").empty();
+          $("#motor_table > tbody").empty();
         });
 
         // 동작 재생
         $("#play_frame_bt").click(function () {
-          if ($("#record_table > tbody").text()) {
+          if ($("#motor_table > tbody").text()) {
             let cycle = $("#play_cycle_val").val();
             socket.emit("play_frame", cycle);
           } else {
@@ -261,20 +261,15 @@
           socket.emit("del_motion", motionName);
         });
 
+        // 모션 삭제
+        $("#reset_motion_bt").click(function () {
+          if (confirm("모든 모션을 삭제하시겠습니까?"))
+            socket.emit("reset_motion");
+        });
+
         // 코드 생성
-        $("#save_bt").click(function () {
-          socket.emit("save");
-        });
-        $("#display_bt").click(function () {
-          socket.emit("display");
-        });
-
-        $("#reset_bt").click(function () {
-          socket.emit("reset");
-        });
-
-        socket.on("disp_code", function (code) {
-          $("#code").text(JSON.stringify(code));
+        socket.on("disp_motor_record", function (code) {
+          $("#motor_record").text(JSON.stringify(code));
         });
       };
       
@@ -394,11 +389,9 @@
             let size = Number($("#d_osize_val").val());
 
             if (x > 128 || y > 64 || size > 50)
-	      alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50")
+              alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
             else
-              socket.emit("set_oled", {
-                x: x, y: y, size: size, text: text,
-              });
+              socket.emit("set_oled", {x: x, y: y, size: size, text: text});
           }
         });
 
@@ -411,7 +404,7 @@
       };
 
       $(function () {
-        const socket = io();
+        const socket = io('ws://' + window.location.hostname+':80',{path:'/ws/socket.io'});
 
         getStatus(socket);
         getVisions(socket);

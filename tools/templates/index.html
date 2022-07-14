@@ -212,7 +212,7 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(5)Head Tilt</span>
+                      <span class="label">M5(Head Tilt)</span>
                       <input
                         type="number"
                         name="head_tilt_value"
@@ -233,7 +233,7 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(4)Head Pan</span>
+                      <span class="label">M4(Head Pan)</span>
                       <input
                         type="number"
                         name="head_pan_value"
@@ -254,7 +254,7 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(2)Right Arm</span>
+                      <span class="label">M2(Right Arm)</span>
                       <input
                         type="number"
                         name="right_arm_value"
@@ -273,7 +273,7 @@
                   </div>
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(8)Left Arm</span>
+                      <span class="label">M8(Left Arm)</span>
                       <input
                         type="number"
                         name="left_arm_value"
@@ -294,7 +294,7 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(3)Right Hand</span>
+                      <span class="label">M3(Right Hand)</span>
                       <input
                         type="number"
                         name="right_hand_value"
@@ -313,7 +313,7 @@
                   </div>
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(9)Left Hand</span>
+                      <span class="label">M9(Left Hand)</span>
                       <input
                         type="number"
                         name="left_hand_value"
@@ -334,7 +334,7 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(1)Right Leg</span>
+                      <span class="label">M1(Right Leg)</span>
                       <input
                         type="number"
                         name="right_leg_value"
@@ -353,7 +353,7 @@
                   </div>
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(7)Left Leg</span>
+                      <span class="label">M7(Left Leg)</span>
                       <input
                         type="number"
                         name="left_leg_value"
@@ -374,7 +374,7 @@
                 <div class="motion-input-row">
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(0)Right Foot</span>
+                      <span class="label">M0(Right Foot)</span>
                       <input
                         type="number"
                         name="right_foot_value"
@@ -393,7 +393,7 @@
                   </div>
                   <div>
                     <div class="motion-input-label">
-                      <span class="label">(6)Left Foot</span>
+                      <span class="label">M6(Left Foot)</span>
                       <input
                         type="number"
                         name="left_foot_value"
@@ -417,15 +417,15 @@
               <div class="motion-timeline-group">
                 <div class="motion-timeline-range">
                   <div class="motion-timeline-label">
-                    <span>0ms</span><span>30000ms</span>
+                    <span>0초</span><span>30초</span>
                   </div>
                   <input
                     type="range"
                     name="timeline"
                     id="timeline"
                     min="0"
-                    max="30000"
-                    step="50"
+                    max="30"
+                    step="0.1"
                     value="0"
                   />
                 </div>
@@ -435,8 +435,8 @@
                     name="time_val"
                     id="time_val"
                     min="0"
-                    max="30000"
-                    step="50"
+                    max="30"
+                    step="0.1"
                     value="0"
                   />
                   <button id="add_frame_bt" class="btn-teal">추가하기</button>
@@ -461,10 +461,10 @@
                   </button>
                 </div>
                 <div class="motion-table-wrap">
-                  <table id="record_table">
+                  <table id="motor_table">
                     <thead>
                       <tr>
-                        <td>Time</td>
+                        <td>시간</td>
                         <td>M0</td>
                         <td>M1</td>
                         <td>M2</td>
@@ -481,7 +481,7 @@
                   </table>
                 </div>
                 <div class="motion-name-wrap">
-                  <span>모션이름: </span>
+                  <span>모션명:</span>
                   <input
                     type="text"
                     name="motion_name_val"
@@ -490,20 +490,18 @@
                   <button id="add_motion_bt" class="btn-red">등록하기</button>
                   <button id="load_motion_bt">불러오기</button>
                   <button id="del_motion_bt">삭제하기</button>
+                  <button id="reset_motion_bt">모두지우기</button>
+                </div>
+                <div class="motion-path">
+                  <input
+                    type="text"
+                    id="filename"
+                    placeholder="$ /home/pi/mymotion.json"
+                    disabled
+                  />
+                <textarea name="motor_record" id="motor_record" rows="48" wrap="hard"></textarea>
                 </div>
               </div>
-              <div class="motion-path">
-                <input
-                  type="text"
-                  id="filename"
-                  placeholder="/home/pi/mymotion.json"
-                  disabled
-                />
-                <button id="save_bt" class="btn-red">저장하기</button>
-                <button id="display_bt">읽어오기</button>
-                <button id="reset_bt">지우기</button>
-              </div>
-              <textarea name="code" id="code" rows="48" wrap="hard"></textarea>
             </section>
           </article>
           <article id="article_chatbot">

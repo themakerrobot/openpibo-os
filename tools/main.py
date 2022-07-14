@@ -1,5 +1,11 @@
-from flask import Flask, render_template, send_from_directory
-from flask_socketio import SocketIO
+#from flask import Flask, render_template, send_from_directory
+#from flask_app.sio import SocketIO
+
+from fastapi_socketio import SocketManager
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 # ValueError: Too many packets in payload issue
 from engineio.payload import Payload
@@ -7,132 +13,162 @@ Payload.max_decode_packets = 50
 
 import argparse
 from lib import Pibo
+from lib import to_base64
 from threading import Thread
 import time, datetime, os, json, shutil
 import network_disp
 import log
-logger = log.configure_logger()
+import cv2
+#logger = log.configure_logger()
 
 try:
-  app = Flask(__name__)
-  socketio = SocketIO(app)
+  #app = Flask(__name__)
+  #app.sio = SocketIO(app)
+  app = FastAPI()
+  app.mount("/static", StaticFiles(directory="static"), name="static")
+  templates = Jinja2Templates(directory="templates")
+  socketio = SocketManager(app=app)
 except Exception as ex:
   logger.error(f'Flask Error:{ex}')
 
-@app.route('/')
-def main():
-  return render_template('index.html')
+#@app.route('/')
+@app.get('/', response_class=HTMLResponse)
+async def main(request:Request):
+  return templates.TemplateResponse("index.html", {"request": request})
+  #return render_template('index.html')
 
 # vision
-@socketio.on('cartoon')
-def f_cartoon(d=None, method=['GET', 'POST']):
+@app.sio.on('stream')
+async def f_stream(sid, d=None):
   if pibo.onoff:
-    pibo.cartoon()
+    await emit('stream', to_base64(cv2.resize(pibo.frame.copy(), (320,240))))
 
-@socketio.on('detect')
-def f_detect(d=None, method=['GET', 'POST']):
+@app.sio.on('cartoon')
+async def f_cartoon(sid, d=None):
   if pibo.onoff:
-    pibo.object_detect()
+    res = pibo.cartoon()
+    await emit('cartoon', res)
+
+@app.sio.on('detect')
+async def f_detect(sid, d=None):
+  if pibo.onoff:
+    res = pibo.object_detect()
+    await emit('detect', res)
 
 # device
-@socketio.on('set_neopixel')
-def f_set_neopixel(d=None, methods=['GET', 'POST']):
+@app.sio.on('set_neopixel')
+async def f_set_neopixel(sid, d=None):
   if pibo.onoff:
     pibo.set_neopixel(d)
 
-@socketio.on('set_oled')
-def f_set_oled(d=None, method=['GET', 'POST']):
+@app.sio.on('set_oled')
+async def f_set_oled(sid, d=None):
   if pibo.onoff:
     pibo.set_oled(d)
 
-@socketio.on('mic')
-def f_mic(d=None, method=['GET', 'POST']):
+@app.sio.on('mic')
+async def f_mic(sid, d=None):
   if pibo.onoff:
     pibo.mic(d)
 
 # chatbot
-@socketio.on('question')
-def question(d=None, method=['GET', 'POST']):
+@app.sio.on('question')
+async def question(sid, d=None):
   if pibo.onoff:
-    pibo.question(d)
+    res = pibo.question(d)
+    await emit('answer', {'answer':res, 'chat_list':list(reversed(pibo.chat_list))})
 
 # motion
-@socketio.on('motor_init')
-def motor_init(d=None, method=['GET', 'POST']):
+@app.sio.on('motor_init')
+async def motor_init(sid, d=None):
   if pibo.onoff:
-    pibo.motor_init()
+    pos, rec = pibo.motor_init()
+    await emit('init_motion', pos)
+    await emit('disp_motor_table', rec)
 
-@socketio.on('set_pos')
-def set_pos(d=None, method=['GET', 'POST']):
+@app.sio.on('set_pos')
+async def set_pos(sid, d=None):
   if pibo.onoff:
     pibo.set_pos(d['idx'], d['pos'])
 
-@socketio.on('add_frame')
-def add_frame(d=None, method=['GET', 'POST']):
+@app.sio.on('add_frame')
+async def add_frame(sid, d=None):
   if pibo.onoff:
-    pibo.add_frame(d)
+    res = pibo.add_frame(d)
+    await emit('disp_motor_table', res)
 
-@socketio.on('remove_frame')
-def remove_frame(d=None, method=['GET', 'POST']):
+@app.sio.on('remove_frame')
+async def remove_frame(sid, d=None):
   if pibo.onoff:
-    pibo.remove_frame(d)
+    res = pibo.remove_frame(d)
+    await emit('disp_motor_table', res)
 
-@socketio.on('init_frame')
-def init_frame(d=None, method=['GET', 'POST']):
+@app.sio.on('init_frame')
+async def init_frame(sid, d=None):
   if pibo.onoff:
-    pibo.init_frame()
+    res = pibo.init_frame()
+    await emit('disp_motor_table', res)
 
-@socketio.on('play_frame')
-def play_frame(d=None, method=['GET', 'POST']):
+@app.sio.on('play_frame')
+async def play_frame(sid, d=None):
   if pibo.onoff:
     pibo.play_frame(d)
 
-@socketio.on('add_motion')
-def add_motion(d=None, method=['GET', 'POST']):
+@app.sio.on('add_motion')
+async def add_motion(sid, d=None):
   if pibo.onoff:
-    pibo.add_motion(d)
+    res = pibo.add_motion(d)
+    await emit('disp_motor_record', res)
 
-@socketio.on('load_motion')
-def load_motion(d=None, method=['GET', 'POST']):
+@app.sio.on('load_motion')
+async def load_motion(sid, d=None):
   if pibo.onoff:
-    pibo.load_motion(d)
+    res = pibo.load_motion(d)
+    await emit('disp_motor_table', res)
 
-@socketio.on('del_motion')
-def del_motion(d=None, method=['GET', 'POST']):
+@app.sio.on('del_motion')
+async def del_motion(sid, d=None):
   if pibo.onoff:
-    pibo.del_motion(d)
+    res = pibo.del_motion(d)
+    await emit('disp_motor_record', res)
 
-@socketio.on('save')
-def save(d=None, method=['GET', 'POST']):
+@app.sio.on('reset_motion')
+async def reset_motion(sid, d=None):
   if pibo.onoff:
-    pibo.save()
+    res = pibo.reset_motion(d)
+    await emit('disp_motor_record', res)
 
-@socketio.on('display')
-def display(d=None, method=['GET', 'POST']):
-  if pibo.onoff:
-    pibo.display()
-
-@socketio.on('reset')
-def reset(d=None, method=['GET', 'POST']):
-  if pibo.onoff:
-    pibo.reset()
-
-@socketio.on('onoff')
-def onoff(d=None, method=['GET', 'POST']):
+@app.sio.on('onoff')
+async def onoff(sid, d=None):
   if d != None:
     if d == 'on':
-      pibo.start()
-    if d == 'off':
-      pibo.stop()
+      if pibo.onoff == True:
+        logger.info('Already Start')
+      pibo.motion_start()
+      await emit('disp_motor_record', pibo.motion_j)
+      logger.info('motor init')
+      pibo.chatbot_start()
+      pibo.device_start()
+      pibo.vision_start()
+      pibo.onoff = True
+    elif d == 'off':
+      if pibo.onoff == False:
+        logger.info('Already Stop')
+      pibo.vision_stop()
+      pibo.device_stop()
+      pibo.chatbot_stop()
+      pibo.motion_stop()
+      pibo.onoff = False
     network_disp.run()
-  socketio.emit('onoff', 'on' if pibo.onoff else 'off')
+  
+  await emit('onoff', 'on' if pibo.onoff else 'off')
 
-@socketio.on('wifi')
-def wifi(d=None, method=['GET', 'POST']):
+@app.sio.on('wifi')
+async def wifi(sid, d=None):
   if d == None:
     with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
       tmp = f.readlines()
-      socketio.emit('wifi', {'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]})
+      await emit('wifi', {'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]})
   else:
     tmp='country=KR\n'
     tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
@@ -146,9 +182,10 @@ def wifi(d=None, method=['GET', 'POST']):
     with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
       f.write(tmp)
     os.system('wpa_cli -i wlan0 reconfigure')
+    os.system("shutdown -r now")
 
-@socketio.on('config')
-def config(d=None, method=['GET', 'POST']):
+@app.sio.on('config')
+async def config(sid, d=None):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
   if d != None:
@@ -160,27 +197,33 @@ def config(d=None, method=['GET', 'POST']):
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
+  await emit('config', {'kakaokey':tmp['kakaokey'], 'eye':tmp['eye']})
 
-  socketio.emit('config', {'kakaokey':tmp['kakaokey'], 'eye':tmp['eye']})
-
-@socketio.on('system')
-def system(d=None, method=['GET', 'POST']):
+@app.sio.on('system')
+async def system(sid, d=None):
   res = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')
-  socketio.emit('system', res)
+  await emit('system', res)
 
-@socketio.on('poweroff')
-def poweroff(d=None, method=['GET', 'POST']):
+@app.sio.on('poweroff')
+async def poweroff(sid, d=None):
   pibo.stop()
   os.system('shutdown -h now &')
   os.system('echo "#11:!" > /dev/ttyS0')
 
-@socketio.on('restart')
-def restart(d=None, method=['GET', 'POST']):
+@app.sio.on('restart')
+async def restart(sid, d=None):
   os.system("shutdown -r now")
 
-def emit(__key, __data, callback=None):
+@app.on_event("startup")
+async def startup_event():
+  global logger, pibo
+  logger = log.configure_logger()
+  logger.info(f'Network Display: {network_disp.run()}')
+  pibo = Pibo(emit)
+
+async def emit(key, data, callback=None):
   try:
-    socketio.emit(__key, __data, callback=callback)
+    await app.sio.emit(key, data, callback=callback)
   except Exception as ex:
     logger.error(f'[emit] Error: {ex}')
     pass
@@ -190,7 +233,8 @@ if __name__ == '__main__':
   parser.add_argument('--port', help='set port number', default=80)
   args = parser.parse_args()
 
-  logger.info(f'Network Display: {network_disp.run()}')
-
-  pibo = Pibo(emit)
-  socketio.run(app, host='0.0.0.0', port=args.port)
+  #logger.info(f'Network Display: {network_disp.run()}')
+  import uvicorn
+  uvicorn.run("main:app", host="0.0.0.0", port=args.port)
+  #pibo = Pibo(emit)
+  #app.sio.run(app, host='0.0.0.0', port=args.port)

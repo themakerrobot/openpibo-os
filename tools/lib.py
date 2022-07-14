@@ -8,6 +8,7 @@ from openpibo.oled import Oled
 from openpibo.speech import Speech
 from openpibo.speech import Dialog
 from openpibo.motion import Motion
+import asyncio
 
 import time, datetime
 import base64
@@ -24,15 +25,9 @@ def to_base64(im):
 
 class Pibo:
   def __init__(self, emit_func=None):
-    self.emit_func = emit_func
+    self.emit = emit_func
     self.onoff = False
     self.kakao_account = None
-
-  def emit(self, key, data, callback=None):
-    if self.emit_func == None:
-      logger.debug('No emit_func')
-    else:
-      self.emit_func(key, data)
 
   def config(self, d):
     if 'speech' in dir(self):
@@ -54,15 +49,13 @@ class Pibo:
 
   def vision_loop(self):
     self.cam.cap.set(cv2.CAP_PROP_FPS, 5)
-    while True:
-      if self.vision_flag == False:
-        break
+    while self.vision_flag == True:
       self.frame = self.cam.read()  # read the camera frame
-      self.emit('stream', to_base64(cv2.resize(self.frame, (320,240))), callback=None)
+      asyncio.run(self.emit('stream', to_base64(cv2.resize(self.frame, (320,240))), callback=None))
 
   def cartoon(self):
     im = self.frame.copy()
-    self.emit('cartoon', to_base64(self.cam.cartoonize(im)), callback=None)
+    return to_base64(self.cam.cartoonize(im))
 
   def object_detect(self):
     im = self.frame.copy()
@@ -96,7 +89,7 @@ class Pibo:
       self.cam.putText(im, obj['name'], (x1-10, y1-10),0.6,colors,2)
       res_object += '[{}-({},{})] '.format(obj['name'], x1, y1)
 
-    self.emit('detect', {'img':to_base64(im), 'data':{'face':res_face, 'qr':res_qr, 'object':res_object}}, callback=None)
+    return {'img':to_base64(im), 'data':{'face':res_face, 'qr':res_qr, 'object':res_object}}
 
   ## device
   def device_start(self):
@@ -106,6 +99,7 @@ class Pibo:
     self.ole = Oled()
     self.aud = Audio()
     self.system_value = ['','','','','','']
+    self.battery = '0%'
     
     with open('/home/pi/config.json', 'r') as f:
       tmp = json.load(f)
@@ -120,6 +114,8 @@ class Pibo:
 
   def device_stop(self):
     self.device_flag = False
+    self.system_value = ['','','','','','']
+    self.battery = '0%'
     del self.dev, self.ole
 
   def send_message(self, code, data=""):
@@ -131,34 +127,25 @@ class Pibo:
     code, data = pkt[0], pkt[1]
 
     if code == '15': # battery
-      self.emit('update_battery', data, callback=None)
-
-    if code == '14': # dc
-      self.system_value[2] = data
-      self.emit('update_device', self.system_value, callback=None)
-
-    if code == '40': # system
-      item = data.split("-")
-
-      if item[2] == '':
-        item[2] = self.system_value[2]
-
-      self.system_value = item
-      if data != '-----':
-        self.emit('update_device', self.system_value, callback=None)
+      self.battery = data
+      asyncio.run(self.emit('update_battery', self.battery, callback=None))
+    else:
+      if code == '14': # dc
+        self.system_value[2] = data
+      elif code == '40': # system
+        item = data.split("-")
+        if item[2] == '':
+          item[2] = self.system_value[2]
+        self.system_value = item
+      asyncio.run(self.emit('update_device', self.system_value, callback=None))
 
   def device_loop(self):
     system_check_time = time.time()
     battery_check_time = time.time()
 
-    while True:
-      if self.device_flag == False:
-        break
+    while self.device_flag == True:
       try:
-        if self.devque.qsize() > 0:
-          data = self.dev.send_raw(self.devque.get())
-          self.decode_pkt(data)
-
+        res = None
         if time.time() - system_check_time > 1:  # 시스템 메시지 1초 간격 전송
           data = self.dev.send_cmd(Device.code_list['SYSTEM'])
           self.decode_pkt(data)
@@ -168,6 +155,11 @@ class Pibo:
           data = self.dev.send_cmd(Device.code_list['BATTERY'])
           self.decode_pkt(data)
           battery_check_time = time.time()
+
+        if self.devque.qsize() > 0:
+          data = self.dev.send_raw(self.devque.get())
+          self.decode_pkt(data)
+
       except Exception as ex:
         logger.error(f'[device_loop] Error: {ex}')
         del self.dev
@@ -213,10 +205,9 @@ class Pibo:
     volume = d['volume']
     ans = self.dialog.get_dialog(q)
     self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
-    self.emit('answer', {'answer':ans, 'chat_list':list(reversed(self.chat_list))})
+    #self.emit('answer', {'answer':ans, 'chat_list':list(reversed(self.chat_list))})
     if len(self.chat_list) == 5:
       self.chat_list.pop(0)
-
     try:
       self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', 'chat.mp3')
       self.aud.play(filename='chat.mp3', out='local', volume=volume, background=False)
@@ -224,40 +215,40 @@ class Pibo:
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')
       pass
+    return ans
 
   ## motion
   def motion_start(self):
-    self.__d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0] # current d value
-    self.__p = [] # current pos list value
-    self.__j = {} # current json value
+    self.motion_d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0] # current d value
+    self.motion_p = [] # current pos list value
+    self.motion_j = {} # current json value
     self.mot = Motion()
     self.mot.set_speeds([50,50,50,50,50, 50,50,50,50,50])
     self.mot.set_accelerations([0,0,0,0,0,0,0,0,0,0])
-    self.mot.set_motors(self.__d)
+    self.mot.set_motors(self.motion_d)
 
     try:
       with open('/home/pi/mymotion.json', 'rb') as f:
-        self.__j = json.load(f)
-        self.emit('disp_code', self.__j)
+        self.motion_j = json.load(f)
+        #await self.emit('disp_code', self.motion_j)
     except Exception as ex:
       logger.error(f'[motion_start] Error: {ex}')
       pass
 
   def motion_stop(self):
-    self.__d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0] # current d value
-    self.__p = [] # current pos list value
-    self.__j = {} # current json value
+    self.motion_d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0] # current d value
+    self.motion_p = [] # current pos list value
+    self.motion_j = {} # current json value
     del self.mot
 
   def make_raw(self):
-    return {'init_def':1, 'init':self.__p[0]['d'], 'pos':self.__p[1:]} if self.__p[0]['seq'] == 0 else {'init_def':0, 'pos':self.__p}
+    return {'init_def':1, 'init':self.motion_p[0]['d'], 'pos':self.motion_p[1:]} if self.motion_p[0]['seq'] == 0 else {'init_def':0, 'pos':self.motion_p}
 
   def motor_init(self):
-    self.emit('init_motion', self.__d)
-    self.emit('disp_record', self.__p)
+    return self.motion_d, self.motion_p
 
   def set_pos(self, idx, pos):
-    self.__d[idx] = pos
+    self.motion_d[idx] = pos
     self.mot.set_speed(idx, 50)
     self.mot.set_acceleration(idx, 0)
     self.mot.set_motor(idx, pos)
@@ -265,84 +256,62 @@ class Pibo:
   def add_frame(self, seq):
     seq = int(seq)
     _check = False
-    for idx, pos in enumerate(self.__p):
+    for idx, pos in enumerate(self.motion_p):
       if pos['seq'] == seq:
-        self.__p[idx] = {'d': self.__d[:], 'seq': int(seq)}
+        self.motion_p[idx] = {'d': self.motion_d[:], 'seq': int(seq)}
         _check = True
         break
 
     if _check == False:
-      self.__p.append({'d': self.__d[:], 'seq': int(seq)})
-      self.__p.sort(key=lambda x: x['seq'])
-
-    self.emit('disp_record', self.__p)
+      self.motion_p.append({'d': self.motion_d[:], 'seq': int(seq)})
+      self.motion_p.sort(key=lambda x: x['seq'])
+    return self.motion_p
 
   def remove_frame(self, seq):
-    for idx, pos in enumerate(self.__p):
+    for idx, pos in enumerate(self.motion_p):
       if pos['seq'] == seq:
-        del self.__p[idx]
+        del self.motion_p[idx]
         break
+    return self.motion_p
 
   def init_frame(self):
-    self.__p = []
+    self.motion_p = []
+    return self.motion_p
 
   def play_frame(self, cycle):
     raw = self.make_raw()
     self.mot.set_motion_raw(raw, int(cycle))
 
   def add_motion(self, name):
-    self.__j[name] = self.make_raw()
-    self.emit('disp_code', self.__j)
+    self.motion_j[name] = self.make_raw()
+    with open('/home/pi/mymotion.json', 'w') as f:
+      json.dump(self.motion_j, f)
+    shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
+    return self.motion_j
 
   def load_motion(self, name):
-    if name in self.__j:
-      self.__p = []
-      a = self.__j[name]
+    if name in self.motion_j:
+      self.motion_p = []
+      a = self.motion_j[name]
 
       if 'init_def' in a and 'init' in a:
-        self.__p.append({'d':a['init'], 'seq':0})
+        self.motion_p.append({'d':a['init'], 'seq':0})
       if 'pos' in a:
         for item in a['pos']:
-          self.__p.append(item)
-    self.emit('disp_record', self.__p)
+          self.motion_p.append(item)
+    return self.motion_p
 
   def del_motion(self, name):
-    if name in self.__j:
-      del self.__j[name]
-    self.emit('disp_code', self.__j)
-
-  def save(self):
+    if name in self.motion_j:
+      del self.motion_j[name]
     with open('/home/pi/mymotion.json', 'w') as f:
-      json.dump(self.__j, f)
+      json.dump(self.motion_j, f)
     shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
-    self.emit('disp_code', self.__j)
+    return self.motion_j
 
-  def display(self):
-    self.emit('disp_code', self.__j)
-
-  def reset(self):
-    self.__j = {}
-    os.remove('/home/pi/mymotion.json')
-    self.emit('disp_code', self.__j)
-
-  def start(self):
-    if self.onoff == True:
-      logger.info('Already Start')
-      return
-
-    self.vision_start()
-    self.device_start()
-    self.chatbot_start()
-    self.motion_start()
-    self.onoff = True
-
-  def stop(self):
-    if self.onoff == False:
-      logger.info('Already Stop')
-      return
-
-    self.vision_stop()
-    self.device_stop()
-    self.chatbot_stop()
-    self.motion_stop()
-    self.onoff = False
+  def reset_motion(self):
+    self.motion_j = {}
+    with open('/home/pi/mymotion.json', 'w') as f:
+      json.dump(self.motion_j, f)
+    shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
+    return self.motion_j

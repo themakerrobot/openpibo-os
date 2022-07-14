@@ -668,24 +668,25 @@ label.label {
   align-items: center;
 }
 .motion-input-label input {
-  width: 42px;
+  width: 52px;
 }
 .motion-input-label span {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   width: 100%;
 }
 .motion-input-row:nth-child(2) {
-  margin-top: 100px;
+  margin-top: 120px;
   margin-bottom: 20px;
 }
 .motion-input-row:nth-child(3) {
-  column-gap: 120px;
+  column-gap: 80px;
 }
 .motion-input-row:nth-child(4) {
-  margin-top: 60px;
+  margin-top: 70px;
   column-gap: 270px;
 }
 .motion-input-row:nth-child(5) {
+  margin-top: 20px;
   column-gap: 32px;
   margin-top: 70px;
 }
@@ -722,10 +723,6 @@ label.label {
   gap: 8px;
 }
 
-input[id="motion_name_val"] {
-  width: 205px;
-}
-
 .motion-table-wrap {
   height: 510px;
   overflow-y: scroll;
@@ -738,38 +735,45 @@ input[id="motion_name_val"] {
   flex-flow: column;
 }
 
-.motion-path > input#filename {
-  width: 50%;
-}
-.motion-path + textarea {
-  width: 100%;
-  margin-top: 1em;
-  max-height: 100px;
-  resize: none;
-}
 .motion-name-wrap {
   margin-bottom: 0.5em;
 }
-.motion-name-wrap button,
-.motion-path button {
-  font-size: 12px;
-  width: 74px;
+
+.motion-name-wrap input {
+  width: 205px;
 }
 
-#record_table {
+.motion-name-wrap button {
+  font-size: 12px;
+  /*width: 74px;*/
+}
+
+.motion-path input {
+  border-bottom: none;
+  background: rgba(240,240,240,0.8);
+  width: 100%;
+}
+
+.motion-path textarea {
+  width: 100%;
+  max-height: 100px;
+  resize: none;
+}
+
+#motor_table {
   width: 100%;
   flex: 1;
   text-align: center;
   border-spacing: 1px;
 }
 
-#record_table thead td:nth-child(n + 2) {
+#motor_table thead td:nth-child(n + 2) {
   background: var(--light-green);
 }
-#record_table tbody td:first-child {
+#motor_table tbody td:first-child {
   background: var(--light-yellow);
 }
-#record_table tbody td:nth-child(n + 2) {
+#motor_table tbody td:nth-child(n + 2) {
   background: white;
 }
 
