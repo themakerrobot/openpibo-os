@@ -395,6 +395,45 @@
           }
         });
 
+        $("#d_ox_val").click(function () {
+          let text = $("#d_otext_val").val().trim();
+          let x = Number($("#d_ox_val").val());
+          let y = Number($("#d_oy_val").val());
+          let size = Number($("#d_osize_val").val());
+          console.log(text, x,y,size)
+          if (text == '') return;
+          if (x > 128 || y > 64 || size > 50)
+            alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+          else
+            socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        });
+
+        $("#d_oy_val").click(function () {
+          let text = $("#d_otext_val").val().trim();
+          let x = Number($("#d_ox_val").val());
+          let y = Number($("#d_oy_val").val());
+          let size = Number($("#d_osize_val").val());
+
+          if (text == '') return;
+          if (x > 128 || y > 64 || size > 50)
+            alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+          else
+            socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        });
+
+        $("#d_osize_val").click(function () {
+          let text = $("#d_otext_val").val().trim();
+          let x = Number($("#d_ox_val").val());
+          let y = Number($("#d_oy_val").val());
+          let size = Number($("#d_osize_val").val());
+
+          if (text == '') return;
+          if (x > 128 || y > 64 || size > 50)
+            alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+          else
+            socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        });
+
         $("#mic_bt").click(function () {
           socket.emit("mic", {
             time: $("#mic_time_val").val(),
