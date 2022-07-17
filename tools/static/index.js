@@ -139,15 +139,25 @@
         for (let i = 0; i < 10; i++) {
           let tval = "#m" + i + "_value";
           let trange = "#m" + i + "_range";
-          $(trange).click(function (d) {
+
+          $(trange).on("input", function (d) {
             let pos = $(trange).val();
             $(tval).val(pos);
+          });
+
+          $(tval).on("input", function () {
+            let pos = $(tval).val();
+            $(trange).val(pos);
+          });
+
+          $(trange).click(function (d) {
+            let pos = $(trange).val();
+            //$(tval).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
 
           $(tval).click(function () {
             let pos = $(tval).val();
-            $(trange).val(pos);
             socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
         }
