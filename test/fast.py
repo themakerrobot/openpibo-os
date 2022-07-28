@@ -33,6 +33,10 @@ def get_fw():
   data = device_obj.send_raw("#10:!")
   return f'Firmware      : {data.split(":")[1]}'
 
+def get_os():
+  data = os.popen('cat /home/pi/.OS_VERSION').read().strip()
+  return f'OS_Version    : {data}'
+
 def get_memory():
   data = os.popen("vcgencmd get_config total_mem").read()
   data = data.strip().split("=")[1]
@@ -153,6 +157,7 @@ if __name__ == "__main__":
     console.print("           [bold yellow]<< HARDWARE_TEST >>[bold /yellow]")
     console.print(get_serial())
     console.print(get_fw())
+    console.print(get_os())
     console.print(get_board())
     console.print(get_memory())
     table.add_column("NO                 ")
