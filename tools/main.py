@@ -121,7 +121,7 @@ async def del_motion(sid, d=None):
 @app.sio.on('reset_motion')
 async def reset_motion(sid, d=None):
   if pibo.onoff:
-    res = pibo.reset_motion(d)
+    res = pibo.reset_motion()
     await emit('disp_motor_record', res)
 
 @app.sio.on('onoff')
