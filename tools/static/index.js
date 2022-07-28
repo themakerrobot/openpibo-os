@@ -451,9 +451,15 @@
         });
 
         $("#mic_bt").click(function () {
-          $('#mic_status').text(">> 녹음 중");
+          let mictime = Number($("#mic_time_val").val());
+          if (mictime < 0 || mictime > 30) {
+            alert("입력 값이 잘못되었습니다.\n녹음시간: 1 ~ 30초");
+            return;
+	  }
+
+	  $('#mic_status').text(">> 녹음 중");
           socket.emit("mic", {
-            time: $("#mic_time_val").val(),
+            time: mictime,
             volume: Number($("select[name=volume]").val()),
           });
         });
