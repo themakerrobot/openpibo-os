@@ -71,6 +71,7 @@ async def motor_init(sid, d=None):
     pos, rec = pibo.motor_init()
     await emit('init_motion', pos)
     await emit('disp_motor_table', rec)
+    await emit('disp_motor_record', pibo.motion_j)
 
 @app.sio.on('set_pos')
 async def set_pos(sid, d=None):
