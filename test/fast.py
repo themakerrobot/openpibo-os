@@ -50,7 +50,7 @@ def oled():
   oled_obj.show()
 
 def audio():
-  audio_obj.play(filename="test.mp3", out='local', volume=-2000)
+  audio_obj.play(filename="test.mp3", volume=80)
   time.sleep(3)
   audio_obj.mute(True)
   print(" [ Mute ]")
@@ -78,7 +78,7 @@ def motor():
 def mic():
   cmd = "arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d 3 -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw"
   os.system(cmd)
-  audio_obj.play(filename="stream.wav", out='local', volume=-500, background=False)
+  audio_obj.play(filename="stream.wav", volume=100, background=False)
   os.remove("stream.wav")
 
 def camera():
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     for i in range(len(items)):
       value = items[i]
       table.add_row(
-          str(i), value['name'] if value['name'] != 'system' else 'system(pir/touch/dc/button)', value['state']
+          '[green]{}[/green]'.format(str(i)) if 'success' in value['state'] else str(i) , value['name'] if value['name'] != 'system' else 'system(pir/touch/dc/button)', value['state']
       )
 
     console.print(table)
