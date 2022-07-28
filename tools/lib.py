@@ -150,22 +150,22 @@ class Pibo:
           data = self.dev.send_cmd(Device.code_list['SYSTEM'])
           self.decode_pkt(data)
           system_check_time = time.time()
-
-        if time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
+        elif time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
           data = self.dev.send_cmd(Device.code_list['BATTERY'])
           self.decode_pkt(data)
           battery_check_time = time.time()
-
-        if self.devque.qsize() > 0:
+        elif self.devque.qsize() > 0:
           data = self.dev.send_raw(self.devque.get())
           self.decode_pkt(data)
+        else:
+          pass
 
       except Exception as ex:
         logger.error(f'[device_loop] Error: {ex}')
         del self.dev
         self.dev = Device()
         time.sleep(3)
-      time.sleep(0.1)
+      time.sleep(0.15)
 
   def set_neopixel(self, d):
     self.neopixel_value[d['idx']] = d['value']
@@ -174,16 +174,24 @@ class Pibo:
   def set_oled(self, d):
     self.ole.clear()
     self.ole.set_font(size=d['size'])
-    self.ole.draw_text((d['x'], d['y']), d['text'])
+    x = d['x']
+    y = d['y']
+
+    for item in d['text'].split('\\n'):
+      _, h = self.ole.font.getsize(item)
+      self.ole.draw_text((x, y), item)
+      y += h
+    #self.ole.draw_text((d['x'], d['y']), d['text'])
     self.ole.show()
 
   def mic(self, d=5):
     record_time = d['time']
-    volume = d['volume'] - 500
     cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw'
     os.system(cmd)
-    self.aud.play(filename='stream.wav', out='local', volume=volume, background=False)
-    os.remove('stream.wav')
+
+  def play_audio(self, filename, volume):
+    self.aud.play(filename=filename, volume=volume, background=False)
+    os.remove(filename)
 
   ## chatbot
   def chatbot_start(self):
@@ -208,10 +216,13 @@ class Pibo:
     #self.emit('answer', {'answer':ans, 'chat_list':list(reversed(self.chat_list))})
     if len(self.chat_list) == 5:
       self.chat_list.pop(0)
+
+    if d['voice_en'] == 'off':
+      return ans
+
     try:
       self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', 'chat.mp3')
-      self.aud.play(filename='chat.mp3', out='local', volume=volume, background=False)
-      os.remove('chat.mp3')
+      self.play_audio('chat.mp3', volume)
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')
       pass

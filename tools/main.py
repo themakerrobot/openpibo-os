@@ -53,6 +53,9 @@ async def f_set_oled(sid, d=None):
 async def f_mic(sid, d=None):
   if pibo.onoff:
     pibo.mic(d)
+    await emit('mic', '녹음 완료')
+    pibo.play_audio('stream.wav', d['volume'])
+  await emit('mic', '')
 
 # chatbot
 @app.sio.on('question')

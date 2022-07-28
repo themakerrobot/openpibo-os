@@ -2,9 +2,9 @@
         $("#devtool_bt").click(function(){
           if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
             socket.emit("onoff", "off");
-	    $(location).attr( "href", "http://" + window.location.hostname + ":50000");
-	  }
-	});
+            $(location).attr( "href", "http://" + window.location.hostname + ":50000");
+          }
+        });
 
         socket.emit("onoff");
         socket.on("onoff", function (d) {
@@ -85,7 +85,7 @@
         });
 
         $("#swupdate_bt").click(function () {
-	  //socket.emit("swupdate");
+          //socket.emit("swupdate");
         });
       };
 
@@ -318,6 +318,7 @@
             setTimeout(function () {
               socket.emit("question", {
                 question: q,
+                voice_en: $("input[name=c_voice_en]:checked").val(),
                 voice_type: $("select[name=c_voice_type]").val(),
                 voice_mode: $("select[name=c_voice_mode]").val(),
                 volume: Number($("select[name=volume]").val()),
@@ -346,7 +347,7 @@
           }
         });
       };
-      
+
       const getDevices = (socket) => {
         socket.on("update_neopixel", function (data) {
           for (let i = 0; i < 6; i++) {
@@ -355,7 +356,7 @@
         });
 
         socket.on("update_battery", function (data) {
-	  let bat = Number(data.split('%')[0]);
+          let bat = Number(data.split('%')[0]);
           $("#d_battery_val").html("<i class='fa fa-battery-" + Math.floor(bat/25)+ "' aria-hidden='true'></i>" + data);
         });
 
@@ -383,11 +384,11 @@
             else eyeval += ",";
           }
 
-	  if (confirm("눈 색상을 저장하시겠습니까?")){
+          if (confirm("눈 색상을 저장하시겠습니까?")){
             socket.emit("config", {
               eye: eyeval,
             });
-	  }
+          }
         });
 
         $("#d_otext_val").keypress(function (key) {
@@ -410,7 +411,7 @@
           let x = Number($("#d_ox_val").val());
           let y = Number($("#d_oy_val").val());
           let size = Number($("#d_osize_val").val());
-          console.log(text, x,y,size)
+
           if (text == '') return;
           if (x > 128 || y > 64 || size > 50)
             alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
@@ -444,7 +445,12 @@
             socket.emit("set_oled", {x: x, y: y, size: size, text: text});
         });
 
+        socket.on("mic", function (d) {
+          $('#mic_status').text(d);
+        });
+
         $("#mic_bt").click(function () {
+          $('#mic_status').text("녹음 중");
           socket.emit("mic", {
             time: $("#mic_time_val").val(),
             volume: Number($("select[name=volume]").val()),
