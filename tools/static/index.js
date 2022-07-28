@@ -445,12 +445,13 @@
             socket.emit("set_oled", {x: x, y: y, size: size, text: text});
         });
 
+        $('#mic_status').text(">> ");
         socket.on("mic", function (d) {
-          $('#mic_status').text(d);
+          $('#mic_status').text(">> " + d);
         });
 
         $("#mic_bt").click(function () {
-          $('#mic_status').text("녹음 중");
+          $('#mic_status').text(">> 녹음 중");
           socket.emit("mic", {
             time: $("#mic_time_val").val(),
             volume: Number($("select[name=volume]").val()),
