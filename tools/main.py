@@ -192,7 +192,6 @@ async def system(sid, d=None):
 
 @app.sio.on('poweroff')
 async def poweroff(sid, d=None):
-  pibo.stop()
   os.system('shutdown -h now &')
   os.system('echo "#11:!" > /dev/ttyS0')
 
