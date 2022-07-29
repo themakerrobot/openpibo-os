@@ -253,7 +253,7 @@ class Pibo:
     del self.mot
 
   def make_raw(self):
-    return {'init_def':1, 'init':self.motion_p[0]['d'], 'pos':self.motion_p[1:]} if self.motion_p[0]['seq'] == 0 else {'init_def':0, 'pos':self.motion_p}
+    return {'init_def':1, 'init':self.motion_p[0]['d'], 'pos':self.motion_p[1:]} if self.motion_p[0]['seq'] == 0 else {'init_def':0, 'pos':self.motion_p[:]}
 
   def motor_init(self):
     return self.motion_d, self.motion_p
