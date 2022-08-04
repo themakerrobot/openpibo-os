@@ -140,25 +140,20 @@
           let tval = "#m" + i + "_value";
           let trange = "#m" + i + "_range";
 
-          $(trange).on("input", function (d) {
+          $(trange).on("input click keypress", function (evt) {
             let pos = $(trange).val();
             $(tval).val(pos);
+
+	    if(evt.type == "click" || (evt.type == "keypress" && evt.keyCode == 13))
+	      socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
 
-          $(tval).on("input", function () {
+          $(tval).on("input click keypress", function (evt) {
             let pos = $(tval).val();
             $(trange).val(pos);
-          });
 
-          $(trange).click(function (d) {
-            let pos = $(trange).val();
-            //$(tval).val(pos);
-            socket.emit("set_pos", { idx: i, pos: Number(pos) });
-          });
-
-          $(tval).click(function () {
-            let pos = $(tval).val();
-            socket.emit("set_pos", { idx: i, pos: Number(pos) });
+	    if(evt.type == "click" || (evt.type == "keypress" && evt.keyCode == 13))
+              socket.emit("set_pos", { idx: i, pos: Number(pos) });
           });
         }
 
@@ -370,7 +365,10 @@
         });
 
         for (let i = 0; i < 6; i++) {
-          $("#d_n" + i + "_val").click(function () {
+          $("#d_n" + i + "_val").on("click keypress", function (evt) {
+            if(evt.type == "keypress" && evt.keyCode != 13)
+	      return;
+
             let v = $("#d_n" + i + "_val").val();
             socket.emit("set_neopixel", { idx: i, value: v });
           });
@@ -406,7 +404,10 @@
           }
         });
 
-        $("#d_ox_val").click(function () {
+        $("#d_ox_val").on("click keypress", function (evt) {
+          if(evt.type == "keypress" && evt.keyCode != 13)
+	    return;
+
           let text = $("#d_otext_val").val().trim();
           let x = Number($("#d_ox_val").val());
           let y = Number($("#d_oy_val").val());
@@ -419,7 +420,10 @@
             socket.emit("set_oled", {x: x, y: y, size: size, text: text});
         });
 
-        $("#d_oy_val").click(function () {
+        $("#d_oy_val").on("click keypress", function (evt) {
+          if(evt.type == "keypress" && evt.keyCode != 13)
+	    return;
+
           let text = $("#d_otext_val").val().trim();
           let x = Number($("#d_ox_val").val());
           let y = Number($("#d_oy_val").val());
@@ -432,7 +436,10 @@
             socket.emit("set_oled", {x: x, y: y, size: size, text: text});
         });
 
-        $("#d_osize_val").click(function () {
+        $("#d_osize_val").on("click keypress", function (evt) {
+          if(evt.type == "keypress" && evt.keyCode != 13)
+	    return;
+
           let text = $("#d_otext_val").val().trim();
           let x = Number($("#d_ox_val").val());
           let y = Number($("#d_oy_val").val());
