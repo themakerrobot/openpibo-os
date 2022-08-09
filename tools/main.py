@@ -135,6 +135,7 @@ async def onoff(sid, d=None):
       await emit('disp_motor_record', pibo.motion_j)
       pibo.chatbot_start()
       pibo.device_start()
+      await emit('update_neopixel', pibo.neopixel_value)
       pibo.vision_start()
       pibo.onoff = True
     elif d == 'off':
