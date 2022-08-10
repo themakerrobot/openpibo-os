@@ -105,18 +105,23 @@ io.on('connection', (socket) => {
   });
 
   socket.on('load', (p) => {
-    fs.exists(p, function(exists) {
-      if(!exists) {
-        execSync('mkdir -p ' + path.dirname(p));
-        execSync('touch ' + p);
-        execSync('chown -R pi:pi ' + path.dirname(p));
-      }
+      fs.exists(p, function(exists) {
+        try {
+          if(!exists) {
+            execSync('mkdir -p ' + path.dirname(p));
+            execSync('touch ' + p);
+            execSync('chown -R pi:pi ' + path.dirname(p));
+          }
+        } catch (err) {
+          io.emit('update', {'code':'', 'dialog':'불러오기 오류: ' + err.toString()});
+          return;
+	}
 
-      fs.readFile(p, (err, data) => {
-        if(!err) io.emit('update', {'code': data.toString(), 'dialog':'불러오기 완료: ' + p});
-        else io.emit('update', {'code':'', 'dialog':'오류: ' + err.toString()});
+        fs.readFile(p, (err, data) => {
+          if(!err) io.emit('update', {'code': data.toString(), 'dialog':'불러오기 완료: ' + p});
+          else io.emit('update', {'code':'', 'dialog':'불러오기 오류: ' + err.toString()});
+        });
       });
-    });
   });
 
   socket.on('system', () => {
@@ -124,19 +129,27 @@ io.on('connection', (socket) => {
   });
 
   socket.on('save', (d) => {
-    execSync('mkdir -p ' + path.dirname(d['path']));
-    fs.writeFileSync(d['path'], d['text']);
-    execSync('chown -R pi:pi ' + path.dirname(d['path']));
+    try {
+      execSync('mkdir -p ' + path.dirname(d['path']));
+      fs.writeFileSync(d['path'], d['text']);
+      execSync('chown -R pi:pi ' + path.dirname(d['path']));
+    } catch (err) {
+      io.emit('update', {'code':'', 'dialog':'저장 오류: ' + err.toString()});
+    }
   });
 
   socket.on('compile', async (d) => {
-    codeType = d['type'];
-    codeText = d['text'];
-    codePath = d['path'];
-    if(ps) ps.kill('SIGKILL');
-    execSync('mkdir -p ' + path.dirname(d['path']));
-    fs.writeFileSync(d['path'], d['text']);
-    execSync('chown -R pi:pi ' + path.dirname(d['path']));
-    await compile(codeExec[d['type']], d['path']);
+    try {
+      codeType = d['type'];
+      codeText = d['text'];
+      codePath = d['path'];
+      if(ps) ps.kill('SIGKILL');
+      execSync('mkdir -p ' + path.dirname(d['path']));
+      fs.writeFileSync(d['path'], d['text']);
+      execSync('chown -R pi:pi ' + path.dirname(d['path']));
+      await compile(codeExec[d['type']], d['path']);
+    } catch (err) {
+      io.emit('update', {'code':'', 'dialog':'실행 오류: ' + err.toString(), 'exit':true});
+    }
   });
 });

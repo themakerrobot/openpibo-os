@@ -184,14 +184,14 @@ class Pibo:
     #self.ole.draw_text((d['x'], d['y']), d['text'])
     self.ole.show()
 
-  def mic(self, d=5):
+  def mic(self, d):
     record_time = d['time']
     cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw'
     os.system(cmd)
 
-  def play_audio(self, filename, volume):
-    self.aud.play(filename=filename, volume=volume, background=False)
-    os.remove(filename)
+  def play_audio(self, filename, volume, background):
+    self.aud.play(filename=filename, volume=volume, background=background)
+    #os.remove(filename)
 
   ## chatbot
   def chatbot_start(self):
@@ -214,7 +214,7 @@ class Pibo:
     ans = self.dialog.get_dialog(q)
     self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
     #self.emit('answer', {'answer':ans, 'chat_list':list(reversed(self.chat_list))})
-    if len(self.chat_list) == 5:
+    if len(self.chat_list) > 10:
       self.chat_list.pop(0)
 
     if d['voice_en'] == 'off':
@@ -222,7 +222,7 @@ class Pibo:
 
     try:
       self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', 'chat.mp3')
-      self.play_audio('chat.mp3', volume)
+      self.play_audio('chat.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')
       pass

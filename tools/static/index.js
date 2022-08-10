@@ -352,7 +352,7 @@
 
         socket.on("update_battery", function (data) {
           let bat = Number(data.split('%')[0]);
-          $("#d_battery_val").html("<i class='fa fa-battery-" + Math.floor(bat/25)+ "' aria-hidden='true'></i>" + data);
+          $("#d_battery_val").html("<i class='fa fa-battery-" + Math.floor(bat/25)+ "' aria-hidden='true'></i> " + data);
         });
 
         socket.on("update_device", function (data) {
