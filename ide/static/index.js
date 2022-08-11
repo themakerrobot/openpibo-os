@@ -168,8 +168,10 @@ device = Device()\n\
 \n\
 device.send_cmd(Device.code_list["NEOPIXEL_EACH"], "255,0,0,255,0,0")\n\
 time.sleep(1)\n\
+\n\
 device.send_cmd(Device.code_list["NEOPIXEL_EACH"], "0,255,0,0,255,0")\n\
 time.sleep(1)\n\
+\n\
 device.send_cmd(Device.code_list["NEOPIXEL_EACH"], "0,0,255,0,0,255")\n\
 time.sleep(1)\n\
 \n\
@@ -191,8 +193,10 @@ motion.set_accelerations([10,10,10,10,10,10,10,10,10,10])\n\
 \n\
 motion.set_motors([0,0, 30,0, 20,0, 0,0, 20,0])\n\
 time.sleep(2)\n\
+\n\
 motion.set_motors([0,0,-30,0,-20,0, 0,0,-20,0])\n\
 time.sleep(2)\n\
+\n\
 motion.set_motors([0,0,-80,0,  0,0, 0,0, 80,0])\n\
 time.sleep(2)\n\
 '
@@ -209,16 +213,19 @@ camera = Camera()\n\
 detect = Detect()\n\
 \n\
 img = camera.read()\n\
-objs = detect.detect_object(img)\n\
+items = detect.detect_object(img)\n\
 \n\
-for obj in objs:\n\
-	x1,y1,x2,y2 = obj["position"]\n\
-	colors = (100,100,200)\n\
-	camera.rectangle(img, (x1,y1), (x2, y2),colors,1)\n\
-	camera.putText(img, obj["name"], (x1-10, y1-10),0.6,colors,2)\n\
+for item in items:\n\
+	x1,y1,x2,y2 = item["position"]\n\
+	colors = (100, 100, 200)\n\
+	camera.rectangle(img, (x1,y1), (x2, y2), colors, 1)\n\
+	camera.putText(img, item["name"], (x1-10, y1-10), 0.6, colors, 2)\n\
+	print(obj)\n\
 \n\
 camera.imwrite("/home/pi/code/test.jpg", img)\n\
-print("이미지보기의 파일경로에 /home/pi/code/test.jpg를 입력하고 불러오기를 클릭하세요")\n\
+\n\
+print("이미지보기의 파일경로에 /home/pi/code/test.jpg를 입력하고")\n\
+print("불러오기를 클릭하세요.")\n\
 '
   editor.setValue(save_code);
 });
@@ -235,8 +242,10 @@ text1 = "안녕하세요."\n\
 text2 = "Oled 예제입니다."\n\
 \n\
 oled.set_font(size=15)\n\
+\n\
 oled.clear()\n\
 oled.draw_text((x, y), text1)\n\
+\n\
 oled.draw_text((x, y+25), text2)\n\
 \n\
 oled.show()\n\
@@ -254,7 +263,7 @@ speech = Speech()\n\
 audio = Audio()\n\
 \n\
 speech.tts("<speak>안녕하세요. 음성합성 예제입니다.</speak>", "test.mp3")\n\
-audio.play(filename="test.mp3", volume=75, background=False)\n\
+audio.play(filename="test.mp3", volume=80, background=False)\n\
 '
   editor.setValue(save_code);
 });
