@@ -49,7 +49,9 @@ const compile = async(EXEC, codepath) => {
   return new Promise((res, rej) => {
     record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
     io.emit('update', {'record':record});
-    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]); // python3/node/sh
+    ps = (EXEC == 'python3')? spawn(EXEC, ['-u', codepath], {cwd:path.dirname(codepath)}):
+	                      spawn(EXEC, [codepath], {cwd:path.dirname(codepath)}); // python3/node/sh
+
     ps.stdout.on('data', (data) => {
       record += data.toString();
       io.emit('update', {'record':record});
