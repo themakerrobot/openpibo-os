@@ -227,7 +227,6 @@ footer {
 }
 
 header.title {
-  /*text-align: center;*/
   color: black;
   background-color: var(--dark-yellow);
   cursor: default;
@@ -237,6 +236,8 @@ header.title {
 .title h2 {
   margin: 0.1em auto;
   font-family: Tahoma, sans-serif;
+  font-size:2rem;
+  padding:0.3rem 0.3rem 0.3rem 0.3rem;
 }
 
 main > div.content {
