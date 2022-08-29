@@ -1,176 +1,184 @@
-<!DOCTYPE html>
 <html lang='ko'>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
-    />
-    <title>Openpibo Ide</title>
-    <script
-      src="../static/8fb5dc8e84.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="../static/codemirror.js"></script>
-    <script src="../static/python.js"></script>
-    <script src="../static/javascript.js"></script>
-    <script src="../static/shell.js"></script>
-    <script src="../static/socket.io.js"></script>
-    <link rel="stylesheet" href="../static/codemirror.css" />
-    <link rel="stylesheet" href="../static/cobalt.css" />
-    <link
-      rel="shortcut icon"
-      href="../static/icon.png"
-      type="image/x-icon"
-    />
-    <link rel="stylesheet" href="../static/index.css?ver=1" />
-  </head>
-  <body>
-    <header class="title">
-      <a id="home_bt" class="mark">〈〈 Tools로 이동</a>
-      <h1>Openpibo IDE</h1>
-      <a id="devtool_bt" class="mark" style="visibility: hidden"
-        >IDE로 이동 〉</a
-      >
-    </header>
-    <main>
-      <nav style="height: 32px; width: 100%"></nav>
-      <aside class="status">
-        <div>
-          <div class="status_row">
-            <span>Wi-Fi (wlan0)</span>
-            <span id="s_network"></span>
-            <span>CPU 온도</span>
-            <span id="s_cpu_temp"></span>
-            <span>메모리</span>
-            <span id="s_memory"></span>
-          </div>
-          <div class="status_row">
-            <span>일련번호</span>
-            <span id="s_serial"></span>
-            <span>버전</span>
-            <span id="s_os_version"></span>
-            <span>동작시간</span>
-            <span id="s_runtime"></span>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Openpibo Ide</title>
+  <script src="../static/8fb5dc8e84.js" crossorigin="anonymous"></script>
+  <script src="../static/jquery-3.1.1.min.js"></script>
+  <script src="../static/codemirror.js"></script>
+  <script src="../static/python.js"></script>
+  <script src="../static/htmlmixed.js"></script>
+  <script src="../static/css.js"></script>
+  <script src="../static/javascript.js"></script>
+  <script src="../static/vbscript.js"></script>
+  <script src="../static/xml.js"></script>
+  <script src="../static/shell.js"></script>
+  <script src="../static/socket.io.js"></script>
+  <link rel="stylesheet" href="../static/codemirror.css" />
+  <link rel="stylesheet" href="../static/cobalt.css" />
+  <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../static/index.css?ver=1" />
+</head>
+
+<body>
+
+  <header class="title">
+    <h2><i class="fa-solid fa-code"> IDE</i></h2>
+  </header>
+
+  <main>
+    <!--<nav></nav>-->
+    <div class="content ide" style="gap: 1rem">
+      <div class="wrapper ide" style="flex: 1 0 32px; max-width: 2000px">
+        <div class="editor-row">
+          <div class="editor-col">
+            <i class="fa-solid fa-computer"><span> 파일탐색기</span></i>
+            <i class="fa-solid fa-angle-right"></i>
+            <i class="fa-regular fa-folder-open"></i>
+            <span id="path"></span>
           </div>
         </div>
-      </aside>
-      <div class="content ide" style="gap: 2rem">
-        <div class="wrapper ide" style="flex: 1 0 700px; max-width: 700px">
-          <div
-            style="display: flex; justify-content: space-between; width: 100%"
-          >
-            <div style="display: flex; flex-flow: column; gap: 4px">
-              <div class="editor-row">
-                <div class="editor-col">
-                  <i class="fa fa-solid fa-laptop-code"
-                    ><span>프로그램: </span></i
-                  >
-                  <div name="codetype">
-                    <button name="python">
-                      <i class="fa fa-brands fa-python"><span>Python</span></i>
-                    </button>
-                    <button
-                      name="nodejs"
-                      style="
-                        border-right: 1px solid var(--yellow);
-                        border-left: 1px solid var(--yellow);
-                      "
-                    >
-                      <i class="fa fa-brands fa-node"><span>node.js</span></i>
-                    </button>
-                    <button name="shell">
-                      <i class="fa fa-solid fa-code"><span>Shell</span></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="editor-row">
-                <div class="editor-col">
-                  <span>파일경로: </span>
-                  <input
-                    type="text"
-                    id="codepath"
-                    name="codepath"
-                    value="/tmp/test.py"
-                  /><button id="load">불러오기</button>
-                </div>
-                <div class="editor-col">
-                  <span>글자크기:</span
-                  ><input
-                    type="number"
-                    id="fontsize"
-                    min="14"
-                    max="50"
-                    value="14"
-                    step="1"
-                  />
-		  <span id='codecheck'></span>
-                </div>
-              </div>
+        <div class="editor-row">
+          <div class="editor-col">
+            <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기"/>
+            <span>숨김파일</span>
+            <label for="upload">
+              <i class="fa-solid fa-file-upload"><span> </span></i>
+            </label>
+            <div class="filebox">
+              <form method="post" action="/upload" enctype="multipart/form-data">
+                <input type="file" id="upload">
+              </form>
             </div>
-            <div class="editor-col" style="align-items: end">
-              <button id="compile" class="btn-teal">
-                <i class="fa fa-solid fa-play"> 실행</i>
-              </button>
-              <button id="stop" class="btn-red disabled">
-                <i class="fa fa-solid fa-stop"> 정지</i>
-              </button>
-            </div>
-          </div>
-          <div class="editor-row fullWidth">
-            <form id="code_form" class="fullWidth" style="margin: 0">
-              <textarea id="codemirror-code" name="source_code"></textarea>
-            </form>
+            <button id="add_directory" title="새폴더">
+              <i class="fa-solid fa-folder-plus"><span></span></i>
+            </button>
+            <button id="add_file" title="새파일">
+              <i class="fa-solid fa-file-circle-plus"><span></span></i>
+            </button>
           </div>
         </div>
-        <div class="wrapper ide" style="flex: 0 1 500px; gap: 10px">
-          <div class="editor-row">
-            <div class="editor-col">
-              <i class="fa fa-regular fa-image"><span>이미지보기</span></i>
+        <div class="editor-row">
+          <div class="editor-col">
+            <div class="fm-table-wrap">
+              <table id="fm_table">
+                <tbody></tbody>
+              </table>
             </div>
           </div>
-          <div class="editor-row">
-            <div class="editor-col">
-              <span>파일경로: </span
-              ><input
-                type="text"
-                id="imgpath"
-                value="/home/pi/code/test.jpg"
-              /><button id="view">불러오기</button>
-            </div>
+        </div>
+
+        <div class="editor-row">
+          <div class="editor-col">
+            <i class="fa fa-solid fa-tv"><span>Output</span></i>
+            <i class="fa-solid fa-angle-right"></i>
+            <i class="fa-regular fa-folder-open"></i>
+            <span id="imgpath"></span>
           </div>
-          <div class="editor-row">
-            <div class="editor-col">
-              <div style="width: 320px; height: 240px; margin: auto">
-                <img id="image" class="preview-img" />
+        </div>
+
+        <div class="editor-row">
+          <div class="editor-col">
+            <img id="image" class="preview-img" />
+          </div>
+        </div>
+
+        <div class="editor-row">
+          <div class="editor-col">
+            <audio controls id="audio" style="width:320px;background-color:#edf5e0" />
+          </div>
+        </div>
+      </div>
+
+      <div class="wrapper ide" style="flex: 1 0 700px; max-width: 2000px">
+        <div style="display: flex; justify-content: space-between;width: 100%">
+          <div style="display: flex; flex-flow: column; gap: 5px">
+            <div class="editor-row">
+              <div class="editor-col">
+                <i class="fa fa-solid fa-laptop-code"><span> 프로그램 </span></i>
+                <i class="fa-solid fa-angle-right"></i>
+                <div name="codetype">
+                  <button name="python">
+                    <i class="fa fa-brands fa-python"><span> Python </span></i>
+                  </button>
+                  <button name="html">
+                    <i class="fab fa-html5"><span> HTML </span></i>
+                  </button>
+                  <button name="shell">
+                    <i class="fa fa-solid fa-code"><span> Shell </span></i>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="editor-row">
-            <div class="editor-col">
-              <i class="fa fa-regular fa-file-lines"><span>실행결과</span></i>
-	      <u><a id='example1'>예제1</a></u>
-	      <u><a id='example2'>예제2</a></u>
-	      <u><a id='example3'>예제3</a></u>
-	      <u><a id='example4'>예제4</a></u>
-	      <u><a id='example5'>예제5</a></u>
+            <div class="editor-row">
+              <div class="editor-col">
+                <i class="fa-solid fa-folder-open"></i>
+                <span id="codepath"></span>
+                <span id='codecheck'></span>
+              </div>
+
+              <div class="editor-col" style="align-items:end">
+                <i class="fa-solid fa-text-height">
+                  <input type="number" id="fontsize" min="14" max="50" value="14" step="1" />
+                </i>
+                <button id="execute" class="btn-teal" style="width:70px" title="실행">
+                  실행
+                  <i class="fa fa-solid fa-play"></i>
+                </button>
+                <button id="stop" class="btn-red disabled" style="width:70px" title="정지">
+                  정지
+                  <i class="fa fa-solid fa-stop"></i>
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="editor-row" style="width: 100%">
-            <div class="editor-col" style="width: 100%">
-              <textarea
-                id="update"
-                style="width: 100%; height: 310px; padding: 5px"
-                disabled
-              ></textarea>
+
+            <div class="editor-row fullWidth">
+              <form id="code_form" class="fullWidth" style="margin: 0">
+                <textarea id="codemirror-code" name="source_code"></textarea>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    </main>
-    <footer>© Copyright 2022, Circulus Education - THE MAKER</footer>
-    <script src="../static/index.js?ver=1"></script>
-  </body>
+      <div class="wrapper ide" style="flex: 1 0 500px; max-width:2000px; gap: 8px">
+        <div class="editor-row">
+          <div class="editor-col">
+            <i class="fa fa-regular fa-file-lines"><span>실행결과</span></i>
+          </div>
+        </div>
+
+        <div class="editor-row fullWidth">
+          <div class="editor-col fullWidth">
+            <textarea id="update" style="min-width:390px;width:24vw;height:calc(80.5vh + 30px)" disabled></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <footer>
+    <div style="float:left;padding:0.7rem 0 0.7rem 0">
+      <a id="home_bt" style="font-weight:bold;color:#1642bd">
+        <i class="fa-solid fa-arrow-up-right-from-square"> Tools로 이동</i>
+      </a>
+      <i class="fa-brands fa-raspberry-pi"></i>
+      <span id="s_os_version"></span>
+      <i class="fa-solid fa-id-badge"></i>
+      <span id="s_serial"></span>
+    </div>
+    <div style="float:right;padding:0.7rem 0 0.7rem 0">
+      <i class="fa-solid fa-wifi"></i>
+      <span id="s_network"></span>
+      <i class="fa-solid fa-temperature-empty"></i>
+      <span id="s_cpu_temp"></span>
+      <i class="fa-solid fa-memory"></i>
+      <span id="s_memory"></span>
+      <i class="fa-solid fa-clock"></i>
+      <span id="s_runtime"></span>
+    </div>
+  </footer>
+  <script src="../static/index.js?ver=1"></script>
+</body>
+
 </html>
