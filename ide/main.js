@@ -185,8 +185,10 @@ io.on('connection', (socket) => {
       io.emit('update', {dialog:'파일 삭제 오류: 보호 파일입니다.'});
       return;
     }
-    codePath = "";
-
+    if (d == codePath) {
+      codePath = "";
+      codeText = "";
+    }
     execSync("rm -rf " + d);
     io.emit('update_file_manager', {data: readDirectory(PATH)});
   });

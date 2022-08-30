@@ -236,11 +236,13 @@ socket.on("update_file_manager", (d) => {
                 let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html()
 
                 if (confirm(`${PATH.join("/")}/${name} 파일을 삭제하시겠습니까?`)) {
-                  if ((PATH.join("/") + "/" + name) == $("#codepath").html())
-		                $("#codepath").html("")
-
-		              socket.emit('delete', PATH.join("/") + "/" + name);
-		            }
+                  if ((PATH.join("/") + "/" + name) == $("#codepath").html()) {
+                    $("#codepath").html("")
+                    save_code = "";
+                    editor.setValue(save_code);
+                  }
+                  socket.emit('delete', PATH.join("/") + "/" + name);
+                }
               })
             ,
         )
