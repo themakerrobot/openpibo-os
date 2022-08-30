@@ -185,7 +185,7 @@ io.on('connection', (socket) => {
       io.emit('update', {dialog:'파일 삭제 오류: 보호 파일입니다.'});
       return;
     }
-    codePath = "/home/pi/code/test.py";
+    codePath = "";
 
     execSync("rm -rf " + d);
     io.emit('update_file_manager', {data: readDirectory(PATH)});
