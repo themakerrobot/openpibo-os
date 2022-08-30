@@ -27,13 +27,13 @@
       <h2><i class="fa-solid fa-code"> IDE</i></h2>
     </div>
     <div style="float:right">
-      <h2><i class="fa-solid fa-copyright"> The Maker</i></h2>
+      <h2><img src="../static/themaker.png" style="height:22px"/></h2>
     </div>
   </header>
 
   <main>
-    <div class="content ide" style="gap: 1rem">
-      <div class="wrapper ide" style="flex: 1 0 32px; max-width: 2000px">
+    <div class="content">
+      <div class="wrapper ide" style="flex: 1 0 320px; max-width: 320px">
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa-solid fa-computer"><span> 파일탐색기</span></i>
@@ -46,7 +46,7 @@
           <div class="editor-col">
             <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기"/>
             <span>숨김파일</span>
-            <label for="upload">
+            <label for="upload" title="업로드">
               <i class="fa-solid fa-file-upload"><span> </span></i>
             </label>
             <div class="filebox">
@@ -94,7 +94,7 @@
         </div>
       </div>
 
-      <div class="wrapper ide" style="flex: 1 0 700px; max-width: 2000px">
+      <div class="wrapper ide" style="flex: 1 0 700px; max-width: 700px">
         <div style="display: flex; justify-content: space-between;width: 100%">
           <div style="display: flex; flex-flow: column; gap: 5px">
             <div class="editor-row">
@@ -117,11 +117,10 @@
             <div class="editor-row">
               <div class="editor-col">
                 <i class="fa-solid fa-folder-open"></i>
-                <span id="codepath"></span>
+                <span id="codepath" style="min-width:400px;"></span>
                 <span id='codecheck'></span>
               </div>
-
-              <div class="editor-col" style="align-items:end">
+              <div class="editor-col">
                 <i class="fa-solid fa-text-height">
                   <input type="number" id="fontsize" min="14" max="50" value="14" step="1" />
                 </i>
@@ -137,14 +136,14 @@
             </div>
 
             <div class="editor-row fullWidth">
-              <form id="code_form" class="fullWidth" style="margin: 0">
+              <form id="code_form">
                 <textarea id="codemirror-code" name="source_code"></textarea>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <div class="wrapper ide" style="flex: 1 0 500px; max-width:2000px; gap: 8px">
+      <div class="wrapper ide" style="flex: 1 0 400px; max-width:400px; gap: 8px">
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa fa-regular fa-file-lines"><span>실행결과</span></i>
@@ -153,7 +152,7 @@
 
         <div class="editor-row fullWidth">
           <div class="editor-col fullWidth">
-            <textarea id="update" style="min-width:390px;width:24vw;height:calc(80.5vh + 30px)" disabled></textarea>
+            <textarea id="update" style="width:390px;min-height:586px;height:calc(80.5vh + 30px)" disabled></textarea>
           </div>
         </div>
       </div>

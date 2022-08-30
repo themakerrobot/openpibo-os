@@ -30,7 +30,7 @@ let ps = undefined;
 
 let PATH = '/home/pi';
 let codeText = '';
-let codePath = '/home/pi/code/test.py';
+let codePath = '';
 
 const sleep = (t) => {
   return new Promise(resolve=>setTimeout(resolve,t));

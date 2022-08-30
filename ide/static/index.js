@@ -27,6 +27,10 @@ const editor = CodeMirror.fromTextArea(
     theme: "cobalt",
     extraKeys: {
       "Ctrl-S": function (instance) {
+        if ($("#codepath").html() == "") {
+          alert("파일이 없습니다.");
+          return;
+        }
         save_code = editor.getValue();
         CodeMirror.signal(editor, "change");
         socket.emit("save", { codepath: $("#codepath").html(), codetext: save_code });
@@ -118,6 +122,11 @@ editor.on("change", () => {
 });
 
 execute.addEventListener("click", () => {
+  if ($("#codepath").html() == "") {
+    alert("파일이 없습니다.");
+    return;
+  }
+
   let codetype = "";  
   update.value = "";
   save_code = editor.getValue();
@@ -245,7 +254,11 @@ $("#hiddenfile").on("change", () => {
 
 $("#add_directory").on("click", () => {
   let name = prompt("새폴더의 이름을 적어주세요.(이름 안의 공백은 '_' 으로 변경됩니다.)");
-  if (name != null ) {
+  if (name != null) {
+    if(name == "") {
+      alert("새폴더의 이름을 적어주세요.");
+      return;
+    }
     name = name.trim().replace(/ /g, "_");
     socket.emit('add_directory', PATH.join("/") + "/"+ name);
   }
@@ -258,6 +271,10 @@ $("#log").on("click", () => {
 $("#add_file").on("click", () => {
   let name = prompt("새파일의 이름을 적어주세요.(이름 안의 공백은 '_' 으로 변경됩니다.)");
   if (name != null ) {
+    if(name == "") {
+      alert("새파일의 이름을 적어주세요.");
+      return;
+    }
     name = name.trim().replace(/ /g, "_");
     $("#codepath").html(PATH.join("/") + "/" + name);
     socket.emit('add_file', PATH.join("/") + "/"+ name);

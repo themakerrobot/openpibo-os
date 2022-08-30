@@ -4,10 +4,9 @@
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
   font-size: 14px; /* added by yjlee */
-  width: 50vw;
-  min-width:700px;
+  width:700px;
   height: 80.5vh; /* changed by yjlee 300px --> 500px */
-  min-height:450px;
+  min-height:555px;
   color: black;
   direction: ltr;
 }
