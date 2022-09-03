@@ -240,6 +240,7 @@ const getMotions = (socket) => {
     // 테이블 로드
     if ("table" in datas) {
       let data = datas["table"];
+
       for (let i = 0; i < data.length; i++) {
         if (i != 0)
           for (let j = 0;j < 10;j++){
@@ -331,7 +332,7 @@ const getMotions = (socket) => {
 
   // 모션 불러오기
   $("#load_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").text();
+    let motionName = $("#motion_name_val").val();
     socket.emit("load_motion", motionName);
   });
 
