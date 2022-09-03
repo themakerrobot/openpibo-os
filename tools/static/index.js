@@ -171,8 +171,8 @@ const getMotions = (socket) => {
         let max = Number($(this).attr("max"));
 
         if (isNaN(pos) || pos < min || pos > max) {
+          $(this).val($(trange).val());
           alert(min + " ~ " + max + " 사이를 입력하세요.");
-          setTimeout(function(){ $(this).val($(trange).val()); }, 0);
         }
         else {
           socket.emit("set_motor", { idx: i, pos: pos });
@@ -194,8 +194,8 @@ const getMotions = (socket) => {
       let max = Number($(this).attr("max"));
 
       if (isNaN(pos) || pos < min || pos > max) {
+        $(this).val(0);
         alert(min + " ~ " + max + " 사이를 입력하세요.");
-        setTimeout(function(){ $(this).val(0); }, 0);
       }
     }
   });
