@@ -242,7 +242,7 @@ class Pibo:
 
   def mic(self, d):
     record_time = d['time']
-    cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 stream.wav;rm stream.raw'
+    cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 /home/pi/stream.wav;rm stream.raw'
     os.system(cmd)
 
   def play_audio(self, filename, volume, background):
