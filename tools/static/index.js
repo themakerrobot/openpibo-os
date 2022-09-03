@@ -232,9 +232,7 @@ const getMotions = (socket) => {
         res.push(name);
       }
 
-      $("#motor_record").text(
-        res.join(", ")
-      );
+      $("#motor_record").text(res.join(", "));
     }
 
     // 테이블 로드
@@ -614,6 +612,10 @@ const getDevices = (socket) => {
     .always((xhr, status) => {
       alert(`파일 전송이 완료되었습니다. ${status}`);
     });
+  });
+
+  $("#clear_oled_bt").on("click", function(){
+    socket.emit("clear_oled");
   });
 
   socket.on("mic", function (d) {

@@ -80,6 +80,12 @@ async def f_set_oled(sid, d=None):
     pibo.set_oled(d)
   return
 
+@app.sio.on('clear_oled')
+async def f_clear_oled(sid, d=None):
+  if pibo.onoff:
+    network_disp.run()
+  return
+
 @app.sio.on('mic')
 async def f_mic(sid, d=None):
   if pibo.onoff:
