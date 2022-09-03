@@ -18,8 +18,15 @@ const getStatus = (socket) => {
       d == "on" ? true : false
     );
 
-    if (d == "on") socket.emit("disp_motor");
-    if (d == "on") socket.emit("detect");
+    if (d == "on") {
+      socket.emit("disp_motor");
+      socket.emit("detect");
+      $("#state").html("<i class='fa-solid fa-face-smile-beam fa-2x'></i>");
+    }
+
+    if (d == "off") {
+      $("#state").html("<i class='fa-solid fa-face-dizzy fa-2x'></i>");
+    }
   });
 
   $("input:checkbox[name=onoff_sel]").change(function () {
