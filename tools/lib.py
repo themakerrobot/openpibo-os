@@ -132,14 +132,14 @@ class Pibo:
   def tm_classify(self):
     im = self.frame.copy()
     res, raw = self.tm.predict(im)
-    colors = (100,255,100)
+    colors = (10,10,10)
     #self.cam.putText(im, "{} : {:.1f}%".format(res, raw.max()*100), (50, 50), 0.7, colors, 1)
 
     r = []
     for i in range(len(self.tm.class_names)):
       self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
       r.append(f"{self.tm.class_names[i]}: {raw[i]*100: .1f} %")
-    return {'img':to_base64(im), 'data':", ".join(r)}
+    return im, ", ".join(r)
 
   def imwrite(self, name):
     self.cam.imwrite(name, self.res_img.copy())
