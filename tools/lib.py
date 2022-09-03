@@ -1,12 +1,9 @@
 import openpibo
-from openpibo.vision import Camera
-from openpibo.vision import Face
-from openpibo.vision import Detect
+from openpibo.vision import Camera,Face,Detect,TeachableMachine
 from openpibo.device import Device
 from openpibo.audio import Audio
 from openpibo.oled import Oled
-from openpibo.speech import Speech
-from openpibo.speech import Dialog
+from openpibo.speech import Speech,Dialog
 from openpibo.motion import Motion
 import asyncio
 
@@ -20,6 +17,7 @@ import log
 logger = log.configure_logger()
 
 def to_base64(im):
+  #im = cv2.resize(im, (320,240))
   im = cv2.imencode('.jpg', im)[1].tobytes()
   return base64.b64encode(im).decode('utf-8')
 
@@ -40,6 +38,15 @@ class Pibo:
     self.cam = Camera()
     self.fac = Face()
     self.det = Detect()
+    self.tm = TeachableMachine()
+
+    try:
+      self.tm.load("/home/pi/models/model_unquant.tflite", "/home/pi/models/labels.txt")
+    except Exception as ex:
+      logger.error(f'[vision_start] Error: {ex}')
+      pass
+
+    self.vision_type = "camera"
     self.vision_flag = True
     Thread(name='vision_loop', target=self.vision_loop, args=(), daemon=True).start()
 
@@ -51,45 +58,91 @@ class Pibo:
     self.cam.cap.set(cv2.CAP_PROP_FPS, 5)
     while self.vision_flag == True:
       self.frame = self.cam.read()  # read the camera frame
-      asyncio.run(self.emit('stream', to_base64(cv2.resize(self.frame, (320,240))), callback=None))
+
+      if self.vision_type == "qr":
+        img, res = self.qr_detect()
+      elif self.vision_type == "face":
+        img, res = self.face_detect()
+      elif self.vision_type == "object":
+        img, res = self.object_detect()
+      elif self.vision_type == "pose":
+        img, res = self.pose_detect()
+      elif self.vision_type == "cartoon":
+        img, res = self.cartoon()
+      elif self.vision_type == "tm":
+        img, res = self.tm_classify()
+      else:
+        img, res = self.frame, ""
+
+      self.res_img = img.copy();
+      asyncio.run(self.emit('stream', {'img':to_base64(img), 'data':res}, callback=None))
 
   def cartoon(self):
     im = self.frame.copy()
-    return to_base64(self.cam.cartoonize(im))
+    return self.cam.cartoonize(im), ''
 
-  def object_detect(self):
+  def face_detect(self):
     im = self.frame.copy()
-    faces = self.fac.detect(im)
-    objs = self.det.detect_object(im)
-    qr = self.det.detect_qr(im)
+    items = self.fac.detect(im)
+    res = ''
 
-    res_face = ''
-    res_qr = ''
-    res_object = ''
-
-    if len(faces) > 0:
-      x,y,w,h = faces[0]
-      face = self.fac.get_ageGender(im, faces[0])
+    if len(items) > 0:
+      x,y,w,h = items[0]
+      face = self.fac.get_ageGender(im, items[0])
       colors = (200,100,0) if face['gender'] == 'Male' else (100,200,0)
       self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
       self.cam.putText(im, face['gender']+face['age'], (x-10, y-10),0.6,colors,2)
-      res_face += '[{}/{}-({},{})] '.format(face['gender'], face['age'], x, y)
+      res += '[{}/{}-({},{})] '.format(face['gender'], face['age'], x, y)
 
-    if qr['type'] != '':
-      x1,y1,x2,y2 = qr['position']
-      colors = (100,0,200)
-      self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
-      self.cam.putText(im, 'QR', (x1-10, y1-10),0.6,colors,2)
-      res_qr += '[{}-({},{})] '.format(qr['data'], x1, y1)
+    return im, res
 
-    for obj in objs:
+  def object_detect(self):
+    im = self.frame.copy()
+    items = self.det.detect_object(im)
+    res = ''
+
+    for obj in items:
       x1,y1,x2,y2 = obj['position']
       colors = (100,100,200)
       self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
       self.cam.putText(im, obj['name'], (x1-10, y1-10),0.6,colors,2)
-      res_object += '[{}-({},{})] '.format(obj['name'], x1, y1)
+      res += '[{}-({},{})] '.format(obj['name'], x1, y1)
 
-    return {'img':to_base64(im), 'data':{'face':res_face, 'qr':res_qr, 'object':res_object}}
+    return im, res
+
+  def qr_detect(self):
+    im = self.frame.copy()
+    item = self.det.detect_qr(im)
+    res = ''
+
+    if item['type'] != '':
+      x1,y1,x2,y2 = item['position']
+      colors = (100,0,200)
+      self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
+      self.cam.putText(im, 'QR', (x1-10, y1-10),0.6,colors,2)
+      res += '[{}-({},{})] '.format(item['data'], x1, y1)
+
+    return im, res
+
+  def pose_detect(self):
+    im = self.frame.copy()
+    item = self.det.detect_pose(im)
+    return item['img'], ''
+
+  def tm_classify(self):
+    im = self.frame.copy()
+    res, raw = self.tm.predict(im)
+    colors = (100,255,100)
+    #self.cam.putText(im, "{} : {:.1f}%".format(res, raw.max()*100), (50, 50), 0.7, colors, 1)
+
+    r = []
+    for i in range(len(self.tm.class_names)):
+      self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
+      r.append(f"{self.tm.class_names[i]}: {raw[i]*100: .1f} %")
+    return {'img':to_base64(im), 'data':", ".join(r)}
+
+  def imwrite(self, name):
+    self.cam.imwrite(name, self.res_img.copy())
 
   ## device
   def device_start(self):
@@ -159,7 +212,6 @@ class Pibo:
           self.decode_pkt(data)
         else:
           pass
-
       except Exception as ex:
         logger.error(f'[device_loop] Error: {ex}')
         del self.dev
@@ -171,6 +223,11 @@ class Pibo:
     self.neopixel_value[d['idx']] = d['value']
     self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
 
+  def set_oled_image(self, filepath):
+    img = self.cam.imread(filepath)
+    self.ole.draw_data(cv2.resize(img, (128, 64)))
+    self.ole.show()
+
   def set_oled(self, d):
     self.ole.clear()
     self.ole.set_font(size=d['size'])
@@ -181,7 +238,6 @@ class Pibo:
       _, h = self.ole.font.getsize(item)
       self.ole.draw_text((x, y), item)
       y += h
-    #self.ole.draw_text((d['x'], d['y']), d['text'])
     self.ole.show()
 
   def mic(self, d):
@@ -191,7 +247,22 @@ class Pibo:
 
   def play_audio(self, filename, volume, background):
     self.aud.play(filename=filename, volume=volume, background=background)
-    #os.remove(filename)
+
+  def stop_audio(self):
+    self.aud.stop()
+
+  def tts(self, d):
+    voice_type = d['voice_type']
+    voice_mode = d['voice_mode']
+    volume = d['volume']
+
+    try:
+      self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+d['text']+'<break time="1000ms"/></voice></kakao:effect></speak>', '/home/pi/chat.mp3')
+      self.play_audio('/home/pi/chat.mp3', volume, True)
+    except Exception as ex:
+      logger.error(f'[tts] Error: {ex}')
+      pass
+    return
 
   ## chatbot
   def chatbot_start(self):
@@ -221,8 +292,8 @@ class Pibo:
       return ans
 
     try:
-      self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', 'chat.mp3')
-      self.play_audio('chat.mp3', volume, True)
+      self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', '/home/pi/chat.mp3')
+      self.play_audio('/home/pi/chat.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')
       pass
@@ -234,9 +305,7 @@ class Pibo:
     self.motion_p = [] # current pos list value
     self.motion_j = {} # current json value
     self.mot = Motion()
-    self.mot.set_speeds([50,50,50,50,50, 50,50,50,50,50])
-    self.mot.set_accelerations([0,0,0,0,0,0,0,0,0,0])
-    self.mot.set_motors(self.motion_d)
+    self.mot.set_motors(self.motion_d, movetime=1000)
 
     try:
       with open('/home/pi/mymotion.json', 'rb') as f:
@@ -250,19 +319,24 @@ class Pibo:
     self.motion_d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0] # current d value
     self.motion_p = [] # current pos list value
     self.motion_j = {} # current json value
+    self.mot.set_motors(self.motion_d, movetime=1000)
     del self.mot
 
   def make_raw(self):
     return {'init_def':1, 'init':self.motion_p[0]['d'], 'pos':self.motion_p[1:]} if self.motion_p[0]['seq'] == 0 else {'init_def':0, 'pos':self.motion_p[:]}
 
-  def motor_init(self):
-    return self.motion_d, self.motion_p
+  def get_motor_info(self):
+    return self.motion_d, self.motion_p, self.motion_j
 
-  def set_pos(self, idx, pos):
+  def set_motor(self, idx, pos):
     self.motion_d[idx] = pos
     self.mot.set_speed(idx, 50)
     self.mot.set_acceleration(idx, 0)
     self.mot.set_motor(idx, pos)
+
+  def set_motors(self, pos_lst, movetime=1000):
+    self.motion_d = pos_lst
+    self.mot.set_motors(pos_lst, movetime)
 
   def add_frame(self, seq):
     seq = int(seq)
@@ -278,7 +352,7 @@ class Pibo:
       self.motion_p.sort(key=lambda x: x['seq'])
     return self.motion_p
 
-  def remove_frame(self, seq):
+  def delete_frame(self, seq):
     for idx, pos in enumerate(self.motion_p):
       if pos['seq'] == seq:
         del self.motion_p[idx]
@@ -302,17 +376,22 @@ class Pibo:
 
   def load_motion(self, name):
     if name in self.motion_j:
-      self.motion_p = []
       a = self.motion_j[name]
+    elif name in self.mot.get_motion():
+      a = self.mot.get_motion(name)
+    else:
+      return self.motion_p
 
-      if 'init_def' in a and 'init' in a:
-        self.motion_p.append({'d':a['init'], 'seq':0})
-      if 'pos' in a:
-        for item in a['pos']:
-          self.motion_p.append(item)
+    self.motion_p = []
+    if 'init_def' in a and 'init' in a:
+      self.motion_p.append({'d':a['init'], 'seq':0})
+    if 'pos' in a:
+      for item in a['pos']:
+        self.motion_p.append(item)
+
     return self.motion_p
 
-  def del_motion(self, name):
+  def delete_motion(self, name):
     if name in self.motion_j:
       del self.motion_j[name]
     with open('/home/pi/mymotion.json', 'w') as f:

@@ -1,17 +1,16 @@
 from fastapi_socketio import SocketManager
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI,Request,UploadFile,File
+from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 import argparse
-from lib import Pibo
-from lib import to_base64
+from lib import Pibo, to_base64
 from threading import Thread
-import time, datetime, os, json, shutil
+import time, datetime, os, json, shutil, log, cv2
 import network_disp
-import log
-import cv2
+
+MODEL_PATH = "/home/pi/models"
 
 try:
   app = FastAPI()
@@ -25,36 +24,87 @@ except Exception as ex:
 async def main(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
 
-# vision
-@app.sio.on('cartoon')
-async def f_cartoon(sid, d=None):
-  if pibo.onoff:
-    res = pibo.cartoon()
-    await emit('cartoon', res)
+@app.post('/upload_model')
+async def f_upload(data:UploadFile = File(...)):
+  data.filename = "models.zip"
+  os.system(f"mkdir -p {MODEL_PATH}")
+  os.system(f"rm -rf {MODEL_PATH}/*")
+  
+  with open(f"{MODEL_PATH}/{data.filename}", 'wb') as f:
+    content = await data.read()
+    f.write(content)
 
+  os.system(f"unzip {MODEL_PATH}/{data.filename} -d {MODEL_PATH}")
+  if pibo.onoff:
+    pibo.tm.load(f"{MODEL_PATH}/model_unquant.tflite", f"{MODEL_PATH}/labels.txt")
+  return JSONResponse(content={"filename":data.filename}, status_code=200)
+
+@app.post('/upload_oled')
+async def f_upload(data:UploadFile = File(...)):
+  data.filename = "tmp.jpg"
+
+  filepath = f"/home/pi/{data.filename}"
+  with open(filepath, 'wb') as f:
+    content = await data.read()
+    f.write(content)
+  if pibo.onoff:
+    pibo.set_oled_image(filepath)
+  os.remove(filepath)
+  return JSONResponse(content={"filename":data.filename}, status_code=200)
+
+@app.get('/download', response_class=FileResponse)
+async def f_download():
+  if pibo.onoff:
+    pibo.imwrite('/home/pi/capture.jpg')
+  return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
+
+# vision
 @app.sio.on('detect')
 async def f_detect(sid, d=None):
+  if d == None:
+    return await emit('detect_mode', pibo.vision_type)
   if pibo.onoff:
-    res = pibo.object_detect()
-    await emit('detect', res)
+    pibo.vision_type=d
+  return
 
 # device
 @app.sio.on('set_neopixel')
 async def f_set_neopixel(sid, d=None):
   if pibo.onoff:
     pibo.set_neopixel(d)
-
+  return
+  
 @app.sio.on('set_oled')
 async def f_set_oled(sid, d=None):
   if pibo.onoff:
     pibo.set_oled(d)
+  return
 
 @app.sio.on('mic')
 async def f_mic(sid, d=None):
   if pibo.onoff:
     pibo.mic(d)
     await emit('mic', '')
-    pibo.play_audio('stream.wav', d['volume'], True)
+    pibo.play_audio('/home/pi/stream.wav', d['volume'], True)
+  return
+
+@app.sio.on('tts')
+async def f_tts(sid, d=None):
+  if pibo.onoff:
+    res = pibo.tts(d)
+  return
+
+@app.sio.on('play_audio')
+async def f_play_audio(sid, d=None):
+  if pibo.onoff:
+    res = pibo.play_audio(d["filename"], d["volume"], True)
+  return
+
+@app.sio.on('stop_audio')
+async def f_stop_audio(sid, d=None):
+  if pibo.onoff:
+    res = pibo.stop_audio()
+  return
 
 # chatbot
 @app.sio.on('question')
@@ -62,67 +112,82 @@ async def question(sid, d=None):
   if pibo.onoff:
     res = pibo.question(d)
     await emit('answer', {'answer':res, 'chat_list':list(reversed(pibo.chat_list))})
+  return
 
 # motion
-@app.sio.on('motor_init')
-async def motor_init(sid, d=None):
+@app.sio.on('disp_motor')
+async def disp_motor(sid, d=None):
   if pibo.onoff:
-    pos, rec = pibo.motor_init()
-    await emit('init_motion', pos)
-    await emit('disp_motor_table', rec)
-    await emit('disp_motor_record', pibo.motion_j)
+    res = pibo.get_motor_info()
+    await emit('disp_motor', {'pos':res[0], 'table':res[1], 'record':res[2]})
+  return
 
-@app.sio.on('set_pos')
-async def set_pos(sid, d=None):
+@app.sio.on('set_motor')
+async def set_motor(sid, d=None):
   if pibo.onoff:
-    pibo.set_pos(d['idx'], d['pos'])
+    pibo.set_motor(d['idx'], d['pos'])
+  return
+
+@app.sio.on('set_motors')
+async def set_motors(sid, d=None):
+  if pibo.onoff:
+    pibo.set_motors(d['pos_lst'])
+  return
 
 @app.sio.on('add_frame')
 async def add_frame(sid, d=None):
   if pibo.onoff:
     res = pibo.add_frame(d)
-    await emit('disp_motor_table', res)
+    await emit('disp_motor', {'table':res})
+  return
 
-@app.sio.on('remove_frame')
-async def remove_frame(sid, d=None):
+@app.sio.on('delete_frame')
+async def delete_frame(sid, d=None):
   if pibo.onoff:
-    res = pibo.remove_frame(d)
-    await emit('disp_motor_table', res)
+    res = pibo.delete_frame(d)
+    await emit('disp_motor', {'table':res})
+  return
 
 @app.sio.on('init_frame')
 async def init_frame(sid, d=None):
   if pibo.onoff:
     res = pibo.init_frame()
-    await emit('disp_motor_table', res)
+    await emit('disp_motor',{'table':res})
+  return
 
 @app.sio.on('play_frame')
 async def play_frame(sid, d=None):
   if pibo.onoff:
     pibo.play_frame(d)
+  return
 
 @app.sio.on('add_motion')
 async def add_motion(sid, d=None):
   if pibo.onoff:
     res = pibo.add_motion(d)
-    await emit('disp_motor_record', res)
+    await emit('disp_motor', {'record':res})
+  return
 
 @app.sio.on('load_motion')
 async def load_motion(sid, d=None):
   if pibo.onoff:
     res = pibo.load_motion(d)
-    await emit('disp_motor_table', res)
+    await emit('disp_motor', {'table':res})
+  return
 
-@app.sio.on('del_motion')
-async def del_motion(sid, d=None):
+@app.sio.on('delete_motion')
+async def delete_motion(sid, d=None):
   if pibo.onoff:
-    res = pibo.del_motion(d)
-    await emit('disp_motor_record', res)
+    res = pibo.delete_motion(d)
+    await emit('disp_motor', {'record':res})
+  return
 
 @app.sio.on('reset_motion')
 async def reset_motion(sid, d=None):
   if pibo.onoff:
     res = pibo.reset_motion()
-    await emit('disp_motor_record', res)
+    await emit('disp_motor', {'record':res})
+  return
 
 @app.sio.on('onoff')
 async def onoff(sid, d=None):
@@ -130,24 +195,25 @@ async def onoff(sid, d=None):
     if d == 'on':
       if pibo.onoff == True:
         logger.info('Already Start')
-      pibo.motion_start()
-      await emit('disp_motor_record', pibo.motion_j)
-      pibo.chatbot_start()
-      pibo.device_start()
-      await emit('update_neopixel', pibo.neopixel_value)
-      pibo.vision_start()
-      pibo.onoff = True
+      else:
+        pibo.motion_start()
+        pibo.chatbot_start()
+        pibo.device_start()
+        await emit('update_neopixel', pibo.neopixel_value)
+        pibo.vision_start()
+        pibo.onoff = True
     elif d == 'off':
       if pibo.onoff == False:
         logger.info('Already Stop')
-      pibo.vision_stop()
-      pibo.device_stop()
-      pibo.chatbot_stop()
-      pibo.motion_stop()
-      pibo.onoff = False
+      else:
+        pibo.vision_stop()
+        pibo.device_stop()
+        pibo.chatbot_stop()
+        pibo.motion_stop()
+        pibo.onoff = False
     network_disp.run()
   
-  await emit('onoff', 'on' if pibo.onoff else 'off')
+  return await emit('onoff', 'on' if pibo.onoff else 'off')
 
 @app.sio.on('wifi')
 async def wifi(sid, d=None):
@@ -169,35 +235,43 @@ async def wifi(sid, d=None):
       f.write(tmp)
     os.system('wpa_cli -i wlan0 reconfigure')
     os.system("shutdown -r now")
+  return
 
 @app.sio.on('config')
 async def config(sid, d=None):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
-  if d != None:
+  if d == None:
+    if 'audiopath' not in tmp:
+      tmp['audiopath'] = '/home/pi/openpibo-files/audio'
+  else:
     if 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
     elif 'eye' in d:
       tmp['eye'] = d['eye']
+    elif 'audiopath' in d:
+      tmp['audiopath'] = d['audiopath']
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
-  await emit('config', {'kakaokey':tmp['kakaokey'], 'eye':tmp['eye']})
+  return await emit('config', {'kakaokey':tmp['kakaokey'], 'eye':tmp['eye'], 'audiopath':tmp['audiopath'], 'audiofiles':os.listdir(tmp['audiopath'])})
 
 @app.sio.on('system')
 async def system(sid, d=None):
   res = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')
-  await emit('system', res)
+  return await emit('system', res)
 
 @app.sio.on('poweroff')
 async def poweroff(sid, d=None):
   os.system('shutdown -h now &')
   os.system('echo "#11:!" > /dev/ttyS0')
+  return
 
 @app.sio.on('restart')
 async def restart(sid, d=None):
   os.system("shutdown -r now")
+  return
 
 @app.on_event("startup")
 async def startup_event():
@@ -205,6 +279,7 @@ async def startup_event():
   logger = log.configure_logger()
   logger.info(f'Network Display: {network_disp.run()}')
   pibo = Pibo(emit)
+  return
 
 async def emit(key, data, callback=None):
   try:
@@ -212,6 +287,7 @@ async def emit(key, data, callback=None):
   except Exception as ex:
     logger.error(f'[emit] Error: {ex}')
     pass
+  return
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
