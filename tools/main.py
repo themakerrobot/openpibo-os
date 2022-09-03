@@ -15,6 +15,7 @@ MODEL_PATH = "/home/pi/models"
 try:
   app = FastAPI()
   app.mount("/static", StaticFiles(directory="static"), name="static")
+  app.mount("/webfonts", StaticFiles(directory="webfonts"), name="webfonts")
   templates = Jinja2Templates(directory="templates")
   socketio = SocketManager(app=app)
 except Exception as ex:
@@ -260,10 +261,9 @@ async def wifi(sid, d=None):
 async def config(sid, d=None):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
-  if d == None:
-    if 'audiopath' not in tmp:
-      tmp['audiopath'] = '/home/pi/openpibo-files/audio'
-  else:
+  if 'audiopath' not in tmp:
+    tmp['audiopath'] = '/home/pi/openpibo-files/audio'
+  if d != None:
     if 'kakaokey' in d:
       tmp['kakaokey'] = d['kakaokey']
     elif 'eye' in d:

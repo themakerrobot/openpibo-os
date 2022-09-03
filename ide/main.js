@@ -101,6 +101,7 @@ server.listen(port, () => {
 });
 
 app.use('/static', express.static(__dirname + '/static'));
+app.use('/webfonts', express.static(__dirname + '/webfonts'));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/templates/index.html')
 });

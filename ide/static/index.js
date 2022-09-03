@@ -173,7 +173,7 @@ socket.on("update_file_manager", (d) => {
     $("#fm_table > tbody").append(
       $("<tr>")
         .append(
-          $("<td style='width:30px'>").append(`<i class='fa-regular fa-${data[i].type}'></i>`),
+          $("<td style='width:30px'>").append(`<i class='fa-solid fa-${data[i].type}'></i>`),
           $("<td>").append(data[i].name)
             .hover(
               function () { $(this).animate({ opacity: "0.3" }, 100); $(this).css("cursor", "pointer"); },
@@ -217,13 +217,13 @@ socket.on("update_file_manager", (d) => {
               else {}
             })
             ,
-            $("<td style='width:30px'>").append(["", "folder"].includes(data[i].type)?"":`<a href='/download?filename=${data[i].name}'><i class='fa-regular fa-circle-down'></i></a>`)
+            $("<td style='width:30px'>").append(["", "folder"].includes(data[i].type)?"":`<a href='/download?filename=${data[i].name}'><i class='fa-solid fa-circle-down'></i></a>`)
               .hover(
                 function () { $(this).animate({ opacity: "0.3" }, 100); },
                 function () { $(this).animate({ opacity: "1" }, 100); }
               )
             ,
-            $("<td style='width:30px'>").append([""].includes(data[i].type) || data[i].protect==true?"":"<i class='fa-regular fa-trash-can'></i>")
+            $("<td style='width:30px'>").append([""].includes(data[i].type) || data[i].protect==true?"":"<i class='fa-solid fa-trash-can'></i>")
               .hover(
                 function () { $(this).animate({ opacity: "0.3" }, 100); },
                 function () { $(this).animate({ opacity: "1" }, 100); }
