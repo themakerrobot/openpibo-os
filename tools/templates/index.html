@@ -32,9 +32,9 @@
     <main>
       <nav>
         <ul>
-          <li style="padding:10px 0 30px 0">
+          <li style="padding:10px 0 20px 0">
               <label class="toggle">
-                <span class="toggle-label"><i>OFF</i></span>
+                <span id="off" class="toggle-label"><i>OFF</i></span>
                 <input
                   class="toggle-checkbox"
                   type="checkbox"
@@ -42,15 +42,15 @@
                   disabled
                 />
                 <div class="toggle-switch"></div>
-                <span class="toggle-label"><i>ON</i></span>
+                <span id="on" class="toggle-label"><i>ON</i></span>
               </label>
           </li>
-          <li><span id="state"></span></li>
-          <li><button name="home" /></li>
-          <li><button name="device" /></li>
-          <li><button name="motion" /></li>
-          <li><button name="vision" /></li>
-          <li><button name="chatbot" /></li>
+          <li style="padding:0 0 20px 0"><span id="state"></span></li>
+          <li><button name="home"></li>
+          <li><button name="device"></li>
+          <li><button name="motion"></li>
+          <li><button name="vision"></li>
+          <li><button name="chatbot"></li>
         </ul>
       </nav>
       <div class="content">
@@ -359,8 +359,12 @@
                 />
                 <span class="label">초</span>
                 <button id="mic_bt">
-                  <i class="fa-solid fa-check"></i>
+                  <i class="fa-solid fa-microphone"></i>
                   녹음하기
+                </button>
+                <button id="mic_replay_bt">
+                  <i class="fa-solid fa-repeat"></i>
+                  다시듣기
                 </button>
                 <i class="fa-solid fa-ellipsis"></i>
                 <span class="label" id="mic_status"></span>

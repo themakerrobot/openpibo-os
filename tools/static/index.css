@@ -302,49 +302,52 @@ nav button {
   padding: 0.3em;
   border-radius: 0;
   box-shadow: none;
-  font-size:1.4rem;
+  font-size:2.2rem;
+  font-weight: bold;
   font-family: Tahoma, sans-serif;
   padding: 20px 0 20px 0;
+  opacity: 0.5;
 }
 
 nav button[name="home"]::after {
-  content: "Home";
+  content: url("home.png");
 }
 nav button[name="device"]::after {
-  content: "Device";
+  content: url("tool.png");
 }
 nav button[name="motion"]::after {
-  content: "Motion";
+  content: url("man-celebrating.png");
 }
 nav button[name="vision"]::after {
-  content: "Vision";
+  content: url("camera.png");
 }
 nav button[name="chatbot"]::after {
-  content: "Chatbot";
+  content: url("chatbot.png");
 }
 
 nav button[name="home"]:hover::after {
-  content: "홈";
+  content: "Home";
 }
 nav button[name="device"]:hover::after {
-  content: "디바이스";
+  content: "Device";
 }
 nav button[name="motion"]:hover::after {
-  content: "모션";
+  content: "Motion";
 }
 nav button[name="vision"]:hover::after {
-  content: "비전";
+  content: "Vision";
 }
 nav button[name="chatbot"]:hover::after {
-  content: "챗봇";
+  content: "Chatbot";
 }
 
-nav button.menu-selected,
-nav button:focus,
-nav button:hover {
-  font-size: 2rem;
+nav button.menu-selected
+/*nav button:focus,
+nav button:hover */{
+  /*font-size: 2rem;
   font-weight: bold;
-  transform: skewX(-15deg);
+  transform: skewX(-15deg);*/
+  opacity: 1.0;
 }
 
 button,

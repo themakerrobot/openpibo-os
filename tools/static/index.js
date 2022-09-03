@@ -21,11 +21,10 @@ const getStatus = (socket) => {
     if (d == "on") {
       socket.emit("disp_motor");
       socket.emit("detect");
-      $("#state").html("<i class='fa-solid fa-face-smile-beam fa-2x'></i>");
+      $("#on").text("ONº");
     }
-
     if (d == "off") {
-      $("#state").html("<i class='fa-solid fa-face-dizzy fa-2x'></i>");
+      $("#on").text("ON");
     }
   });
 
@@ -643,6 +642,10 @@ const getDevices = (socket) => {
       time: val,
       volume: Number($("#volume").val()),
     });
+  });
+
+  $("#mic_replay_bt").on("click", function(){
+    socket.emit("mic_replay", {volume:Number($("#volume").val())});
   });
 
   $("#tts_bt").on("click", function(){
