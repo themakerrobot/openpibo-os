@@ -365,7 +365,10 @@ class Pibo:
 
   def play_frame(self, cycle):
     raw = self.make_raw()
-    self.mot.set_motion_raw(raw, int(cycle))
+    Thread(name='play_frame', target=self.mot.set_motion_raw, args=(raw, int(cycle)), daemon=True).start()
+
+  def stop_frame(self):
+    self.mot.stop()
 
   def add_motion(self, name):
     self.motion_j[name] = self.make_raw()

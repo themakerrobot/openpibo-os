@@ -167,6 +167,12 @@ async def play_frame(sid, d=None):
     pibo.play_frame(d)
   return
 
+@app.sio.on('stop_frame')
+async def stop_frame(sid, d=None):
+  if pibo.onoff:
+    pibo.stop_frame()
+  return
+
 @app.sio.on('add_motion')
 async def add_motion(sid, d=None):
   if pibo.onoff:

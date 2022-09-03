@@ -322,6 +322,11 @@ const getMotions = (socket) => {
     evt.preventDefault();
   });
 
+  // 동작 정지
+  $("#stop_frame_bt").on("click", function(){
+    socket.emit("stop_frame");
+  });
+
   // 모션 추가
   $("#add_motion_bt").on("click", function () {
     let motionName = $("#motion_name_val").val();
