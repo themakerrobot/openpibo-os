@@ -59,20 +59,24 @@ class Pibo:
     while self.vision_flag == True:
       self.frame = self.cam.read()  # read the camera frame
 
-      if self.vision_type == "qr":
-        img, res = self.qr_detect()
-      elif self.vision_type == "face":
-        img, res = self.face_detect()
-      elif self.vision_type == "object":
-        img, res = self.object_detect()
-      elif self.vision_type == "pose":
-        img, res = self.pose_detect()
-      elif self.vision_type == "cartoon":
-        img, res = self.cartoon()
-      elif self.vision_type == "tm":
-        img, res = self.tm_classify()
-      else:
-        img, res = self.frame, ""
+      try:
+        if self.vision_type == "qr":
+          img, res = self.qr_detect()
+        elif self.vision_type == "face":
+          img, res = self.face_detect()
+        elif self.vision_type == "object":
+          img, res = self.object_detect()
+        elif self.vision_type == "pose":
+          img, res = self.pose_detect()
+        elif self.vision_type == "cartoon":
+          img, res = self.cartoon()
+        elif self.vision_type == "tm":
+          img, res = self.tm_classify()
+        else:
+          img, res = self.frame, ""
+      except Exception as ex:
+        logger.error(f'[vision_loop] Error: {ex}')
+        img, res = self.frame, str(ex)
 
       self.res_img = img.copy();
       asyncio.run(self.emit('stream', {'img':to_base64(img), 'data':res}, callback=None))
