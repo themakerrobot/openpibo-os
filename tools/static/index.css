@@ -42,6 +42,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  overflow-x:hidden;
 }
 
 header,
@@ -69,9 +70,6 @@ label {
   #article_chatbot > section {
     width: 96%;
     margin: 0 auto;
-  }
-  main h2#content_header {
-    padding: 0 1em;
   }
 }
 @media (min-width: 700px) {
@@ -196,16 +194,6 @@ div {
   touch-action: pan-x pan-y;
 }
 
-main {
-  display: flex;
-  flex: 1 0 80vh;
-}
-
-main div.content {
-  display: flex;
-  flex-flow: row;
-}
-
 .status_row {
   display: flex;
   flex-flow: row;
@@ -277,9 +265,9 @@ main div.content {
 
 nav {
   left: 0;
-  width: 130px;
   height: 100%;
-  background-color: var(--light-green);
+  background-color:#f8f8f8;
+  border: #e7e7e7;
 }
 
 nav ul {
@@ -302,7 +290,7 @@ nav button {
   padding: 0.3em;
   border-radius: 0;
   box-shadow: none;
-  font-size:2.2rem;
+  font-size:1rem;
   font-weight: bold;
   font-family: Tahoma, sans-serif;
   padding: 20px 0 20px 0;
@@ -325,28 +313,11 @@ nav button[name="chatbot"]::after {
   content: url("chatbot.png");
 }
 
-nav button[name="home"]:hover::after {
-  content: "Home";
-}
-nav button[name="device"]:hover::after {
-  content: "Device";
-}
-nav button[name="motion"]:hover::after {
-  content: "Motion";
-}
-nav button[name="vision"]:hover::after {
-  content: "Vision";
-}
-nav button[name="chatbot"]:hover::after {
-  content: "Chatbot";
+nav button:hover {
+  opacity: 0.7;
 }
 
-nav button.menu-selected
-/*nav button:focus,
-nav button:hover */{
-  /*font-size: 2rem;
-  font-weight: bold;
-  transform: skewX(-15deg);*/
+nav button.menu-selected {
   opacity: 1.0;
 }
 
@@ -424,7 +395,8 @@ button.disabled {
 }
 
 footer {
-  padding:0 1em 0 1em;
+  padding-left: 16px;
+  padding-right: 16px;
   bottom: 0;
   background-color: var(--dark-yellow);;
   width: 100vw;
@@ -438,6 +410,8 @@ header.title {
   cursor: default;
   width: 100%;
   height: 3rem;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 .title h2 {
   margin: 0.1em auto;
@@ -446,17 +420,24 @@ header.title {
   padding:0.3rem 0.3rem 0.3rem 0.3rem;
 }
 
+main {
+  display: flex;
+  flex: 1 0 80vh;
+}
+
 main > div.content {
+  display: flex;
+  flex-flow: row;
   width: 100%;
   margin: 0 auto;
   align-items: flex-start;
 }
 main div.wrapper {
   width: 100%;
-  padding: 10px 10px 10px 10px;
+  padding: 0px 20px 20px 20px;
 }
 
-main h2#content_header {
+main h3#content_header {
   width: 100%;
   /*margin: 0.8em auto;*/
 }

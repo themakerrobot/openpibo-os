@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0 user-scalable=no"
     />
     <title>Openpibo-Tools</title>
-    <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
+    <link rel="stylesheet" href="../static/all.min.css?v1" type="text/css" />
     <link
       rel="shortcut icon"
       href="../static/icon.png"
@@ -15,12 +15,14 @@
     />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=1" />
+    <link rel="stylesheet" href="../static/index.css?v1" />
   </head>
   <body>
     <header class="title">
       <div style="float:left">
-        <h2><i class="fa-solid fa-microchip"> Tools</i></h2>
+        <h2>
+          <i class="fa-solid fa-microchip"> Tools <span id="state"></span></i>
+        </h2>
       </div>
       <div style="float:right">
         <h2><img src="../static/themaker.png" style="height:22px"/></h2>
@@ -31,7 +33,6 @@
         <ul>
           <li style="padding:10px 0 20px 0">
               <label class="toggle">
-                <span id="off" class="toggle-label"><i>OFF</i></span>
                 <input
                   class="toggle-checkbox"
                   type="checkbox"
@@ -39,10 +40,8 @@
                   disabled
                 />
                 <div class="toggle-switch"></div>
-                <span id="on" class="toggle-label"><i>ON</i></span>
               </label>
           </li>
-          <li style="padding:0 0 20px 0"><span id="state"></span></li>
           <li><button name="home"></li>
           <li><button name="device"></li>
           <li><button name="motion"></li>
@@ -52,6 +51,7 @@
       </nav>
       <div class="content">
         <div class="wrapper">
+          <h3 id="content_header">HOME</h2>
           <article id="article_home">
             <section>
               <h3 class="mark">시스템 설정</h3>
@@ -274,7 +274,7 @@
                 </div>
                 <div style="float:right">
                   <button id="clear_oled_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-eraser"></i>
                     초기화하기
                   </button>
                 </div>
@@ -411,7 +411,7 @@
               <div>
                 <div style="float:left">
                   <button id="init_bt">
-                  <i class="fa-solid fa-check"></i>
+                  <i class="fa-solid fa-person"></i>
                   원래자세
                 </button>
                 </div>
@@ -427,7 +427,7 @@
                     value="0"
                   />
                   <button id="add_frame_bt" class="btn-teal">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-plus"></i>
                     추가하기
                   </button>
                 </div>
@@ -652,11 +652,11 @@
                   />
                   <span> - </span>
                   <button id="play_frame_bt" class="btn-teal">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-play"></i>
                     실행하기
                   </button>
                   <button id="stop_frame_bt" class="btn-teal">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-stop"></i>
                     정지하기
                   </button>
                   <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -697,16 +697,16 @@
                     등록하기
                   </button>
                   <button id="load_motion_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
                     불러오기
                   </button>
                   <button id="delete_motion_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-minus"></i>
                     삭제하기
                   </button>
                   <i class="fa-solid fa-ellipsis-vertical"></i>
                   <button id="reset_motion_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-trash-can"></i>
                     모두지우기
                   </button>
                 </div>
@@ -740,8 +740,8 @@
               <div>
                 <header>기능 설정</header>
                 <input type="radio" name="vision_type" value="camera" checked>없음
-                <input type="radio" name="vision_type" value="cartoon">만화화
-                <input type="radio" name="vision_type" value="qr">바코드
+                <input type="radio" name="vision_type" value="cartoon">만화
+                <input type="radio" name="vision_type" value="qr">QR코드
                 <input type="radio" name="vision_type" value="face">얼굴
                 <input type="radio" name="vision_type" value="object">사물
                 <input type="radio" name="vision_type" value="pose">포즈
@@ -751,7 +751,7 @@
                 <header>카메라</header>
                 <button id="capture">
                   <i class="fa-solid fa-camera-retro"></i>
-                  캡쳐
+                  사진저장하기
                 </button>
               </div>
               <div>
@@ -774,7 +774,7 @@
                 </div>
                 <div style="float: right">
                   <button id="chat_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-comment-dots"></i>
                     질문하기
                   </button>
                 </div>
@@ -861,5 +861,5 @@
         <span id="d_battery_val"></span> <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=1"></script>
+  <script src="../static/index.js?v1"></script>
 </html>

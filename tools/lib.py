@@ -1,4 +1,5 @@
 import openpibo
+import openpibo_models
 from openpibo.vision import Camera,Face,Detect,TeachableMachine
 from openpibo.device import Device
 from openpibo.audio import Audio
@@ -6,11 +7,14 @@ from openpibo.oled import Oled
 from openpibo.speech import Speech,Dialog
 from openpibo.motion import Motion
 import asyncio
+import numpy as np
 
 import time, datetime
 import base64
 import cv2
 import os, json, shutil
+from PIL import Image, ImageDraw, ImageFont, ImageOps
+
 from queue import Queue
 from threading import Thread, Lock
 import log
@@ -39,6 +43,8 @@ class Pibo:
     self.fac = Face()
     self.det = Detect()
     self.tm = TeachableMachine()
+    self.pil_fontpath = openpibo_models.filepath("KDL.ttf")
+    self.pil_font = ImageFont.truetype(self.pil_fontpath, 20)
 
     try:
       self.tm.load("/home/pi/models/model_unquant.tflite", "/home/pi/models/labels.txt")
@@ -140,9 +146,15 @@ class Pibo:
     #self.cam.putText(im, "{} : {:.1f}%".format(res, raw.max()*100), (50, 50), 0.7, colors, 1)
 
     r = []
+    im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
     for i in range(len(self.tm.class_names)):
-      self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
+      #self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
+      text="{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100)
+      points = (20, 20+((i+1)*25))
+      ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(200,200,200))
       r.append(f"{self.tm.class_names[i]}: {raw[i]*100: .1f} %")
+
+    im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     return im, ", ".join(r)
 
   def imwrite(self, name):

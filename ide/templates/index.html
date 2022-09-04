@@ -17,8 +17,8 @@
   <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
   <link rel="stylesheet" href="../static/codemirror.css" />
   <link rel="stylesheet" href="../static/cobalt.css" />
-  <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
-  <link rel="stylesheet" href="../static/index.css?ver=1" />
+  <link rel="shortcut icon" href="../static/icon.png?v1" type="image/x-icon" />
+  <link rel="stylesheet" href="../static/index.css?v1" />
 </head>
 
 <body>
@@ -33,19 +33,12 @@
 
   <main>
     <div class="content">
-      <div class="wrapper ide" style="flex: 1 0 320px; max-width: 320px">
+      <div class="wrapper ide">
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa-solid fa-computer"><span> 탐색기</span></i>
             <i class="fa-solid fa-angle-right"></i>
-            <i class="fa-solid fa-folder-open"></i>
-            <span id="path"></span>
-          </div>
-        </div>
-        <div class="editor-row">
-          <div class="editor-col">
-            <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기"/>
-            <span>숨김파일</span>
+            <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기" />
             <label for="upload" title="업로드">
               <i class="fa-solid fa-file-upload"><span> </span></i>
             </label>
@@ -62,6 +55,12 @@
             </button>
           </div>
         </div>
+
+        <div class="filepath" style="width:320px">
+          <i class="fa-solid fa-folder-open"></i>
+          <span id="path"></span>
+        </div>
+
         <div class="editor-row">
           <div class="editor-col">
             <div class="fm-table-wrap">
@@ -75,10 +74,12 @@
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa fa-solid fa-tv"><span> 출력</span></i>
-            <i class="fa-solid fa-angle-right"></i>
-            <i class="fa-solid fa-folder-open"></i>
-            <span id="imgpath"></span>
           </div>
+        </div>
+
+        <div class="filepath" style="width:320px">
+          <i class="fa-solid fa-folder-open"></i>
+          <span id="imgpath"></span>
         </div>
 
         <div class="editor-row">
@@ -89,70 +90,67 @@
 
         <div class="editor-row">
           <div class="editor-col">
-            <audio controls id="audio" style="width:320px;background-color:#edf5e0" />
+            <audio controls id="audio" class="preview-audio"></audio>
           </div>
         </div>
       </div>
 
-      <div class="wrapper ide" style="flex: 1 0 700px; max-width: 700px">
-        <div style="display: flex; justify-content: space-between;width: 100%">
-          <div style="display: flex; flex-flow: column; gap: 5px">
-            <div class="editor-row">
-              <div class="editor-col">
-                <i class="fa fa-solid fa-laptop-code"><span> 프로그램 </span></i>
-                <i class="fa-solid fa-angle-right"></i>
-                <div name="codetype">
-                  <button name="python">
-                    <i class="fa fa-brands fa-python"><span> Python </span></i>
-                  </button>
-                  <button name="html">
-                    <i class="fab fa-html5"><span> HTML </span></i>
-                  </button>
-                  <button name="shell">
-                    <i class="fa fa-solid fa-code"><span> Shell </span></i>
-                  </button>
-                </div>
-              </div>
+      <div class="wrapper ide">
+        <div class="editor-row">
+          <div class="editor-col">
+            <i class="fa fa-solid fa-laptop-code"> 프로그램</i>
+            <i class="fa-solid fa-angle-right"></i>
+            <div name="codetype">
+              <button name="python">
+                <i class="fa fa-brands fa-python"></i> Python
+              </button>
+              <button name="html">
+                <i class="fab fa-html5"></i> HTML
+              </button>
+              <button name="shell">
+                <i class="fa fa-solid fa-code"></i> Shell
+              </button>
             </div>
-            <div class="editor-row">
-              <div class="editor-col">
-                <i class="fa-solid fa-folder-open"></i>
-                <span id="codepath" style="min-width:400px;"></span>
-                <span id='codecheck'></span>
-              </div>
-              <div class="editor-col">
-                <i class="fa-solid fa-text-height">
-                  <input type="number" id="fontsize" min="14" max="50" value="14" step="1" />
-                </i>
-                <button id="execute" class="btn-teal" style="width:70px" title="실행">
-                  실행
-                  <i class="fa fa-solid fa-play"></i>
-                </button>
-                <button id="stop" class="btn-red disabled" style="width:70px" title="정지">
-                  정지
-                  <i class="fa fa-solid fa-stop"></i>
-                </button>
-              </div>
-            </div>
+            <span id='codecheck'></span>
+          </div>
 
-            <div class="editor-row fullWidth">
-              <form id="code_form">
-                <textarea id="codemirror-code" name="source_code"></textarea>
-              </form>
-            </div>
+          <div class="editor-col">
+            <i class="fa-solid fa-text-height">
+              <input type="number" id="fontsize" min="14" max="50" value="14" step="1" />
+            </i>
+            <button id="execute" class="btn-teal" style="width:70px" title="실행">
+              <i class="fa fa-solid fa-play"></i>
+              실행
+            </button>
+            <button id="stop" class="btn-red disabled" style="width:70px" title="정지">
+              <i class="fa fa-solid fa-stop"></i>
+              정지
+            </button>
           </div>
         </div>
+
+        <div class="filepath">
+          <i class="fa-solid fa-folder-open"></i>
+          <span id="codepath"></span>
+        </div>
+
+        <div class="editor-row">
+          <form id="code_form">
+            <textarea id="codemirror-code" name="source_code"></textarea>
+          </form>
+        </div>
       </div>
-      <div class="wrapper ide" style="flex: 1 0 400px; max-width:400px; gap: 8px">
+
+      <div class="wrapper ide">
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa fa-solid fa-file-lines"><span> 실행결과</span></i>
           </div>
         </div>
 
-        <div class="editor-row fullWidth">
-          <div class="editor-col fullWidth">
-            <textarea id="update" style="width:390px;min-height:586px;height:calc(80.5vh + 30px)" disabled></textarea>
+        <div class="editor-row">
+          <div class="editor-col">
+            <textarea id="result" class="result" disabled></textarea>
           </div>
         </div>
       </div>
@@ -180,7 +178,6 @@
       <span id="s_runtime"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=1"></script>
+  <script src="../static/index.js?v1"></script>
 </body>
-
 </html>

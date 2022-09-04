@@ -16,7 +16,7 @@ const codeMirrorMode = {
 const execute = document.getElementById("execute");
 const stop = document.getElementById("stop");
 const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
-const update = document.getElementById("update");
+const result = document.getElementById("result");
 
 const editor = CodeMirror.fromTextArea(
   document.getElementById("codemirror-code"),
@@ -59,8 +59,8 @@ socket.on("update", (data) => {
   }
 
   if ("record" in data) {
-    update.value = data["record"];
-    update.scrollTop = update.scrollHeight;
+    result.value = data["record"];
+    result.scrollTop = result.scrollHeight;
     execute.classList.add("disabled");
     stop.classList.remove("disabled");
     execute.disabled = true;
@@ -128,7 +128,7 @@ execute.addEventListener("click", () => {
   }
 
   let codetype = "";  
-  update.value = "";
+  result.value = "";
   save_code = editor.getValue();
   CodeMirror.signal(editor, "change");
   codeTypeBtns.forEach((el) => {
@@ -267,7 +267,7 @@ $("#add_directory").on("click", () => {
 });
 
 $("#log").on("click", () => {
-  $("#update").slideToggle();
+  $("#result").slideToggle();
 });
 
 $("#add_file").on("click", () => {

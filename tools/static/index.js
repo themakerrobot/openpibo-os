@@ -21,10 +21,10 @@ const getStatus = (socket) => {
     if (d == "on") {
       socket.emit("disp_motor");
       socket.emit("detect");
-      $("#on").text("ONº");
+      $("#state").html("<i class='fa-solid fa-person-running'></i>");
     }
     if (d == "off") {
-      $("#on").text("ON");
+      $("#state").html("<i class='fa-solid fa-person'></i>");
     }
   });
 
@@ -714,7 +714,7 @@ $(function () {
       $("#d_otext_val").val("");
     }
 
-    //$("h2#content_header").text(name.toUpperCase());
+    $("h3#content_header").text(name.toUpperCase());
     $("nav").find("button").removeClass("menu-selected");
     $(`button[name=${name}]`).addClass("menu-selected");
     $("article").not(`#article_${name}`).hide("slide");
