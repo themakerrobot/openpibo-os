@@ -59,28 +59,34 @@ async def f_download():
     pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
 
+@app.get('/aaa')
+async def f_aaa(a=None, b=None):
+  return JSONResponse(content={'result':f'-{a}-{b}-'}, status_code=200)
+
 @app.get('/wifi')
 async def f_wifi_rest(ssid=None, psk=None):
   if ssid == None or psk == None:
     with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
       tmp = f.readlines()
-      return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]}, status_code=200)
+    ipaddress = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')[6]
+    return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1], 'ipaddress':ipaddress}, status_code=200)
   else:
-    if True:
-      tmp='country=KR\n'
-      tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
-      tmp+='update_config=1\n'
-      tmp+='network={\n'
-      tmp+='\tssid="{}"\n'.format(ssid)
-      tmp+='\tpsk="{}"\n'.format(psk)
-      tmp+='\tkey_mgmt=WPA-PSK\n'
-      tmp+='}\n'
+    if len(psk) < 8:
+      return JSONResponse(content={'result':'fail', 'data':'psk must be at least 8 digits.'}, status_code=200)
 
-      with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
-        f.write(tmp)
-      os.system('wpa_cli -i wlan0 reconfigure')
-      os.system("shutdown -r now")
-  return JSONResponse(content={'result':'ok', 'ssid':ssid, 'psk':psk}, status_code=200)
+    tmp='country=KR\n'
+    tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
+    tmp+='update_config=1\n'
+    tmp+='network={\n'
+    tmp+='\tssid="{}"\n'.format(ssid)
+    tmp+='\tpsk="{}"\n'.format(psk)
+    tmp+='\tkey_mgmt=WPA-PSK\n'
+    tmp+='}\n'
+
+    with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
+      f.write(tmp)
+    os.system('wpa_cli -i wlan0 reconfigure')
+    os.system("shutdown -r now")
 
 # vision
 @app.sio.on('detect')
@@ -265,6 +271,9 @@ async def wifi(sid, d=None):
       tmp = f.readlines()
       await emit('wifi', {'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]})
   else:
+    if len(d['psk']) < 8:
+      logger.error("psk must be at least 8 digits.")
+      return
     tmp='country=KR\n'
     tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
     tmp+='update_config=1\n'
