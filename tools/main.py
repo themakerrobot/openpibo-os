@@ -59,6 +59,29 @@ async def f_download():
     pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
 
+@app.get('/wifi')
+async def f_wifi_rest(ssid=None, psk=None):
+  if ssid == None or psk == None:
+    with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
+      tmp = f.readlines()
+      return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1]}, status_code=200)
+  else:
+    if True:
+      tmp='country=KR\n'
+      tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
+      tmp+='update_config=1\n'
+      tmp+='network={\n'
+      tmp+='\tssid="{}"\n'.format(ssid)
+      tmp+='\tpsk="{}"\n'.format(psk)
+      tmp+='\tkey_mgmt=WPA-PSK\n'
+      tmp+='}\n'
+
+      with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
+        f.write(tmp)
+      os.system('wpa_cli -i wlan0 reconfigure')
+      os.system("shutdown -r now")
+  return JSONResponse(content={'result':'ok', 'ssid':ssid, 'psk':psk}, status_code=200)
+
 # vision
 @app.sio.on('detect')
 async def f_detect(sid, d=None):
