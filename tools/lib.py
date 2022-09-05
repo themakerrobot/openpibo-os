@@ -21,7 +21,7 @@ import log
 logger = log.configure_logger()
 
 def to_base64(im):
-  #im = cv2.resize(im, (320,240))
+  im = cv2.resize(im, (320,240))
   im = cv2.imencode('.jpg', im)[1].tobytes()
   return base64.b64encode(im).decode('utf-8')
 

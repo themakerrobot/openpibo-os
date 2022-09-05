@@ -100,7 +100,6 @@ async def f_mic_replay(sid, d=None):
   if pibo.onoff:
     pibo.play_audio('/home/pi/stream.wav', d['volume'], True)
   return
- 
 
 @app.sio.on('tts')
 async def f_tts(sid, d=None):
@@ -111,6 +110,7 @@ async def f_tts(sid, d=None):
 @app.sio.on('play_audio')
 async def f_play_audio(sid, d=None):
   if pibo.onoff:
+    res = pibo.stop_audio()
     res = pibo.play_audio(d["filename"], d["volume"], True)
   return
 
