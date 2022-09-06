@@ -130,7 +130,7 @@ class Pibo:
       colors = (100,0,200)
       self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
       self.cam.putText(im, 'QR', (x1-10, y1-10),0.6,colors,2)
-      res += '[{}-({},{})] '.format(item['data'], x1, y1)
+      res += '[{}-{} / ({},{})] '.format(item['data'], item['type'], x1, y1)
 
     return im, res
 
