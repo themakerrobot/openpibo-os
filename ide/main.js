@@ -124,6 +124,11 @@ let storage = multer.diskStorage({
 let upload = multer({ storage: storage })
 
 app.post('/upload', upload.single('data'), (req, res) => {
+  if (isProtect(PATH)) {
+    io.emit('update', {dialog:'파일 업로드 오류: 보호 디렉토리입니다.'});
+    return;
+  }
+
   io.emit('update_file_manager', {data: readDirectory(PATH)});
   execSync('chown -R pi:pi ' + PATH);
   res.status(200).end();
@@ -196,7 +201,7 @@ io.on('connection', (socket) => {
 
   socket.on('add_file', (p) => {
     if (isProtect(p)) {
-      io.emit('update', {dialog:'파일 생성 오류: 보호 파일입니다.'});
+      io.emit('update', {dialog:'파일 생성 오류: 보호 디렉토리입니다.'});
       return;
     }
     codePath = p;
@@ -222,7 +227,7 @@ io.on('connection', (socket) => {
 
   socket.on('add_directory', (p) => {
     if (isProtect(p)) {
-      io.emit('update', {dialog:'디렉토리 생성 오류: 보호 파일입니다.'});
+      io.emit('update', {dialog:'디렉토리 생성 오류: 보호 디렉토리입니다.'});
       return;
     }
 
