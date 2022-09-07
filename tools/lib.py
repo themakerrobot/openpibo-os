@@ -98,6 +98,16 @@ class Pibo:
 
     if len(items) > 0:
       x,y,w,h = items[0]
+      '''
+      age_val, age_data = self.fac.get_age(im[y:y+h,x:x+w])
+      gender_val, gender_data = self.fac.get_gender(im[y:y+h,x:x+w])
+      emotion_val, emotion_data = self.fac.get_emotion(im[y:y+h,x:x+w])
+
+      colors = (200,100,0) if gender_val == 'Male' else (100,200,0)
+      self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
+      self.cam.putText(im, f'{age_val} {gender_val} {emotion_val}', (x-10, y-10),0.6,colors,2)
+      res += '[{} / {} / {}'.format(age_val, gender_val, emotion_val)
+      '''
       face = self.fac.get_ageGender(im, items[0])
       colors = (200,100,0) if face['gender'] == 'Male' else (100,200,0)
       self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
