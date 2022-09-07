@@ -59,10 +59,6 @@ async def f_download():
     pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
 
-@app.get('/aaa')
-async def f_aaa(a=None, b=None):
-  return JSONResponse(content={'result':f'-{a}-{b}-'}, status_code=200)
-
 @app.get('/wifi')
 async def f_wifi_rest(ssid=None, psk=None):
   if ssid == None or psk == None:
