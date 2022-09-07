@@ -320,6 +320,11 @@ async def restart(sid, d=None):
   os.system("shutdown -r now")
   return
 
+@app.sio.on('swupdate')
+async def f_swupdate(sid, d=None):
+  os.system("curl -s https://raw.githubusercontent.com/themakerrobot/openpibo-files/master/update/main.sh > /home/pi/update")
+  os.system("bash /home/pi/update")
+
 @app.on_event("startup")
 async def startup_event():
   global logger, pibo

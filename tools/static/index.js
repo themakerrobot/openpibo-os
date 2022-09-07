@@ -104,7 +104,8 @@ const getStatus = (socket) => {
   });
 
   $("#swupdate_bt").on("click", function () {
-    //socket.emit("swupdate");
+    if (confirm("업데이트를 하시겠습니까?(불안정-문제가 발생할 수 있습니다.)"))
+      socket.emit("swupdate");
   });
 };
 
