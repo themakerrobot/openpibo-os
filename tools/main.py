@@ -322,7 +322,7 @@ async def restart(sid, d=None):
 
 @app.sio.on('swupdate')
 async def f_swupdate(sid, d=None):
-  os.system("curl -s https://raw.githubusercontent.com/themakerrobot/openpibo-files/master/update/main.sh > /home/pi/update")
+  os.system("curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main.sh > /home/pi/update")
   os.system("bash /home/pi/update")
 
 @app.on_event("startup")
