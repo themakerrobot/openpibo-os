@@ -57,27 +57,27 @@ const execute = async(EXEC, codepath) => {
   await mutex.acquire();
   return new Promise((res, rej) => {
     record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
-    io.emit('update', {'record':record});
+    io.emit('update', {record:record});
 
     ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]); // python3/sh
     ps.stdout.on('data', (data) => {
       record += data.toString();
-      io.emit('update', {'record':record});
+      io.emit('update', {record:record});
     });
 
     ps.stderr.on('data', (data) => {
       record += data.toString();
-      io.emit('update', {'record':record});
+      io.emit('update', {record:record});
     });
 
     ps.on('error', (err) => {
       record += err.toString();
-      io.emit('update', {'record':record});
+      io.emit('update', {record:record});
     });
 
     ps.on('close', (code) => {
       record += "\n종료됨.";
-      io.emit('update', {'record':record, 'exit':true});
+      io.emit('update', {record:record, exit:true});
       res(mutex.release());
     });
   });
@@ -268,7 +268,7 @@ io.on('connection', (socket) => {
       codePath = d['codepath'];
 
       if (isProtect(path.dirname(codePath))) {
-        io.emit('update', {dialog:'실행 오류: 보호 파일입니다.'});
+        io.emit('update', {dialog:'실행 오류: 보호 파일입니다.', exit:true});
         return;
       }
 
@@ -278,7 +278,7 @@ io.on('connection', (socket) => {
       execSync('chown -R pi:pi ' + path.dirname(codePath));
       await execute(codeExec[d["codetype"]], codePath);
     } catch (err) {
-      io.emit('update', {code:'', dialog:'실행 오류: ' + err.toString(), 'exit':true});
+      io.emit('update', {code:'', dialog:'실행 오류: ' + err.toString(), exit:true});
     }
   });
 });
