@@ -160,7 +160,7 @@ const getMotions = (socket) => {
       $(tval).val($(trange).val());
     });
 
-    $(trange).on("click", function (evt) {
+    $(trange).on("click touchend", function (evt) {
       socket.emit("set_motor", { idx: i, pos: Number($(trange).val()) });
     });
 

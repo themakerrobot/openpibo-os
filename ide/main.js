@@ -16,13 +16,13 @@ const codeExec = {
 };
 
 const protectList = [
-  'openpibo-tools',
-  'openpibo-files',
-  'node_modules',
-  'package.json',
-  'package-lock.json',
-  'mymotion.json',
-  'config.json',
+  '/home/pi/openpibo-tools',
+  '/home/pi/openpibo-files',
+  '/home/pi/node_modules',
+  '/home/pi/package.json',
+  '/home/pi/package-lock.json',
+  '/home/pi/mymotion.json',
+  '/home/pi/config.json',
 ];
 
 let record = '';
@@ -89,7 +89,7 @@ const readDirectory = (d) => {
 
   fs.readdirSync(d, {withFileTypes:true}).forEach(p => {
     if(p.isDirectory()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
-    else flst.push({name:p.name, type:"file", protect:isProtect(`${d}/${p.name}`)});
+    else flst.push({name:p.name, type:"file", protect:(isProtect(d) || isProtect(`${d}/${p.name}`))});
   });
 
   return dlst.concat(flst);
@@ -200,7 +200,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add_file', (p) => {
-    if (isProtect(p)) {
+    if (isProtect(PATH)) {
       io.emit('update', {dialog:'파일 생성 오류: 보호 디렉토리입니다.'});
       return;
     }
@@ -226,7 +226,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add_directory', (p) => {
-    if (isProtect(p)) {
+    if (isProtect(PATH)) {
       io.emit('update', {dialog:'디렉토리 생성 오류: 보호 디렉토리입니다.'});
       return;
     }
@@ -250,7 +250,7 @@ io.on('connection', (socket) => {
       codeText = d['codetext'];
       codePath = d['codepath'];
 
-      if (isProtect(codePath)) {
+      if (isProtect(path.dirname(codePath))) {
         io.emit('update', {dialog:'파일 저장 오류: 보호 파일입니다.'});
         return;
       }
@@ -267,7 +267,7 @@ io.on('connection', (socket) => {
       codeText = d['codetext'];
       codePath = d['codepath'];
 
-      if (isProtect(codePath)) {
+      if (isProtect(path.dirname(codePath))) {
         io.emit('update', {dialog:'실행 오류: 보호 파일입니다.'});
         return;
       }
