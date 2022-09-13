@@ -39,7 +39,7 @@ const editor = CodeMirror.fromTextArea(
   }
 );
 
-$("#fontsize").on("click", () => {
+$("#fontsize").on("change", () => {
   document.querySelector("div.CodeMirror").style.fontSize = `${$("#fontsize").val()}px`;
   editor.refresh();
 });
@@ -296,6 +296,10 @@ $("#upload").on("change", (e) => {
   .always((xhr, status) => {
     alert(`파일 전송이 완료되었습니다. ${status}`);
   });
+});
+
+$("#eraser").on("click", () => {
+  result.value = "";
 });
 
 $("#home_bt").on("click", () => {

@@ -116,7 +116,7 @@
 
           <div class="editor-col">
             <i class="fa-solid fa-text-height">
-              <input type="number" id="fontsize" min="14" max="50" value="14" step="1" />
+              <input type="number" id="fontsize" min="14" max="50" value="14" step="1" pattern="\d*" />
             </i>
             <button id="execute" class="btn-teal" style="width:70px" title="실행">
               <i class="fa fa-solid fa-play"></i>
@@ -145,6 +145,10 @@
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa fa-solid fa-file-lines"><span> 실행결과</span></i>
+            <button id="eraser" title="지우기">
+              <i class="fa fa-solid fa-eraser"></i>
+              지우기
+            </button>
           </div>
         </div>
 
