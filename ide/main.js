@@ -1,11 +1,10 @@
 const express = require('express');
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const multer = require('multer');
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
 const exec = require('child_process').exec;
 const execSync = require('child_process').execSync;
-const spawnSync = require('child_process').spawnSync;
 const spawn = require('child_process').spawn;
 const fs = require('fs');
 const path = require('path');
@@ -27,7 +26,6 @@ const protectList = [
 
 let record = '';
 let ps = undefined;
-
 let PATH = '/home/pi';
 let codeText = '';
 let codePath = '';
@@ -51,7 +49,35 @@ class Mutex {
     this.lock = false;
   }
 }
-const mutex = new Mutex();
+
+const readDirectory = (d) => {
+  let dlst = [];
+  let flst = [];
+
+  fs.readdirSync(d, {withFileTypes:true}).forEach(p => {
+    if(p.isDirectory()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
+    else flst.push({name:p.name, type:"file", protect:(isProtect(d) || isProtect(`${d}/${p.name}`))});
+  });
+  return dlst.concat(flst);
+}
+
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, PATH);
+  },
+  filename: function (req, file, cb) {
+    file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8')
+    let name = file.originalname.replace(/ /g, "_");
+    cb(null, name);
+  }
+});
+
+const isProtect = (p) => {
+  for(idx in protectList) {
+    if (p.includes(protectList[idx])) return true;
+  }
+  return false;
+}
 
 const execute = async(EXEC, codepath) => {
   await mutex.acquire();
@@ -83,17 +109,8 @@ const execute = async(EXEC, codepath) => {
   });
 }
 
-const readDirectory = (d) => {
-  let dlst = [];
-  let flst = [];
-
-  fs.readdirSync(d, {withFileTypes:true}).forEach(p => {
-    if(p.isDirectory()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
-    else flst.push({name:p.name, type:"file", protect:(isProtect(d) || isProtect(`${d}/${p.name}`))});
-  });
-
-  return dlst.concat(flst);
-}
+const mutex = new Mutex();
+let upload = multer({ storage: storage });
 
 server.listen(port, () => {
   execSync('v4l2-ctl -c vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3');
@@ -102,44 +119,22 @@ server.listen(port, () => {
 
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/webfonts', express.static(__dirname + '/webfonts'));
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/templates/index.html')
 });
-
 app.get('/download', (req, res) => {
   res.download(PATH + "/" + req.query.filename); 
 });
-
-let storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, PATH);
-  },
-  filename: function (req, file, cb) {
-    file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8')
-    let name = file.originalname.replace(/ /g, "_");
-    cb(null, name);
-  }
-});
-
-let upload = multer({ storage: storage })
-
 app.post('/upload', upload.single('data'), (req, res) => {
   if (isProtect(PATH)) {
     io.emit('update', {dialog:'파일 업로드 오류: 보호 디렉토리입니다.'});
     return;
   }
-
   io.emit('update_file_manager', {data: readDirectory(PATH)});
   execSync('chown -R pi:pi ' + PATH);
   res.status(200).end();
 });
-
-const isProtect = (p) => {
-  for(idx in protectList) {
-    if (p.includes(protectList[idx])) return true;
-  }
-  return false; 
-}
 
 io.on('connection', (socket) => {
   socket.on('init', () => {
@@ -204,10 +199,10 @@ io.on('connection', (socket) => {
       io.emit('update', {dialog:'파일 생성 오류: 보호 디렉토리입니다.'});
       return;
     }
-    codePath = p;
-    fs.exists(p, function(exists) {
+
+    fs.access(p, fs.constants.F_OK, (evt) => {
       try {
-        if(!exists) {
+        if(evt.code == 'ENOENT') {
           execSync('mkdir -p ' + path.dirname(p));
           execSync('touch ' + p);
           execSync('chown -R pi:pi ' + path.dirname(p));
@@ -218,6 +213,7 @@ io.on('connection', (socket) => {
         return;
       }
 
+      codePath = p;
       fs.readFile(p, (err, data) => {
         if(!err) io.emit('update', {code: data.toString(), dialog:'불러오기 완료: ' + p});
         else io.emit('update', {code:'', dialog:'불러오기 오류: ' + err.toString()});
@@ -231,9 +227,9 @@ io.on('connection', (socket) => {
       return;
     }
 
-    fs.exists(p, function(exists) {
+    fs.access(p, fs.constants.F_OK, (evt) => {
       try {
-        if(!exists) {
+        if(evt.code == 'ENOENT') {
           execSync('mkdir -p ' + p);
           execSync('chown -R pi:pi ' + p);
           io.emit('update_file_manager', {data: readDirectory(PATH)});
@@ -271,7 +267,6 @@ io.on('connection', (socket) => {
         io.emit('update', {dialog:'실행 오류: 보호 파일입니다.', exit:true});
         return;
       }
-
       if(ps) ps.kill('SIGKILL');
       execSync('mkdir -p ' + path.dirname(codePath));
       fs.writeFileSync(codePath, codeText);
