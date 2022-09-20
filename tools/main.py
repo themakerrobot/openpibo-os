@@ -25,34 +25,6 @@ except Exception as ex:
 async def main(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post('/upload_model')
-async def f_upload(data:UploadFile = File(...)):
-  data.filename = "models.zip"
-  os.system(f"mkdir -p {MODEL_PATH}")
-  os.system(f"rm -rf {MODEL_PATH}/*")
-  
-  with open(f"{MODEL_PATH}/{data.filename}", 'wb') as f:
-    content = await data.read()
-    f.write(content)
-
-  os.system(f"unzip {MODEL_PATH}/{data.filename} -d {MODEL_PATH}")
-  if pibo.onoff:
-    pibo.tm.load(f"{MODEL_PATH}/model_unquant.tflite", f"{MODEL_PATH}/labels.txt")
-  return JSONResponse(content={"filename":data.filename}, status_code=200)
-
-@app.post('/upload_oled')
-async def f_upload(data:UploadFile = File(...)):
-  data.filename = "tmp.jpg"
-
-  filepath = f"/home/pi/{data.filename}"
-  with open(filepath, 'wb') as f:
-    content = await data.read()
-    f.write(content)
-  if pibo.onoff:
-    pibo.set_oled_image(filepath)
-  os.remove(filepath)
-  return JSONResponse(content={"filename":data.filename}, status_code=200)
-
 @app.get('/download', response_class=FileResponse)
 async def f_download():
   if pibo.onoff:
@@ -83,6 +55,34 @@ async def f_wifi_rest(ssid=None, psk=None):
       f.write(tmp)
     os.system('wpa_cli -i wlan0 reconfigure')
     os.system("shutdown -r now")
+
+@app.post('/upload_model')
+async def f_upload(data:UploadFile = File(...)):
+  data.filename = "models.zip"
+  os.system(f"mkdir -p {MODEL_PATH}")
+  os.system(f"rm -rf {MODEL_PATH}/*")
+
+  with open(f"{MODEL_PATH}/{data.filename}", 'wb') as f:
+    content = await data.read()
+    f.write(content)
+
+  os.system(f"unzip {MODEL_PATH}/{data.filename} -d {MODEL_PATH}")
+  if pibo.onoff:
+    pibo.tm.load(f"{MODEL_PATH}/model_unquant.tflite", f"{MODEL_PATH}/labels.txt")
+  return JSONResponse(content={"filename":data.filename}, status_code=200)
+
+@app.post('/upload_oled')
+async def f_upload(data:UploadFile = File(...)):
+  data.filename = "tmp.jpg"
+
+  filepath = f"/home/pi/{data.filename}"
+  with open(filepath, 'wb') as f:
+    content = await data.read()
+    f.write(content)
+  if pibo.onoff:
+    pibo.set_oled_image(filepath)
+  os.remove(filepath)
+  return JSONResponse(content={"filename":data.filename}, status_code=200)
 
 # vision
 @app.sio.on('detect')
