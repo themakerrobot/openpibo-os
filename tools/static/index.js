@@ -327,7 +327,7 @@ const getMotions = (socket) => {
       let min = Number($(this).attr("min"));
       let max = Number($(this).attr("max"));
 
-      if (Number.isInteger(val) || val < min || val > max) {
+      if (!Number.isInteger(val) || val < min || val > max) {
         $(this).val(1);
         alert(min + " ~ " + max + " 사이 정수만 입력하세요.");
       }
