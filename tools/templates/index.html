@@ -6,7 +6,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0 user-scalable=no"
     />
-    <title>Openpibo-Tools</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="../static/manifest.json">
+    <title>Pibo Maker</title>
     <link rel="stylesheet" href="../static/all.min.css?v1" type="text/css" />
     <link
       rel="shortcut icon"
@@ -155,6 +157,13 @@
                     <i class="fa-solid fa-check"></i>
                     확인하기
                   </button>
+                </div>
+                <div>
+		  예시)
+                  <input type="radio" name="audio_type" value="audio" checked>음악
+                  <input type="radio" name="audio_type" value="audio/animal">동물소리
+                  <input type="radio" name="audio_type" value="audio/effect">효과음
+                  <input type="radio" name="audio_type" value="audio/voice">목소리
                 </div>
               </div>
             </section>

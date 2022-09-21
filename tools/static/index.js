@@ -71,7 +71,6 @@ const getStatus = (socket) => {
     $("#kakaokey").val(data["kakaokey"]);
     $("#eye").val(data["eye"]);
     $("#audiopath").val(data["audiopath"]);
-
     $("#audiofiles").empty();
     $("#audiofiles").append("<option value='-'>선택</option>");
     for (let i =0; i < data["audiofiles"].length; i++){
@@ -81,6 +80,11 @@ const getStatus = (socket) => {
       if (["mp3", "wav"].includes(extension))
         $('#audiofiles').append(`<option value="${filename}">${filename.split(".")[0]}</option>`);
     }
+  });
+
+  $("input[name=audio_type]").on("change", function(){
+    let sel = $("input[name=audio_type]:checked").val();
+    $("#audiopath").val("/home/pi/openpibo-files/" + sel);
   });
 
   $("#kakaokey_bt").on("click", function () {

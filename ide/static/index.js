@@ -22,7 +22,7 @@ const editor = CodeMirror.fromTextArea(
   document.getElementById("codemirror-code"),
   {
     lineNumbers: "true",
-    lineWrapping: "true",
+    //lineWrapping: "true",
     mode: codeMirrorMode["python"],
     theme: "cobalt",
     extraKeys: {
