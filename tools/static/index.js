@@ -321,9 +321,17 @@ const getMotions = (socket) => {
     }
   });
   
-  $("#play_cycle_val").on("keydown", function (evt) {
-    setTimeout(function(){$("#play_cycle_val").val(1);},0);
-    evt.preventDefault();
+  $("#play_cycle_val").on("focusout keydown", function (evt) {
+    if (evt.type == "focusout" || (evt.type == "keydown" && evt.keyCode == 13)) {
+      let val = Number($(this).val());
+      let min = Number($(this).attr("min"));
+      let max = Number($(this).attr("max"));
+
+      if (Number.isInteger(val) || val < min || val > max) {
+        $(this).val(1);
+        alert(min + " ~ " + max + " 사이 정수만 입력하세요.");
+      }
+    }
   });
 
   // 동작 정지
