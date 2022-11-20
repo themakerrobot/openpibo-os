@@ -15,7 +15,7 @@ const codeExec = {
 };
 
 const protectList = [
-  '/home/pi/openpibo-tools',
+  '/home/pi/openpibo-os',
   '/home/pi/openpibo-files',
   '/home/pi/node_modules',
   '/home/pi/package.json',

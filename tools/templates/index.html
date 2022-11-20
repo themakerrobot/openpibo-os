@@ -27,7 +27,11 @@
         </h2>
       </div>
       <div style="float:right">
-        <h2><img src="../static/themaker.png" style="height:22px"/></h2>
+        <h2>
+          <a href='https://themaker.imweb.me' target='_blank'>
+            <img src="../static/themaker.png" style="height:22px"/>
+          </a>
+        </h2>
       </div>
     </header>
     <main>
@@ -56,6 +60,9 @@
           <h3 id="content_header">HOME</h2>
           <article id="article_home">
             <section>
+
+            </section>
+            <section>
               <h3 class="mark">시스템 설정</h3>
               <div class="system-config-item">
                 <header>
@@ -70,7 +77,7 @@
                     </label>
                     <label for="password" class="label">
                       비밀번호:
-                      <input type="text" name="password" id="password" required />
+                      <input type="password" name="password" id="password" required />
                     </label>
                   </div>
                   <button id='wifi_bt'>
@@ -93,59 +100,9 @@
                   <i class="fa-solid fa-percent"></i>
                 </div>
               </div>
-              <div class="system-config-item">
-                <header>소프트웨어 업데이트하기</header>
-                <div>
-                  <button id="swupdate_bt">
-                    <i class="fa-solid fa-rotate"></i>
-                    업데이트
-                  </button>
-                </div>
-              </div>
-              <div class="system-config-item">
-                <header>전원설정</header>
-                <div>
-                  <button id="poweroff_bt">
-                    <i class="fa-solid fa-power-off"></i>
-                    종료하기
-                  </button>
-                  <button id="restart_bt">
-                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                    재시작하기
-                  </button>
-                </div>
-              </div>
-            </section>
-            <section>
-              <h3 class="mark">설정 정보</h3>
-              <div class="system-config-item">
-                  <header>눈 색상</header>
-                  <input
-                    type="text"
-                    name="eye"
-                    id="eye"
-                    style="width: 300px"
-                    disabled
-                  />
-              </div>
-              <div class="system-config-item">
-                <header>개발계정</header>
-                <div>
-                  <input
-                    type="text"
-                    name="kakaokey"
-                    id="kakaokey"
-                    style="width: 300px"
-                  />
-                  <button id="kakaokey_bt">
-                    <i class="fa-solid fa-check"></i>
-                    확인하기
-                  </button>
-                </div>
-              </div>
 
               <div class="system-config-item">
-                <header>오디오파일 경로</header>
+                <header>오디오파일 경로 설정하기</header>
                 <div>
                   <input
                     type="text"
@@ -159,11 +116,39 @@
                   </button>
                 </div>
                 <div>
-		  예시)
-                  <input type="radio" name="audio_type" value="audio" checked>음악
-                  <input type="radio" name="audio_type" value="audio/animal">동물소리
-                  <input type="radio" name="audio_type" value="audio/effect">효과음
-                  <input type="radio" name="audio_type" value="audio/voice">목소리
+                  예시)
+                  <a id="audio_music_bt" style="color:#df7e3d;cursor:pointer">음악</a>
+                  <a id="audio_animal_bt" style="color:#df7e3d;cursor:pointer">동물소리</a>
+                  <a id="audio_effect_bt" style="color:#df7e3d;cursor:pointer">효과음</a>
+                  <a id="audio_voice_bt" style="color:#df7e3d;cursor:pointer">목소리</a>
+                </div>
+              </div>
+
+              <div class="system-config-item">
+                <header>눈 색상 확인하기</header>
+                <input
+                  type="text"
+                  name="eye"
+                  id="eye"
+                  style="width: 300px"
+                  disabled
+                />
+              </div>
+
+              <div class="system-config-item">
+                <div>
+                  <button id="swupdate_bt">
+                    <i class="fa-solid fa-rotate"></i>
+                    스프트웨어 업데이트
+                  </button>
+                  <button id="poweroff_bt">
+                    <i class="fa-solid fa-power-off"></i>
+                    종료하기
+                  </button>
+                  <button id="restart_bt">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                    재시작하기
+                  </button>
                 </div>
               </div>
             </section>
@@ -416,14 +401,10 @@
                 </h4>
                 <div>
                   <select name="d_voice_type">
-                    <option value="WOMAN_READ_CALM">차분한 여성</option>
-                    <option value="MAN_READ_CALM">차분한 남성</option>
-                    <option value="WOMAN_DIALOG_BRIGHT">밝은 여성</option>
-                    <option value="MAN_DIALOG_BRIGHT">밝은 남성</option>
-                  </select>
-                  <select name="d_voice_mode">
-                    <option value="default">기본 말투</option>
-                    <option value="friendly">친근한 말투</option>
+                    <option value="espeak">기본음성</option>
+                    <option value="main">파이보</option>
+                    <option value="body">남자아이</option>
+                    <option value="girl">여자아이</option>
                   </select>
 
                   <input type="text" id="d_tts_text" style="width:300px">
@@ -853,10 +834,6 @@
                   <option value="MAN_READ_CALM">차분한 남성</option>
                   <option value="WOMAN_DIALOG_BRIGHT">밝은 여성</option>
                   <option value="MAN_DIALOG_BRIGHT">밝은 남성</option>
-                </select>
-                <select name="c_voice_mode">
-                  <option value="default">기본 말투</option>
-                  <option value="friendly">친근한 말투</option>
                 </select>
                 <i class="fa-solid fa-ellipsis"></i>
                 <i class="fa-solid fa-folder-open"></i>

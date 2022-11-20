@@ -279,11 +279,10 @@ class Pibo:
 
   def tts(self, d):
     voice_type = d['voice_type']
-    voice_mode = d['voice_mode']
     volume = d['volume']
 
     try:
-      self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+d['text']+'<break time="1000ms"/></voice></kakao:effect></speak>', '/home/pi/chat.mp3')
+      self.speech.tts(string=d['text'], filename='/home/pi/chat.mp3', voice=voice_type)
       self.play_audio('/home/pi/chat.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[tts] Error: {ex}')
@@ -306,7 +305,6 @@ class Pibo:
   def question(self, d):
     q = d['question']
     voice_type = d['voice_type']
-    voice_mode = d['voice_mode']
     volume = d['volume']
     ans = self.dialog.get_dialog(q)
     self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
@@ -318,7 +316,7 @@ class Pibo:
       return ans
 
     try:
-      self.speech.tts('<speak><kakao:effect tone="'+voice_mode+'"><voice name="'+voice_type+'">'+ans+'<break time="500ms"/></voice></kakao:effect></speak>', '/home/pi/chat.mp3')
+      self.speech.tts(string=ans, filename='/home/pi/chat.mp3', voice=voice_type)
       self.play_audio('/home/pi/chat.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')

@@ -68,7 +68,6 @@ const getStatus = (socket) => {
     socket.emit("config");
   }, 1000);
   socket.on("config", function (data) {
-    $("#kakaokey").val(data["kakaokey"]);
     $("#eye").val(data["eye"]);
     $("#audiopath").val(data["audiopath"]);
     $("#audiofiles").empty();
@@ -82,14 +81,18 @@ const getStatus = (socket) => {
     }
   });
 
-  $("input[name=audio_type]").on("change", function(){
-    let sel = $("input[name=audio_type]:checked").val();
-    $("#audiopath").val("/home/pi/openpibo-files/" + sel);
+  $("#audio_music_bt").on("click", function() {
+    console.log("AAA")
+    $("#audiopath").val("/home/pi/openpibo-files/audio/music");
   });
-
-  $("#kakaokey_bt").on("click", function () {
-    if (confirm("카카오 개발 계정을 업데이트하시겠습니까?"))
-      socket.emit("config", { kakaokey: $("#kakaokey").val() });
+  $("#audio_animal_bt").on("click", function() {
+    $("#audiopath").val("/home/pi/openpibo-files/audio/animal");
+  });
+  $("#audio_effect_bt").on("click", function() {
+    $("#audiopath").val("/home/pi/openpibo-files/audio/effect");
+  });
+  $("#audio_voice_bt").on("click", function() {
+    $("#audiopath").val("/home/pi/openpibo-files/audio/voice");
   });
 
   $("#audiopath_bt").on("click", function () {
@@ -404,7 +407,6 @@ const getChatbots = (socket) => {
           question: q,
           voice_en: $("input[name=c_voice_en]:checked").val(),
           voice_type: $("select[name=c_voice_type]").val(),
-          voice_mode: $("select[name=c_voice_mode]").val(),
           volume: Number($("#volume").val()),
         });
         $("#c_question_text").prop("disabled", false);
@@ -432,7 +434,6 @@ const getChatbots = (socket) => {
         question: q,
         voice_en: $("input[name=c_voice_en]:checked").val(),
         voice_type: $("select[name=c_voice_type]").val(),
-        voice_mode: $("select[name=c_voice_mode]").val(),
         volume: Number($("#volume").val()),
       });
       $("#c_question_text").prop("disabled", false);
@@ -669,7 +670,6 @@ const getDevices = (socket) => {
     socket.emit("tts", {
       text: $("#d_tts_text").val(),
       voice_type: $("select[name=d_voice_type]").val(),
-      voice_mode: $("select[name=d_voice_mode]").val(),
       volume: Number($("#volume").val()),
     });
   });
@@ -683,7 +683,6 @@ const getDevices = (socket) => {
       socket.emit("tts", {
         text: $("#d_tts_text").val(),
         voice_type: $("select[name=d_voice_type]").val(),
-        voice_mode: $("select[name=d_voice_mode]").val(),
         volume: Number($("#volume").val()),
       });
     }

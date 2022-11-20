@@ -36,7 +36,7 @@ async def f_wifi_rest(ssid=None, psk=None):
   if ssid == None or psk == None:
     with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
       tmp = f.readlines()
-    ipaddress = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')[6]
+    ipaddress = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')[6]
     return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1], 'ipaddress':ipaddress}, status_code=200)
   else:
     if len(psk) < 8:
@@ -292,9 +292,7 @@ async def config(sid, d=None):
   if 'audiopath' not in tmp:
     tmp['audiopath'] = '/home/pi/openpibo-files/audio'
   if d != None:
-    if 'kakaokey' in d:
-      tmp['kakaokey'] = d['kakaokey']
-    elif 'eye' in d:
+    if 'eye' in d:
       tmp['eye'] = d['eye']
     elif 'audiopath' in d:
       tmp['audiopath'] = d['audiopath']
@@ -302,11 +300,11 @@ async def config(sid, d=None):
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
     pibo.config(tmp)
-  return await emit('config', {'kakaokey':tmp['kakaokey'], 'eye':tmp['eye'], 'audiopath':tmp['audiopath'], 'audiofiles':os.listdir(tmp['audiopath'])})
+  return await emit('config', {'eye':tmp['eye'], 'audiopath':tmp['audiopath'], 'audiofiles':os.listdir(tmp['audiopath'])})
 
 @app.sio.on('system')
 async def system(sid, d=None):
-  res = os.popen('/home/pi/openpibo-tools/tools/system.sh').read().split(',')
+  res = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
   return await emit('system', res)
 
 @app.sio.on('poweroff')
