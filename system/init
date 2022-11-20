@@ -1,0 +1,24 @@
+#!/bin/sh -e
+#
+# ap start
+sudo /home/pi/openpibo-os/system/wifi-ap-sta run
+
+# Amp init
+sudo gpio mode 7 out
+sudo gpio write 7 1
+
+sudo amixer -c Headphones sset Headphone 75%
+sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
+
+# network init
+sudo python3 /home/pi/openpibo-os/system/booting.py
+
+# run ide
+cd /home/pi/openpibo-os/ide;sudo node main.js &
+
+# run openpibo-tools
+cd /home/pi/openpibo-os/tools;sudo python3 main.py &
+
+sudo iw wlan0 set power_save off
+sudo iw ap0 set power_save off
+exit 0
