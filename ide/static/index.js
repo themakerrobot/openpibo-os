@@ -309,7 +309,7 @@ $("#result_check").on("change", ()=> {
   }
   else {
     $("#result_en").hide();
-    editor.setSize("72vw", null); 
+    editor.setSize("72.26vw", null); 
   }
 });
 

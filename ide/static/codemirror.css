@@ -3,10 +3,12 @@
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  font-size: 14px; /* added by yjlee */
-  width:700px;
-  height: 79.5vh; /* changed by yjlee 300px --> 500px */
+  /* Added by yjlee - START */
+  font-size: 14px; 
+  width:700px; 
+  height: 79.5vh; 
   min-height:555px;
+  /* Added by yjlee - END */
   color: black;
   direction: ltr;
   border-radius: 5px;
