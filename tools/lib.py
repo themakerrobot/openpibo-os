@@ -283,10 +283,10 @@ class Pibo:
 
     try:
       if voice_type == "espeak":
-        os.system(f'espeak {d["text"]} -w /home/pi/speak.mp3')
+        os.system(f'espeak {d["text"]} -w /home/pi/speech.mp3')
       else:
-        self.speech.tts(string=d['text'], filename='/home/pi/speak.mp3', voice=voice_type)
-      self.play_audio('/home/pi/speak.mp3', volume, True)
+        self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type)
+      self.play_audio('/home/pi/speech.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[tts] Error: {ex}')
       pass
@@ -297,8 +297,6 @@ class Pibo:
     self.chat_list = []
     self.dialog = Dialog()
     self.speech = Speech()
-    if self.kakao_account != None:
-      self.speech.kakao_account = self.kakao_account
 
   def chatbot_stop(self):
     self.chat_list = []

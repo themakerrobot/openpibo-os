@@ -145,7 +145,7 @@ async def f_stop_audio(sid, d=None):
     res = pibo.stop_audio()
   return
 
-# chatbot
+# speech
 @app.sio.on('question')
 async def question(sid, d=None):
   if pibo.onoff:
