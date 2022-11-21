@@ -27,7 +27,11 @@
       <h2><i class="fa-solid fa-code"> IDE</i></h2>
     </div>
     <div style="float:right">
-      <h2><img src="../static/themaker.png" style="height:22px"/></h2>
+      <h2>
+        <a href='https://themaker.imweb.me' target='_blank'>
+          <img src="../static/themaker.png" style="height:22px"/>
+        </a>
+      </h2>
     </div>
   </header>
 
@@ -47,7 +51,7 @@
                 <input type="file" id="upload">
               </form>
             </div>
-            <button id="add_directory" title="새폴더">
+            <button id="add_directory" title="새폴더" style="background-color:#d85a41;">
               <i class="fa-solid fa-folder-plus"><span></span></i>
             </button>
             <button id="add_file" title="새파일">
@@ -98,7 +102,7 @@
       <div class="wrapper ide">
         <div class="editor-row">
           <div class="editor-col">
-            <i class="fa fa-solid fa-laptop-code"> 프로그램</i>
+            <i class="fa fa-solid fa-laptop-code"> </i>
             <i class="fa-solid fa-angle-right"></i>
             <div name="codetype">
               <button name="python">
@@ -120,12 +124,12 @@
             </i>
             <button id="execute" class="btn-teal" style="width:70px" title="실행">
               <i class="fa fa-solid fa-play"></i>
-              실행
             </button>
             <button id="stop" class="btn-red disabled" style="width:70px" title="정지">
               <i class="fa fa-solid fa-stop"></i>
-              정지
             </button>
+            결과보기
+            <input type="checkbox" id="result_check" name="result_check" title="결과보기" checked/>
           </div>
         </div>
 
@@ -141,13 +145,12 @@
         </div>
       </div>
 
-      <div class="wrapper ide">
+      <div class="wrapper ide" id="result_en">
         <div class="editor-row">
           <div class="editor-col">
-            <i class="fa fa-solid fa-file-lines"><span> 실행결과</span></i>
+            <i class="fa fa-solid fa-file-lines"><span> 결과</span></i>
             <button id="eraser" title="지우기">
               <i class="fa fa-solid fa-eraser"></i>
-              지우기
             </button>
           </div>
         </div>

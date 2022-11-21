@@ -282,8 +282,11 @@ class Pibo:
     volume = d['volume']
 
     try:
-      self.speech.tts(string=d['text'], filename='/home/pi/chat.mp3', voice=voice_type)
-      self.play_audio('/home/pi/chat.mp3', volume, True)
+      if voice_type == "espeak":
+        os.system(f'espeak {d["text"]} -w /home/pi/speak.mp3')
+      else:
+        self.speech.tts(string=d['text'], filename='/home/pi/speak.mp3', voice=voice_type)
+      self.play_audio('/home/pi/speak.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[tts] Error: {ex}')
       pass
@@ -316,8 +319,7 @@ class Pibo:
       return ans
 
     try:
-      self.speech.tts(string=ans, filename='/home/pi/chat.mp3', voice=voice_type)
-      self.play_audio('/home/pi/chat.mp3', volume, True)
+      self.tts({'text':ans, 'voice_type':voice_type, 'volume':volume})
     except Exception as ex:
       logger.error(f'[question] Error: {ex}')
       pass

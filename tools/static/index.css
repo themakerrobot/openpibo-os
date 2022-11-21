@@ -67,7 +67,7 @@ label {
     width: 96%;
     margin: 0 auto;
   }
-  #article_chatbot > section {
+  #article_speech > section {
     width: 96%;
     margin: 0 auto;
   }
@@ -87,7 +87,7 @@ label {
   #article_motion > section:nth-child(2) {
     width: calc(100% - 600px);
   }
-  #article_chatbot > section {
+  #article_speech > section {
     width: 49%;
   }
   #article_device > section {
@@ -309,8 +309,8 @@ nav button[name="motion"]::after {
 nav button[name="vision"]::after {
   content: url("camera.png");
 }
-nav button[name="chatbot"]::after {
-  content: url("chatbot.png");
+nav button[name="speech"]::after {
+  content: url("speech.png");
 }
 
 nav button:hover {
@@ -485,6 +485,7 @@ main h3#content_header {
     var(--dark-yellow) 100%
   );
   width: fit-content;
+  font-weight: bold;
 }
 
 article {
@@ -659,23 +660,32 @@ tbody {
   background-color: var(--light-yellow);
 }
 
-.chatbot-input-group {
+.speech-input-group {
   display: flex;
   gap: 8px;
   align-items: center;
   margin-bottom: 8px;
 }
 
-.chatbot-input-group input {
+.speech-input-group input[type="text"] {
   width: 100%;
 }
 
-#c_record_tb {
+#s_record_tb thead td:nth-child(n + 2) {
+  width:100px;
+}
+#s_record_tb tbody td:first-child {
+  min-width:100px;
+}
+#s_record_tb tbody td:nth-child(n + 2) {
+  background: white;
+}
+
+#s_record_tb {
   width: 100%;
   flex: 1;
   text-align: center;
   border-spacing: 1px;
-  margin-top: 10px;
 }
 
 .eye-color-group {
@@ -722,8 +732,8 @@ tbody {
   width: 54px;
 }
 .oled-group > div > input {
-  width: 100%;
-  margin-top: 8px;
+  width: 70%;
+  margin-top: 2px;
 }
 
 i.fa > span {

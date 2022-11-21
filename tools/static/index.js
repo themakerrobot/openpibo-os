@@ -379,77 +379,118 @@ const getMotions = (socket) => {
   });
 };
 
-const getChatbots = (socket) => {
-  $("#c_question_text").on("keyup", function () {
+const getSpeech = (socket) => {
+  $("#tts_bt").on("click", function(){
+    if($("input[name=s_voice_en]:checked").val() == "off") {
+      alert("음성을 활성화해주세요.");
+      return;
+    }
+
+    if( $("#s_tts_text").val() == "" ) {
+      alert("문장을 입력하세요.");
+      return;
+    }
+    socket.emit("tts", {
+      text: $("#s_tts_text").val(),
+      voice_type: $("select[name=s_voice_type]").val(),
+      volume: Number($("#volume").val()),
+    });
+  });
+
+  $("#s_tts_text").on('keypress', function (evt) {
+    if (evt.keyCode == 13) {
+      if($("input[name=s_voice_en]:checked").val() == "off") {
+        alert("음성을 활성화해주세요.");
+        return;
+      }
+      let string = $("#s_tts_text").val().trim();
+      if( string == "" ) {
+        alert("문장을 입력하세요.");
+        return;
+      }
+      socket.emit("tts", {
+        text: string,
+        voice_type: $("select[name=s_voice_type]").val(),
+        volume: Number($("#volume").val()),
+      });
+    }
+  });
+
+  $("#s_question_text").on("keyup", function () {
     $(this).val( 
       $(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
     );
   });
 
-  $("#c_question_text").on('keypress', function (evt) {
+  $("#s_question_text").on('keypress', function (evt) {
     if (evt.keyCode == 13) {
       // enter
-      q = $("#c_question_text").val().trim();
-      $("#c_question_text").prop("disabled", true);
+      q = $("#s_question_text").val().trim();
+      if( q == "" ) {
+        alert("문장을 입력하세요.");
+        return;
+      }
+
+      $("#s_question_text").prop("disabled", true);
 
       setTimeout(function () {
-        $("#c_question_text").val(".");
+        $("#s_question_text").val(".");
       }, 200);
       setTimeout(function () {
-        $("#c_question_text").val("..");
+        $("#s_question_text").val("..");
       }, 400);
       setTimeout(function () {
-        $("#c_question_text").val("...");
+        $("#s_question_text").val("...");
       }, 600);
 
       setTimeout(function () {
         socket.emit("question", {
           question: q,
-          voice_en: $("input[name=c_voice_en]:checked").val(),
-          voice_type: $("select[name=c_voice_type]").val(),
+          voice_en: $("input[name=s_voice_en]:checked").val(),
+          voice_type: $("select[name=s_voice_type]").val(),
           volume: Number($("#volume").val()),
         });
-        $("#c_question_text").prop("disabled", false);
-        $("#c_question_text").val(q);
+        $("#s_question_text").prop("disabled", false);
+        $("#s_question_text").val(q);
       }, 800);
     }
   });
 
   $("#chat_bt").on("click", function(){
-    q = $("#c_question_text").val().trim();
-    $("#c_question_text").prop("disabled", true);
+    q = $("#s_question_text").val().trim();
+    $("#s_question_text").prop("disabled", true);
 
     setTimeout(function () {
-      $("#c_question_text").val(".");
+      $("#s_question_text").val(".");
     }, 200);
     setTimeout(function () {
-      $("#c_question_text").val("..");
+      $("#s_question_text").val("..");
     }, 400);
     setTimeout(function () {
-      $("#c_question_text").val("...");
+      $("#s_question_text").val("...");
     }, 600);
 
     setTimeout(function () {
       socket.emit("question", {
         question: q,
-        voice_en: $("input[name=c_voice_en]:checked").val(),
-        voice_type: $("select[name=c_voice_type]").val(),
+        voice_en: $("input[name=s_voice_en]:checked").val(),
+        voice_type: $("select[name=s_voice_type]").val(),
         volume: Number($("#volume").val()),
       });
-      $("#c_question_text").prop("disabled", false);
-      $("#c_question_text").val(q);
+      $("#s_question_text").prop("disabled", false);
+      $("#s_question_text").val(q);
     }, 800);
   });
 
   socket.on("answer", function (data) {
-    $("#c_answer_text").val(data["answer"]);
-    $("#c_record_tb > tbody").empty();
+    $("#s_answer_text").val(data["answer"]);
+    $("#s_record_tb > tbody").empty();
     rec = data["chat_list"];
 
     for (idx in rec) {
       if (rec[idx].length == 0) continue;
 
-      $("#c_record_tb").append(
+      $("#s_record_tb").append(
         $("<tr>").append(
           $("<td>").append(rec[idx][0]),
           $("<td>").append(rec[idx][1]),
@@ -662,32 +703,6 @@ const getDevices = (socket) => {
     socket.emit("mic_replay", {volume:Number($("#volume").val())});
   });
 
-  $("#tts_bt").on("click", function(){
-    if( $("#d_tts_text").val() == "" ) {
-      alert("문장을 입력하세요.");
-      return;
-    }
-    socket.emit("tts", {
-      text: $("#d_tts_text").val(),
-      voice_type: $("select[name=d_voice_type]").val(),
-      volume: Number($("#volume").val()),
-    });
-  });
-
-  $("#d_tts_text").on('keypress', function (evt) {
-    if (evt.keyCode == 13) {
-      if( $("#d_tts_text").val() == "" ) {
-        alert("문장을 입력하세요.");
-        return;
-      }
-      socket.emit("tts", {
-        text: $("#d_tts_text").val(),
-        voice_type: $("select[name=d_voice_type]").val(),
-        volume: Number($("#volume").val()),
-      });
-    }
-  });
-
   $("#play_audio_bt").on("click", function(){
     let filename = $("select[name=audiofiles]").val();
 
@@ -712,21 +727,21 @@ $(function () {
   getStatus(socket);
   getVisions(socket);
   getMotions(socket);
-  getChatbots(socket);
+  getSpeech(socket);
   getDevices(socket);
 
   const handleMenu = (name) => {
     if (name === "home") {
       socket.emit("config");
       socket.emit("wifi");
-    } else if (name === "chatbot") {
-      $("#c_question_text").val("");
-      $("#c_answer_text").val("");
+    } else if (name === "speech") {
+      $("#s_question_text").val("");
+      $("#s_answer_text").val("");
     } else if (name === "device") {
       $("#d_otext_val").val("");
     }
 
-    $("h3#content_header").text(name.toUpperCase());
+    $("h4#content_header").text(name.toUpperCase());
     $("nav").find("button").removeClass("menu-selected");
     $(`button[name=${name}]`).addClass("menu-selected");
     $("article").not(`#article_${name}`).hide("slide");

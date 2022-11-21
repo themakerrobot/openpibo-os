@@ -52,15 +52,60 @@
           <li><button name="device"></li>
           <li><button name="motion"></li>
           <li><button name="vision"></li>
-          <li><button name="chatbot"></li>
+          <li><button name="speech"></li>
         </ul>
       </nav>
       <div class="content">
         <div class="wrapper">
-          <h3 id="content_header">HOME</h2>
+          <h4 id="content_header">HOME</h4>
           <article id="article_home">
             <section>
+              <ul>
+                <li>Home
+                  <ul>    
+                    <li>인터넷 설정하기</li>
+                    <li>볼륨 설정하기</li>
+                    <li>오디오파일 경로 설정하기 </li>
+                    <li>눈색상 확인하기</li>
+                    <li>소프트웨어 업데이트, 종료하기, 재시작하기</li>
+                  </ul>
+                </li>
 
+                <li>
+                  Device
+                  <ul>    
+                    <li>눈색상 조정하기</li>
+                    <li>센서 인식하기</li>
+                    <li>디스플레이(OLED) 사용하기</li>
+                    <li>오디오 사용하기</li>
+                  </ul>
+                </li>
+                <li>
+                  Motion
+                  <ul>    
+                    <li>모터 제어하기</li>
+                    <li>모션 만들기</li>
+                  </ul>
+                </li>
+                <li>
+                  Camera
+                  <ul>    
+                    <li>사진 저장하기</li>
+                    <li>컴퓨터비전 기능 체험하기
+                      <ul>
+                        <li>만화화, QR코드/얼굴/사물/포즈 인식, 티쳐블머신 이미지 분류</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Speech
+                  <ul>
+                    <li>TTS(Text To Speech) 사용하기</li>
+                    <li>챗봇 사용하기</li>
+                  </ul>
+                </li>
+              </ul>
             </section>
             <section>
               <h3 class="mark">시스템 설정</h3>
@@ -86,6 +131,7 @@
                   </button>
                 </div>
               </div>
+              
               <div class="system-config-item">
                 <header>소리크기 설정하기</header>
                 <div>
@@ -156,16 +202,17 @@
           <article id="article_device">
             <section>
               <div>
-                <div style="float: left">
+                <div style="float:left">
                   <h3 class="mark">눈 색상 조정하기</h3>
                 </div>
-                <div style="float: right">
+                <div style="float:right">
                   <button id="eye_save_bt">
                     <i class="fa-solid fa-check"></i>
                     저장하기
                   </button>
                 </div>
               </div>
+
               <div class="eye-color-group">
                 <div class="eye-color-input-group">
                   <span class="label">오른쪽</span>
@@ -256,27 +303,47 @@
                   </div>
                 </div>
               </div>
+
+              <br>
+              <h3 class="mark">오디오 사용하기</h3>
+              <div>
+                <h4>마이크 <i class="fa-solid fa-folder-open"></i>/home/pi/stream.wav</h4>               
+                <input
+                  type="number"
+                  name="mic_time_val"
+                  id="mic_time_val"
+                  value="5"
+                  min="1"
+                  max="30"
+                  pattern="\d*"
+                />
+                <span class="label">초</span>
+                <button id="mic_bt">
+                  <i class="fa-solid fa-microphone"></i>
+                  녹음하기
+                </button>
+                <button id="mic_replay_bt">
+                  <i class="fa-solid fa-repeat"></i>
+                  다시듣기
+                </button>
+                <i class="fa-solid fa-ellipsis"></i>
+                <span class="label" id="mic_status"></span>             
+              </div>
+
+              <div>
+                <h4>음악재생</h4>
+                <select id="audiofiles" name="audiofiles"></select>
+                <button id="play_audio_bt">
+                  <i class="fa-solid fa-play"></i>
+                  재생하기
+                </button>
+                <button id="stop_audio_bt">
+                  <i class="fa-solid fa-stop"></i>
+                  정지하기
+                </button>              
+              </div>
             </section>
-            <section>
-              <h3 class="mark">센서인식 하기</h3>
-              <div class="device-status-group">
-              <div>
-                <span class="label">인체 감지 센서</span>
-                <i class="fa-solid fa-ellipsis"></i>
-                <span class="label" id="d_pir_val"></span>
-              </div>
-              <div>
-                <span class="label">터치 센서</span>
-                <i class="fa-solid fa-ellipsis"></i>
-                <span class="label" id="d_touch_val"></span>
-              </div>
-              <div>
-                <span class="label">버튼 인식</span>
-                <i class="fa-solid fa-ellipsis"></i>
-                <span class="label" id="d_button_val"></span>
-              </div>
-              </div>
-            </section>
+
             <section>
               <div>
                 <div style="float:left">
@@ -289,6 +356,7 @@
                   </button>
                 </div>
               </div>
+
               <div class="oled-group">
                 <h4>문자입력하기</h4>
                 <label for="d_ox_val" class="label">
@@ -328,20 +396,19 @@
                   pattern="\d*"
                 />
                 <div>
-                <label for="d_otext_val" class="label">
-                  <i class="fa-solid fa-font"></i>
-                </label>
-                <input
-                  type="text"
-                  name="d_otext_val"
-                  id="d_otext_val"
-                  style="width:70%"
-                  placeholder="문자를 입력하세요."
-                />
-                <button id="oled_bt">
-                  <i class="fa-solid fa-check"></i>
-                  출력하기
-                </button>
+                  <label for="d_otext_val" class="label">
+                    <i class="fa-solid fa-font"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="d_otext_val"
+                    id="d_otext_val"
+                    placeholder="문자를 입력하세요."
+                  />
+                  <button id="oled_bt">
+                    <i class="fa-solid fa-check"></i>
+                    출력하기
+                  </button>
                 </div>
 
                 <h4>사진입력하기</h4>
@@ -349,69 +416,23 @@
                   <input type="file" id="upload_oled" accept=".jpg, .png">
                 </form>
               </div>
-            </section>
-            <section>
-              <h3 class="mark">오디오 사용하기</h3>
-              <div>
-                <h4>
-                  마이크
-                  <i class="fa-solid fa-ellipsis"></i>
-                  <i class="fa-solid fa-folder-open"></i>
-                  /home/pi/stream.wav
-                </h4>
-                <input
-                  type="number"
-                  name="mic_time_val"
-                  id="mic_time_val"
-                  value="5"
-                  min="1"
-                  max="30"
-                  pattern="\d*"
-                />
-                <span class="label">초</span>
-                <button id="mic_bt">
-                  <i class="fa-solid fa-microphone"></i>
-                  녹음하기
-                </button>
-                <button id="mic_replay_bt">
-                  <i class="fa-solid fa-repeat"></i>
-                  다시듣기
-                </button>
-                <i class="fa-solid fa-ellipsis"></i>
-                <span class="label" id="mic_status"></span>
-              </div>
-              <div>
-                <h4>음악재생</h4>
-                <select id="audiofiles" name="audiofiles"></select>
-                <button id="play_audio_bt">
-                  <i class="fa-solid fa-play"></i>
-                  재생하기
-                </button>
-                <button id="stop_audio_bt">
-                  <i class="fa-solid fa-stop"></i>
-                  정지하기
-                </button>
-              </div>
-              <div>
-                <h4>
-                  TTS
-                  <i class="fa-solid fa-ellipsis"></i>
-                  <i class="fa-solid fa-folder-open"></i>
-                  /home/pi/chat.mp3
-                </h4>
-                <div>
-                  <select name="d_voice_type">
-                    <option value="espeak">기본음성</option>
-                    <option value="main">파이보</option>
-                    <option value="body">남자아이</option>
-                    <option value="girl">여자아이</option>
-                  </select>
 
-                  <input type="text" id="d_tts_text" style="width:300px">
-                  <button id="tts_bt">
-                    <i class="fa-solid fa-check"></i>
-                    실행하기
-                  </button>
+              <h3 class="mark">센서 인식하기</h3>
+              <div class="device-status-group">
+                <div>
+                  <span class="label">인체 감지 센서</span>
+                  <i class="fa-solid fa-ellipsis"></i>
+                  <span class="label" id="d_pir_val"></h4>
+                </div>
+                <div>
+                  <span class="label">터치 센서</>
+                  <i class="fa-solid fa-ellipsis"></i>
+                  <span class="label" id="d_touch_val"></h4>
+                </div>
+                <div hidden>
+                  <span class="label">버튼 인식</span>
+                  <i class="fa-solid fa-ellipsis"></i>
+                  <span class="label" id="d_button_val"></h4>
                 </div>
               </div>
             </section>
@@ -770,17 +791,17 @@
                 <input type="radio" name="vision_type" value="tm">티쳐블머신
               </div>
               <div>
+                <header>티쳐블머신 모델 업로드</header>
+                <form method="post" enctype="multipart/form-data">
+                  <input type="file" id="upload_model" accept=".zip">
+                </form>
+              </div>
+              <div>
                 <header>카메라</header>
                 <button id="capture">
                   <i class="fa-solid fa-camera-retro"></i>
                   사진저장하기
                 </button>
-              </div>
-              <div>
-                <header>티쳐블머신 모델 업로드</header>
-                <form method="post" enctype="multipart/form-data">
-                  <input type="file" id="upload_model" accept=".zip">
-                </form>
               </div>
               <h3 class="mark">인식결과</h3>
               <div>
@@ -788,69 +809,75 @@
               </div>
             </section>
           </article>
-          <article id="article_chatbot">
+          <article id="article_speech">
             <section>
-              <div>
-                <div style="float: left">
-                  <h3 class="mark">대화하기</h3>
-                </div>
-                <div style="float: right">
-                  <button id="chat_bt">
-                    <i class="fa-solid fa-comment-dots"></i>
-                    질문하기
-                  </button>
-                </div>
+              <h3 class="mark">음성 설정</h3>
+              <div class="speech-input-group">
+                <input type="radio" name="s_voice_en" value="on" checked>On
+                <input type="radio" name="s_voice_en" value="off">Off
               </div>
-              <div>
-                <span class="label">음성:</span>
-                <input type="radio" name="c_voice_en" value="on" checked>On
-                <input type="radio" name="c_voice_en" value="off">Off
+
+              <div class="speech-input-group">
+                <span class="label">저장:</span>
+                <i class="fa-solid fa-folder-open"></i>/home/pi/speak.mp3                
               </div>
-              <div class="chatbot-input-group">
+        
+              <div class="speech-input-group">
+                <span class="label">음성종류:</span>
+                <select name="s_voice_type">
+                  <option value="espeak">기본음성</option>
+                  <option value="main">파이보</option>
+                  <option value="boy">남자아이</option>
+                  <option value="girl">여자아이</option>
+                </select>
+              </div>
+
+              <div class="speech-input-group">
+                <span class="label">음성합성:</span>
+                <input type="text" id="s_tts_text">
+                <button id="tts_bt">
+                  <i class="fa-solid fa-check"></i>
+                  실행하기
+                </button>
+              </div>
+
+              <h3 class="mark">대화하기</h3>
+              <div class="speech-input-group">
                 <span class="label">질문:</span>
                 <input
                   type="text"
-                  name="c_question_text"
-                  id="c_question_text"
+                  name="s_question_text"
+                  id="s_question_text"
                   placeholder="안녕하세요. 반갑습니다."
                 />
+                <button id="chat_bt">
+                  <i class="fa-solid fa-comment-dots"></i>
+                  질문하기
+                </button>
               </div>
-              <div class="chatbot-input-group">
+              <div class="speech-input-group">
                 <span class="label">대답:</span>
                 <input
                   type="text"
-                  name="c_answer_text"
-                  id="c_answer_text"
+                  name="s_answer_text"
+                  id="s_answer_text"
                   disabled
                 />
               </div>
+
             </section>
             <section>
               <h3 class="mark">대화기록 (최근 대화 10개)</h3>
-              <div>
-                <span class="label">목소리:</span>
-                <select name="c_voice_type">
-                  <option value="WOMAN_READ_CALM">차분한 여성</option>
-                  <option value="MAN_READ_CALM">차분한 남성</option>
-                  <option value="WOMAN_DIALOG_BRIGHT">밝은 여성</option>
-                  <option value="MAN_DIALOG_BRIGHT">밝은 남성</option>
-                </select>
-                <i class="fa-solid fa-ellipsis"></i>
-                <i class="fa-solid fa-folder-open"></i>
-                /home/pi/chat.mp3
-              </div>
-              <div>
-                <table id="c_record_tb">
-                  <thead>
-                    <tr>
-                      <td><b>시간</b></td>
-                      <td><b>질문</b></td>
-                      <td><b>대답</b></td>
-                    </tr>
-                  </thead>
-                  <tbody></tbody>
-                </table>
-              </div>
+              <table id="s_record_tb">
+                <thead>
+                  <tr>
+                    <td style="width:100px"><b>시간</b></td>
+                    <td><b>질문</b></td>
+                    <td><b>대답</b></td>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
             </section>
           </article>
         </div>

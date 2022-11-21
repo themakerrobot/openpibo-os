@@ -302,6 +302,17 @@ $("#eraser").on("click", () => {
   result.value = "";
 });
 
+$("#result_check").on("change", ()=> {
+  if ($("#result_check").is(":checked")) {
+    $("#result_en").show();
+    editor.setSize(700, null);
+  }
+  else {
+    $("#result_en").hide();
+    editor.setSize("72vw", null); 
+  }
+});
+
 $("#home_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
     window.location.replace(`http://${window.location.hostname}:80`);

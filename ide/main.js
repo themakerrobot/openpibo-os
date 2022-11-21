@@ -171,6 +171,11 @@ io.on('connection', (socket) => {
 
   //load 
   socket.on('load', (p) => {
+    if (isProtect(p)) {
+      io.emit('update', {dialog:'파일 로드 오류: 보호 파일입니다.'});
+      return;
+    }
+
     fs.readFile(p, (err, data) => {
       if(!err) io.emit('update', {code: data.toString()/*, dialog:'불러오기 완료: ' + p*/});
       else io.emit('update', {code:'', dialog:'불러오기 오류: ' + err.toString()});
@@ -178,7 +183,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('system', () => {
-    io.emit('system', execSync('/home/pi/openpibo-tools/ide/system.sh').toString().split(','));
+    io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
   });
 
   socket.on('delete', (d) => {
