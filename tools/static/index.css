@@ -722,6 +722,7 @@ tbody {
 .eye-color-input-group input[type="number"] {
   max-width: 60px;
 }
+
 .device-status-group {
   display: flex;
   flex-flow: column;

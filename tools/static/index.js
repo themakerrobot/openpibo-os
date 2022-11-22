@@ -17,15 +17,11 @@ const getStatus = (socket) => {
       "checked",
       d == "on" ? true : false
     );
-
-    if (d == "on") {
-      socket.emit("disp_motor");
-      socket.emit("detect");
-      $("#state").html("<i class='fa-solid fa-person-running'></i>");
-    }
-    if (d == "off") {
-      $("#state").html("<i class='fa-solid fa-person'></i>");
-    }
+    $("#state").html(
+      d == "on"?
+      "<i class='fa-solid fa-person-running'></i>":
+      "<i class='fa-solid fa-person'></i>"
+      );
   });
 
   $("input:checkbox[name=onoff_sel]").change(function () {
@@ -38,6 +34,7 @@ const getStatus = (socket) => {
   setInterval(function () {
     socket.emit("system");
   }, 10000);
+
   socket.on("system", function (data) {
     $("#s_serial").text(data[0]);
     $("#s_os_version").text(data[1]);
@@ -64,40 +61,8 @@ const getStatus = (socket) => {
     }
   });
 
-  setTimeout(function () {
-    socket.emit("config");
-  }, 1000);
-  socket.on("config", function (data) {
-    $("#eye").val(data["eye"]);
-    $("#audiopath").val(data["audiopath"]);
-    $("#audiofiles").empty();
-    $("#audiofiles").append("<option value='-'>선택</option>");
-    for (let i =0; i < data["audiofiles"].length; i++){
-      let filename = data["audiofiles"][i];
-      let extension = filename.split(".")[1];
-
-      if (["mp3", "wav"].includes(extension))
-        $('#audiofiles').append(`<option value="${filename}">${filename.split(".")[0]}</option>`);
-    }
-  });
-
-  $("#audio_music_bt").on("click", function() {
-    console.log("AAA")
-    $("#audiopath").val("/home/pi/openpibo-files/audio/music");
-  });
-  $("#audio_animal_bt").on("click", function() {
-    $("#audiopath").val("/home/pi/openpibo-files/audio/animal");
-  });
-  $("#audio_effect_bt").on("click", function() {
-    $("#audiopath").val("/home/pi/openpibo-files/audio/effect");
-  });
-  $("#audio_voice_bt").on("click", function() {
-    $("#audiopath").val("/home/pi/openpibo-files/audio/voice");
-  });
-
-  $("#audiopath_bt").on("click", function () {
-    if (confirm("오디오 파일 경로를 업데이트하시겠습니까?"))
-      socket.emit("config", { audiopath: $("#audiopath").val() });
+  socket.on("eye_update", function (data) {
+    $("#eye").val(data);
   });
 
   $("#poweroff_bt").on("click", function () {
@@ -117,34 +82,34 @@ const getStatus = (socket) => {
 };
 
 const getVisions = (socket) => {
+  socket.on("disp_vision", function(data) {
+    $(`input[name=v_func_type][value=${data}]`).prop("checked", true);
+  });
+
   socket.on("stream", function (data) {
-    $("#v_im_in").attr(
+    $("#v_img").attr(
       "src",
       "data:image/jpeg;charset=utf-8;base64," + data["img"]
     );
-    $("#v_res").text(data["data"]);
+    $("#v_result").text(data["data"]);
   });
 
-  socket.on("detect_mode", function(data) {
-    $(`input[name=vision_type][value=${data}]`).prop("checked", true);
-  });
-
-  $("input[name=vision_type]").on("change", function(){
-    let sel = $("input[name=vision_type]:checked").val();
+  $("input[name=v_func_type]").on("change", function(){
+    let sel = $("input[name=v_func_type]:checked").val();
     socket.emit("detect", sel);
   });
 
-  $("#capture").on("click", function(){
+  $("#v_capture").on("click", function(){
     let capture_a = document.createElement('a');
-    capture_a.setAttribute("href", "/download");
+    capture_a.setAttribute("href", "/download_img");
     capture_a.click();
   });
 
-  $("#upload_model").on("change", (e) => {
+  $("#v_upload_tm").on("change", (e) => {
     let formData = new FormData();
-    formData.append('data', $("#upload_model")[0].files[0]);
+    formData.append('data', $("#v_upload_tm")[0].files[0]);
     $.ajax({
-      url: `/upload_model`,
+      url: `/upload_tm`,
       type:'post',
       data: formData,
       contentType: false,
@@ -194,7 +159,7 @@ const getMotions = (socket) => {
     });
   }
 
-  $("#time_val").on("focusout keydown", function (evt) {
+  $("#m_time_val").on("focusout keydown", function (evt) {
     if (evt.type == "focusout" || (evt.type == "keydown" && evt.keyCode == 13)) {
       let pos = Number($(this).val());
       let min = Number($(this).attr("min"));
@@ -217,10 +182,10 @@ const getMotions = (socket) => {
 
   // 저장 버튼
   $("#add_frame_bt").on("click", function () {
-    socket.emit("add_frame", $("#time_val").val()*1000);
+    socket.emit("add_frame", $("#m_time_val").val()*1000);
   });
 
-  socket.on("disp_motor", function (datas) {
+  socket.on("disp_motion", function (datas) {
     // 모터 값 로드
     if ("pos" in datas) {
       let data = datas["pos"]
@@ -283,7 +248,7 @@ const getMotions = (socket) => {
               let lst = $(this).children();
               lst.each((idx) => {
                 if (idx == 0){
-                  $("#time_val").val(Number(lst.eq(idx).text().split(' 초')[0]));
+                  $("#m_time_val").val(Number(lst.eq(idx).text().split(' 초')[0]));
                   return;
                 }
                 else {
@@ -380,30 +345,30 @@ const getMotions = (socket) => {
 };
 
 const getSpeech = (socket) => {
-  $("#tts_bt").on("click", function(){
+  $("#s_tts_bt").on("click", function(){
     if($("input[name=s_voice_en]:checked").val() == "off") {
       alert("음성을 활성화해주세요.");
       return;
     }
 
-    if( $("#s_tts_text").val() == "" ) {
+    if( $("#s_tts_val").val() == "" ) {
       alert("문장을 입력하세요.");
       return;
     }
     socket.emit("tts", {
-      text: $("#s_tts_text").val(),
+      text: $("#s_tts_val").val(),
       voice_type: $("select[name=s_voice_type]").val(),
       volume: Number($("#volume").val()),
     });
   });
 
-  $("#s_tts_text").on('keypress', function (evt) {
+  $("#s_tts_val").on('keypress', function (evt) {
     if (evt.keyCode == 13) {
       if($("input[name=s_voice_en]:checked").val() == "off") {
         alert("음성을 활성화해주세요.");
         return;
       }
-      let string = $("#s_tts_text").val().trim();
+      let string = $("#s_tts_val").val().trim();
       if( string == "" ) {
         alert("문장을 입력하세요.");
         return;
@@ -416,31 +381,31 @@ const getSpeech = (socket) => {
     }
   });
 
-  $("#s_question_text").on("keyup", function () {
+  $("#s_question_val").on("keyup", function () {
     $(this).val( 
       $(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
     );
   });
 
-  $("#s_question_text").on('keypress', function (evt) {
+  $("#s_question_val").on('keypress', function (evt) {
     if (evt.keyCode == 13) {
       // enter
-      q = $("#s_question_text").val().trim();
+      q = $("#s_question_val").val().trim();
       if( q == "" ) {
         alert("문장을 입력하세요.");
         return;
       }
 
-      $("#s_question_text").prop("disabled", true);
+      $("#s_question_val").prop("disabled", true);
 
       setTimeout(function () {
-        $("#s_question_text").val(".");
+        $("#s_question_val").val(".");
       }, 200);
       setTimeout(function () {
-        $("#s_question_text").val("..");
+        $("#s_question_val").val("..");
       }, 400);
       setTimeout(function () {
-        $("#s_question_text").val("...");
+        $("#s_question_val").val("...");
       }, 600);
 
       setTimeout(function () {
@@ -450,24 +415,29 @@ const getSpeech = (socket) => {
           voice_type: $("select[name=s_voice_type]").val(),
           volume: Number($("#volume").val()),
         });
-        $("#s_question_text").prop("disabled", false);
-        $("#s_question_text").val(q);
+        $("#s_question_val").prop("disabled", false);
+        $("#s_question_val").val(q);
       }, 800);
     }
   });
 
-  $("#chat_bt").on("click", function(){
-    q = $("#s_question_text").val().trim();
-    $("#s_question_text").prop("disabled", true);
+  $("#s_chat_bt").on("click", function(){
+    q = $("#s_question_val").val().trim();
 
+    if(q == "" ) {
+      alert("문장을 입력하세요.");
+      return;
+    }
+
+    $("#s_question_val").prop("disabled", true);
     setTimeout(function () {
-      $("#s_question_text").val(".");
+      $("#s_question_val").val(".");
     }, 200);
     setTimeout(function () {
-      $("#s_question_text").val("..");
+      $("#s_question_val").val("..");
     }, 400);
     setTimeout(function () {
-      $("#s_question_text").val("...");
+      $("#s_question_val").val("...");
     }, 600);
 
     setTimeout(function () {
@@ -477,26 +447,31 @@ const getSpeech = (socket) => {
         voice_type: $("select[name=s_voice_type]").val(),
         volume: Number($("#volume").val()),
       });
-      $("#s_question_text").prop("disabled", false);
-      $("#s_question_text").val(q);
+      $("#s_question_val").prop("disabled", false);
+      $("#s_question_val").val(q);
     }, 800);
   });
 
-  socket.on("answer", function (data) {
-    $("#s_answer_text").val(data["answer"]);
-    $("#s_record_tb > tbody").empty();
-    rec = data["chat_list"];
+  socket.on("disp_speech", function (data) {
+    if ("answer" in data) {
+      $("#s_answer_val").val(data["answer"]);
+    }
 
-    for (idx in rec) {
-      if (rec[idx].length == 0) continue;
+    if ("chat_list" in data) {
+      $("#s_record_tb > tbody").empty();
+      rec = data["chat_list"];
 
-      $("#s_record_tb").append(
-        $("<tr>").append(
-          $("<td>").append(rec[idx][0]),
-          $("<td>").append(rec[idx][1]),
-          $("<td>").append(rec[idx][2])
-        )
-      );
+      for (idx in rec) {
+        if (rec[idx].length == 0) continue;
+
+        $("#s_record_tb").append(
+          $("<tr>").append(
+            $("<td>").append(rec[idx][0]),
+            $("<td>").append(rec[idx][1]),
+            $("<td>").append(rec[idx][2])
+          )
+        );
+      } 
     }
   });
 };
@@ -526,12 +501,12 @@ const getDevices = (socket) => {
   });
 
   socket.on("update_device", function (data) {
-    $("#d_pir_val").text(data[0].toUpperCase());
-    $("#d_touch_val").text(data[1].toUpperCase());
+    $("#d_pir_val").text(data[0].toLowerCase());
+    $("#d_touch_val").text(data[1].toLowerCase());
     $("#d_dc_val").html(
       data[2].toUpperCase() == "ON" ? "<i class='fa fa-plug' aria-hidden='true'></i>" : ""
     );
-    $("#d_button_val").text(data[3].toUpperCase());
+    $("#d_button_val").text(data[3].toLowerCase());
   });
 
   for (let i = 0; i < 6; i++) {
@@ -574,7 +549,7 @@ const getDevices = (socket) => {
     }
 
     if (confirm("눈 색상을 저장하시겠습니까?")) {
-      socket.emit("config", { eye: eyeval });
+      socket.emit("eye_update", eyeval);
     }
   });
 
@@ -677,6 +652,36 @@ const getDevices = (socket) => {
     socket.emit("clear_oled");
   });
 
+  socket.on("oledpath_update", (data) => {
+
+    $("#oledfiles").empty();
+    $("#oledfiles").append("<option value='-'>선택</option>");
+    for (let i =0; i < data.length; i++){
+      let filename = data[i];
+      let extension = filename.split(".")[1].toLowerCase();
+
+      if (["png","jpg"].includes(extension))
+        $('#oledfiles').append(`<option value="${filename}">${filename}</option>`);
+    }
+  });
+  
+  $("#oledpath").on("change", ()=> {
+    let p = $("#oledpath").val();
+    console.log(p, 'oled')
+
+    if (p != '-') {
+      socket.emit("oledpath_update", p);
+    }
+  });
+
+  $("#oledfiles").on("change", ()=> {
+    let filename = $("#oledfiles").val();
+
+    if (filename != '-') {
+      socket.emit("set_oled_image", `${$("#oledpath").val()}/${filename}`);
+    }
+  });
+
   socket.on("mic", function (d) {
     $('#mic_status').text(d);
   });
@@ -703,8 +708,28 @@ const getDevices = (socket) => {
     socket.emit("mic_replay", {volume:Number($("#volume").val())});
   });
 
+  socket.on("audio_update", (data) => {
+    $("#audiofiles").empty();
+    $("#audiofiles").append("<option value='-'>선택</option>");
+    for (let i =0; i < data.length; i++){
+      let filename = data[i];
+      let extension = filename.split(".")[1];
+
+      if (["mp3", "wav"].includes(extension))
+        $('#audiofiles').append(`<option value="${filename}">${filename.split(".")[0]}</option>`);
+    }
+  });
+
+  $("#audiopath").on("change", ()=> {
+    let p = $("#audiopath").val();
+
+    if (p != '-') {
+      socket.emit("audio_update", p);
+    }
+  });
+
   $("#play_audio_bt").on("click", function(){
-    let filename = $("select[name=audiofiles]").val();
+    let filename = $("#audiofiles").val();
 
     if (filename == "-") {
       alert("음악을 선택하세요.");
@@ -732,13 +757,18 @@ $(function () {
 
   const handleMenu = (name) => {
     if (name === "home") {
-      socket.emit("config");
+      socket.emit("eye_update");
       socket.emit("wifi");
     } else if (name === "speech") {
-      $("#s_question_text").val("");
-      $("#s_answer_text").val("");
+      $("#s_question_val").val("");
+      $("#s_answer_val").val("");
+      socket.emit("disp_speech");
     } else if (name === "device") {
       $("#d_otext_val").val("");
+    } else if (name === "vision") {
+      socket.emit("disp_vision");
+    } else if (name === "motion") {
+      socket.emit("disp_motion");
     }
 
     $("h4#content_header").text(name.toUpperCase());

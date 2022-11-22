@@ -61,34 +61,32 @@
           <article id="article_home">
             <section>
               <ul>
-                <li>Home
+                <li><span class="label">Home</span>
                   <ul>    
                     <li>인터넷 설정하기</li>
-                    <li>볼륨 설정하기</li>
-                    <li>오디오파일 경로 설정하기 </li>
+                    <li>소리크기 설정하기</li>
                     <li>눈색상 확인하기</li>
                     <li>소프트웨어 업데이트, 종료하기, 재시작하기</li>
                   </ul>
                 </li>
-
                 <li>
-                  Device
+                  <span class="label">Device</span>
                   <ul>    
                     <li>눈색상 조정하기</li>
-                    <li>센서 인식하기</li>
-                    <li>디스플레이(OLED) 사용하기</li>
                     <li>오디오 사용하기</li>
+                    <li>디스플레이(OLED) 사용하기</li>
+                    <li>센서 인식하기</li>
                   </ul>
                 </li>
                 <li>
-                  Motion
+                  <span class="label">Motion</span>
                   <ul>    
                     <li>모터 제어하기</li>
                     <li>모션 만들기</li>
                   </ul>
                 </li>
                 <li>
-                  Camera
+                  <span class="label">Camera</span>
                   <ul>    
                     <li>사진 저장하기</li>
                     <li>컴퓨터비전 기능 체험하기
@@ -99,7 +97,7 @@
                   </ul>
                 </li>
                 <li>
-                  Speech
+                  <span class="label">Speech</span>
                   <ul>
                     <li>TTS(Text To Speech) 사용하기</li>
                     <li>챗봇 사용하기</li>
@@ -110,10 +108,7 @@
             <section>
               <h3 class="mark">시스템 설정</h3>
               <div class="system-config-item">
-                <header>
-                  <i class="fa-solid fa-wifi"></i>
-                  인터넷 설정하기
-                </header>
+                <header>인터넷 설정하기</header>
                 <div class="input-group-wifi">
                   <div class="group-labels">
                     <label for="ssid" class="label">
@@ -126,12 +121,11 @@
                     </label>
                   </div>
                   <button id='wifi_bt'>
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-check-double"></i>
                     확인하기
                   </button>
                 </div>
               </div>
-              
               <div class="system-config-item">
                 <header>소리크기 설정하기</header>
                 <div>
@@ -146,41 +140,16 @@
                   <i class="fa-solid fa-percent"></i>
                 </div>
               </div>
-
-              <div class="system-config-item">
-                <header>오디오파일 경로 설정하기</header>
-                <div>
-                  <input
-                    type="text"
-                    name="audiopath"
-                    id="audiopath"
-                    style="width: 300px"
-                  />
-                  <button id="audiopath_bt">
-                    <i class="fa-solid fa-check"></i>
-                    확인하기
-                  </button>
-                </div>
-                <div>
-                  예시)
-                  <a id="audio_music_bt" style="color:#df7e3d;cursor:pointer">음악</a>
-                  <a id="audio_animal_bt" style="color:#df7e3d;cursor:pointer">동물소리</a>
-                  <a id="audio_effect_bt" style="color:#df7e3d;cursor:pointer">효과음</a>
-                  <a id="audio_voice_bt" style="color:#df7e3d;cursor:pointer">목소리</a>
-                </div>
-              </div>
-
               <div class="system-config-item">
                 <header>눈 색상 확인하기</header>
                 <input
                   type="text"
                   name="eye"
                   id="eye"
-                  style="width: 300px"
+                  style="width: 200px"
                   disabled
                 />
               </div>
-
               <div class="system-config-item">
                 <div>
                   <button id="swupdate_bt">
@@ -207,7 +176,7 @@
                 </div>
                 <div style="float:right">
                   <button id="eye_save_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-check-double"></i>
                     저장하기
                   </button>
                 </div>
@@ -307,32 +276,42 @@
               <br>
               <h3 class="mark">오디오 사용하기</h3>
               <div>
-                <h4>마이크 <i class="fa-solid fa-folder-open"></i>/home/pi/stream.wav</h4>               
-                <input
-                  type="number"
-                  name="mic_time_val"
-                  id="mic_time_val"
-                  value="5"
-                  min="1"
-                  max="30"
-                  pattern="\d*"
-                />
-                <span class="label">초</span>
-                <button id="mic_bt">
-                  <i class="fa-solid fa-microphone"></i>
-                  녹음하기
-                </button>
-                <button id="mic_replay_bt">
-                  <i class="fa-solid fa-repeat"></i>
-                  다시듣기
-                </button>
-                <i class="fa-solid fa-ellipsis"></i>
-                <span class="label" id="mic_status"></span>             
+                <h4>마이크</h4>
+                파일: <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
+                <div style="margin-top:10px">
+                  <input
+                    type="number"
+                    name="mic_time_val"
+                    id="mic_time_val"
+                    value="5"
+                    min="1"
+                    max="30"
+                    pattern="\d*"
+                  />
+                  <span class="label">초</span>
+                  <button id="mic_bt">
+                    <i class="fa-solid fa-microphone"></i>
+                    녹음하기
+                  </button>
+                  <button id="mic_replay_bt">
+                    <i class="fa-solid fa-repeat"></i>
+                    다시듣기
+                  </button>
+                  <i class="fa-solid fa-ellipsis"></i>
+                  <span class="label" id="mic_status"></span>                      
+                </div>
               </div>
-
               <div>
                 <h4>음악재생</h4>
-                <select id="audiofiles" name="audiofiles"></select>
+                <select id="audiopath" name="audiopath">
+                  <option value="-">폴더선택</option>
+                  <option value="/home/pi/openpibo-files/audio/music">음악</option>
+                  <option value="/home/pi/openpibo-files/audio/voice">목소리</option>
+                  <option value="/home/pi/openpibo-files/audio/effect">효과음</option>
+                  <option value="/home/pi/openpibo-files/audio/animal">동물소리</option>
+                  <option value="/home/pi/myaudio">내 오디오</option>
+                </select>
+                <select id="audiofiles" name="audiofiles"><option value='-'>파일선택</option></select>
                 <button id="play_audio_bt">
                   <i class="fa-solid fa-play"></i>
                   재생하기
@@ -356,7 +335,6 @@
                   </button>
                 </div>
               </div>
-
               <div class="oled-group">
                 <h4>문자입력하기</h4>
                 <label for="d_ox_val" class="label">
@@ -395,7 +373,7 @@
                   max="50"
                   pattern="\d*"
                 />
-                <div>
+                <div style="margin-top:5px">
                   <label for="d_otext_val" class="label">
                     <i class="fa-solid fa-font"></i>
                   </label>
@@ -406,33 +384,44 @@
                     placeholder="문자를 입력하세요."
                   />
                   <button id="oled_bt">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-check-double"></i>
                     출력하기
                   </button>
                 </div>
 
-                <h4>사진입력하기</h4>
+                <h4>사진입력하기(PC)</h4>
                 <form method="post" action="/upload_oled" enctype="multipart/form-data">
                   <input type="file" id="upload_oled" accept=".jpg, .png">
                 </form>
-              </div>
 
-              <h3 class="mark">센서 인식하기</h3>
+                <h4>사진입력하기(로봇)</h4>
+                <select id="oledpath" name="oledpath">
+                  <option value="-">폴더선택</option>
+                  <option value="/home/pi/openpibo-files/icon">아이콘</option>
+                  <option value="/home/pi/openpibo-files/image">사진</option>
+                  <option value="/home/pi/myimage">내 이미지</option>
+                </select>
+                <select id="oledfiles" name="oledfiles">
+                  <option value="-">파일선택</option>
+                </select>
+              </div>
+              <br>
               <div class="device-status-group">
+                <h3 class="mark">센서 인식하기</h3>
                 <div>
-                  <span class="label">인체 감지 센서</span>
-                  <i class="fa-solid fa-ellipsis"></i>
-                  <span class="label" id="d_pir_val"></h4>
+                  <span class="label">인체감지</span>
+                  <i class="fa-solid fa-terminal"></i>
+                  <i><span id="d_pir_val"></span></i>                  
                 </div>
                 <div>
-                  <span class="label">터치 센서</>
-                  <i class="fa-solid fa-ellipsis"></i>
-                  <span class="label" id="d_touch_val"></h4>
+                  <span class="label">터치감지</span>
+                  <i class="fa-solid fa-terminal"></i>
+                  <i><span id="d_touch_val"></span></i>
                 </div>
                 <div hidden>
-                  <span class="label">버튼 인식</span>
-                  <i class="fa-solid fa-ellipsis"></i>
-                  <span class="label" id="d_button_val"></h4>
+                  <span class="label">버튼감지</span>
+                  <i class="fa-solid fa-terminal"></i>
+                  <i><span id="d_button_val"></span></i>                  
                 </div>
               </div>
             </section>
@@ -450,15 +439,15 @@
                   <span>시간:</span>
                   <input
                     type="number"
-                    name="time_val"
-                    id="time_val"
+                    name="m_time_val"
+                    id="m_time_val"
                     min="0"
                     max="300"
                     step="0.1"
                     value="0"
                     pattern="\d*"
                   />
-                  <button id="add_frame_bt" class="btn-teal">
+                  <button id="m_addframe_bt" class="btn-teal">
                     <i class="fa-solid fa-plus"></i>
                     추가하기
                   </button>
@@ -736,7 +725,7 @@
                     id="motion_name_val"
                   />
                   <button id="add_motion_bt" class="btn-red">
-                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-check-double"></i>
                     등록하기
                   </button>
                   <button id="load_motion_bt">
@@ -776,36 +765,36 @@
           <article id="article_vision">
             <section>
               <h3 class="mark">카메라</h3>
-              <img id="v_im_in" />
+              <img id="v_img" />
             </section>
             <section>
               <h3 class="mark">Vision 설정</h3>
               <div>
                 <header>기능 설정</header>
-                <input type="radio" name="vision_type" value="camera" checked>없음
-                <input type="radio" name="vision_type" value="cartoon">만화
-                <input type="radio" name="vision_type" value="qr">QR코드
-                <input type="radio" name="vision_type" value="face">얼굴
-                <input type="radio" name="vision_type" value="object">사물
-                <input type="radio" name="vision_type" value="pose">포즈
-                <input type="radio" name="vision_type" value="tm">티쳐블머신
+                <input type="radio" name="v_func_type" value="camera" checked>없음
+                <input type="radio" name="v_func_type" value="cartoon">만화
+                <input type="radio" name="v_func_type" value="qr">QR코드
+                <input type="radio" name="v_func_type" value="face">얼굴
+                <input type="radio" name="v_func_type" value="object">사물
+                <input type="radio" name="v_func_type" value="pose">포즈
+                <input type="radio" name="v_func_type" value="tm">티쳐블머신
               </div>
               <div>
                 <header>티쳐블머신 모델 업로드</header>
                 <form method="post" enctype="multipart/form-data">
-                  <input type="file" id="upload_model" accept=".zip">
+                  <input type="file" id="v_upload_tm" accept=".zip">
                 </form>
               </div>
               <div>
                 <header>카메라</header>
-                <button id="capture">
+                <button id="v_capture">
                   <i class="fa-solid fa-camera-retro"></i>
                   사진저장하기
                 </button>
               </div>
               <h3 class="mark">인식결과</h3>
               <div>
-                <span id="v_res"></span>
+                <span id="v_result"></span>
               </div>
             </section>
           </article>
@@ -813,12 +802,13 @@
             <section>
               <h3 class="mark">기능 설정</h3>
               <div class="speech-input-group">
+                <span class="label">음성:</span>
                 <input type="radio" name="s_voice_en" value="on" checked>On
                 <input type="radio" name="s_voice_en" value="off">Off
               </div>
 
               <div class="speech-input-group">
-                <span class="label">음성파일:</span>
+                <span class="label">파일:</span>
                 <i class="fa-solid fa-folder-open"></i>/home/pi/speech.mp3
               </div>
               <div class="speech-input-group">
@@ -833,9 +823,9 @@
 
               <div class="speech-input-group">
                 <span class="label">음성합성:</span>
-                <input type="text" id="s_tts_text">
-                <button id="tts_bt">
-                  <i class="fa-solid fa-check"></i>
+                <input type="text" id="s_tts_val">
+                <button id="s_tts_bt">
+                  <i class="fa-solid fa-check-double"></i>
                   실행하기
                 </button>
               </div>
@@ -845,11 +835,11 @@
                 <span class="label">질문:</span>
                 <input
                   type="text"
-                  name="s_question_text"
-                  id="s_question_text"
+                  name="s_question_val"
+                  id="s_question_val"
                   placeholder="안녕하세요. 반갑습니다."
                 />
-                <button id="chat_bt">
+                <button id="s_chat_bt">
                   <i class="fa-solid fa-comment-dots"></i>
                   질문하기
                 </button>
@@ -858,24 +848,26 @@
                 <span class="label">대답:</span>
                 <input
                   type="text"
-                  name="s_answer_text"
-                  id="s_answer_text"
+                  name="s_answer_val"
+                  id="s_answer_val"
                   disabled
                 />
               </div>
             </section>
             <section>
               <h3 class="mark">대화기록 (최근 대화 10개)</h3>
-              <table id="s_record_tb">
-                <thead>
-                  <tr>
-                    <td style="width:100px"><b>시간</b></td>
-                    <td><b>질문</b></td>
-                    <td><b>대답</b></td>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
+              <div>
+                <table id="s_record_tb">
+                  <thead>
+                    <tr>
+                      <td style="width:100px"><b>시간</b></td>
+                      <td><b>질문</b></td>
+                      <td><b>대답</b></td>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
             </section>
           </article>
         </div>

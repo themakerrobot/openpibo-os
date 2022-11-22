@@ -25,7 +25,7 @@ except Exception as ex:
 async def main(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get('/download', response_class=FileResponse)
+@app.get('/download_img', response_class=FileResponse)
 async def f_download():
   if pibo.onoff:
     pibo.imwrite('/home/pi/capture.jpg')
@@ -56,8 +56,8 @@ async def f_wifi_rest(ssid=None, psk=None):
     os.system('wpa_cli -i wlan0 reconfigure')
     os.system("shutdown -r now")
 
-@app.post('/upload_model')
-async def f_upload(data:UploadFile = File(...)):
+@app.post('/upload_tm')
+async def f_upload_tm(data:UploadFile = File(...)):
   data.filename = "models.zip"
   os.system(f"mkdir -p {MODEL_PATH}")
   os.system(f"rm -rf {MODEL_PATH}/*")
@@ -85,10 +85,14 @@ async def f_upload(data:UploadFile = File(...)):
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
 # vision
+@app.sio.on('disp_vision')
+async def f_disp_vision(sid, d=None):
+  if pibo.onoff:
+    await emit('disp_vision', pibo.vision_type)
+  return
+
 @app.sio.on('detect')
 async def f_detect(sid, d=None):
-  if d == None:
-    return await emit('detect_mode', pibo.vision_type)
   if pibo.onoff:
     pibo.vision_type=d
   return
@@ -104,6 +108,16 @@ async def f_set_neopixel(sid, d=None):
 async def f_set_oled(sid, d=None):
   if pibo.onoff:
     pibo.set_oled(d)
+  return
+
+@app.sio.on('oledpath_update')
+async def oledpath_update(sid, d=None):
+  return await emit('oledpath_update', os.listdir(d))
+
+@app.sio.on('set_oled_image')
+async def f_set_oled_image(sid, d=None):
+  if pibo.onoff:
+    pibo.set_oled_image(d)
   return
 
 @app.sio.on('clear_oled')
@@ -150,15 +164,21 @@ async def f_stop_audio(sid, d=None):
 async def question(sid, d=None):
   if pibo.onoff:
     res = pibo.question(d)
-    await emit('answer', {'answer':res, 'chat_list':list(reversed(pibo.chat_list))})
+    await emit('disp_speech', {'answer':res, 'chat_list':list(reversed(pibo.chat_list))})
+  return
+
+@app.sio.on('disp_speech')
+async def disp_speech(sid, d=None):
+  if pibo.onoff:
+    await emit('disp_speech', {'chat_list':list(reversed(pibo.chat_list))})
   return
 
 # motion
-@app.sio.on('disp_motor')
+@app.sio.on('disp_motion')
 async def disp_motor(sid, d=None):
   if pibo.onoff:
     res = pibo.get_motor_info()
-    await emit('disp_motor', {'pos':res[0], 'table':res[1], 'record':res[2]})
+    await emit('disp_motion', {'pos':res[0], 'table':res[1], 'record':res[2]})
   return
 
 @app.sio.on('set_motor')
@@ -285,22 +305,21 @@ async def wifi(sid, d=None):
     os.system("shutdown -r now")
   return
 
-@app.sio.on('config')
-async def config(sid, d=None):
+@app.sio.on('audio_update')
+async def audio_update(sid, d=None):
+  return await emit('audio_update', os.listdir(d))
+
+@app.sio.on('eye_update')
+async def eye_update(sid, d=None):
   with open('/home/pi/config.json', 'r') as f:
     tmp = json.load(f)
-  if 'audiopath' not in tmp:
-    tmp['audiopath'] = '/home/pi/openpibo-files/audio'
+
   if d != None:
-    if 'eye' in d:
-      tmp['eye'] = d['eye']
-    elif 'audiopath' in d:
-      tmp['audiopath'] = d['audiopath']
+    tmp['eye'] = d
     with open('/home/pi/config.json', 'w') as f:
       json.dump(tmp, f)
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
-    pibo.config(tmp)
-  return await emit('config', {'eye':tmp['eye'], 'audiopath':tmp['audiopath'], 'audiofiles':os.listdir(tmp['audiopath'])})
+  return await emit('eye_update', tmp['eye'])
 
 @app.sio.on('system')
 async def system(sid, d=None):

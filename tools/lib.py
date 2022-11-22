@@ -31,12 +31,6 @@ class Pibo:
     self.onoff = False
     self.kakao_account = None
 
-  def config(self, d):
-    if 'speech' in dir(self):
-      self.speech.kakao_account = d['kakaokey']
-    else:
-      self.kakao_account = d['kakaokey']
-
   ## vision
   def vision_start(self):
     self.cam = Camera()
