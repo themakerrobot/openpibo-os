@@ -29,7 +29,6 @@ class Pibo:
   def __init__(self, emit_func=None):
     self.emit = emit_func
     self.onoff = False
-    self.kakao_account = None
 
   ## vision
   def vision_start(self):
@@ -39,12 +38,6 @@ class Pibo:
     self.tm = TeachableMachine()
     self.pil_fontpath = openpibo_models.filepath("KDL.ttf")
     self.pil_font = ImageFont.truetype(self.pil_fontpath, 20)
-
-    try:
-      self.tm.load("/home/pi/models/model_unquant.tflite", "/home/pi/models/labels.txt")
-    except Exception as ex:
-      logger.error(f'[vision_start] Error: {ex}')
-      pass
 
     self.vision_type = "camera"
     self.vision_flag = True
@@ -78,7 +71,7 @@ class Pibo:
         logger.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
 
-      self.res_img = img.copy();
+      self.res_img = img.copy()
       asyncio.run(self.emit('stream', {'img':to_base64(img), 'data':res}, callback=None))
 
   def cartoon(self):
@@ -294,8 +287,14 @@ class Pibo:
 
   def chatbot_stop(self):
     self.chat_list = []
-    self.kakao_account = None
     del self.dialog, self.speech
+
+  def load_csv(self, d):
+    self.dialog.load(d)
+
+  def reset_csv(self):
+    del self.dialog
+    self.dialog = Dialog()
 
   def question(self, d):
     q = d['question']

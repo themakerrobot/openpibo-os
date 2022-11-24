@@ -30,6 +30,16 @@ const getStatus = (socket) => {
     socket.emit("onoff", sel);
   });
 
+
+  $("#volume").val(
+      window.localStorage.getItem("volume")?
+      window.localStorage.getItem("volume"):80
+  );
+  
+  $("#volume").on("change", ()=>{
+    window.localStorage.setItem("volume", $("#volume").val());
+  });
+
   socket.emit("system");
   setInterval(function () {
     socket.emit("system");
@@ -381,6 +391,26 @@ const getSpeech = (socket) => {
     }
   });
 
+  $("#s_upload_csv").on("change", (e) => {
+    let formData = new FormData();
+    formData.append('data', $("#s_upload_csv")[0].files[0]);
+    $.ajax({
+      url: `/upload_csv`,
+      type:'post',
+      data: formData,
+      contentType: false,
+      processData: false    
+    })
+    .always((xhr, status) => {
+      alert(`파일 전송이 완료되었습니다. ${status}`);
+    });
+  });
+
+  $("#s_reset_csv_bt").on("click", function(){
+    socket.emit("reset_csv");
+    $("#s_upload_csv").val("");
+  });
+
   $("#s_question_val").on("keyup", function () {
     $(this).val( 
       $(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
@@ -708,7 +738,7 @@ const getDevices = (socket) => {
     socket.emit("mic_replay", {volume:Number($("#volume").val())});
   });
 
-  socket.on("audio_update", (data) => {
+  socket.on("audio_path", (data) => {
     $("#audiofiles").empty();
     $("#audiofiles").append("<option value='-'>선택</option>");
     for (let i =0; i < data.length; i++){
@@ -724,7 +754,7 @@ const getDevices = (socket) => {
     let p = $("#audiopath").val();
 
     if (p != '-') {
-      socket.emit("audio_update", p);
+      socket.emit("audio_path", p);
     }
   });
 

@@ -286,12 +286,13 @@ $("#add_file").on("click", () => {
 $("#upload").on("change", (e) => {
   let formData = new FormData();
   formData.append('data', $("#upload")[0].files[0]);
+  $("#upload").val("");
   $.ajax({
     url: `/upload`,
     type:'post',
     data: formData,
     contentType: false,
-    processData: false    
+    processData: false
   })
   .always((xhr, status) => {
     alert(`파일 전송이 완료되었습니다. ${status}`);

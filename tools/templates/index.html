@@ -801,12 +801,22 @@
           <article id="article_speech">
             <section>
               <h3 class="mark">기능 설정</h3>
+
+              <div class="speech-input-group">
+                <span class="label">대화데이터:</span>
+                <form method="post" enctype="multipart/form-data">
+                  <input type="file" id="s_upload_csv" accept=".csv">
+                </form>
+                <a id="s_reset_csv_bt" style="cursor:pointer">
+                  <i class="fa-solid fa-eraser"></i>
+                  <i>초기화하기</i>
+                </a>
+              </div>
               <div class="speech-input-group">
                 <span class="label">음성:</span>
                 <input type="radio" name="s_voice_en" value="on" checked>On
                 <input type="radio" name="s_voice_en" value="off">Off
               </div>
-
               <div class="speech-input-group">
                 <span class="label">파일:</span>
                 <i class="fa-solid fa-folder-open"></i>/home/pi/speech.mp3
@@ -876,7 +886,7 @@
   </body>
   <footer>
     <div style="float:left;padding:0.7rem 0 0.7rem 0">
-        <a id="devtool_bt" style="font-weight:bold;color:#1642bd">
+        <a id="devtool_bt" >
           <i class="fa-solid fa-arrow-up-right-from-square"> IDE로 이동</i>
         </a>
         <i class="fa-brands fa-raspberry-pi"></i>
