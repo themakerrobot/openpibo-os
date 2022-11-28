@@ -729,10 +729,11 @@ tbody {
   gap: 8px;
 }
 
-.oled-group > input {
+.oled-group input[type="number"] {
   width: 54px;
 }
-.oled-group > div > input {
+
+.oled-group input[type="text"] {
   width: 70%;
   margin-top: 2px;
 }

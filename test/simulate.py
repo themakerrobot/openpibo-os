@@ -7,7 +7,6 @@ from datetime import datetime
 from threading import Thread
 import time
 
-
 class Simulate:
     def __init__(self):
         self.motion = Motion()
@@ -46,8 +45,6 @@ class Simulate:
                 self.oled.set_font(size=_o['size'])
                 self.oled.draw_text((_o['x'], _o['y']), _o['text'])
             self.oled.show()
-
-        
 
 if __name__ == "__main__":
     sim = Simulate()

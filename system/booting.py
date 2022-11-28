@@ -18,6 +18,13 @@ if __name__ == "__main__":
       pass
 
   try:
+    with open('/home/pi/.OS_VERSION', 'r') as f:
+      tmp = f.readlines()
+      print(tmp)
+  except Exception as ex:
+      pass
+
+  try:
     o = Oled()
     o.clear()
     o.set_font(size=20)

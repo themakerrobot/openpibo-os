@@ -40,22 +40,24 @@
       <div class="wrapper ide">
         <div class="editor-row">
           <div class="editor-col">
-            <i class="fa-solid fa-computer"><span> 탐색기</span></i>
-            <i class="fa-solid fa-angle-right"></i>
+            <i class="fa-solid fa-computer"></i>
             <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기" />
             <label for="upload" title="업로드">
-              <i class="fa-solid fa-file-upload"><span> </span></i>
+              <i class="fa-solid fa-file-upload"></i>
+              업로드
             </label>
             <div class="filebox">
               <form method="post" action="/upload" enctype="multipart/form-data">
                 <input type="file" id="upload">
               </form>
             </div>
-            <button id="add_directory" title="새폴더" style="background-color:#d85a41;">
-              <i class="fa-solid fa-folder-plus"><span></span></i>
+            <button id="add_directory" title="새폴더" style="background-color:#dcb9b2">
+              <i class="fa-solid fa-folder-plus"></i>
+              새폴더
             </button>
             <button id="add_file" title="새파일">
-              <i class="fa-solid fa-file-circle-plus"><span></span></i>
+              <i class="fa-solid fa-file-circle-plus"></i>
+              새파일
             </button>
           </div>
         </div>
@@ -133,7 +135,7 @@
           </div>
         </div>
 
-        <div class="filepath">
+        <div class="filepath" style="width:700px">
           <i class="fa-solid fa-folder-open"></i>
           <span id="codepath"></span>
         </div>
@@ -154,6 +156,10 @@
             </button>
           </div>
         </div>
+        <div class="filepath" style="width:400px">
+          <i class="fa-solid fa-folder-open"></i>
+          <span id="respath"></span>
+        </div>
 
         <div class="editor-row">
           <div class="editor-col">
@@ -161,7 +167,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </main>
   <footer>

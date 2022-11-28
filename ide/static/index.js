@@ -13,6 +13,8 @@ const codeMirrorMode = {
   shell: "shell",
 };
 
+const max_filename_length = 30;
+
 const execute = document.getElementById("execute");
 const stop = document.getElementById("stop");
 const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
@@ -146,6 +148,7 @@ execute.addEventListener("click", () => {
   stop.classList.remove("disabled");
   execute.disabled = true;
   stop.disabled = false;
+  $("#respath").text($("#codepath").html());
 });
 
 stop.addEventListener("click", () => {
@@ -225,17 +228,17 @@ socket.on("update_file_manager", (d) => {
             ,
             $("<td style='width:30px;text-align:center'>").append([""].includes(data[i].type) || data[i].protect==true?"":"<i class='fa-solid fa-trash-can'></i>")
               .hover(
-                function () { $(this).animate({ opacity: "0.3" }, 100); },
-                function () { $(this).animate({ opacity: "1" }, 100); }
+                function () { $(this).animate({ opacity: "0.3" }, 100); $(this).css("cursor", "pointer"); },
+                function () { $(this).animate({ opacity: "1" }, 100); $(this).css("cursor", "default");}
               )
               .click(function () {
                 if ($(this).html() == "") return;
 
                 let idx = $(this).closest('tr').index();
-                let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html()
-                let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html()
+                //let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html();
+                let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
 
-                if (confirm(`${PATH.join("/")}/${name} 파일을 삭제하시겠습니까?`)) {
+                if (confirm(`${PATH.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
                   if ((PATH.join("/") + "/" + name) == $("#codepath").html()) {
                     $("#codepath").html("")
                     save_code = "";
@@ -262,6 +265,11 @@ $("#add_directory").on("click", () => {
       return;
     }
     name = name.trim().replace(/ /g, "_");
+    if(name.length > max_filename_length) {
+      alert(`폴더 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
+      return;
+    }
+
     socket.emit('add_directory', PATH.join("/") + "/"+ name);
   }
 });
@@ -277,13 +285,24 @@ $("#add_file").on("click", () => {
       alert("새파일의 이름을 적어주세요.");
       return;
     }
+
     name = name.trim().replace(/ /g, "_");
+    if(name.length > max_filename_length) {
+      alert(`파일 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
+      return;
+    }
+
     $("#codepath").html(PATH.join("/") + "/" + name);
     socket.emit('add_file', PATH.join("/") + "/"+ name);
   }
 });
 
 $("#upload").on("change", (e) => {
+  if($("#upload")[0].files[0].name.length > max_filename_length) {
+    alert(`파일 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
+    return;
+  }
+
   let formData = new FormData();
   formData.append('data', $("#upload")[0].files[0]);
   $("#upload").val("");
@@ -301,6 +320,7 @@ $("#upload").on("change", (e) => {
 
 $("#eraser").on("click", () => {
   result.value = "";
+  $("#respath").text("");
 });
 
 $("#result_check").on("change", ()=> {

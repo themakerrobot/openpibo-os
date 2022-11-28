@@ -170,6 +170,7 @@ main {
 
 button {
   font-family: "Noto Sans Regular", sans-serif;
+  font-size:1.2rem;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--yellow);
@@ -282,6 +283,7 @@ tbody {
 }
 
 .fm-table-wrap {
+  width: 320px;
   height: calc(80.5vh - 365px);
   min-height:200px;
   overflow-y: scroll;
@@ -310,8 +312,6 @@ i.fa > span {
   font-weight: 600;
   padding-left: 0.25em;
 }
-
-
 
 div[name="codetype"] > button.checked {
   background: var(--yellow);
@@ -342,8 +342,8 @@ div[name="codetype"] > button.checked {
 
 label[for=upload] {
   font-family: "Noto Sans Regular", sans-serif;
-  font-size: 1.35rem;
-  padding: 0.6rem 1.2rem;
+  font-size:1.2rem;
+  padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--teal);
   border: none;
@@ -381,7 +381,6 @@ img.preview-img {
 audio.preview-audio {
   width: 320px;
   height: 40px;
-  /*background-color: #edf5e0;*/
 }
 
 .filepath {
@@ -394,5 +393,5 @@ audio.preview-audio {
   border-radius: 5px;
   min-width:400px;
   min-height:586px;
-  height:calc(78.5vh + 30px);
+  height:calc(75.5vh + 20px);
 }

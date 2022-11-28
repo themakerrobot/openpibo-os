@@ -82,7 +82,8 @@ const isProtect = (p) => {
 const execute = async(EXEC, codepath) => {
   await mutex.acquire();
   return new Promise((res, rej) => {
-    record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
+    //record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
+    record = '[' + new Date().toString() + ']: \n\n';
     io.emit('update', {record:record});
 
     ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]); // python3/sh
@@ -188,14 +189,21 @@ io.on('connection', (socket) => {
 
   socket.on('delete', (d) => {
     if (isProtect(d)) {
-      io.emit('update', {dialog:'파일 삭제 오류: 보호 파일입니다.'});
+      io.emit('update', {dialog:'파일 삭제 오류: 보호 파일 입니다.'});
       return;
     }
     if (d == codePath) {
       codePath = "";
       codeText = "";
     }
-    execSync("rm -rf " + d);
+    try {
+      fs.rmSync(d, {recursive:true, force:true});
+    } catch (err) {
+      console.log(err);
+      io.emit('update', {dialog:'파일 삭제 오류: 파일명 파싱 에러입니다.'});
+      return;
+    }
+    
     io.emit('update_file_manager', {data: readDirectory(PATH)});
   });
 
@@ -228,7 +236,7 @@ io.on('connection', (socket) => {
 
   socket.on('add_directory', (p) => {
     if (isProtect(PATH)) {
-      io.emit('update', {dialog:'디렉토리 생성 오류: 보호 디렉토리입니다.'});
+      io.emit('update', {dialog:'폴더 생성 오류: 보호 폴더입니다.'});
       return;
     }
 
@@ -240,7 +248,7 @@ io.on('connection', (socket) => {
           io.emit('update_file_manager', {data: readDirectory(PATH)});
         }
       } catch (err) {
-        io.emit('update', {code:'', dialog:'디렉토리 생성 오류: ' + err.toString()});
+        io.emit('update', {code:'', dialog:'폴더 생성 오류: ' + err.toString()});
         return;
       }
     });

@@ -12,11 +12,11 @@ import numpy as np
 import time, datetime
 import base64
 import cv2
-import os, json, shutil
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+import os,json,shutil,csv
+from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 from queue import Queue
-from threading import Thread, Lock
+from threading import Thread
 import log
 logger = log.configure_logger()
 
@@ -290,7 +290,18 @@ class Pibo:
     del self.dialog, self.speech
 
   def load_csv(self, d):
+    with open(d, 'r', encoding='utf-8') as f:
+      items = csv.reader(f)
+      res = []
+      for item in items:
+        if len(item) == 2:
+          res.append(item)
+      
+      if len(res) == 0:
+          return False
+  
     self.dialog.load(d)
+    return True
 
   def reset_csv(self):
     del self.dialog

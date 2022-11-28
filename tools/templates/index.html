@@ -273,11 +273,12 @@
                 </div>
               </div>
 
-              <br>
-              <h3 class="mark">오디오 사용하기</h3>
-              <div>
-                <h4>마이크</h4>
-                파일: <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
+              <div style="margin-top:30px">
+                <h3 class="mark">오디오 사용하기</h3>
+                <span class="label">마이크</span>
+                <div style="margin-top:10px">
+                  파일: <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
+                </div>
                 <div style="margin-top:10px">
                   <input
                     type="number"
@@ -301,25 +302,28 @@
                   <span class="label" id="mic_status"></span>                      
                 </div>
               </div>
-              <div>
-                <h4>음악재생</h4>
-                <select id="audiopath" name="audiopath">
-                  <option value="-">폴더선택</option>
-                  <option value="/home/pi/openpibo-files/audio/music">음악</option>
-                  <option value="/home/pi/openpibo-files/audio/voice">목소리</option>
-                  <option value="/home/pi/openpibo-files/audio/effect">효과음</option>
-                  <option value="/home/pi/openpibo-files/audio/animal">동물소리</option>
-                  <option value="/home/pi/myaudio">내 오디오</option>
-                </select>
-                <select id="audiofiles" name="audiofiles"><option value='-'>파일선택</option></select>
-                <button id="play_audio_bt">
-                  <i class="fa-solid fa-play"></i>
-                  재생하기
-                </button>
-                <button id="stop_audio_bt">
-                  <i class="fa-solid fa-stop"></i>
-                  정지하기
-                </button>              
+
+              <div style="margin-top:30px">
+                <span class="label">음악재생</span>
+                <div style="margin-top:10px">
+                  <select id="audiopath" name="audiopath">
+                    <option value="-">폴더선택</option>
+                    <option value="/home/pi/openpibo-files/audio/music">음악</option>
+                    <option value="/home/pi/openpibo-files/audio/voice">목소리</option>
+                    <option value="/home/pi/openpibo-files/audio/effect">효과음</option>
+                    <option value="/home/pi/openpibo-files/audio/animal">동물소리</option>
+                    <option value="/home/pi/myaudio">내 오디오</option>
+                  </select>
+                  <select id="audiofiles" name="audiofiles"><option value='-'>파일선택</option></select>
+                  <button id="play_audio_bt">
+                    <i class="fa-solid fa-play"></i>
+                    재생하기
+                  </button>
+                  <button id="stop_audio_bt">
+                    <i class="fa-solid fa-stop"></i>
+                    정지하기
+                  </button>
+                </div>
               </div>
             </section>
 
@@ -336,43 +340,45 @@
                 </div>
               </div>
               <div class="oled-group">
-                <h4>문자입력하기</h4>
-                <label for="d_ox_val" class="label">
-                  <i class="fa-solid fa-x"></i>
-                </label>
-                <input
-                  type="number"
-                  name="d_ox_val"
-                  id="d_ox_val"
-                  value="0"
-                  min="0"
-                  max="128"
-                  pattern="\d*"
-                />
-                <label for="d_oy_val" class="label">
-                  <i class="fa-solid fa-y"></i>
-                </label>
-                <input
-                  type="number"
-                  name="d_oy_val"
-                  id="d_oy_val"
-                  value="0"
-                  min="0"
-                  max="64"
-                  pattern="\d*"
-                />
-                <label for="d_osize_val" class="label">
-                  <i class="fa-solid fa-text-width"></i>
-                </label>
-                <input
-                  type="number"
-                  name="d_osize_val"
-                  id="d_osize_val"
-                  value="10"
-                  min="1"
-                  max="50"
-                  pattern="\d*"
-                />
+                <span class="label">문자입력하기</span>
+                <div style="margin-top:10px">
+                  <label for="d_ox_val" class="label">
+                    <i class="fa-solid fa-x"></i>
+                  </label>
+                  <input
+                    type="number"
+                    name="d_ox_val"
+                    id="d_ox_val"
+                    value="0"
+                    min="0"
+                    max="128"
+                    pattern="\d*"
+                  />
+                  <label for="d_oy_val" class="label">
+                    <i class="fa-solid fa-y"></i>
+                  </label>
+                  <input
+                    type="number"
+                    name="d_oy_val"
+                    id="d_oy_val"
+                    value="0"
+                    min="0"
+                    max="64"
+                    pattern="\d*"
+                  />
+                  <label for="d_osize_val" class="label">
+                    <i class="fa-solid fa-text-width"></i>
+                  </label>
+                  <input
+                    type="number"
+                    name="d_osize_val"
+                    id="d_osize_val"
+                    value="10"
+                    min="1"
+                    max="50"
+                    pattern="\d*"
+                  />                  
+                </div>
                 <div style="margin-top:5px">
                   <label for="d_otext_val" class="label">
                     <i class="fa-solid fa-font"></i>
@@ -389,21 +395,27 @@
                   </button>
                 </div>
 
-                <h4>사진입력하기(PC)</h4>
-                <form method="post" action="/upload_oled" enctype="multipart/form-data">
-                  <input type="file" id="upload_oled" accept=".jpg, .png">
-                </form>
+                <div style="margin-top:30px">
+                  <span class="label">사진입력하기(PC)</span>
+                  <form method="post" action="/upload_oled" enctype="multipart/form-data" style="margin-top:5px">
+                    <input type="file" id="upload_oled" accept=".jpg, .png">
+                  </form>                  
+                </div>
 
-                <h4>사진입력하기(로봇)</h4>
-                <select id="oledpath" name="oledpath">
-                  <option value="-">폴더선택</option>
-                  <option value="/home/pi/openpibo-files/icon">아이콘</option>
-                  <option value="/home/pi/openpibo-files/image">사진</option>
-                  <option value="/home/pi/myimage">내 이미지</option>
-                </select>
-                <select id="oledfiles" name="oledfiles">
-                  <option value="-">파일선택</option>
-                </select>
+                <div style="margin-top:30px">
+                  <span class="label">사진입력하기(로봇)</span>
+                  <div style="margin-top:10px">
+                    <select id="oledpath" name="oledpath">
+                      <option value="-">폴더선택</option>
+                      <option value="/home/pi/openpibo-files/icon">아이콘</option>
+                      <option value="/home/pi/openpibo-files/image">사진</option>
+                      <option value="/home/pi/myimage">내 이미지</option>
+                    </select>
+                    <select id="oledfiles" name="oledfiles">
+                      <option value="-">파일선택</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <br>
               <div class="device-status-group">
@@ -447,7 +459,7 @@
                     value="0"
                     pattern="\d*"
                   />
-                  <button id="m_addframe_bt" class="btn-teal">
+                  <button id="add_frame_bt" class="btn-teal">
                     <i class="fa-solid fa-plus"></i>
                     추가하기
                   </button>

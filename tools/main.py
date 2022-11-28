@@ -58,6 +58,9 @@ async def f(ssid=None, psk=None):
 
 @app.post('/upload_tm')
 async def f(data:UploadFile = File(...)):
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
+
   data.filename = "models.zip"
   os.system(f"mkdir -p {MODEL_PATH}")
   os.system(f"rm -rf {MODEL_PATH}/*")
@@ -67,20 +70,20 @@ async def f(data:UploadFile = File(...)):
     f.write(content)
 
   os.system(f"unzip {MODEL_PATH}/{data.filename} -d {MODEL_PATH}")
-  if pibo.onoff:
-    pibo.tm.load(f"{MODEL_PATH}/model_unquant.tflite", f"{MODEL_PATH}/labels.txt")
+  pibo.tm.load(f"{MODEL_PATH}/model_unquant.tflite", f"{MODEL_PATH}/labels.txt")
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
 @app.post('/upload_oled')
 async def f(data:UploadFile = File(...)):
-  data.filename = "tmp.jpg"
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
 
+  data.filename = "tmp.jpg"
   filepath = f"/home/pi/{data.filename}"
   with open(filepath, 'wb') as f:
     content = await data.read()
     f.write(content)
-  if pibo.onoff:
-    pibo.set_oled_image(filepath)
+  pibo.set_oled_image(filepath)
   os.remove(filepath)
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
@@ -175,17 +178,21 @@ async def f(sid, d=None):
 
 @app.post('/upload_csv')
 async def f(data:UploadFile = File(...)):
-  if pibo.onoff:
-    data.filename = "mychat.csv"
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
 
-    filepath = f"/home/pi/{data.filename}"
-    with open(filepath, 'wb') as f:
-      content = await data.read()
-      f.write(content)
+  data.filename = "mychat.csv"
+  filepath = f"/home/pi/{data.filename}"
+  with open(filepath, 'wb') as f:
+    content = await data.read()
+    f.write(content)
 
-    pibo.load_csv(filepath)
-    os.remove(filepath)
-  return JSONResponse(content={"filename":data.filename}, status_code=200)
+  res = pibo.load_csv(filepath)
+  os.remove(filepath)
+  if res:
+    return JSONResponse(content={}, status_code=200)
+  else:
+    return JSONResponse(content={'result':'csv 파일 에러'}, status_code=500)
 
 @app.sio.on('reset_csv')
 async def f(sid, d=None):
@@ -217,21 +224,21 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.add_frame(d)
-    await emit('disp_motor', {'table':res})
+    await emit('disp_motion', {'table':res})
   return
 
 @app.sio.on('delete_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.delete_frame(d)
-    await emit('disp_motor', {'table':res})
+    await emit('disp_motion', {'table':res})
   return
 
 @app.sio.on('init_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.init_frame()
-    await emit('disp_motor',{'table':res})
+    await emit('disp_motion',{'table':res})
   return
 
 @app.sio.on('play_frame')
@@ -250,28 +257,28 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.add_motion(d)
-    await emit('disp_motor', {'record':res})
+    await emit('disp_motion', {'record':res})
   return
 
 @app.sio.on('load_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.load_motion(d)
-    await emit('disp_motor', {'table':res})
+    await emit('disp_motion', {'table':res})
   return
 
 @app.sio.on('delete_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.delete_motion(d)
-    await emit('disp_motor', {'record':res})
+    await emit('disp_motion', {'record':res})
   return
 
 @app.sio.on('reset_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.reset_motion()
-    await emit('disp_motor', {'record':res})
+    await emit('disp_motion', {'record':res})
   return
 
 @app.sio.on('onoff')

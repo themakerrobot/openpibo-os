@@ -126,7 +126,13 @@ const getVisions = (socket) => {
       processData: false    
     })
     .always((xhr, status) => {
-      alert(`파일 전송이 완료되었습니다. ${status}`);
+      if (status == "success") {
+        alert(`파일 전송이 완료되었습니다.`);
+      }
+      else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON['result']}`);
+        $("#v_upload_tm").val("");
+      }
     });
   });
 };
@@ -285,8 +291,10 @@ const getMotions = (socket) => {
 
   // 테이블 초기화
   $("#init_frame_bt").on("click", function () {
-    socket.emit("init_frame");
-    $("#motor_table > tbody").empty();
+    if (confirm("테이블을 모두 지우시겠습니까?")) {
+      socket.emit("init_frame");
+      $("#motor_table > tbody").empty();
+    }
   });
 
   // 동작 재생
@@ -320,13 +328,19 @@ const getMotions = (socket) => {
   // 모션 추가
   $("#add_motion_bt").on("click", function () {
     let motionName = $("#motion_name_val").val();
-    socket.emit("add_motion", motionName);
+    if (confirm(motionName + " 모션을 등록하시겠습니까?")) {
+      socket.emit("add_motion", motionName);
+      $("#motion_name_val").val("");
+    }
   });
 
   // 모션 불러오기
   $("#load_motion_bt").on("click", function () {
     let motionName = $("#motion_name_val").val();
-    socket.emit("load_motion", motionName);
+    if (confirm(motionName + " 모션을 불러오시겠습니까?")) {
+      socket.emit("load_motion", motionName);
+      $("#motion_name_val").val("");
+    }
   });
 
   const sample_motions = 
@@ -344,7 +358,10 @@ const getMotions = (socket) => {
   // 모션 삭제
   $("#delete_motion_bt").on("click", function () {
     let motionName = $("#motion_name_val").val();
-    socket.emit("delete_motion", motionName);
+    if (confirm(motionName + " 모션을 삭제하시겠습니까?")) {
+      socket.emit("delete_motion", motionName);
+      $("#motion_name_val").val("");
+    }
   });
 
   // 모션 삭제
@@ -402,7 +419,13 @@ const getSpeech = (socket) => {
       processData: false    
     })
     .always((xhr, status) => {
-      alert(`파일 전송이 완료되었습니다. ${status}`);
+      if (status == "success") {
+        alert(`파일 전송이 완료되었습니다.`);
+      }
+      else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON['result']}`);
+        $("#s_upload_csv").val("");
+      }
     });
   });
 
@@ -674,7 +697,13 @@ const getDevices = (socket) => {
       processData: false    
     })
     .always((xhr, status) => {
-      alert(`파일 전송이 완료되었습니다. ${status}`);
+      if (status == "success") {
+        alert(`파일 전송이 완료되었습니다.`);
+      }
+      else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON['result']}`);
+        $("#upload_oled").val("");
+      }
     });
   });
 
