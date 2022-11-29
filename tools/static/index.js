@@ -10,6 +10,10 @@ const getStatus = (socket) => {
     function () { $(this).animate({ opacity: "1" }, 100); $(this).css("cursor", "default");}
   );
 
+  $("#logo_bt").on("click", () => {
+    window.location.replace(`http://${window.location.hostname}:80`);
+  });
+
   socket.emit("onoff");
   socket.on("onoff", function (d) {
     $("input:checkbox[name=onoff_sel]").prop("disabled", false);

@@ -146,10 +146,11 @@ class Pibo:
     im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
     for i in range(len(self.tm.class_names)):
       #self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
-      text="{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100)
+      pred = f"{raw[i]*100:.1f}%" if raw[i] < 1 else str(raw[i])
+      text= f"{self.tm.class_names[i]}:{pred}"
       points = (20, 20+((i+1)*25))
-      ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(200,200,200))
-      r.append(f"{self.tm.class_names[i]}: {raw[i]*100: .1f} %")
+      ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))
+      r.append(f"{self.tm.class_names[i]}: {pred}")
 
     im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     return im, ", ".join(r)

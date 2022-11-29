@@ -70,7 +70,13 @@ async def f(data:UploadFile = File(...)):
     f.write(content)
 
   os.system(f"unzip {MODEL_PATH}/{data.filename} -d {MODEL_PATH}")
-  pibo.tm.load(f"{MODEL_PATH}/model_unquant.tflite", f"{MODEL_PATH}/labels.txt")
+  os.remove(f"{MODEL_PATH}/{data.filename}")
+  model_names = [s for s in os.listdir(f"{MODEL_PATH}") if s.split(".")[1] in ["h5", "tflite"]]
+  if len(model_names) != 1:
+    os.system(f"rm -rf {MODEL_PATH}/*")
+    return JSONResponse(content={'result':'Model에 문제가 있습니다.'}, status_code=500)
+
+  pibo.tm.load(f"{MODEL_PATH}/{model_names[0]}", f"{MODEL_PATH}/labels.txt")
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
 @app.post('/upload_oled')

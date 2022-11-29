@@ -41,6 +41,11 @@ const editor = CodeMirror.fromTextArea(
   }
 );
 
+$("#logo_bt").on("click", () => {
+  if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
+    window.location.replace(`http://${window.location.hostname}:80`);
+});
+
 $("#fontsize").on("change", () => {
   document.querySelector("div.CodeMirror").style.fontSize = `${$("#fontsize").val()}px`;
   editor.refresh();
