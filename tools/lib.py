@@ -139,14 +139,15 @@ class Pibo:
   def tm_classify(self):
     im = self.frame.copy()
     res, raw = self.tm.predict(im)
-    colors = (10,10,10)
+    quantization = True if sum(raw) > 2 else False
+    #colors = (10,10,10)
     #self.cam.putText(im, "{} : {:.1f}%".format(res, raw.max()*100), (50, 50), 0.7, colors, 1)
 
     r = []
     im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
     for i in range(len(self.tm.class_names)):
       #self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
-      pred = f"{raw[i]*100:.1f}%" if raw[i] < 1 else str(raw[i])
+      pred = str(raw[i]) if quantization else f"{raw[i]*100:.1f}%"
       text= f"{self.tm.class_names[i]}:{pred}"
       points = (20, 20+((i+1)*25))
       ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))

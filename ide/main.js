@@ -125,6 +125,10 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/templates/index.html')
 });
 app.get('/download', (req, res) => {
+  if (isProtect(PATH + "/" + req.query.filename)) {
+    io.emit('update', {dialog:'파일 다운로드 오류: 보호 디렉토리입니다.'});
+    return;
+  }
   res.download(PATH + "/" + req.query.filename); 
 });
 app.post('/upload', upload.single('data'), (req, res) => {
