@@ -19,16 +19,18 @@ if __name__ == "__main__":
 
   try:
     with open('/home/pi/.OS_VERSION', 'r') as f:
-      tmp = f.readlines()
-      print(tmp)
+      os_version = str(f.readlines()[0].split('\n')[0].split('OPENPIBO_')[1])
   except Exception as ex:
-      pass
+    os_version = "OS (None)"
+    pass
 
   try:
     o = Oled()
     o.clear()
     o.set_font(size=20)
-    o.draw_text((5,20), 'THE MAKER')
+    o.draw_text((5,15), 'THE MAKER')
+    o.set_font(size=12)
+    o.draw_text((10,45), os_version)
     o.show()
     time.sleep(2)
 
