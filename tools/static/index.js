@@ -376,18 +376,24 @@ const getMotions = (socket) => {
 };
 
 const getSpeech = (socket) => {
+  const max_tts_length = 30;
   $("#s_tts_bt").on("click", function(){
     if($("input[name=s_voice_en]:checked").val() == "off") {
       alert("음성을 활성화해주세요.");
       return;
     }
 
-    if( $("#s_tts_val").val() == "" ) {
+    let string = $("#s_tts_val").val().trim();
+    if( string == "" ) {
       alert("문장을 입력하세요.");
       return;
     }
+    if(string.length > max_tts_length) {
+      alert(`문장이 너무 깁니다. (${max_tts_length}자 이내로 작성해주세요.)`);
+      return;
+    }
     socket.emit("tts", {
-      text: $("#s_tts_val").val(),
+      text: string,
       voice_type: $("select[name=s_voice_type]").val(),
       volume: Number($("#volume").val()),
     });
@@ -402,6 +408,10 @@ const getSpeech = (socket) => {
       let string = $("#s_tts_val").val().trim();
       if( string == "" ) {
         alert("문장을 입력하세요.");
+        return;
+      }
+      if(string.length > max_tts_length) {
+        alert(`문장이 너무 깁니다. (${max_tts_length}자 이내로 작성해주세요.)`);
         return;
       }
       socket.emit("tts", {

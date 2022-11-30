@@ -274,7 +274,8 @@ class Pibo:
       if voice_type == "espeak":
         os.system(f'espeak {d["text"]} -w /home/pi/speech.mp3')
       else:
-        self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type)
+        lang = "en" if "e_" in voice_type else "ko"
+        self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type, lang=lang)
       self.play_audio('/home/pi/speech.mp3', volume, True)
     except Exception as ex:
       logger.error(f'[tts] Error: {ex}')
