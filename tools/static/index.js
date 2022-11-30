@@ -725,7 +725,7 @@ const getDevices = (socket) => {
     socket.emit("clear_oled");
   });
 
-  socket.on("oledpath_update", (data) => {
+  socket.on("oled_path", (data) => {
 
     $("#oledfiles").empty();
     $("#oledfiles").append("<option value='-'>선택</option>");
@@ -740,10 +740,8 @@ const getDevices = (socket) => {
   
   $("#oledpath").on("change", ()=> {
     let p = $("#oledpath").val();
-    console.log(p, 'oled')
-
     if (p != '-') {
-      socket.emit("oledpath_update", p);
+      socket.emit("oled_path", p);
     }
   });
 

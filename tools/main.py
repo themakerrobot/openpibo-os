@@ -119,9 +119,9 @@ async def f_set_oled(sid, d=None):
     pibo.set_oled(d)
   return
 
-@app.sio.on('oledpath_update')
+@app.sio.on('oled_path')
 async def f(sid, d=None):
-  return await emit('oledpath_update', os.listdir(d))
+  return await emit('oled_path', os.listdir(d))
 
 @app.sio.on('set_oled_image')
 async def f(sid, d=None):
