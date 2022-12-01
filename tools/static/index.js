@@ -734,7 +734,7 @@ const getDevices = (socket) => {
       let extension = filename.split(".")[1].toLowerCase();
 
       if (["png","jpg"].includes(extension))
-        $('#oledfiles').append(`<option value="${filename}">${filename}</option>`);
+        $('#oledfiles').append(`<option value="${filename}">${filename.split(".jpg")[0]}</option>`);
     }
   });
   
