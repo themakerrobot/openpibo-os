@@ -908,7 +908,9 @@ const getSimulations = (socket) => {
               }
     );
   socket.emit('sim_load_items'); // 이름만
-  socket.emit('sim_remove_items', 'test1');
+  //socket.emit('sim_remove_items', 'test1');
+  socket.emit('sim_remove_items'); // 전체 삭제
+  socket.emit('sim_load_items'); // 이름만
   socket.emit('sim_load_items', 'test2');
 }
 

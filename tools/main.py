@@ -409,16 +409,18 @@ async def f(sid, d=None):
 @app.sio.on('sim_remove_items')
 async def f(sid, d=None):
   if pibo.onoff == True:
-    try:
-      res = {}
-      with open('/home/pi/mysim.json', 'rb') as f:
-        res = json.load(f)
-    except Exception as ex:
-      logger.error(f'[simulation] Error: {ex}')
-      pass
+    res = {}
+    if d != None:
+      try:
+        res = {}
+        with open('/home/pi/mysim.json', 'rb') as f:
+          res = json.load(f)
+      except Exception as ex:
+        logger.error(f'[simulation] Error: {ex}')
+        pass
 
-    if d in res:
-      del res[d]
+      if d in res:
+        del res[d]
 
     with open('/home/pi/mysim.json', 'w') as f:
       json.dump(res, f)
