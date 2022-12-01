@@ -55,6 +55,7 @@ if __name__ == "__main__":
             'eye':[255,0,0,0,0,255],
             'oled':{'imagef':'/home/pi/openpibo-files/icon/bot.png'},
             'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
         }
     )
     time.sleep(3)
@@ -77,3 +78,128 @@ if __name__ == "__main__":
         }
     )
     time.sleep(3)
+
+'''
+key: sim_play_item
+value: {
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        }
+return: None
+
+key: sim_stop_item
+value: ['motion', 'eye', 'oled', 'audio', 'tts']
+return: None
+
+key: sim_update_audio, sim_update_oled
+value: filepath(절대경로)
+return: ['aaa.mp3', 'bbb.mp3', 'ccc.wav', 'ggg.']
+        file list (mp3 / wav 파일 구분은 js에서 실행)
+
+key: sim_update_motion
+value: {'type':('default'|'mymotion')}
+return: motion list
+
+key: sim_play_items
+value: [
+        {
+            'time':1,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        },
+        {
+            'time':2.5,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        },
+        {
+            'time':3,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        }
+    ]
+return: None
+
+key: sim_stop_items
+value: None
+return: None
+
+key: sim_add_items
+value: {
+    'name': "mysim",
+    'data':{
+        [
+        {
+            'time':1,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        },
+        {
+            'time':2.5,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        },
+        {
+            'time':3,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        }
+        ]
+    }
+}
+return: None
+
+key: sim_remove_items
+value: name
+return: None
+
+key: sim_load_items
+value: name
+return: 
+        [
+        {
+            'time':1,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        },
+        {
+            'time':2.5,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        },
+        {
+            'time':3,
+            'motion':{'name':'foot1', 'cycle':10},
+            'eye':[255,0,0,0,0,255],
+            'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'} | {'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+            'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50}
+            'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+        }
+    ]

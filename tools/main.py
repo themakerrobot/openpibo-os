@@ -354,6 +354,90 @@ async def f(sid, d=None):
     shutil.chown('/home/pi/config.json', 'pi', 'pi')
   return await emit('eye_update', tmp['eye'])
 
+############################################################################################
+@app.sio.on('sim_play_item')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    return await emit('sim_result', "sim_play_item ok")
+
+@app.sio.on('sim_stop_item')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    return await emit('sim_result', "sim_stop_item ok")
+
+@app.sio.on('sim_update_audio')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    return await emit('sim_update_audio', os.listdir(d))
+
+@app.sio.on('sim_update_oled')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    return await emit('sim_update_oled', os.listdir(d))
+
+@app.sio.on('sim_update_motion')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    return await emit('sim_update_motion', pibo.mot.get_motion() if d == 'default' else pibo.mot.get_motion(path="/home/pi/mymotion.json"))
+
+@app.sio.on('sim_play_items')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    pass
+
+@app.sio.on('sim_stop_items')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    pass
+
+@app.sio.on('sim_add_items')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    try:
+      res = {}
+      with open('/home/pi/mysim.json', 'rb') as f:
+        res = json.load(f)
+    except Exception as ex:
+      logger.error(f'[simulation] Error: {ex}')
+      pass
+
+    res[d['name']] = d['data']
+    with open('/home/pi/mysim.json', 'w') as f:
+      json.dump(res, f)
+    return await emit('sim_result', "sim_add_items ok")
+
+@app.sio.on('sim_remove_items')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    try:
+      res = {}
+      with open('/home/pi/mysim.json', 'rb') as f:
+        res = json.load(f)
+    except Exception as ex:
+      logger.error(f'[simulation] Error: {ex}')
+      pass
+
+    if d in res:
+      del res[d]
+
+    with open('/home/pi/mysim.json', 'w') as f:
+      json.dump(res, f)
+    shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
+    return await emit('sim_result', "sim_remove_items ok")
+
+@app.sio.on('sim_load_items')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    try:
+      res = {}
+      with open('/home/pi/mysim.json', 'rb') as f:
+        res = json.load(f)
+    except Exception as ex:
+      logger.error(f'[simulation] Error: {ex}')
+      pass
+    return await emit('sim_load_items', [item for item in res] if d == None else res[d])
+############################################################################################
+
 @app.sio.on('system')
 async def f(sid, d=None):
   res = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')

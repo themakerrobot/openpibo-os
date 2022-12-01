@@ -817,6 +817,101 @@ const getDevices = (socket) => {
   });
 };
 
+const getSimulations = (socket) => {
+  socket.on('sim_result', (d) => {
+    console.log(d);
+  });
+
+  socket.on('sim_update_audio', (d) => {
+    console.log(d);
+  });
+
+  socket.on('sim_update_oled', (d) => {
+    console.log(d);
+  });
+
+  socket.on('sim_update_motion', (d) => {
+    console.log(d);
+  });
+
+  socket.on('sim_load_items', (d) => {
+    console.log('sim_load_items:', d);
+  });
+
+  socket.emit('sim_update_audio', "/home/pi/openpibo-files/audio/music");
+  socket.emit('sim_update_oled', "/home/pi/openpibo-files/icon");
+  socket.emit('sim_update_motion', 'default');
+  socket.emit('sim_update_motion', 'mymotion');
+  socket.emit('sim_add_items',
+              {
+                name:'test1',
+                data:
+                  [
+                    {
+                        'time':1,
+                        'motion':{'name':'foot1', 'cycle':10},
+                        'eye':[255,0,0,0,0,255],
+                        'oled':(/*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */{'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
+                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+                    },
+                    {
+                        'time':2.5,
+                        'motion':{'name':'foot1', 'cycle':10},
+                        'eye':[255,0,0,0,0,255],
+                        'oled':(/*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */{'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
+                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+                    },
+                    {
+                        'time':3,
+                        'motion':{'name':'foot1', 'cycle':10},
+                        'eye':[255,0,0,0,0,255],
+                        'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'}/* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/),
+                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
+                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+                    }
+                    ]
+              }
+    );
+
+  socket.emit('sim_add_items', 
+              {
+                name:'test2',
+                data:
+                  [
+                    {
+                        'time':10,
+                        'motion':{'name':'foot1', 'cycle':10},
+                        'eye':[255,0,0,0,0,255],
+                        'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'}/* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/),
+                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
+                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+                    },
+                    {
+                        'time':25,
+                        'motion':{'name':'foot1', 'cycle':10},
+                        'eye':[255,0,0,0,0,255],
+                        'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'}/* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/),
+                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
+                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+                    },
+                    {
+                        'time':30,
+                        'motion':{'name':'foot1', 'cycle':10},
+                        'eye':[255,0,0,0,0,255],
+                        'oled':(/*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */{'x':0, 'y':20, 'size':25, 'text':'파이보'}),
+                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
+                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
+                    }
+                    ]
+              }
+    );
+  socket.emit('sim_load_items'); // 이름만
+  socket.emit('sim_remove_items', 'test1');
+  socket.emit('sim_load_items', 'test2');
+}
+
 $(function () {
   const socket = io('ws://' + window.location.hostname+':80',{path:'/ws/socket.io'});
 
@@ -825,6 +920,7 @@ $(function () {
   getMotions(socket);
   getSpeech(socket);
   getDevices(socket);
+  //getSimulations(socket);
 
   const handleMenu = (name) => {
     if (name === "home") {
