@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
   <link rel="stylesheet" href="../static/codemirror.css" />
   <link rel="stylesheet" href="../static/cobalt.css" />
+  <link rel="stylesheet" href="../static/duotone-light.css" />
   <link rel="shortcut icon" href="../static/icon.png?v1" type="image/x-icon" />
   <link rel="stylesheet" href="../static/index.css?v1" />
 </head>
@@ -105,7 +106,6 @@
         <div class="editor-row">
           <div class="editor-col">
             <i class="fa fa-solid fa-laptop-code"> </i>
-            <i class="fa-solid fa-angle-right"></i>
             <div name="codetype">
               <button name="python">
                 <i class="fa fa-brands fa-python"></i> Python
@@ -130,7 +130,9 @@
             <button id="stop" class="btn-red disabled" style="width:70px" title="정지">
               <i class="fa fa-solid fa-stop"></i>
             </button>
-            결과보기
+            <i class="fa-solid fa-circle-half-stroke"></i>
+            <input type="checkbox" id="theme_check" name="theme_check" title="테마" checked/> / 
+            <i class="fa-solid fa-arrows-left-right-to-line"></i>
             <input type="checkbox" id="result_check" name="result_check" title="결과보기" checked/>
           </div>
         </div>

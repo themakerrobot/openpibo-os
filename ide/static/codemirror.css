@@ -2,8 +2,8 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
 /* Added by yjlee - START */
+  font-family: Consolas, 'Courier New', monospace;
   font-size: 14px; 
   width:700px; 
   height: 79.5vh; 

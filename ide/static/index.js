@@ -347,3 +347,10 @@ $("#home_bt").hover(
   function () { $(this).animate({ opacity: "0.7" }, 100); $(this).css("cursor", "pointer"); },
   function () { $(this).animate({ opacity: "1" }, 100); $(this).css("cursor", "default");}
 );
+
+$("#theme_check").on("change", () => {
+  editor.setOption(
+    "theme",
+    $("#theme_check").is(":checked")?"cobalt":"duotone-light"
+  );
+});
