@@ -1659,9 +1659,15 @@ const getSimulations = (socket) => {
         const motionRepeat = $("#motion_cycle_input");
         motionRepeat.val(cycle || 1);
         motionRepeat.on("change", (e) => {
+          let val = Number(e.target.value);
+          if (val > 99) {
+            val = 99;
+          } else if (val < 1) {
+            val = 1;
+          }
           configData.val = {
             key: "motion",
-            value: { cycle: Number(e.target.value) },
+            value: { cycle: val },
           };
         });
       };
