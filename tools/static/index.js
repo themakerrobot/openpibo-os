@@ -1200,11 +1200,16 @@ const getSimulations = (socket) => {
   });
 
   // 타임라인 아이템 클릭 이벤트
-  const handleTimelineItemClick = (row) => {
+  const handleTimelineItemClick = (row, bCheck) => {
     const time = Number(row.text());
     const checkbox = row.find("div.cell input[type=checkbox]");
     row.siblings().removeClass("selected");
-    row.siblings().find("div.cell input[type=checkbox]").prop("checked", false);
+    if (!bCheck) {
+      row
+        .siblings()
+        .find("div.cell input[type=checkbox]")
+        .prop("checked", false);
+    }
     row.addClass("selected");
     checkbox.prop("checked", true);
     const content = selectFileContents.filter((item) => item.time === time);
@@ -1213,9 +1218,10 @@ const getSimulations = (socket) => {
 
   // 시퀀스 타임라인 아이템 추가
   const addTimelineItem = (item) => {
-    const len = Math.floor(item.time) + 1;
+    const len = Math.floor(item.time);
     const timelineBody = $("#timeline_body");
-    new Array(len).fill(null).map((v, i) => {
+    const idxItem = timelineBody.children().eq(len);
+    new Array(len + 1).fill(null).map((v, i) => {
       const time = item.time.toString().replace(".", "_");
       let r = timelineBody.children(`div[name=timeline_row_${time}]`);
       if (timelineBody.has(`div[name=timeline_row_${time}]`).length) {
@@ -1229,9 +1235,17 @@ const getSimulations = (socket) => {
           }"></div>`
         );
         r.off("click").on("click", (e) => {
-          handleTimelineItemClick($(e.currentTarget));
+          handleTimelineItemClick(
+            $(e.currentTarget),
+            $(e.target).prop("type") === "checkbox"
+          );
         });
-        timelineBody.append(r);
+        console.log(Number(idxItem.text()), item.time);
+        if (Number(idxItem.text()) > item.time) {
+          idxItem.before(r);
+        } else {
+          timelineBody.append(r);
+        }
       }
     });
 
@@ -1243,6 +1257,7 @@ const getSimulations = (socket) => {
     const tr = timelineBody.children(
       `div[name=timeline_row_${item.time.toString().replace(".", "_")}]`
     );
+    tr.children().remove();
     const contents = {};
     const items = Object.entries({
       eye: null,
@@ -1293,6 +1308,7 @@ const getSimulations = (socket) => {
       checkbox.off("change").on("change", (e) => {
         const checkRow = $(e.target).parents(".timeline.row");
         const checked = $(e.target).is(":checked");
+        console.log(checkRow, checked);
         const checkedRows = $(
           "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
         );
@@ -1710,7 +1726,8 @@ const getSimulations = (socket) => {
     const setAudioCard = (data) => {
       configData.val = { key: "audio", value: data, bInit: true };
       const setAudioList = (list, type, content) => {
-        const audiof = `${type}${content}`;
+        const audiof =
+          content.indexOf(type) < 0 ? `${type}${content}` : content;
         const audioFileList = [
           { value: "", label: "오디오 파일을 선택하세요." },
           ...list.map((li) => ({
@@ -1885,30 +1902,30 @@ const getSimulations = (socket) => {
     const setTtsCard = (data) => {
       configData.val = { key: "tts", value: data, bInit: true };
 
-      const ttsRadioList = [
-        { name: "main", value: "기본" },
-        { name: "pibo", value: "파이보" },
-        { name: "boy", value: "소년" },
-        { name: "girl", value: "소녀" },
+      const ttsOptionsList = [
+        { value: "main", label: "기본" },
+        { value: "pibo", label: "파이보" },
+        { value: "boy", label: "소년" },
+        { value: "girl", label: "소녀" },
       ];
-      const ttsRadioGroup = $("#tts_radio_group");
-      ttsRadioGroup.children().remove();
-      const ttsInputRadios = ttsRadioList.map(({ name, value }) => {
-        const radioInput = $(
-          `<input type ="radio" id="tts_${name}" name="tts_${name}" value="${name}" />`
-        );
-        radioInput.prop(
-          "checked",
-          (!data && name === "main") || (data && data.type === name)
-        );
-        radioInput.on("click", radioButtonClickHandler);
-        return [radioInput, $(`<label for="tts_${name}">${value}</label>`)];
-      });
-      ttsRadioGroup.append(...ttsInputRadios.flat());
+      const ttsSelect = $("#tts_select");
+      ttsSelect.children().remove();
+      const ttsOptions = ttsOptionsList.map(({ label, value }) =>
+        $(
+          `<option value=${value} ${
+            data.type === value ? "selected" : ""
+          }>${label}</option>`
+        )
+      );
+      ttsSelect.append(...ttsOptions);
+
       const ttsTA = $("#tts_textarea");
       ttsTA.val((data && data.content) || "");
       ttsTA.on("change", (e) => {
-        configData.val = { key: "tts", value: { content: e.target.value } };
+        configData.val = {
+          key: "tts",
+          value: { content: e.target.value.slice(0, 48) },
+        };
       });
 
       const ttsVolumeInput = $("#tts_volume_input");
@@ -1939,7 +1956,9 @@ const getSimulations = (socket) => {
         ...configData.value,
         time,
       });
-      handleTimelineItemClick($(`div[name=timeline_row_${time}]`));
+      handleTimelineItemClick(
+        $(`div[name=timeline_row_${time.toString().replace(".", "_")}]`)
+      );
     });
   };
 
@@ -1983,7 +2002,7 @@ $(function () {
     $(`#article_${name}`).show("slide");
   };
 
-  handleMenu("home");
+  handleMenu("simulator");
   const menus = $("nav").find("button");
   menus.each((idx) => {
     const element = menus.get(idx);

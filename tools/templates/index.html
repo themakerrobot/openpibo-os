@@ -1295,10 +1295,12 @@
                       <div class="card-contents">
                         <div class="horizontal vertical-align">
                           <span class="label small">분류</span>
-                          <div
-                            id="tts_radio_group"
-                            class="radio-group fullWidth"
-                          ></div>
+                          <select
+                            class="fullWidth"
+                            name="tts_select"
+                            id="tts_select"
+                            required
+                          ></select>
                         </div>
                         <div class="horizontal vertical-align">
                           <span class="label small">내용</span>
@@ -1308,7 +1310,7 @@
                             id="tts_textarea"
                             name="tts_textarea"
                             placeholder="음성 출력할 내용을 입력하세요."
-                            maxlength="40"
+                            maxlength="48"
                           ></textarea>
                         </div>
                         <div class="horizontal vertical-align">
