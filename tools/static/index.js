@@ -1150,6 +1150,11 @@ const getSimulations = (socket) => {
       setTimelineSection(selectFileContents);
     });
   };
+
+  $("#sequence_name_val").on("keyup", (e) => {
+    $(e.target).val(e.target.value.replace(/[^\da-zA-Z]/g, ""));
+  });
+
   // 새 시퀀스 만들기 이벤트
   $("#add_sequence_bt").on("click", function () {
     // 입력받은 제목 값 상단 타이틀에 써주기

@@ -108,6 +108,11 @@ span.label.small {
   line-height: 1.416;
 }
 
+span.guide {
+  color: var(--dark-teal);
+  padding-left: 2.5em;
+}
+
 div.card.outline {
   display: flex;
   flex-direction: column;
@@ -166,24 +171,6 @@ ul.style-none {
 
 #sequence_name_val {
   position: relative;
-}
-
-#sequence_name_val:invalid {
-  background-color: var(--red);
-}
-
-#sequence_name_val + span::after {
-  content: "영문과 숫자를 4자 이상 30자 이하로 입력하세요.";
-    position: absolute;
-    color: var(--red);
-    font-size: 12px;
-    font-weight: bold;
-    top: 0;
-    left: 0;
-    display: inline-block;
-    width: 100px;
-    height: 15px;
-    font-family: inherit;
 }
 
 #sequence_list p {
