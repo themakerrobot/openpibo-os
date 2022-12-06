@@ -86,7 +86,7 @@ const execute = async(EXEC, codepath) => {
     record = '[' + new Date().toString() + ']: \n\n';
     io.emit('update', {record:record});
 
-    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath]):spawn(EXEC, [codepath]); // python3/sh
+    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath], {cwd:PATH}):spawn(EXEC, [codepath], {cwd:PATH}); // python3/sh
     ps.stdout.on('data', (data) => {
       record += data.toString();
       io.emit('update', {record:record});
@@ -105,6 +105,7 @@ const execute = async(EXEC, codepath) => {
     ps.on('close', (code) => {
       record += "\n종료됨.";
       io.emit('update', {record:record, exit:true});
+      io.emit('update_file_manager', {data: readDirectory(PATH)});
       res(mutex.release());
     });
   });
