@@ -1258,9 +1258,7 @@ const getSimulations = (socket) => {
         contents[k] = v;
         return { ...acc, [k]: v };
       } else if (
-        (k === "eye" &&
-          v &&
-          v.reduce((a, c) => (c || c === 0 ? a + Number(c) : c), 0)) ||
+        (k === "eye" && v && v.content) ||
         (k === "motion" && v && v.content) ||
         (k === "audio" && v && v.content) ||
         (k === "oled" && v && v.content) ||
@@ -1365,7 +1363,7 @@ const getSimulations = (socket) => {
   const setConfigSection = (obj) => {
     let time = 0;
     const initialData = {
-      eye: [],
+      eye: { type: "default", content: [] },
       motion: { type: "default", content: "", cycle: 1 },
       audio: {
         type: "/home/pi/openpibo-files/audio/music/",
@@ -1389,14 +1387,10 @@ const getSimulations = (socket) => {
       },
       set val(param) {
         const { key, value: v, bInit } = param;
-        if (key === "eye") {
-          this.data[key] = v;
+        if (bInit) {
+          this.data[key] = { ...initialData[key], ...v };
         } else {
-          if (bInit) {
-            this.data[key] = { ...initialData[key], ...v };
-          } else {
-            this.data[key] = { ...this.data[key], ...v };
-          }
+          this.data[key] = { ...this.data[key], ...v };
         }
       },
     };
@@ -1414,7 +1408,13 @@ const getSimulations = (socket) => {
         !keyData ||
         (keyData && "type" in keyData && keyData.type !== target.val())
       ) {
-        if (key === "motion") {
+        if (key === "eye") {
+          configData.val = {
+            key: "eye",
+            value: { type: target.val() },
+            bInit: true,
+          };
+        } else if (key === "motion") {
           configData.val = {
             key: "motion",
             value: { type: target.val() },
@@ -1482,10 +1482,19 @@ const getSimulations = (socket) => {
         [255, 255, 255],
       ];
 
+      const transColorValue = (v) => {
+        if (v === null) return "";
+        const n = Number(v);
+        if (n >= 0 && n <= 255) {
+          return n;
+        }
+        return "";
+      };
+
       const setEyeColor = ([eye, rs, gs, bs]) => {
-        const r = Number(rs) || "";
-        const g = Number(gs) || "";
-        const b = Number(bs) || "";
+        const r = transColorValue(rs);
+        const g = transColorValue(gs);
+        const b = transColorValue(bs);
         const target = $(`span[name=${eye}_${r}_${g}_${b}]`);
         const siblings = Array.from(
           $(`#eye_color_group_${eye} div.swatch span.color`)
@@ -1495,13 +1504,43 @@ const getSimulations = (socket) => {
         if (r > 199 && g > 199 && b > 199) {
           target.addClass("inverse");
         }
+        const inputKeyDownHandler = (e) => {
+          const name = $(e.target).attr("name");
+          const value = $(e.target).val().replace(/[^\d]/g, "");
+          if (Number(value) < 0) {
+            $(e.target).val(0);
+          } else if (Number(value) > 255) {
+            $(e.target).val(255);
+          } else if (value) {
+            $(e.target).val(value);
+          }
+          const content =
+            configData.value.eye.content ||
+            data.contents ||
+            new Array(6).fill("");
+          const [t, color, side] = name.split("_");
+          let idx = side === "r" ? 0 : 3;
+          if (color === "red") {
+            idx += 0;
+          } else if (color === "green") {
+            idx += 1;
+          } else if (color === "blue") {
+            idx += 2;
+          }
+          content.splice(idx, 1, value);
+          configData.val = { key: "eye", value: { content } };
+        };
+
         const inputR = $(`#color_input_${eye} input[name=color_red_${eye}]`);
         const inputG = $(`#color_input_${eye} input[name=color_green_${eye}]`);
         const inputB = $(`#color_input_${eye} input[name=color_blue_${eye}]`);
         inputR.val(r);
         inputG.val(g);
         inputB.val(b);
-        let arr = configData.value.eye || data;
+        inputR.off("keyup").on("keyup", inputKeyDownHandler);
+        inputG.off("keyup").on("keyup", inputKeyDownHandler);
+        inputB.off("keyup").on("keyup", inputKeyDownHandler);
+        let arr = configData.value.eye.contents || data.contents;
         if (arr && arr.length) {
           const [rr, rg, rb, lr, lg, lb] = arr;
           if (eye === "r") {
@@ -1518,10 +1557,10 @@ const getSimulations = (socket) => {
             arr = [null, null, null, r, g, b];
           }
         }
-        configData.val = { key: "eye", value: arr };
+        configData.val = { key: "eye", value: { content: arr } };
       };
 
-      const eyeArr = [];
+      let eyeArr = [];
       ["r", "l"].map((eye) => {
         const eyeGroup = $(`#eye_color_group_${eye}>div.color.swatch`);
         eyeGroup.children().remove();
@@ -1530,8 +1569,8 @@ const getSimulations = (socket) => {
           const el = $(
             `<span class="color" name="${eye}_${r}_${g}_${b}" style="background: rgb(${r}, ${g}, ${b})"></span>`
           );
-          if (data && data.length) {
-            const [rr, rg, rb, lr, lg, lb] = data;
+          if (data.content && data.content.length) {
+            const [rr, rg, rb, lr, lg, lb] = data.content;
             if (eye === "r" && rr === r && rg === g && rb === b) {
               el.attr("selected", true);
               eyeArr.unshift(...[r, g, b]);
@@ -1547,11 +1586,46 @@ const getSimulations = (socket) => {
         });
         eyeGroup.append(...eyeColors);
       });
+      if (data.type === "custom") {
+        eyeArr = [...data.content];
+        $(".color-swatch-group .color.swatch").addClass("hide");
+        $(".color-input-wrap input[type=tel]").prop("readonly", false);
+      }
       if (eyeArr.length === 6) {
         const [rr, rg, rb, lr, lg, lb] = eyeArr;
         setEyeColor(["r", rr, rg, rb]);
         setEyeColor(["l", lr, lg, lb]);
       }
+
+      const eyeRadioList = [
+        { name: "default", value: "기본" },
+        { name: "custom", value: "사용자" },
+      ];
+      const eyeRadioGroup = $("#eye_radio_group");
+      eyeRadioGroup.children().remove();
+      const inputRadios = eyeRadioList.map(({ name, value }) => {
+        const radioInput = $(
+          `<input type="radio" id="eye_${name}" name="eye_${name}" value="${name}" />`
+        );
+        radioInput.prop(
+          "checked",
+          (!data && name === "default") || (data && data.type === name)
+        );
+        radioInput.on("click", (e) => {
+          radioButtonClickHandler(e);
+          if (e.target.name === "eye_custom") {
+            $(".color-swatch-group .color.swatch").addClass("hide");
+            $(".color-input-wrap input[type=tel]").prop("readonly", false);
+          } else {
+            $(".color-swatch-group .color.swatch").removeClass("hide");
+            $(".color-input-wrap input[type=tel]").prop("readonly", true);
+          }
+          setEyeColor(["r", null, null, null]);
+          setEyeColor(["l", null, null, null]);
+        });
+        return [radioInput, $(`<label for="eye_${name}">${value}</label>`)];
+      });
+      eyeRadioGroup.append(...inputRadios.flat());
 
       setCardBtnEvent("eye");
     };

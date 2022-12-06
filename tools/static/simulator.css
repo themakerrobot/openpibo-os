@@ -270,13 +270,13 @@ i.icon-tts {
 }
 .color-input-wrap>input {
   margin: 0;
-  /* background-color: transparent; */
   border-radius: 0;
   min-width: 0;
   font-size: 12px !important;
-  color: rgba(16, 16, 16, 0.3);
+}
+.color-input-wrap>input:read-only {
   border-color: rgba(16, 16, 16, 0.3);
-
+  color: rgba(16, 16, 16, 0.3);
 }
 .color-input-wrap>input:first-child {
   border-top-left-radius: 4px;
@@ -353,6 +353,7 @@ span.color.selected.inverse::after{
 input[type="number"].number {
   width: 48px;
   font-size: 14px !important;
+  padding: 4px 0 4px 4px;
 }
 
 .card-contents textarea {
