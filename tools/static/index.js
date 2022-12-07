@@ -1606,6 +1606,9 @@ const getSimulations = (socket) => {
         eyeArr = [...data.content];
         $(".color-swatch-group .color.swatch").addClass("hide");
         $(".color-input-wrap input[type=tel]").prop("readonly", false);
+      } else {
+        $(".color-swatch-group .color.swatch").removeClass("hide");
+        $(".color-input-wrap input[type=tel]").prop("readonly", true);
       }
       if (eyeArr.length === 6) {
         const [rr, rg, rb, lr, lg, lb] = eyeArr;
