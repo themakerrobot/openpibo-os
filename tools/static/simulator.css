@@ -346,7 +346,7 @@ span.color.selected.inverse::after{
 }
 
 
-.card-contents>.horizontal.horizontal.vertical-align {
+.card-contents .horizontal.horizontal.vertical-align {
   gap: 0.5em;
 }
 
@@ -423,6 +423,12 @@ input[type="number"].number {
 }
 .radio-group:not(.stack) input[type="radio"]+label:nth-child(n+3) {
   border-left-width: 0;
+}
+
+#oled_text_group,#oled_img_group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 section.timeline {

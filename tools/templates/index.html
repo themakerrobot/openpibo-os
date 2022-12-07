@@ -1221,61 +1221,69 @@
                             class="radio-group fullWidth"
                           ></div>
                         </div>
-                        <div
-                          class="horizontal vertical-align"
-                          id="oled_text_content"
-                        >
-                          <span class="label small">내용</span>
-                          <textarea
-                            rows="2"
-                            class="fullWidth"
-                            id="oled_textarea"
-                            name="oled_textarea"
-                            placeholder="디스플레이에 출력할 내용을 입력하세요."
-                            maxlength="140"
-                          ></textarea>
-                        </div>
-                        <div
-                          class="horizontal vertical-align"
-                          id="oled_img_content"
-                        >
-                          <span class="label small">파일</span>
-                          <select
-                            id="oled_img_select"
-                            class="fullWidth"
-                          ></select>
-                        </div>
-                        <div
-                          class="horizontal vertical-align"
-                          id="oled_text_config"
-                        >
-                          <span class="label small">위치</span>
-                          <div class="horizontal space-between">
-                            <div>
-                              <span class="label small">X</span>
-                              <input
-                                type="number"
-                                class="number"
-                                id="oled_x"
-                                name="oled_x"
-                              />
-                              <span class="label small">Y</span>
-                              <input
-                                type="number"
-                                class="number"
-                                id="oled_y"
-                                name="oled_y"
-                              />
+                        <div id="oled_text_group">
+                          <div
+                            class="horizontal vertical-align"
+                            id="oled_text_content"
+                          >
+                            <span class="label small">내용</span>
+                            <textarea
+                              rows="2"
+                              class="fullWidth"
+                              id="oled_textarea"
+                              name="oled_textarea"
+                              placeholder="디스플레이에 출력할 내용을 입력하세요."
+                              maxlength="140"
+                            ></textarea>
+                          </div>
+                          <div
+                            class="horizontal vertical-align"
+                            id="oled_text_config"
+                          >
+                            <span class="label small">위치</span>
+                            <div class="horizontal space-between">
+                              <div>
+                                <span class="label small">X</span>
+                                <input
+                                  type="number"
+                                  class="number"
+                                  id="oled_x"
+                                  name="oled_x"
+                                />
+                                <span class="label small">Y</span>
+                                <input
+                                  type="number"
+                                  class="number"
+                                  id="oled_y"
+                                  name="oled_y"
+                                />
+                              </div>
+                              <div>
+                                <span class="label small">크기</span>
+                                <input
+                                  type="number"
+                                  class="number"
+                                  id="oled_size"
+                                  name="oled_size"
+                                />
+                              </div>
                             </div>
-                            <div>
-                              <span class="label small">크기</span>
-                              <input
-                                type="number"
-                                class="number"
-                                id="oled_size"
-                                name="oled_size"
-                              />
-                            </div>
+                          </div>
+                        </div>
+                        <div id="oled_img_group">
+                          <div class="horizontal vertical-align">
+                            <span class="label small">종류</span>
+                            <select
+                              id="oled_path_select"
+                              class="fullWidth"
+                            ></select>
+                          </div>
+                          <div class="horizontal vertical-align">
+                            <span class="label small">파일</span>
+                            <select
+                              id="oled_img_select"
+                              class="fullWidth"
+                            ></select>
                           </div>
                         </div>
                       </div>

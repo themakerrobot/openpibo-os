@@ -1800,12 +1800,11 @@ const getSimulations = (socket) => {
     const setOledCard = (data) => {
       configData.val = { key: "oled", value: data, bInit: true };
 
-      const setOledImageList = (list, name) => {
-        const imgPath = "/home/pi/openpibo-files/icon/";
+      const setOledImageList = (list, imgPath, name) => {
         const imageList = [
           { value: "", label: "이미지를 선택하세요." },
           ...list.map((li) => ({
-            value: `${imgPath}${li}`,
+            value: `${imgPath}/${li}`,
             label: li.replace(/[\.]+[a-z]+$/gim, ""),
           })),
         ];
@@ -1815,12 +1814,12 @@ const getSimulations = (socket) => {
           ({ value, label }) =>
             $(
               `<option value=${value} ${
-                name === value ? "selected" : ""
+                value === `${imgPath}/${name}` ? "selected" : ""
               }>${label}</option>`
             ) // 선택된 값 세팅 될 경우 selected
         );
         imgSelect.append(...imgSelectOptions);
-        imgSelect.on("change", (e) => {
+        imgSelect.off("change").on("change", (e) => {
           configData.val = {
             key: "oled",
             value: { type: "image", content: e.target.value },
@@ -1828,18 +1827,58 @@ const getSimulations = (socket) => {
         });
       };
 
+      const setOledImagePathList = (path, img) => {
+        const oledImgOptionsList = [
+          { value: "", label: "이미지 종류를 선택하세요." },
+          { value: "/home/pi/openpibo-files/icon/expression", label: "표정" },
+          { value: "/home/pi/openpibo-files/icon/game", label: "가위바위보" },
+          { value: "/home/pi/openpibo-files/icon/recycle", label: "재활용" },
+          { value: "/home/pi/openpibo-files/icon/story", label: "이야기" },
+          { value: "/home/pi/openpibo-files/icon/weather", label: "날씨" },
+          { value: "/home/pi/myimage", label: "내 이미지" },
+        ];
+        const oledPathSelect = $("#oled_path_select");
+        oledPathSelect.children().remove();
+        const oledPathOptions = oledImgOptionsList.map(({ label, value }) => {
+          if (!path || path === value) {
+            simSocket("sim_update_oled", value, (list) =>
+              setOledImageList(list, path, img)
+            );
+          }
+          return $(
+            `<option value=${value} ${
+              path === value ? "selected" : ""
+            }>${label}</option>`
+          );
+        });
+        oledPathSelect.off("change").on("change", (e) => {
+          simSocket("sim_update_oled", e.target.value, (list) =>
+            setOledImageList(list, e.target.value, "")
+          );
+        });
+        oledPathSelect.append(...oledPathOptions);
+      };
+
       const setOledContent = (type, obj) => {
         if (type === "image") {
-          $("#oled_text_config").hide();
-          $("#oled_text_content").hide();
-          $("#oled_img_content").show();
-          simSocket("sim_update_oled", type, (list) =>
-            setOledImageList(list, data && data.content)
-          );
+          $("#oled_text_group").hide();
+          $("#oled_img_group").show();
+          if (obj && obj.content) {
+            const [path, img] = obj.content.split("/").reduce(
+              (a, c, i, arr) => {
+                if (i === arr.length - 1) return [a[0], c];
+                const str = c ? "/" + c : "";
+                return [a[0] + str, a[1]];
+              },
+              [[], []]
+            );
+            setOledImagePathList(path, img);
+          } else {
+            setOledImagePathList();
+          }
         } else {
-          $("#oled_img_content").hide();
-          $("#oled_text_config").show();
-          $("#oled_text_content").show();
+          $("#oled_img_group").hide();
+          $("#oled_text_group").show();
           const { content, x, y, size } = obj;
           const oledTA = $("#oled_textarea");
           oledTA.val(content || "");
