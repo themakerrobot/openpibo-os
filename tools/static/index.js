@@ -1228,45 +1228,44 @@ const getSimulations = (socket) => {
 
   // 시퀀스 타임라인 아이템 추가
   const addTimelineItem = (item) => {
-    const len = Math.floor(item.time);
     const timelineBody = $("#timeline_body");
-    const idxItem = timelineBody.children().eq(len);
-    new Array(len + 1).fill(null).map((v, i) => {
-      const time = item.time.toString().replace(".", "_");
-      let r = timelineBody.children(`div[name=timeline_row_${time}]`);
-      if (timelineBody.has(`div[name=timeline_row_${time}]`).length) {
-        // if (item.time === i) {
-        r.removeClass("hide");
-        // }
-      } else {
-        r = $(
-          `<div name="timeline_row_${time}" class="timeline row ${
-            item.time !== i ? "hide" : ""
-          }"></div>`
-        );
-        r.off("click").on("click", (e) => {
+    const itemName = `timeline_row_${item.time.toString().replace(".", "_")}`;
+    if (!timelineBody.has(`div[name=${itemName}]`).length) {
+      timelineBody.append(
+        $(`<div name="${itemName}" class="timeline row hide"></div>`)
+      );
+    }
+
+    const newList = Array.from(timelineBody.children()).sort((a, b) => {
+      const [as, ams] = $(a)
+        .attr("name")
+        .replace("timeline_row_", "")
+        .split("_");
+      const [bs, bms] = $(b)
+        .attr("name")
+        .replace("timeline_row_", "")
+        .split("_");
+      const at = ams ? Number(`${as}.${ams}`) : Number(as);
+      const bt = bms ? Number(`${bs}.${bms}`) : Number(bs);
+      return at - bt;
+    });
+    timelineBody.children().remove();
+    newList.forEach((r) => {
+      $(r)
+        .off("click")
+        .on("click", (e) => {
           handleTimelineItemClick(
             $(e.currentTarget),
             $(e.target).prop("type") === "checkbox"
           );
         });
-        console.log(Number(idxItem.text()), item.time);
-        if (Number(idxItem.text()) > item.time) {
-          idxItem.before(r);
-        } else {
-          timelineBody.append(r);
-        }
-      }
+      timelineBody.append(r);
     });
-
-    // // 같은 시간에 덮어쓸 수 있도록 일단 해당하는 row를 삭제한다.
-    // $(`div[name="timeline_row_${item.time}"]`).remove();
+    timelineBody.children().removeClass("hide");
     selectFileContents = selectFileContents.filter(
       ({ time }) => time !== item.time
     );
-    const tr = timelineBody.children(
-      `div[name=timeline_row_${item.time.toString().replace(".", "_")}]`
-    );
+    const tr = timelineBody.children(`div[name=${itemName}]`);
     tr.children().remove();
     const contents = {};
     const items = Object.entries({
@@ -1277,7 +1276,6 @@ const getSimulations = (socket) => {
       tts: null,
       ...item,
     });
-    let bValid = false;
     const fItems = items.reduce((acc, [k, v]) => {
       if (k === "time") {
         contents[k] = v;
@@ -1292,31 +1290,43 @@ const getSimulations = (socket) => {
         (k === "oled" && v && v.content) ||
         (k === "tts" && v && v.content)
       ) {
-        bValid = true;
         contents[k] = v;
         return { ...acc, [k]: true };
       }
       return { ...acc, [k]: false };
     }, {});
-    if (bValid) {
-      const cells = new Array(Object.keys(fItems).length);
-      cells[0] = $(`<div class="timeline cell">${fItems.time}</div>`);
-      cells[1] = fItems.eye
-        ? $(`<div class="timeline cell use"></div>`)
-        : $(`<div class="timeline cell"></div>`);
-      cells[2] = fItems.motion
-        ? $(`<div class="timeline cell use"></div>`)
-        : $(`<div class="timeline cell"></div>`);
-      cells[3] = fItems.audio
-        ? $(`<div class="timeline cell use"></div>`)
-        : $(`<div class="timeline cell"></div>`);
-      cells[4] = fItems.oled
-        ? $(`<div class="timeline cell use"></div>`)
-        : $(`<div class="timeline cell"></div>`);
-      cells[5] = fItems.tts
-        ? $(`<div class="timeline cell use"></div>`)
-        : $(`<div class="timeline cell"></div>`);
+    const cells = new Array(Object.keys(fItems).length);
+    cells[0] = $(`<div class="timeline cell">${fItems.time}</div>`);
+    cells[1] = fItems.eye
+      ? $(`<div class="timeline cell use"></div>`)
+      : $(`<div class="timeline cell"></div>`);
+    cells[2] = fItems.motion
+      ? $(`<div class="timeline cell use"></div>`)
+      : $(`<div class="timeline cell"></div>`);
+    cells[3] = fItems.audio
+      ? $(`<div class="timeline cell use"></div>`)
+      : $(`<div class="timeline cell"></div>`);
+    cells[4] = fItems.oled
+      ? $(`<div class="timeline cell use"></div>`)
+      : $(`<div class="timeline cell"></div>`);
+    cells[5] = fItems.tts
+      ? $(`<div class="timeline cell use"></div>`)
+      : $(`<div class="timeline cell"></div>`);
 
+    const checkbox = $(`<input type="checkbox" /></div>`);
+    checkbox.off("change").on("change", () => {
+      const checkedRows = $(
+        "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
+      );
+      if (checkedRows.length === selectFileContents.length) {
+        const allCheckbox = $("#timeline_all_check");
+        allCheckbox.prop("checked", true);
+      }
+    });
+    tr.append($(`<div class="timeline cell">`).append(checkbox));
+    tr.append(...cells);
+    selectFileContents.push(contents);
+    selectFileContents.sort((a, b) => a.time - b.time);
     localStorage.setItem(
       "simFile",
       JSON.stringify({ name: selectFile, data: selectFileContents, index: 3 })
