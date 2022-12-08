@@ -1063,6 +1063,18 @@ const getSimulations = (socket) => {
     return result;
   };
 
+  const getSimFile = () => {
+    return JSON.parse(localStorage.getItem("sim_file"));
+  };
+  const setSimFile = ({ name, data, index }) => {
+    let obj = { name, data, index };
+    if (!name && !data) {
+      const oldData = getSimFile();
+      obj = { ...oldData, index };
+    }
+    localStorage.setItem("sim_file", JSON.stringify(obj));
+  };
+
   // 시퀀스 파일 영역(section.new-and-list) 초기화
   const onFileList = () => {
     $("#sequence_list").empty();
@@ -1143,7 +1155,11 @@ const getSimulations = (socket) => {
     simSocket("sim_load_items", v, ({ name, data }) => {
       selectFile = name;
       selectFileContents = data;
-      localStorage.setItem("simFile", JSON.stringify({ name, data }));
+      setSimFile({
+        name,
+        data,
+        index: data && data.length ? data.length - 1 : 0,
+      });
       foldSimulatorFile(name);
       setConfigSection(
         selectFileContents.length ? selectFileContents[0] : null
@@ -1214,8 +1230,9 @@ const getSimulations = (socket) => {
       //   .prop("checked", false);
       // checkbox.prop("checked", true);
       row.addClass("selected");
-      const content = selectFileContents.filter((item) => item.time === time);
-      setConfigSection(content[0]);
+      const index = selectFileContents.findIndex((item) => item.time === time);
+      setSimFile({ index });
+      setConfigSection(selectFileContents[index]);
     }
     const checkedRows = $(
       "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
@@ -1327,10 +1344,6 @@ const getSimulations = (socket) => {
     tr.append(...cells);
     selectFileContents.push(contents);
     selectFileContents.sort((a, b) => a.time - b.time);
-    localStorage.setItem(
-      "simFile",
-      JSON.stringify({ name: selectFile, data: selectFileContents, index: 3 })
-    );
   };
   // 시퀀스 타임라인 영역(section.timeline) 초기화
   const setTimelineSection = (list = [], index = 0) => {
@@ -2045,13 +2058,13 @@ const getSimulations = (socket) => {
           false
         );
         if (validCheck) {
+          const itemName = `timeline_row_${time.toString().replace(".", "_")}`;
           addTimelineItem({
             ...configData.value,
             time,
           });
-          handleTimelineItemClick(
-            $(`div[name=timeline_row_${time.toString().replace(".", "_")}]`)
-          );
+          handleTimelineItemClick($(`div[name=${itemName}]`));
+          setSimFile({ name: selectFile, data: selectFileContents, index: 3 });
         } else {
           alert("설정을 완료하세요.");
         }
@@ -2061,7 +2074,7 @@ const getSimulations = (socket) => {
     });
   };
 
-  const loadedFile = JSON.parse(localStorage.getItem("sim_file"));
+  const loadedFile = getSimFile();
   if (loadedFile) {
     selectFile = loadedFile.name;
     selectFileContents = loadedFile.data;
