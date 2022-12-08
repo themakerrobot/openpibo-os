@@ -1274,7 +1274,10 @@ const getSimulations = (socket) => {
         contents[k] = v;
         return { ...acc, [k]: v };
       } else if (
-        (k === "eye" && v && v.content) ||
+        (k === "eye" &&
+          v &&
+          v.content &&
+          v.content.reduce((a, c) => (c || c === 0 ? a + Number(c) : c), 0)) ||
         (k === "motion" && v && v.content) ||
         (k === "audio" && v && v.content) ||
         (k === "oled" && v && v.content) ||
@@ -1371,7 +1374,6 @@ const getSimulations = (socket) => {
 
   // 시퀀스 설정 영역(section.config) 초기화
   const setConfigSection = (obj) => {
-    let time = 0;
     const initialData = {
       eye: { type: "default", content: [] },
       motion: { type: "default", content: "", cycle: 1 },
@@ -1526,7 +1528,7 @@ const getSimulations = (socket) => {
           }
           const content =
             configData.value.eye.content ||
-            data.contents ||
+            data.content ||
             new Array(6).fill("");
           const [t, color, side] = name.split("_");
           let idx = side === "r" ? 0 : 3;
@@ -1550,7 +1552,7 @@ const getSimulations = (socket) => {
         inputR.off("keyup").on("keyup", inputKeyDownHandler);
         inputG.off("keyup").on("keyup", inputKeyDownHandler);
         inputB.off("keyup").on("keyup", inputKeyDownHandler);
-        let arr = configData.value.eye.contents || data.contents;
+        let arr = configData.value.eye.content || data.content;
         if (arr && arr.length) {
           const [rr, rg, rb, lr, lg, lb] = arr;
           if (eye === "r") {
