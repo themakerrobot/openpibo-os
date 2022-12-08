@@ -318,6 +318,8 @@ nav {
   height: 100%;
   background-color:#f8f8f8;
   border: #e7e7e7;
+  position: fixed;
+  z-index: 99;
 }
 
 nav ul {
@@ -459,6 +461,8 @@ footer {
   width: 100vw;
   height: 3rem;
   font-size: 1.2rem;
+  position: fixed;
+  z-index: 99;
 }
 
 header.title {
@@ -469,6 +473,8 @@ header.title {
   height: 3rem;
   padding-left: 16px;
   padding-right: 16px;
+  position: fixed;
+  z-index: 99;
 }
 .title h2 {
   margin: 0.1em auto;
@@ -480,6 +486,7 @@ header.title {
 main {
   display: flex;
   flex: 1 0 80vh;
+  padding: 30px 0;
 }
 
 main > div.content {
@@ -488,6 +495,7 @@ main > div.content {
   width: 100%;
   margin: 0 auto;
   align-items: flex-start;
+  padding-left: 40px;
 }
 main div.wrapper {
   width: 100%;
