@@ -1349,21 +1349,30 @@ const getSimulations = (socket) => {
     });
     const delBtn = $("#timeline_del_bt");
     delBtn.off("click").on("click", () => {
-      const allCheck = allCheckbox.is(":checked");
-      if (allCheck) {
-        setTimelineSection([]);
-        allCheckbox.prop("checked", false);
+    const selPlayBtn = $("#timeline_sel_play_bt");
+    selPlayBtn.off("click").on("click", () => {
+      const checkedRows = $(
+        "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
+      ).parents(".timeline.row");
+      if (!checkedRows.length) {
+        alert("실행할 타임라인을 선택하세요.");
       } else {
-        const rows = $("#timeline_body input[type=checkbox]:checked").parents(
-          ".timeline.row"
-        );
-        Array.from(rows).map((item) => {
-          selectFileContents = selectFileContents.filter(
-            (content) => content.time !== Number($(item).text())
+        const icon = selPlayBtn.children("i");
+        if (icon.hasClass("fa-play")) {
+          selPlayBtn.text(" 선택 실행 정지");
+          selPlayBtn.prepend(icon.removeClass("fa-play").addClass("fa-stop"));
+          const selTimes = Array.from(checkedRows).map((el) =>
+            Number($(el).text())
           );
-          $(item).addClass("hide");
-          $(item).children().remove();
-        });
+          const selFileContents = selectFileContents.filter(
+            (content) => selTimes.indexOf(content.time) > -1
+          );
+          simSocket("sim_play_items", selFileContents);
+        } else {
+          selPlayBtn.text(" 선택 실행");
+          selPlayBtn.prepend(icon.removeClass("fa-stop").addClass("fa-play"));
+          simSocket("sim_stop_items");
+        }
       }
     });
     $("#timeline_body").children().remove();
