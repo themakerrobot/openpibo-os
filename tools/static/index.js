@@ -2002,14 +2002,32 @@ const getSimulations = (socket) => {
     timeInput.val(configData.value.time || 0);
     const timeSave = $("#config_time_bt");
     timeSave.off("click").on("click", () => {
-      const time = Number(timeInput.val()) || 0;
-      addTimelineItem({
-        ...configData.value,
-        time,
-      });
-      handleTimelineItemClick(
-        $(`div[name=timeline_row_${time.toString().replace(".", "_")}]`)
-      );
+      const t = timeInput.val();
+      if (/\d+\.+\d{1}$|^\d{1,}$/g.test(t)) {
+        const time = Number(timeInput.val()) || 0;
+        const validCheck = Object.entries(configData.value).reduce(
+          (a, [k, v]) => {
+            const { content } = v;
+            if (k === "eye")
+              return content.filter((v) => v && v).length ? true : a || false;
+            return content ? true : a || false;
+          },
+          false
+        );
+        if (validCheck) {
+          addTimelineItem({
+            ...configData.value,
+            time,
+          });
+          handleTimelineItemClick(
+            $(`div[name=timeline_row_${time.toString().replace(".", "_")}]`)
+          );
+        } else {
+          alert("설정을 완료하세요.");
+        }
+      } else {
+        alert("0.1초 단위로 입력하세요.");
+      }
     });
   };
 
