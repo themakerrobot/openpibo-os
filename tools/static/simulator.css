@@ -532,6 +532,9 @@ div#timeline_body div.cell:nth-child(1) {
 div#timeline_card>div.row.head div.cell:nth-child(2) {
   flex: 0 0 45px;
 }
+div#timeline_body div.timeline.row.selected:focus-visible {
+  outline: none;
+}
 div#timeline_body div.timeline.row.selected>div.cell:nth-child(1) {
   background-color: var(--light-green);
 }

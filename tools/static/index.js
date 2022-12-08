@@ -1224,12 +1224,14 @@ const getSimulations = (socket) => {
       checkbox.prop("checked", checkbox.prop("checked"));
     } else {
       row.siblings().removeClass("selected");
+      row.siblings().attr("tabindex", 0).blur();
       // row
       //   .siblings()
       //   .find("div.cell input[type=checkbox]")
       //   .prop("checked", false);
       // checkbox.prop("checked", true);
       row.addClass("selected");
+      row.attr("tabindex", -1).focus();
       const index = selectFileContents.findIndex((item) => item.time === time);
       setSimFile({ index });
       setConfigSection(selectFileContents[index]);
@@ -1422,7 +1424,10 @@ const getSimulations = (socket) => {
     $("#timeline_body").children().remove();
     if (list.length) {
       list.forEach(addTimelineItem);
-      handleTimelineItemClick($(`div[name=timeline_row_${list[index].time}]`));
+      const itemName = `timeline_row_${list[index].time
+        .toString()
+        .replace(".", "_")}`;
+      handleTimelineItemClick($(`div[name=${itemName}]`));
     } else {
       selectFileContents = [];
     }
