@@ -589,3 +589,29 @@ table.timeline.table>tbody td:nth-child(6).use {
 table.timeline.table>tbody td:nth-child(7).use {
   background-color: var(--tts-fill);
 } */
+
+
+@media screen and (max-width: 890px) {
+  #article_simulator {
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+  #article_simulator>.timeline {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 891px) and (max-width: 1106px) {
+  #article_simulator {
+    margin-bottom: 20px;
+  }
+  div#timeline_card.timeline.card {
+    height: calc(100% - 8.5rem);
+  }
+}
+
+@media screen and (max-width: 1360px)  {
+  #article_simulator {
+    margin-bottom: 20px;
+  }
+}
