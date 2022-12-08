@@ -4,7 +4,7 @@
   flex-direction: row;
   align-items: stretch;
   padding: 0px;
-  gap: 1.25em;
+  gap: 0.75em;
 }
 
 /* input[type="number"]#time */
@@ -72,7 +72,7 @@
 #article_simulator>.vertical{
   align-items: flex-start;
   padding: 0px;
-  gap: 1.25em;
+  /* gap: 0.5em; */
   align-self: stretch;
   flex: 1 1;
 }
@@ -200,9 +200,9 @@ section.config {
   display: flex;
   flex-wrap:wrap;
   justify-content: space-between;
-  gap: 1em;
+  gap: 0.75em;
   background-color: var(--light-green);
-  padding: 1em;
+  padding: 0.75em;
   border-radius: 0.25em;
 }
 
@@ -454,9 +454,8 @@ div#timeline_card.timeline.card {
   flex: none;
   padding: 2px;
   gap: 2px;
-  height: calc(100% - 8.5rem);
-  /* flex-grow: 1; */
-  /* align-self: stretch; */
+  /* height: calc(100% - 8.5rem); */
+  height: calc(calc(24px * 19) + 12px);
 }
 
 div#timeline_card>div.timeline.row.head, div#timeline_card div.timeline.row {
