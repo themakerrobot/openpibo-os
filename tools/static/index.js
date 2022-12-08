@@ -1356,6 +1356,30 @@ const getSimulations = (socket) => {
     });
     const delBtn = $("#timeline_del_bt");
     delBtn.off("click").on("click", () => {
+      const rows = $("#timeline_body input[type=checkbox]:checked").parents(
+        ".timeline.row"
+      );
+      if (!rows.length) {
+        alert("삭제할 타임라인을 선택하세요.");
+      } else if (confirm("선택된 시간에 설정된 내용을 삭제하시겠습니까?")) {
+        const allCheck = allCheckbox.is(":checked");
+        if (allCheck) {
+          setTimelineSection([]);
+          allCheckbox.prop("checked", false);
+        } else {
+          const rows = $("#timeline_body input[type=checkbox]:checked").parents(
+            ".timeline.row"
+          );
+          Array.from(rows).map((item) => {
+            selectFileContents = selectFileContents.filter(
+              (content) => content.time !== Number($(item).text())
+            );
+            $(item).addClass("hide");
+            $(item).children().remove();
+          });
+        }
+      }
+    });
     const selPlayBtn = $("#timeline_sel_play_bt");
     selPlayBtn.off("click").on("click", () => {
       const checkedRows = $(
