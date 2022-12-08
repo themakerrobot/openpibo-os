@@ -1204,17 +1204,26 @@ const getSimulations = (socket) => {
   const handleTimelineItemClick = (row, bCheck) => {
     const time = Number(row.text());
     const checkbox = row.find("div.cell input[type=checkbox]");
-    row.siblings().removeClass("selected");
-    if (!bCheck) {
-      row
-        .siblings()
-        .find("div.cell input[type=checkbox]")
-        .prop("checked", false);
+    if (bCheck) {
+      checkbox.prop("checked", checkbox.prop("checked"));
+    } else {
+      row.siblings().removeClass("selected");
+      // row
+      //   .siblings()
+      //   .find("div.cell input[type=checkbox]")
+      //   .prop("checked", false);
+      // checkbox.prop("checked", true);
+      row.addClass("selected");
+      const content = selectFileContents.filter((item) => item.time === time);
+      setConfigSection(content[0]);
     }
-    row.addClass("selected");
-    checkbox.prop("checked", true);
-    const content = selectFileContents.filter((item) => item.time === time);
-    setConfigSection(content[0]);
+    const checkedRows = $(
+      "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
+    );
+    $("#timeline_all_check").prop(
+      "checked",
+      checkedRows.length === selectFileContents.length
+    );
   };
 
   // 시퀀스 타임라인 아이템 추가
