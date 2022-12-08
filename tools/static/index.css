@@ -465,6 +465,11 @@ footer {
   z-index: 99;
 }
 
+h4#content_header {
+  margin-block-start: 1em;
+  margin-block-end: 0.75em;
+}
+
 header.title {
   color: black;
   background-color: var(--dark-yellow);
@@ -499,7 +504,7 @@ main > div.content {
 }
 main div.wrapper {
   width: 100%;
-  padding: 0px 20px 20px 20px;
+  padding: 0px 20px;
 }
 
 main h3#content_header {
@@ -558,6 +563,10 @@ article {
   flex-wrap: wrap;
   gap: 1rem;
 }
+article.margin {
+  margin-bottom: 20px;
+}
+
 section {
   padding: 2rem 1.5rem;
   position: relative;

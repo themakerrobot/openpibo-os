@@ -166,6 +166,7 @@ div {
 main {
   display: flex;
   flex: 1 0 80vh;
+  padding: 30px 0;
 }
 
 button {
@@ -227,6 +228,8 @@ footer {
   font-size: 1.2rem;
   padding-left: 16px;
   padding-right: 16px;
+  position: fixed;
+  z-index: 99;
 }
 
 header.title {
@@ -237,6 +240,8 @@ header.title {
   height: 3rem;
   padding-left: 16px;
   padding-right: 16px;
+  position: fixed;
+  z-index: 99;
 }
 .title h2 {
   margin: 0.1em auto;
@@ -252,6 +257,7 @@ main > div.content {
   gap: 1rem;
   flex-wrap: wrap;
   justify-content:center;
+  padding-left: 40px;
 }
 
 main div.wrapper.ide {
