@@ -1143,6 +1143,7 @@ const getSimulations = (socket) => {
     simSocket("sim_load_items", v, ({ name, data }) => {
       selectFile = name;
       selectFileContents = data;
+      localStorage.setItem("simFile", JSON.stringify({ name, data }));
       foldSimulatorFile(name);
       setConfigSection(
         selectFileContents.length ? selectFileContents[0] : null
@@ -1304,29 +1305,13 @@ const getSimulations = (socket) => {
         ? $(`<div class="timeline cell use"></div>`)
         : $(`<div class="timeline cell"></div>`);
 
-      const checkbox = $(`<input type="checkbox" /></div>`);
-      checkbox.off("change").on("change", (e) => {
-        const checkRow = $(e.target).parents(".timeline.row");
-        const checked = $(e.target).is(":checked");
-        console.log(checkRow, checked);
-        const checkedRows = $(
-          "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
-        );
-        if (checkedRows.length === selectFileContents.length) {
-          const allCheckbox = $("#timeline_all_check");
-          allCheckbox.prop("checked", true);
-        }
-      });
-      tr.append($(`<div class="timeline cell">`).append(checkbox));
-      tr.append(...cells);
-      selectFileContents.push(contents);
-      selectFileContents.sort((a, b) => a.time - b.time);
-    } else {
-      alert("설정을 완료하세요.");
-    }
+    localStorage.setItem(
+      "simFile",
+      JSON.stringify({ name: selectFile, data: selectFileContents, index: 3 })
+    );
   };
   // 시퀀스 타임라인 영역(section.timeline) 초기화
-  const setTimelineSection = (list = []) => {
+  const setTimelineSection = (list = [], index = 0) => {
     const playBtn = $("#timeline_play_bt");
     playBtn.off("click").on("click", (e) => {
       console.log("timeline play", playBtn.children());
@@ -1378,7 +1363,7 @@ const getSimulations = (socket) => {
     $("#timeline_body").children().remove();
     if (list.length) {
       list.forEach(addTimelineItem);
-      handleTimelineItemClick($(`div[name=timeline_row_${list[0].time}]`));
+      handleTimelineItemClick($(`div[name=timeline_row_${list[index].time}]`));
     } else {
       selectFileContents = [];
     }
@@ -2031,9 +2016,20 @@ const getSimulations = (socket) => {
     });
   };
 
+  const loadedFile = JSON.parse(localStorage.getItem("sim_file"));
+  if (loadedFile) {
+    selectFile = loadedFile.name;
+    selectFileContents = loadedFile.data;
+    const index = loadedFile.index || 0;
+    $("#sequence_warn").hide();
+    $("h3[name=sequence_title]").text(selectFile);
+    foldSimulatorFile(selectFile);
+    setTimelineSection(selectFileContents, index);
+  } else {
+    setConfigSection();
+    setTimelineSection();
+  }
   onFileList();
-  setConfigSection();
-  setTimelineSection();
 };
 
 $(function () {
