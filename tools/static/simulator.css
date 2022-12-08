@@ -467,8 +467,25 @@ div#timeline_card>div.timeline.row.head, div#timeline_card div.timeline.row {
   width: 100%;
   gap: 2px;
   position: relative;
+  cursor: default;
 }
-div#timeline_card div.timeline.row.selected::after {
+div#timeline_card div.timeline.row:first-child.selected {
+  margin-top: 1px;
+}
+div#timeline_card div.timeline.row:last-child.selected {
+  margin-bottom: 1px;
+}
+div#timeline_card div.timeline.row.selected {
+  background: transparent;
+  box-shadow: 0px 0px 0px 1px rgb(160 160 160 / 30%);
+}
+div#timeline_card div.timeline.row.selected .timeline.cell {
+  background-color: transparent;
+}
+div#timeline_card div.timeline.row.selected .timeline.cell:nth-child(2) {
+  background-color: #d6d8ce;
+}
+/* div#timeline_card div.timeline.row.selected::after {
   content: "";
   display: block;
   position: absolute;
@@ -478,7 +495,7 @@ div#timeline_card div.timeline.row.selected::after {
   right:0;
   background: rgba(160, 160, 160, 0.3);
   border: 1px solid #A0A0A0;
-}
+} */
 div#timeline_card div.timeline.row div.cell {
   display: flex;
   width: 100%;
@@ -516,25 +533,46 @@ div#timeline_body div.cell:nth-child(1) {
 div#timeline_card>div.row.head div.cell:nth-child(2) {
   flex: 0 0 45px;
 }
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(1) {
+  background-color: var(--light-green);
+}
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(2) {
+  background-color: #C9DFA2 !important;
+}
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(3).use {
+  background-color: var(--eye-color) !important;
+}
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(4).use {
+  background-color: var(--motion) !important;
+}
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(5).use {
+  background-color: var(--audio) !important;
+}
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(6).use {
+  background-color: var(--oled) !important;
+}
+div#timeline_body div.timeline.row.selected>div.cell:nth-child(7).use {
+  background-color: var(--tts) !important;
+}
 div#timeline_body div.cell:nth-child(2) {
   background-color: var(--light-green);
   flex: 0 0 45px;
   text-align: center;
 }
 div#timeline_body div.cell:nth-child(3).use {
-  background-color: var(--eye-color-fill);
+  background-color: var(--eye-color-fill) !important;
 }
 div#timeline_body div.cell:nth-child(4).use {
-  background-color: var(--motion-fill);
+  background-color: var(--motion-fill) !important;
 }
 div#timeline_body div.cell:nth-child(5).use {
-  background-color: var(--audio-fill);
+  background-color: var(--audio-fill) !important;
 }
 div#timeline_body div.cell:nth-child(6).use {
-  background-color: var(--oled-fill);
+  background-color: var(--oled-fill) !important;
 }
 div#timeline_body div.cell:nth-child(7).use {
-  background-color: var(--tts-fill);
+  background-color: var(--tts-fill) !important;
 }
 /*
 table.timeline.table>tbody td:nth-child(3).use {
