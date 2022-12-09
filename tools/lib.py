@@ -272,7 +272,7 @@ class Pibo:
 
     try:
       if voice_type == "espeak":
-        os.system(f'espeak {d["text"]} -w /home/pi/speech.mp3')
+        os.system(f'espeak "{d["text"]}" -w /home/pi/speech.mp3')
       else:
         lang = "en" if "e_" in voice_type else "ko"
         self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type, lang=lang)
@@ -354,6 +354,8 @@ class Pibo:
     del self.mot
 
   def make_raw(self):
+    if len(self.motion_p) == 0:
+      return {}
     return {'init_def':1, 'init':self.motion_p[0]['d'], 'pos':self.motion_p[1:]} if self.motion_p[0]['seq'] == 0 else {'init_def':0, 'pos':self.motion_p[:]}
 
   def get_motor_info(self):

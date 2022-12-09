@@ -331,7 +331,12 @@ const getMotions = (socket) => {
 
   // 모션 추가
   $("#add_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").val();
+    let motionName = $("#motion_name_val").val().trim();
+
+    if (motionName == "") {
+      alert("먼저 모션이름을 적어주세요.");
+      return;
+    }
     if (confirm(motionName + " 모션을 등록하시겠습니까?")) {
       socket.emit("add_motion", motionName);
       $("#motion_name_val").val("");
@@ -340,7 +345,13 @@ const getMotions = (socket) => {
 
   // 모션 불러오기
   $("#load_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").val();
+    let motionName = $("#motion_name_val").val().trim();
+
+    if (motionName == "") {
+      alert("먼저 모션이름을 적어주세요.");
+      return;
+    }
+
     if (confirm(motionName + " 모션을 불러오시겠습니까?")) {
       socket.emit("load_motion", motionName);
       $("#motion_name_val").val("");
@@ -361,7 +372,12 @@ const getMotions = (socket) => {
 
   // 모션 삭제
   $("#delete_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").val();
+    let motionName = $("#motion_name_val").val().trim();
+
+    if (motionName == "") {
+      alert("먼저 모션이름을 적어주세요.");
+      return;
+    }
     if (confirm(motionName + " 모션을 삭제하시겠습니까?")) {
       socket.emit("delete_motion", motionName);
       $("#motion_name_val").val("");
