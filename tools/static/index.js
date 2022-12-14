@@ -1316,7 +1316,11 @@ const getSimulations = (socket) => {
         const icon = playBtn.children("i");
         if (icon.hasClass("fa-play")) {
           icon.removeClass("fa-play").addClass("fa-stop");
-          simSocket("sim_play_item", configData.data[key]);
+          socket.on("sim_result", (res) => {
+            // 완료 신호 올 경우 상태 변경할 것
+            console.log("sim_result", res);
+          });
+          simSocket("sim_play_item", { key, ...configData.data[key] });
         } else {
           icon.removeClass("fa-stop").addClass("fa-play");
           simSocket("sim_stop_item", key);
