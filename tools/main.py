@@ -357,12 +357,41 @@ async def f(sid, d=None):
 ############################################################################################
 @app.sio.on('sim_play_item')
 async def f(sid, d=None):
+  key = d['key']
+  content = d['content']
   if pibo.onoff == True:
+    if key == 'eye':
+      for idx, value in enumerate(content, start=0):
+        pibo.set_neopixel({'idx': idx, 'value': value})
+    elif key == 'motion':
+      pibo.load_motion(content)
+      pibo.play_frame(d['cycle'])
+    elif key == 'audio':
+      pibo.stop_audio()
+      pibo.play_audio(d["type"]+content, d["volume"], True)
+    elif key == 'oled':
+      if d['type'] == 'text':
+        pibo.set_oled({'x':d['x'], 'y': d['y'], 'size': d['size'], 'text': content})
+      else:
+        pibo.set_oled_image(content)
+    elif key == 'tts':
+      pibo.tts({'text': content, 'voice_type': d['type'], 'volume': d['volume']})
     return await emit('sim_result', "sim_play_item ok")
 
 @app.sio.on('sim_stop_item')
 async def f(sid, d=None):
   if pibo.onoff == True:
+    if d == 'eye':
+      for idx in range(6):
+        pibo.set_neopixel({'idx': idx, 'value': 0})
+    elif d == 'motion':
+      pibo.stop_frame()
+    elif d == 'audio':
+      pibo.stop_audio()
+    elif d == 'oled':
+      network_disp.run()
+    elif d == 'tts':
+      pibo.stop_audio()
     return await emit('sim_result', "sim_stop_item ok")
 
 @app.sio.on('sim_update_audio')
