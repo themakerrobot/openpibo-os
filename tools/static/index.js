@@ -887,88 +887,51 @@ const getSimulations = (socket) => {
     const tempSocket = {
       sim_play_item: (data) => {
         console.log("CONFIGURATION PLAY", data);
-      },
-      sim_stop_item: (data) => {
-        console.log("CONFIGURATION STOP", data);
-      },
-      sim_update_audio: (type, cb) => {
-        console.log("REQUEST AUDIO FILE LIST", type, cb);
-        if (type !== "myaudio") {
-          return cb([
-            `${type}test.mp3`,
-            `${type}aaa.mp3`,
-            `${type}bbb.mp3`,
-            `${type}ccc.wav`,
-            `${type}ddd.wav`,
-          ]);
-        } else {
-          return cb([
-            `/home/pi/${type}/test.mp3`,
-            `/home/pi/${type}/aaa.mp3`,
-            `/home/pi/${type}/bbb.mp3`,
-            `/home/pi/${type}/ccc.wav`,
-            `/home/pi/${type}/ddd.wav`,
-          ]);
-        }
-      },
-      sim_update_oled: (type, cb) => {
-        console.log("REQUEST OLED FILE LIST", cb);
-        if (cb) {
-          return cb([
-            "smile.jpg",
-            "angry.jpg",
-            "sad.jpg",
-            "angry.jpg",
-            "bot.png",
-          ]);
-        }
-      },
-      sim_update_motion: (type, cb) => {
-        console.log("REQUEST MOTION FILE LIST", type, cb);
-        if (type === "default") {
-          return cb(["dance", "hi", "bye", "sleep", "foot1"]);
-        } else if (type === "mymotion") {
-          return cb(["kakao", "figma", "teams", "postman"]);
-        }
+        socket.emit("sim_play_item", data);
       },
       sim_play_items: (data) => {
         console.log("PLAY TIMELINE ITEMS", data);
+        socket.emit("sim_play_items", data);
+      },
+      sim_stop_item: (data) => {
+        console.log("CONFIGURATION STOP", data);
+        socket.emit("sim_stop_item", data);
       },
       sim_stop_items: () => {
         console.log("STOP TIMELINE ITEMS");
+        socket.emit("sim_stop_items");
+      },
+      sim_update_audio: (type, cb) => {
+        socket.on("sim_update_audio", cb);
+        socket.emit("sim_update_audio", type);
+      },
+      sim_update_oled: (type, cb) => {
+        socket.on("sim_update_oled", cb);
+        socket.emit("sim_update_oled", type);
+      },
+      sim_update_motion: (type, cb) => {
+        socket.on("sim_update_motion", cb);
+        socket.emit("sim_update_motion", type);
       },
       sim_add_items: ({ name, data }) => {
-        console.log("SAVE SEQUENCE", name, data);
-        const simList = JSON.parse(localStorage.getItem("sim_list")) || [];
-        const newSimList = simList.filter((item) => item.name !== name);
-        newSimList.unshift({ name, data });
-        localStorage.setItem("sim_list", JSON.stringify(newSimList));
+        socket.emit("sim_add_items", { name, data });
       },
       sim_remove_items: (name) => {
-        console.log("DELETE SEQUENCE", name);
-        const simList = JSON.parse(localStorage.getItem("sim_list"));
-        if (simList) {
-          if (name) {
-            localStorage.setItem(
-              "sim_list",
-              JSON.stringify(simList.filter((item) => item.name !== name))
-            );
-          } else {
-            localStorage.setItem("sim_list", "[]");
-          }
+        if (name) {
+          socket.emit("sim_remove_items", name);
+        } else {
+          socket.emit("sim_remove_items");
         }
       },
-      sim_load_items: (name, cb) => {
-        console.log("LOAD SEQUENCE", name);
-        const simList = JSON.parse(localStorage.getItem("sim_list"));
-        if (!name) {
-          return cb(simList ? simList.map((item) => item.name) : []);
-        }
-        const item = simList.filter((item) => item.name === name);
-        if (item.length) {
-          return cb(item[0]);
-        }
-        alert(`${name} 파일을 불러올 수 없습니다.`);
+      sim_load_item: (name, cb) => {
+        // 파일
+        socket.on("sim_load_item", (data) => cb({ name, data }));
+        socket.emit("sim_load_item", name);
+      },
+      sim_load_items: (cb) => {
+        // 목록
+        socket.on("sim_load_items", (data) => cb(data));
+        socket.emit("sim_load_items");
       },
     };
     const result = cb ? tempSocket[name](params, cb) : tempSocket[name](params);
@@ -990,11 +953,12 @@ const getSimulations = (socket) => {
   // 시퀀스 파일 영역(section.new-and-list) 초기화
   const onFileList = () => {
     $("#sequence_list").empty();
-    simSocket("sim_load_items", null, (fileList) => {
+    simSocket("sim_load_items", (fileList) => {
       if (fileList.length) {
         // 시퀀스 파일 목록이 있으면 목록을 그려줌
         $("#no_sequence_warn").addClass("hide");
         $("#sequence_list").removeClass("hide");
+        $("#sequence_list").children().remove();
         const listItem = fileList.map((name, i) => {
           let btnGroup = $("<div></div>");
           btnGroup.addClass("horizontal");
@@ -1008,8 +972,13 @@ const getSimulations = (socket) => {
           });
           removeBtn.on("click", (e) => {
             const index = e.target.name.split("_")[2];
-            simSocket("sim_remove_items", fileList[index]);
             if (fileList[index] === selectFile) {
+              if (confirm("현재 편집 중인 시퀀스입니다. 삭제하시겠습니까?")) {
+                simSocket("sim_remove_items", fileList[index]);
+                openSequence(null);
+              }
+            } else {
+              simSocket("sim_remove_items", fileList[index]);
               openSequence(null);
             }
             onFileList();
@@ -1042,6 +1011,7 @@ const getSimulations = (socket) => {
       $("section.timeline").css("align-self", "unset");
       $("#sequence_title").show("fade");
     } else {
+      onFileList();
       if (!selectFile) {
         $("#sequence_title").hide();
       }
@@ -1064,20 +1034,30 @@ const getSimulations = (socket) => {
     }
     $("h3[name=sequence_title]").text(v);
     $("#sequence_name_val").val("");
-    simSocket("sim_load_items", v, ({ name, data }) => {
-      selectFile = name;
-      selectFileContents = data;
-      setSimFile({
-        name,
-        data,
-        index: data && data.length ? data.length - 1 : 0,
+    if (v) {
+      simSocket("sim_load_item", v, (args) => {
+        const { name, data } = args;
+        selectFile = name;
+        selectFileContents = data;
+        setSimFile({
+          name,
+          data,
+          index: data && data.length ? data.length - 1 : 0,
+        });
+        foldSimulatorFile(name);
+        setConfigSection(
+          selectFileContents && selectFileContents.length
+            ? selectFileContents[0]
+            : null
+        );
+        setTimelineSection(selectFileContents);
       });
-      foldSimulatorFile(name);
-      setConfigSection(
-        selectFileContents.length ? selectFileContents[0] : null
-      );
-      setTimelineSection(selectFileContents);
-    });
+    } else {
+      selectFile = "";
+      selectFileContents = null;
+      setSimFile({ name: "", data: {}, index: -1 });
+      foldSimulatorFile(false);
+    }
   };
 
   $("#sequence_name_val").on("keyup", (e) => {
@@ -1105,11 +1085,12 @@ const getSimulations = (socket) => {
   });
   // 저장된 시퀀스 모두 지우기 이벤트
   $("#remove_all_sequence_bt").on("click", function (e) {
-    if ($("#sequence_list").children().length) {
-      // socket에서 지우는 함수 호출
-      // 저장된 시퀀스 목록의 내용 지우기
-      openSequence(null);
+    if (
+      $("#sequence_list").children().length &&
+      confirm("저장된 시퀀스를 모두 삭제하시겠습니까?")
+    ) {
       simSocket("sim_remove_items");
+      openSequence(null);
       onFileList();
     }
   });
@@ -1159,6 +1140,7 @@ const getSimulations = (socket) => {
 
   // 시퀀스 타임라인 아이템 추가
   const addTimelineItem = (item) => {
+    if (!item) return;
     const timelineBody = $("#timeline_body");
     const itemName = `timeline_row_${item.time.toString().replace(".", "_")}`;
     if (!timelineBody.has(`div[name=${itemName}]`).length) {
@@ -1263,7 +1245,6 @@ const getSimulations = (socket) => {
   const setTimelineSection = (list = [], index = 0) => {
     const playBtn = $("#timeline_play_bt");
     playBtn.off("click").on("click", (e) => {
-      console.log("timeline play", playBtn.children());
       const icon = playBtn.children("i");
       if (icon.hasClass("fa-play")) {
         playBtn.text(" 정지");
@@ -1293,6 +1274,7 @@ const getSimulations = (socket) => {
         if (allCheck) {
           setTimelineSection([]);
           allCheckbox.prop("checked", false);
+          selectFileContents = [];
         } else {
           const rows = $("#timeline_body input[type=checkbox]:checked").parents(
             ".timeline.row"
@@ -1305,6 +1287,11 @@ const getSimulations = (socket) => {
             $(item).children().remove();
           });
         }
+        setSimFile({
+          name: selectFile,
+          data: selectFileContents,
+          index: selectFileContents.length - 1,
+        });
       }
     });
     const selPlayBtn = $("#timeline_sel_play_bt");
@@ -1342,6 +1329,7 @@ const getSimulations = (socket) => {
       handleTimelineItemClick($(`div[name=${itemName}]`));
     } else {
       selectFileContents = [];
+      setConfigSection();
     }
   };
 
@@ -1349,7 +1337,7 @@ const getSimulations = (socket) => {
   const setConfigSection = (obj) => {
     const initialData = {
       eye: { type: "default", content: [] },
-      motion: { type: "default", content: "", cycle: 1 },
+      motion: { type: "default", content: null, cycle: 1 },
       audio: {
         type: "/home/pi/openpibo-files/audio/music/",
         content: "",
@@ -1697,9 +1685,8 @@ const getSimulations = (socket) => {
     /* 오디오 카드 */
     const setAudioCard = (data) => {
       configData.val = { key: "audio", value: data, bInit: true };
-      const setAudioList = (list, type, content) => {
-        const audiof =
-          content.indexOf(type) < 0 ? `${type}${content}` : content;
+      const setAudioList = (list, type, sData) => {
+        const content = sData && sData.type === type ? sData.content : null;
         const audioFileList = [
           { value: "", label: "오디오 파일을 선택하세요." },
           ...list.map((li) => ({
@@ -1712,7 +1699,7 @@ const getSimulations = (socket) => {
         const audioSelectOptions = audioFileList.map(({ value, label }) =>
           $(
             `<option value=${value} ${
-              value === audiof ? "selected" : ""
+              value === content ? "selected" : ""
             }>${label}</option>`
           )
         );
@@ -1754,7 +1741,7 @@ const getSimulations = (socket) => {
       audioRadioGroup.append(...inputRadios.flat());
       const type = data && data.type ? data.type : audioRadioList[0].value;
       simSocket("sim_update_audio", type, (list) => {
-        setAudioList(list, type, data && data.content);
+        setAudioList(list, type, data);
       });
       const audioVolume = $("#audio_volume_input");
       audioVolume.val(data.volume);
@@ -1805,7 +1792,7 @@ const getSimulations = (socket) => {
           { value: "/home/pi/openpibo-files/icon/expression", label: "표정" },
           { value: "/home/pi/openpibo-files/icon/game", label: "가위바위보" },
           { value: "/home/pi/openpibo-files/icon/recycle", label: "재활용" },
-          { value: "/home/pi/openpibo-files/icon/story", label: "이야기" },
+          // { value: "/home/pi/openpibo-files/icon/story", label: "이야기" },
           { value: "/home/pi/openpibo-files/icon/weather", label: "날씨" },
           { value: "/home/pi/myimage", label: "내 이미지" },
         ];
@@ -1929,6 +1916,12 @@ const getSimulations = (socket) => {
         )
       );
       ttsSelect.append(...ttsOptions);
+      ttsSelect.off("change").on("change", (e) => {
+        configData.val = {
+          key: "tts",
+          value: { type: e.target.value },
+        };
+      });
 
       const ttsTA = $("#tts_textarea");
       ttsTA.val((data && data.content) || "");
@@ -1981,7 +1974,10 @@ const getSimulations = (socket) => {
             time,
           });
           handleTimelineItemClick($(`div[name=${itemName}]`));
-          setSimFile({ name: selectFile, data: selectFileContents, index: 3 });
+          const index = $("#timeline_body")
+            .children()
+            .index($(`div[name=${itemName}]`));
+          setSimFile({ name: selectFile, data: selectFileContents, index });
         } else {
           alert("설정을 완료하세요.");
         }
