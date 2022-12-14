@@ -112,7 +112,7 @@ async def f(sid, d=None):
   if pibo.onoff:
     pibo.set_neopixel(d)
   return
-  
+
 @app.sio.on('set_oled')
 async def f_set_oled(sid, d=None):
   if pibo.onoff:
@@ -310,7 +310,7 @@ async def f(sid, d=None):
         pibo.motion_stop()
         pibo.onoff = False
     network_disp.run()
-  
+
   return await emit('onoff', 'on' if pibo.onoff else 'off')
 
 @app.sio.on('wifi')
@@ -437,7 +437,19 @@ async def f(sid, d=None):
     except Exception as ex:
       logger.error(f'[simulation] Error: {ex}')
       pass
-    return await emit('sim_load_items', [item for item in res] if d == None else res[d])
+    return await emit('sim_load_items', [item for item in res])
+
+@app.sio.on('sim_load_item')
+async def f(sid, d=None):
+  if pibo.onoff == True:
+    try:
+      res = {}
+      with open('/home/pi/mysim.json', 'rb') as f:
+        res = json.load(f)
+    except Exception as ex:
+      logger.error(f'[simulation] Error: {ex}')
+      pass
+    return await emit('sim_load_item', res[d])
 ############################################################################################
 
 @app.sio.on('system')
