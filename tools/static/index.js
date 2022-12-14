@@ -1307,6 +1307,11 @@ const getSimulations = (socket) => {
     const setCardBtnEvent = (key) => {
       const playBtn = $(`#${key}_play_bt`);
       const initBtn = $(`#${key}_init_bt`);
+      if (playBtn.children("i").hasClass("fa-stop")) {
+        playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
+        simSocket("sim_stop_item", key);
+      }
+
       playBtn.off("click").on("click", () => {
         const icon = playBtn.children("i");
         if (icon.hasClass("fa-play")) {
