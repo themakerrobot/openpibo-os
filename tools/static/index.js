@@ -1940,8 +1940,12 @@ $(function () {
     if (name === "simulator") {
       if (bOn) {
         $(`main>div.content`).removeClass("modal");
+        getSimulations(socket);
       } else {
-        $(`main>div.content`).addClass("modal");
+        $(`main>div.content`)
+          .css({ opacity: 0 })
+          .animate({ opacity: 1 })
+          .addClass("modal");
       }
     } else {
       $(`main>div.content`).removeClass("modal");
