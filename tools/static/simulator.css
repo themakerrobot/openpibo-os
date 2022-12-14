@@ -1,3 +1,24 @@
+main > div.content.modal > div.wrapper {
+  filter: blur(15px);
+}
+main > div.content.modal::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  content: "파이보 메이커를 활성화한 후 사용해주세요.";
+  background: rgb(7 7 7 / 60%);
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+}
+
 #article_simulator {
   display: flex;
   flex-wrap:unset;
