@@ -1,107 +1,3 @@
-const getStatus = (socket) => {
-  $("#devtool_bt").on("click", function () {
-    if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
-      socket.emit("onoff", "off");
-      $(location).attr("href", "http://" + window.location.hostname + ":50000");
-    }
-  });
-  $("#devtool_bt").hover(
-    function () {
-      $(this).animate({ opacity: "0.7" }, 100);
-      $(this).css("cursor", "pointer");
-    },
-    function () {
-      $(this).animate({ opacity: "1" }, 100);
-      $(this).css("cursor", "default");
-    }
-  );
-
-  $("#logo_bt").on("click", () => {
-    window.location.replace(`http://${window.location.hostname}:80`);
-  });
-
-  socket.emit("onoff");
-  socket.on("onoff", function (d) {
-    $("input:checkbox[name=onoff_sel]").prop("disabled", false);
-    $("input:checkbox[name=onoff_sel]").attr(
-      "checked",
-      d == "on" ? true : false
-    );
-    $("#state").html(
-      d == "on"
-        ? "<i class='fa-solid fa-person-running'></i>"
-        : "<i class='fa-solid fa-person'></i>"
-    );
-  });
-
-  $("input:checkbox[name=onoff_sel]").change(function () {
-    let sel = $("input:checkbox[name=onoff_sel]").is(":checked") ? "on" : "off";
-    $("input:checkbox[name=onoff_sel]").prop("disabled", true);
-    socket.emit("onoff", sel);
-  });
-
-  $("#volume").val(
-    window.localStorage.getItem("volume")
-      ? window.localStorage.getItem("volume")
-      : 80
-  );
-
-  $("#volume").on("change", () => {
-    window.localStorage.setItem("volume", $("#volume").val());
-  });
-
-  socket.emit("system");
-  setInterval(function () {
-    socket.emit("system");
-  }, 10000);
-
-  socket.on("system", function (data) {
-    $("#s_serial").text(data[0]);
-    $("#s_os_version").text(data[1]);
-    $("#s_runtime").text(Math.floor(data[2] / 3600) + " Hours");
-    $("#s_cpu_temp").text(data[3]);
-    $("#s_memory").text(Math.floor((data[5] / data[4] / 4) * 100) + " %");
-    $("#s_network").text(data[6] + "/" + data[7].replace("\n", ""));
-  });
-
-  setTimeout(function () {
-    socket.emit("wifi");
-  }, 1000);
-  socket.on("wifi", function (data) {
-    $("#ssid").val(data["ssid"]);
-    $("#password").val(data["psk"]);
-  });
-
-  $("#wifi_bt").on("click", function () {
-    let comment = "WIFI 정보를 변경하시겠습니까?";
-    comment += "\nssid: " + $("#ssid").val();
-    comment += "\npassword: " + $("#password").val();
-    if (confirm(comment)) {
-      socket.emit("wifi", {
-        ssid: $("#ssid").val(),
-        psk: $("#password").val(),
-      });
-    }
-  });
-
-  socket.on("eye_update", function (data) {
-    $("#eye").val(data);
-  });
-
-  $("#poweroff_bt").on("click", function () {
-    if (confirm("정말 종료하시겠습니까?")) socket.emit("poweroff");
-  });
-
-  $("#restart_bt").on("click", function () {
-    if (confirm("재시작하시겠습니까?")) socket.emit("restart");
-  });
-
-  $("#swupdate_bt").on("click", function () {
-    if (confirm("업데이트를 하시겠습니까?(불안정-문제가 발생할 수 있습니다.)"))
-      socket.emit("swupdate");
-  });
-};
-
 const getVisions = (socket) => {
   socket.on("disp_vision", function (data) {
     $(`input[name=v_func_type][value=${data}]`).prop("checked", true);
@@ -2008,13 +1904,6 @@ $(function () {
     path: "/ws/socket.io",
   });
 
-  getStatus(socket);
-  getVisions(socket);
-  getMotions(socket);
-  getSpeech(socket);
-  getDevices(socket);
-  getSimulations(socket);
-
   const handleMenu = (name) => {
     if (name === "home") {
       socket.emit("eye_update");
@@ -2035,8 +1924,140 @@ $(function () {
     $("nav").find("button").removeClass("menu-selected");
     $(`button[name=${name}]`).addClass("menu-selected");
     $("article").not(`#article_${name}`).hide("slide");
+    const bOn = $("input:checkbox[name=onoff_sel]").is(":checked");
+    if (name === "simulator") {
+      if (bOn) {
+        $(`main>div.content`).removeClass("modal");
+      } else {
+        $(`main>div.content`).addClass("modal");
+      }
+    } else {
+      $(`main>div.content`).removeClass("modal");
+    }
     $(`#article_${name}`).show("slide");
   };
+
+  const getStatus = (socket) => {
+    $("#devtool_bt").on("click", function () {
+      if (
+        confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")
+      ) {
+        socket.emit("onoff", "off");
+        $(location).attr(
+          "href",
+          "http://" + window.location.hostname + ":50000"
+        );
+      }
+    });
+    $("#devtool_bt").hover(
+      function () {
+        $(this).animate({ opacity: "0.7" }, 100);
+        $(this).css("cursor", "pointer");
+      },
+      function () {
+        $(this).animate({ opacity: "1" }, 100);
+        $(this).css("cursor", "default");
+      }
+    );
+
+    $("#logo_bt").on("click", () => {
+      window.location.replace(`http://${window.location.hostname}:80`);
+    });
+
+    socket.emit("onoff");
+    socket.on("onoff", function (d) {
+      $("input:checkbox[name=onoff_sel]").prop("disabled", false);
+      $("input:checkbox[name=onoff_sel]").attr(
+        "checked",
+        d == "on" ? true : false
+      );
+      $("#state").html(
+        d == "on"
+          ? "<i class='fa-solid fa-person-running'></i>"
+          : "<i class='fa-solid fa-person'></i>"
+      );
+      const menu = $("nav").find("button.menu-selected").attr("name");
+      handleMenu(menu);
+    });
+
+    $("input:checkbox[name=onoff_sel]").change(function () {
+      let sel = $("input:checkbox[name=onoff_sel]").is(":checked")
+        ? "on"
+        : "off";
+      $("input:checkbox[name=onoff_sel]").prop("disabled", true);
+      socket.emit("onoff", sel);
+    });
+
+    $("#volume").val(
+      window.localStorage.getItem("volume")
+        ? window.localStorage.getItem("volume")
+        : 80
+    );
+
+    $("#volume").on("change", () => {
+      window.localStorage.setItem("volume", $("#volume").val());
+    });
+
+    socket.emit("system");
+    setInterval(function () {
+      socket.emit("system");
+    }, 10000);
+
+    socket.on("system", function (data) {
+      $("#s_serial").text(data[0]);
+      $("#s_os_version").text(data[1]);
+      $("#s_runtime").text(Math.floor(data[2] / 3600) + " Hours");
+      $("#s_cpu_temp").text(data[3]);
+      $("#s_memory").text(Math.floor((data[5] / data[4] / 4) * 100) + " %");
+      $("#s_network").text(data[6] + "/" + data[7].replace("\n", ""));
+    });
+
+    setTimeout(function () {
+      socket.emit("wifi");
+    }, 1000);
+    socket.on("wifi", function (data) {
+      $("#ssid").val(data["ssid"]);
+      $("#password").val(data["psk"]);
+    });
+
+    $("#wifi_bt").on("click", function () {
+      let comment = "WIFI 정보를 변경하시겠습니까?";
+      comment += "\nssid: " + $("#ssid").val();
+      comment += "\npassword: " + $("#password").val();
+      if (confirm(comment)) {
+        socket.emit("wifi", {
+          ssid: $("#ssid").val(),
+          psk: $("#password").val(),
+        });
+      }
+    });
+
+    socket.on("eye_update", function (data) {
+      $("#eye").val(data);
+    });
+
+    $("#poweroff_bt").on("click", function () {
+      if (confirm("정말 종료하시겠습니까?")) socket.emit("poweroff");
+    });
+
+    $("#restart_bt").on("click", function () {
+      if (confirm("재시작하시겠습니까?")) socket.emit("restart");
+    });
+
+    $("#swupdate_bt").on("click", function () {
+      if (
+        confirm("업데이트를 하시겠습니까?(불안정-문제가 발생할 수 있습니다.)")
+      )
+        socket.emit("swupdate");
+    });
+  };
+
+  getStatus(socket);
+  getVisions(socket);
+  getMotions(socket);
+  getSpeech(socket);
+  getDevices(socket);
+  getSimulations(socket);
 
   handleMenu("simulator");
   const menus = $("nav").find("button");
