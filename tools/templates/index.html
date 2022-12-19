@@ -68,7 +68,7 @@
                     <li>인터넷 설정하기</li>
                     <li>소리크기 설정하기</li>
                     <li>눈색상 확인하기</li>
-                    <li>소프트웨어 업데이트, 종료하기, 재시작하기</li>
+                    <li>소프트웨어 업데이트, 재시작, 종료하기</li>
                   </ul>
                 </section>
                 <section class="section-menu section-menu-device">
@@ -237,128 +237,157 @@
             </div>
           </article>
           <article id="article_device">
-            <section>
-              <div>
-                <div style="float: left">
-                  <h3 class="mark">눈 색상 조정하기</h3>
-                </div>
-                <div style="float: right">
-                  <button id="eye_save_bt">
-                    <i class="fa-solid fa-check-double"></i>
-                    저장하기
-                  </button>
-                </div>
-              </div>
-
-              <div class="eye-color-group">
-                <div class="eye-color-input-group">
-                  <span class="label">오른쪽</span>
-                  <div>
-                    <div>
-                      <label for="d_n0_val" class="label">빨강</label>
-                      <input
-                        type="number"
-                        name="d_n0_val"
-                        id="d_n0_val"
-                        value="0"
-                        min="0"
-                        step="5"
-                        max="255"
-                        pattern="\d*"
-                      />
+            <div class="vertical">
+              <section class="section-device-eyes">
+                <h3 class="mark">눈 색상 조정하기</h3>
+                <div class="device-eyes-group">
+                  <div class="device-config-eye">
+                    <span class="label">오른쪽</span>
+                    <div class="color-input-wrap">
+                      <div>
+                        <span class="label small" style="color: red">R</span>
+                        <input
+                          type="number"
+                          name="d_n0_val"
+                          id="d_n0_val"
+                          value="0"
+                          min="0"
+                          step="5"
+                          max="255"
+                          pattern="\d*"
+                        />
+                      </div>
+                      <div>
+                        <span class="label small" style="color: green">G</span>
+                        <input
+                          type="number"
+                          name="d_n1_val"
+                          id="d_n1_val"
+                          value="0"
+                          min="0"
+                          step="5"
+                          max="255"
+                          pattern="\d*"
+                        />
+                      </div>
+                      <div>
+                        <span class="label small" style="color: blue">B</span>
+                        <input
+                          type="number"
+                          name="d_n2_val"
+                          id="d_n2_val"
+                          value="0"
+                          min="0"
+                          step="5"
+                          max="255"
+                          pattern="\d*"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label for="d_n1_val" class="label">초록</label>
-                      <input
-                        type="number"
-                        name="d_n1_val"
-                        id="d_n1_val"
-                        value="0"
-                        min="0"
-                        step="5"
-                        max="255"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <div>
-                      <label for="d_n2_val" class="label">파랑</label>
-                      <input
-                        type="number"
-                        name="d_n2_val"
-                        id="d_n2_val"
-                        value="0"
-                        min="0"
-                        step="5"
-                        max="255"
-                        pattern="\d*"
-                      />
+                  </div>
+                  <div class="device-config-eye">
+                    <span class="label">왼쪽</span>
+                    <div class="color-input-wrap">
+                      <div>
+                        <span class="label small" style="color: red">R</span>
+                        <input
+                          type="number"
+                          name="d_n3_val"
+                          id="d_n3_val"
+                          value="0"
+                          min="0"
+                          step="5"
+                          max="255"
+                          pattern="\d*"
+                        />
+                      </div>
+                      <div>
+                        <span class="label small" style="color: green">G</span>
+                        <input
+                          type="number"
+                          name="d_n4_val"
+                          id="d_n4_val"
+                          value="0"
+                          min="0"
+                          step="5"
+                          max="255"
+                          pattern="\d*"
+                        />
+                      </div>
+                      <div>
+                        <span class="label small" style="color: blue">B</span>
+                        <input
+                          type="number"
+                          name="d_n5_val"
+                          id="d_n5_val"
+                          value="0"
+                          min="0"
+                          step="5"
+                          max="255"
+                          pattern="\d*"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="eye-color-input-group">
-                  <span class="label">왼쪽</span>
-                  <div>
-                    <div>
-                      <label for="d_n3_val" class="label">빨강</label>
-                      <input
-                        type="number"
-                        name="d_n3_val"
-                        id="d_n3_val"
-                        value="0"
-                        min="0"
-                        step="5"
-                        max="255"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <div>
-                      <label for="d_n4_val" class="label">초록</label>
-                      <input
-                        type="number"
-                        name="d_n4_val"
-                        id="d_n4_val"
-                        value="0"
-                        min="0"
-                        step="5"
-                        max="255"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <div>
-                      <label for="d_n5_val" class="label">파랑</label>
-                      <input
-                        type="number"
-                        name="d_n5_val"
-                        id="d_n5_val"
-                        value="0"
-                        min="0"
-                        step="5"
-                        max="255"
-                        pattern="\d*"
-                      />
-                    </div>
+                <button id="eye_save_bt">
+                  <i class="fa-solid fa-check-double"></i>
+                  저장하기
+                </button>
+              </section>
+              <section class="section-device-sensor vertical">
+                <h3 class="mark">센서 인식하기</h3>
+                <div>
+                  <h4><i class="fa-solid fa-person"></i>인체감지</h4>
+                  <div class="chip"><span id="d_pir_val"></span></div>
+                </div>
+                <div>
+                  <h4><i class="fa-solid fa-hand"></i>터치감지</h4>
+                  <div class="chip"><span id="d_touch_val"></span></div>
+                </div>
+                <div hidden>
+                  <h4><i class="fa-solid fa-circle-dot"></i>버튼감지</h4>
+                  <div class="chip"><span id="d_button_val"></span></div>
+                </div>
+              </section>
+            </div>
+            <section class="section-device-audio vertical">
+              <h3 class="mark">오디오 사용하기</h3>
+              <div class="vertical gap-half">
+                <h4><i class="fa-solid fa-microphone-lines"></i>마이크</h4>
+                <div
+                  class="horizontal vertical-align gap-half space-between wrap"
+                >
+                  <div class="label-input-wrap">
+                    <span class="label small">파일</span>
+                    <input
+                      value="/home/pi/stream.wav"
+                      readonly
+                      style="flex: 1 1"
+                    />
+                  </div>
+                  <div class="label-input-wrap">
+                    <span class="label small">시간</span>
+                    <input
+                      type="number"
+                      name="mic_time_val"
+                      id="mic_time_val"
+                      value="5"
+                      min="1"
+                      max="30"
+                      pattern="\d*"
+                    />
+                    <span class="label">초</span>
                   </div>
                 </div>
-              </div>
-
-              <div style="margin-top: 30px">
-                <h3 class="mark">오디오 사용하기</h3>
-                <span class="label">마이크</span>
-                <div style="margin-top: 10px">
-                  파일:
-                  <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
-                </div>
-                <div style="margin-top: 10px">
-                  <input
-                    type="number"
-                    name="mic_time_val"
-                    id="mic_time_val"
-                    value="5"
-                    min="1"
-                    max="30"
-                    pattern="\d*"
-                  />
-                  <span class="label">초</span>
+                <span
+                  class="label warning hide"
+                  id="mic_status"
+                  style="text-align: center"
+                ></span>
+                <div
+                  class="horizontal vertical-align gap-half device-audio-button-group"
+                >
                   <button id="mic_bt">
                     <i class="fa-solid fa-microphone"></i>
                     녹음하기
@@ -367,16 +396,13 @@
                     <i class="fa-solid fa-repeat"></i>
                     다시듣기
                   </button>
-                  <i class="fa-solid fa-ellipsis"></i>
-                  <span class="label" id="mic_status"></span>
                 </div>
               </div>
-
-              <div style="margin-top: 30px">
-                <span class="label">음악재생</span>
-                <div style="margin-top: 10px">
+              <div class="vertical gap-half">
+                <h4><i class="fa-solid fa-music"></i>음악 재생</h4>
+                <div class="horizontal vertical-align gap-half">
                   <select id="audiopath" name="audiopath">
-                    <option value="-">폴더선택</option>
+                    <option value="-">폴더 선택</option>
                     <option value="/home/pi/openpibo-files/audio/music">
                       음악
                     </option>
@@ -392,8 +418,12 @@
                     <option value="/home/pi/myaudio">내 오디오</option>
                   </select>
                   <select id="audiofiles" name="audiofiles">
-                    <option value="-">파일선택</option>
+                    <option value="-">파일 선택</option>
                   </select>
+                </div>
+                <div
+                  class="horizontal vertical-align gap-half device-audio-button-group"
+                >
                   <button id="play_audio_bt">
                     <i class="fa-solid fa-play"></i>
                     재생하기
@@ -405,134 +435,110 @@
                 </div>
               </div>
             </section>
-
-            <section>
-              <div>
-                <div style="float: left">
-                  <h3 class="mark">디스플레이(OLED) 사용하기</h3>
-                </div>
-                <div style="float: right">
-                  <button id="clear_oled_bt">
-                    <i class="fa-solid fa-eraser"></i>
-                    초기화하기
-                  </button>
-                </div>
-              </div>
-              <div class="oled-group">
-                <span class="label">문자입력하기</span>
-                <div style="margin-top: 10px">
-                  <label for="d_ox_val" class="label">
-                    <i class="fa-solid fa-x"></i>
-                  </label>
-                  <input
-                    type="number"
-                    name="d_ox_val"
-                    id="d_ox_val"
-                    value="0"
-                    min="0"
-                    max="128"
-                    pattern="\d*"
-                  />
-                  <label for="d_oy_val" class="label">
-                    <i class="fa-solid fa-y"></i>
-                  </label>
-                  <input
-                    type="number"
-                    name="d_oy_val"
-                    id="d_oy_val"
-                    value="0"
-                    min="0"
-                    max="64"
-                    pattern="\d*"
-                  />
-                  <label for="d_osize_val" class="label">
-                    <i class="fa-solid fa-text-width"></i>
-                  </label>
-                  <input
-                    type="number"
-                    name="d_osize_val"
-                    id="d_osize_val"
-                    value="10"
-                    min="1"
-                    max="50"
-                    pattern="\d*"
-                  />
-                </div>
-                <div style="margin-top: 5px">
-                  <label for="d_otext_val" class="label">
-                    <i class="fa-solid fa-font"></i>
-                  </label>
-                  <input
-                    type="text"
-                    name="d_otext_val"
+            <section class="section-device-oled vertical">
+              <h3 class="mark">디스플레이(OLED) 사용하기</h3>
+              <div class="vertical gap-half">
+                <h4><i class="fa-solid fa-keyboard"></i>문자 입력하기</h4>
+                <div class="horizontal vertical-align gap-quarter">
+                  <span class="label small">내용</span>
+                  <textarea
+                    rows="2"
+                    class="fullWidth"
                     id="d_otext_val"
+                    name="d_otext_val"
+                    maxlength="140"
                     placeholder="문자를 입력하세요."
-                  />
-                  <button id="oled_bt">
-                    <i class="fa-solid fa-check-double"></i>
-                    출력하기
-                  </button>
+                  ></textarea>
                 </div>
-
-                <div style="margin-top: 30px">
-                  <span class="label">사진입력하기(PC)</span>
-                  <form
-                    method="post"
-                    action="/upload_oled"
-                    enctype="multipart/form-data"
-                    style="margin-top: 5px"
-                  >
-                    <input type="file" id="upload_oled" accept=".jpg, .png" />
-                  </form>
-                </div>
-
-                <div style="margin-top: 30px">
-                  <span class="label">사진입력하기(로봇)</span>
-                  <div style="margin-top: 10px">
-                    <select id="oledpath" name="oledpath">
-                      <option value="-">폴더선택</option>
-                      <option value="/home/pi/openpibo-files/icon/expression">
-                        표정
-                      </option>
-                      <option value="/home/pi/openpibo-files/icon/game">
-                        가위바위보
-                      </option>
-                      <option value="/home/pi/openpibo-files/icon/recycle">
-                        재활용
-                      </option>
-                      <option value="/home/pi/openpibo-files/icon/weather">
-                        날씨
-                      </option>
-                      <option value="/home/pi/openpibo-files/icon/etc">
-                        기타 이미지
-                      </option>
-                      <option value="/home/pi/myimage">내 이미지</option>
-                    </select>
-                    <select id="oledfiles" name="oledfiles">
-                      <option value="-">파일선택</option>
-                    </select>
+                <div class="label-input-wrap wrap" id="oled_text_config">
+                  <span class="label small">위치</span>
+                  <div class="horizontal space-between wrap" style="flex: 1 1">
+                    <div class="label-input-wrap">
+                      <span class="label small">X</span>
+                      <input
+                        type="number"
+                        class="number"
+                        name="d_ox_val"
+                        id="d_ox_val"
+                        value="0"
+                        min="0"
+                        max="128"
+                        pattern="\d*"
+                      />
+                      <span class="label small">Y</span>
+                      <input
+                        type="number"
+                        class="number"
+                        name="d_oy_val"
+                        id="d_oy_val"
+                        value="0"
+                        min="0"
+                        max="64"
+                        pattern="\d*"
+                      />
+                    </div>
+                    <div class="label-input-wrap">
+                      <span class="label small">크기</span>
+                      <input
+                        type="number"
+                        class="number"
+                        name="d_osize_val"
+                        id="d_osize_val"
+                        value="10"
+                        min="1"
+                        max="50"
+                        pattern="\d*"
+                      />
+                    </div>
                   </div>
                 </div>
+                <button id="oled_bt">
+                  <i class="fa-solid fa-check-double"></i>
+                  출력하기
+                </button>
               </div>
-              <br />
-              <div class="device-status-group">
-                <h3 class="mark">센서 인식하기</h3>
-                <div>
-                  <span class="label">인체감지</span>
-                  <i class="fa-solid fa-terminal"></i>
-                  <i><span id="d_pir_val"></span></i>
-                </div>
-                <div>
-                  <span class="label">터치감지</span>
-                  <i class="fa-solid fa-terminal"></i>
-                  <i><span id="d_touch_val"></span></i>
-                </div>
-                <div hidden>
-                  <span class="label">버튼감지</span>
-                  <i class="fa-solid fa-terminal"></i>
-                  <i><span id="d_button_val"></span></i>
+              <div class="vertical gap-half">
+                <h4><i class="fa-solid fa-file-image"></i>사진 입력하기(PC)</h4>
+                <form
+                  method="post"
+                  action="/upload_oled"
+                  enctype="multipart/form-data"
+                >
+                  <input type="file" id="upload_oled" accept=".jpg, .png" />
+                </form>
+              </div>
+              <div class="vertical gap-half">
+                <h4><i class="fa-solid fa-images"></i>사진 입력하기(로봇)</h4>
+                <div class="horizontal vertical-align gap-half">
+                  <select id="oledpath" name="oledpath">
+                    <option value="-">폴더선택</option>
+                    <option value="/home/pi/openpibo-files/icon/expression">
+                      표정
+                    </option>
+                    <option value="/home/pi/openpibo-files/icon/game">
+                      가위바위보
+                    </option>
+                    <option value="/home/pi/openpibo-files/icon/recycle">
+                      재활용
+                    </option>
+                    <option value="/home/pi/openpibo-files/icon/weather">
+                      날씨
+                    </option>
+                    <option value="/home/pi/openpibo-files/icon/etc">
+                      기타 이미지
+                    </option>
+                    <option value="/home/pi/myimage">내 이미지</option>
+                  </select>
+                  <select id="oledfiles" name="oledfiles">
+                    <option value="-">파일선택</option>
+                  </select>
                 </div>
               </div>
+              <hr />
+              <button id="clear_oled_bt">
+                <i class="fa-solid fa-eraser"></i>
+                초기화하기
+              </button>
             </section>
           </article>
           <article id="article_motion" class="margin">

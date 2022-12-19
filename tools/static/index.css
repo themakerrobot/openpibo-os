@@ -51,10 +51,10 @@ label {
 }
 
 @media (max-width: 699px) {
-  #article_device > section {
+  /* #article_device > section {
     width: 96% !important;
     margin: 0 auto;
-  }
+  } */
   /* #article_home > section {
     width: 96%;
     margin: 0 auto;
@@ -73,9 +73,9 @@ label {
   }
 }
 @media (min-width: 700px) {
-  #article_device > section {
+  /* #article_device > section {
     width: 49%;
-  }
+  } */
 }
 @media (min-width: 1000px) {
   /* #article_home > section {
@@ -90,9 +90,9 @@ label {
   #article_speech > section {
     width: 49%;
   }
-  #article_device > section {
+  /* #article_device > section {
     width: 49%;
-  }
+  } */
 }
 
 header,
@@ -116,6 +116,7 @@ input {
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
 }
 
+textarea,
 select,
 input {
   background: rgb(248, 242, 172, 0.85);
@@ -294,7 +295,8 @@ nav button {
   box-shadow: none;
   font-size:1rem;
   font-weight: bold;
-  font-family: Tahoma, sans-serif;
+  font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
+    "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
   padding: 20px 0 20px 0;
   opacity: 0.5;
 }
@@ -325,7 +327,6 @@ nav button.menu-selected {
 
 button,
 input[type="submit"] {
-  font-family: "Noto Sans Regular", sans-serif;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--yellow);
@@ -348,7 +349,6 @@ input[type="submit"]:active {
 
 button.btn-teal,
 input[type="submit"] {
-  font-family: "Noto Sans Regular", sans-serif;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--teal);
@@ -370,7 +370,6 @@ input[type="submit"]:active {
 button.btn-red,
 input[type="submit"] {
   color: white;
-  font-family: "Noto Sans Regular", sans-serif;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--red);
@@ -426,7 +425,6 @@ header.title {
 }
 .title h2 {
   margin: 0.1em auto;
-  font-family: Tahoma, sans-serif;
   font-size:2rem;
   padding:0.3rem 0.3rem 0.3rem 0.3rem;
 }

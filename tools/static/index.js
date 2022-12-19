@@ -1,13 +1,19 @@
 const getStatus = (socket) => {
-  $("#devtool_bt").on("click", function(){
+  $("#devtool_bt").on("click", function () {
     if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
       socket.emit("onoff", "off");
-      $(location).attr( "href", "http://" + window.location.hostname + ":50000");
+      $(location).attr("href", "http://" + window.location.hostname + ":50000");
     }
   });
   $("#devtool_bt").hover(
-    function () { $(this).animate({ opacity: "0.7" }, 100); $(this).css("cursor", "pointer"); },
-    function () { $(this).animate({ opacity: "1" }, 100); $(this).css("cursor", "default");}
+    function () {
+      $(this).animate({ opacity: "0.7" }, 100);
+      $(this).css("cursor", "pointer");
+    },
+    function () {
+      $(this).animate({ opacity: "1" }, 100);
+      $(this).css("cursor", "default");
+    }
   );
 
   $("#logo_bt").on("click", () => {
@@ -22,25 +28,25 @@ const getStatus = (socket) => {
       d == "on" ? true : false
     );
     $("#state").html(
-      d == "on"?
-      "<i class='fa-solid fa-person-running'></i>":
-      "<i class='fa-solid fa-person'></i>"
-      );
+      d == "on"
+        ? "<i class='fa-solid fa-person-running'></i>"
+        : "<i class='fa-solid fa-person'></i>"
+    );
   });
 
   $("input:checkbox[name=onoff_sel]").change(function () {
-    let sel = $("input:checkbox[name=onoff_sel]").is(":checked")? "on" : "off";
+    let sel = $("input:checkbox[name=onoff_sel]").is(":checked") ? "on" : "off";
     $("input:checkbox[name=onoff_sel]").prop("disabled", true);
     socket.emit("onoff", sel);
   });
 
-
   $("#volume").val(
-      window.localStorage.getItem("volume")?
-      window.localStorage.getItem("volume"):80
+    window.localStorage.getItem("volume")
+      ? window.localStorage.getItem("volume")
+      : 80
   );
-  
-  $("#volume").on("change", ()=>{
+
+  $("#volume").on("change", () => {
     window.localStorage.setItem("volume", $("#volume").val());
   });
 
@@ -71,7 +77,10 @@ const getStatus = (socket) => {
     comment += "\nssid: " + $("#ssid").val();
     comment += "\npassword: " + $("#password").val();
     if (confirm(comment)) {
-      socket.emit("wifi", { ssid: $("#ssid").val(), psk: $("#password").val() });
+      socket.emit("wifi", {
+        ssid: $("#ssid").val(),
+        psk: $("#password").val(),
+      });
     }
   });
 
@@ -80,13 +89,11 @@ const getStatus = (socket) => {
   });
 
   $("#poweroff_bt").on("click", function () {
-    if (confirm("정말 종료하시겠습니까?"))
-      socket.emit("poweroff");
+    if (confirm("정말 종료하시겠습니까?")) socket.emit("poweroff");
   });
 
   $("#restart_bt").on("click", function () {
-    if (confirm("재시작하시겠습니까?"))
-      socket.emit("restart");
+    if (confirm("재시작하시겠습니까?")) socket.emit("restart");
   });
 
   $("#swupdate_bt").on("click", function () {
@@ -96,7 +103,7 @@ const getStatus = (socket) => {
 };
 
 const getVisions = (socket) => {
-  socket.on("disp_vision", function(data) {
+  socket.on("disp_vision", function (data) {
     $(`input[name=v_func_type][value=${data}]`).prop("checked", true);
   });
 
@@ -108,33 +115,31 @@ const getVisions = (socket) => {
     $("#v_result").text(data["data"]);
   });
 
-  $("input[name=v_func_type]").on("change", function(){
+  $("input[name=v_func_type]").on("change", function () {
     let sel = $("input[name=v_func_type]:checked").val();
     socket.emit("detect", sel);
   });
 
-  $("#v_capture").on("click", function(){
-    let capture_a = document.createElement('a');
+  $("#v_capture").on("click", function () {
+    let capture_a = document.createElement("a");
     capture_a.setAttribute("href", "/download_img");
     capture_a.click();
   });
 
   $("#v_upload_tm").on("change", (e) => {
     let formData = new FormData();
-    formData.append('data', $("#v_upload_tm")[0].files[0]);
+    formData.append("data", $("#v_upload_tm")[0].files[0]);
     $.ajax({
       url: `/upload_tm`,
-      type:'post',
+      type: "post",
       data: formData,
       contentType: false,
-      processData: false    
-    })
-    .always((xhr, status) => {
+      processData: false,
+    }).always((xhr, status) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
-      }
-      else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON['result']}`);
+      } else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#v_upload_tm").val("");
       }
     });
@@ -157,7 +162,10 @@ const getMotions = (socket) => {
     });
 
     $(tval).on("focusout keydown", function (evt) {
-      if (evt.type == "focusout" || (evt.type == "keydown" && evt.keyCode == 13)) {
+      if (
+        evt.type == "focusout" ||
+        (evt.type == "keydown" && evt.keyCode == 13)
+      ) {
         let pos = Number($(this).val());
         let min = Number($(this).attr("min"));
         let max = Number($(this).attr("max"));
@@ -165,8 +173,7 @@ const getMotions = (socket) => {
         if (isNaN(pos) || pos < min || pos > max) {
           $(this).val($(trange).val());
           alert(min + " ~ " + max + " 사이를 입력하세요.");
-        }
-        else {
+        } else {
           socket.emit("set_motor", { idx: i, pos: pos });
         }
       }
@@ -180,7 +187,10 @@ const getMotions = (socket) => {
   }
 
   $("#m_time_val").on("focusout keydown", function (evt) {
-    if (evt.type == "focusout" || (evt.type == "keydown" && evt.keyCode == 13)) {
+    if (
+      evt.type == "focusout" ||
+      (evt.type == "keydown" && evt.keyCode == 13)
+    ) {
       let pos = Number($(this).val());
       let min = Number($(this).attr("min"));
       let max = Number($(this).attr("max"));
@@ -202,13 +212,13 @@ const getMotions = (socket) => {
 
   // 저장 버튼
   $("#add_frame_bt").on("click", function () {
-    socket.emit("add_frame", $("#m_time_val").val()*1000);
+    socket.emit("add_frame", $("#m_time_val").val() * 1000);
   });
 
   socket.on("disp_motion", function (datas) {
     // 모터 값 로드
     if ("pos" in datas) {
-      let data = datas["pos"]
+      let data = datas["pos"];
       for (let i = 0; i < 10; i++) {
         let tval = "#m" + i + "_value";
         let trange = "#m" + i + "_range";
@@ -220,7 +230,7 @@ const getMotions = (socket) => {
     // json 로드
     if ("record" in datas) {
       let res = [];
-      for(name in datas["record"]) {
+      for (name in datas["record"]) {
         res.push(name);
       }
 
@@ -233,8 +243,9 @@ const getMotions = (socket) => {
 
       for (let i = 0; i < data.length; i++) {
         if (i != 0)
-          for (let j = 0;j < 10;j++){
-            data[i].d[j] = (data[i].d[j] == 999)? data[i-1].d[j] : data[i].d[j];
+          for (let j = 0; j < 10; j++) {
+            data[i].d[j] =
+              data[i].d[j] == 999 ? data[i - 1].d[j] : data[i].d[j];
           }
       }
 
@@ -243,7 +254,7 @@ const getMotions = (socket) => {
         $("#motor_table > tbody").append(
           $("<tr>")
             .append(
-              $("<td>").append(data[i].seq/1000 + " 초"),
+              $("<td>").append(data[i].seq / 1000 + " 초"),
               $("<td>").append(data[i].d[0]),
               $("<td>").append(data[i].d[1]),
               $("<td>").append(data[i].d[2]),
@@ -264,31 +275,32 @@ const getMotions = (socket) => {
               }
             )
             .click(function () {
-              let pos_lst = []
+              let pos_lst = [];
               let lst = $(this).children();
               lst.each((idx) => {
-                if (idx == 0){
-                  $("#m_time_val").val(Number(lst.eq(idx).text().split(' 초')[0]));
+                if (idx == 0) {
+                  $("#m_time_val").val(
+                    Number(lst.eq(idx).text().split(" 초")[0])
+                  );
                   return;
-                }
-                else {
+                } else {
                   let val = Number(lst.eq(idx).text());
-                  $("#m" + (idx-1) + "_value").val(val);
-                  $("#m" + (idx-1) + "_range").val(val);
-                  pos_lst[idx-1] = val;
+                  $("#m" + (idx - 1) + "_value").val(val);
+                  $("#m" + (idx - 1) + "_range").val(val);
+                  pos_lst[idx - 1] = val;
                 }
               });
-              
+
               socket.emit("set_motors", { pos_lst: pos_lst });
             })
             .dblclick(function () {
               let t = $(this).text().split(" 초")[0];
               if (confirm(t + " 초 항목을 삭제하시겠습니까?")) {
-                socket.emit("delete_frame", Number(t)*1000);
+                socket.emit("delete_frame", Number(t) * 1000);
                 $(this).remove();
               }
             })
-          );
+        );
       }
     }
   });
@@ -310,9 +322,12 @@ const getMotions = (socket) => {
       alert("저장된 동작이 없습니다.\n먼저 동작을 저장해주세요.");
     }
   });
-  
+
   $("#play_cycle_val").on("focusout keydown", function (evt) {
-    if (evt.type == "focusout" || (evt.type == "keydown" && evt.keyCode == 13)) {
+    if (
+      evt.type == "focusout" ||
+      (evt.type == "keydown" && evt.keyCode == 13)
+    ) {
       let val = Number($(this).val());
       let min = Number($(this).attr("min"));
       let max = Number($(this).attr("max"));
@@ -325,7 +340,7 @@ const getMotions = (socket) => {
   });
 
   // 동작 정지
-  $("#stop_frame_bt").on("click", function(){
+  $("#stop_frame_bt").on("click", function () {
     socket.emit("stop_frame");
   });
 
@@ -358,13 +373,33 @@ const getMotions = (socket) => {
     }
   });
 
-  const sample_motions = 
-  ['forward1', 'backward1', 'left', 'right', 'wave1', 'dance1', 'welcome', 'foot1', 'happy2', 'sad2'];
-  const sample_motions_name = 
-  ['forward', 'backward', 'left', 'right', 'wave', 'dance', 'welcome', 'foot', 'happy', 'sad'];
+  const sample_motions = [
+    "forward1",
+    "backward1",
+    "left",
+    "right",
+    "wave1",
+    "dance1",
+    "welcome",
+    "foot1",
+    "happy2",
+    "sad2",
+  ];
+  const sample_motions_name = [
+    "forward",
+    "backward",
+    "left",
+    "right",
+    "wave",
+    "dance",
+    "welcome",
+    "foot",
+    "happy",
+    "sad",
+  ];
 
   for (idx in sample_motions) {
-    $(`#motion_${sample_motions_name[idx]}_bt`).on("click", function(){
+    $(`#motion_${sample_motions_name[idx]}_bt`).on("click", function () {
       let i = sample_motions_name.indexOf($(this).text());
       socket.emit("load_motion", sample_motions[i]);
     });
@@ -386,25 +421,24 @@ const getMotions = (socket) => {
 
   // 모션 삭제
   $("#reset_motion_bt").on("click", function () {
-    if (confirm("모든 모션을 삭제하시겠습니까?"))
-      socket.emit("reset_motion");
+    if (confirm("모든 모션을 삭제하시겠습니까?")) socket.emit("reset_motion");
   });
 };
 
 const getSpeech = (socket) => {
   const max_tts_length = 30;
-  $("#s_tts_bt").on("click", function(){
-    if($("input[name=s_voice_en]:checked").val() == "off") {
+  $("#s_tts_bt").on("click", function () {
+    if ($("input[name=s_voice_en]:checked").val() == "off") {
       alert("음성을 활성화해주세요.");
       return;
     }
 
     let string = $("#s_tts_val").val().trim();
-    if( string == "" ) {
+    if (string == "") {
       alert("문장을 입력하세요.");
       return;
     }
-    if(string.length > max_tts_length) {
+    if (string.length > max_tts_length) {
       alert(`문장이 너무 깁니다. (${max_tts_length}자 이내로 작성해주세요.)`);
       return;
     }
@@ -415,18 +449,18 @@ const getSpeech = (socket) => {
     });
   });
 
-  $("#s_tts_val").on('keypress', function (evt) {
+  $("#s_tts_val").on("keypress", function (evt) {
     if (evt.keyCode == 13) {
-      if($("input[name=s_voice_en]:checked").val() == "off") {
+      if ($("input[name=s_voice_en]:checked").val() == "off") {
         alert("음성을 활성화해주세요.");
         return;
       }
       let string = $("#s_tts_val").val().trim();
-      if( string == "" ) {
+      if (string == "") {
         alert("문장을 입력하세요.");
         return;
       }
-      if(string.length > max_tts_length) {
+      if (string.length > max_tts_length) {
         alert(`문장이 너무 깁니다. (${max_tts_length}자 이내로 작성해주세요.)`);
         return;
       }
@@ -440,41 +474,41 @@ const getSpeech = (socket) => {
 
   $("#s_upload_csv").on("change", (e) => {
     let formData = new FormData();
-    formData.append('data', $("#s_upload_csv")[0].files[0]);
+    formData.append("data", $("#s_upload_csv")[0].files[0]);
     $.ajax({
       url: `/upload_csv`,
-      type:'post',
+      type: "post",
       data: formData,
       contentType: false,
-      processData: false    
-    })
-    .always((xhr, status) => {
+      processData: false,
+    }).always((xhr, status) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
-      }
-      else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON['result']}`);
+      } else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#s_upload_csv").val("");
       }
     });
   });
 
-  $("#s_reset_csv_bt").on("click", function(){
+  $("#s_reset_csv_bt").on("click", function () {
     socket.emit("reset_csv");
     $("#s_upload_csv").val("");
   });
 
   $("#s_question_val").on("keyup", function () {
-    $(this).val( 
-      $(this).val().replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
+    $(this).val(
+      $(this)
+        .val()
+        .replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
     );
   });
 
-  $("#s_question_val").on('keypress', function (evt) {
+  $("#s_question_val").on("keypress", function (evt) {
     if (evt.keyCode == 13) {
       // enter
       q = $("#s_question_val").val().trim();
-      if( q == "" ) {
+      if (q == "") {
         alert("문장을 입력하세요.");
         return;
       }
@@ -504,10 +538,10 @@ const getSpeech = (socket) => {
     }
   });
 
-  $("#s_chat_bt").on("click", function(){
+  $("#s_chat_bt").on("click", function () {
     q = $("#s_question_val").val().trim();
 
-    if(q == "" ) {
+    if (q == "") {
       alert("문장을 입력하세요.");
       return;
     }
@@ -554,7 +588,7 @@ const getSpeech = (socket) => {
             $("<td>").append(rec[idx][2])
           )
         );
-      } 
+      }
     }
   });
 };
@@ -564,14 +598,26 @@ let checkOled = (x, y, size) => {
   let ty = "#d_oy_val";
   let tsize = "#d_osize_val";
 
-  if (isNaN(x)    || x < Number($(tx).attr("min")) || x > Number($(tx).attr("max")))
+  if (
+    isNaN(x) ||
+    x < Number($(tx).attr("min")) ||
+    x > Number($(tx).attr("max"))
+  )
     return false;
-  if (isNaN(y)    || y < Number($(ty).attr("min")) || y > Number($(ty).attr("max")))
+  if (
+    isNaN(y) ||
+    y < Number($(ty).attr("min")) ||
+    y > Number($(ty).attr("max"))
+  )
     return false;
-  if (isNaN(size) || size < Number($(tsize).attr("min")) || size > Number($(tsize).attr("max")))
+  if (
+    isNaN(size) ||
+    size < Number($(tsize).attr("min")) ||
+    size > Number($(tsize).attr("max"))
+  )
     return false;
   return true;
-}
+};
 
 const getDevices = (socket) => {
   socket.on("update_neopixel", function (data) {
@@ -579,15 +625,22 @@ const getDevices = (socket) => {
   });
 
   socket.on("update_battery", function (data) {
-    let bat = Number(data.split('%')[0]);
-    $("#d_battery_val").html("<i class='fa fa-battery-" + Math.floor(bat/25)+ "' aria-hidden='true'></i> " + data);
+    let bat = Number(data.split("%")[0]);
+    $("#d_battery_val").html(
+      "<i class='fa fa-battery-" +
+        Math.floor(bat / 25) +
+        "' aria-hidden='true'></i> " +
+        data
+    );
   });
 
   socket.on("update_device", function (data) {
     $("#d_pir_val").text(data[0].toLowerCase());
     $("#d_touch_val").text(data[1].toLowerCase());
     $("#d_dc_val").html(
-      data[2].toUpperCase() == "ON" ? "<i class='fa fa-plug' aria-hidden='true'></i>" : ""
+      data[2].toUpperCase() == "ON"
+        ? "<i class='fa fa-plug' aria-hidden='true'></i>"
+        : ""
     );
     $("#d_button_val").text(data[3].toLowerCase());
   });
@@ -596,15 +649,17 @@ const getDevices = (socket) => {
     let tneopixel = "#d_n" + i + "_val";
 
     $(tneopixel).on("focusout keydown", function (evt) {
-      if (evt.type == "focusout" || (evt.type == "keydown" && evt.keyCode == 13)) {
+      if (
+        evt.type == "focusout" ||
+        (evt.type == "keydown" && evt.keyCode == 13)
+      ) {
         let val = Number($(this).val());
         let min = Number($(this).attr("min"));
         let max = Number($(this).attr("max"));
 
         if (isNaN(val) || val < min || val > max) {
           alert(min + " ~ " + max + " 사이를 입력하세요.");
-        }
-        else {
+        } else {
           socket.emit("set_neopixel", { idx: i, value: val });
         }
       }
@@ -628,7 +683,7 @@ const getDevices = (socket) => {
         alert(min + " ~ " + max + " 사이를 입력하세요.");
         return;
       }
-      eyeval = (i == 5)? eyeval+val : eyeval+val+",";
+      eyeval = i == 5 ? eyeval + val : eyeval + val + ",";
     }
 
     if (confirm("눈 색상을 저장하시겠습니까?")) {
@@ -636,7 +691,7 @@ const getDevices = (socket) => {
     }
   });
 
-  $("#d_otext_val").on('keydown', function (evt) {
+  $("#d_otext_val").on("keydown", function (evt) {
     if (evt.type == "keydown" && evt.keyCode == 13) {
       // enter
       let text = $("#d_otext_val").val().trim();
@@ -645,132 +700,128 @@ const getDevices = (socket) => {
       let size = Number($("#d_osize_val").val());
 
       if (checkOled(x, y, size))
-        socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
         alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
     }
   });
 
   $("#d_ox_val").on("click keydown", function (evt) {
-    if (evt.type == "click" ||
-      (evt.type == "keydown" && evt.keyCode == 13)) {
+    if (evt.type == "click" || (evt.type == "keydown" && evt.keyCode == 13)) {
       let text = $("#d_otext_val").val().trim();
       let x = Number($("#d_ox_val").val());
       let y = Number($("#d_oy_val").val());
       let size = Number($("#d_osize_val").val());
 
-      if (text == '') return;
+      if (text == "") return;
 
       if (checkOled(x, y, size))
-        socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
         alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
     }
   });
 
   $("#d_oy_val").on("click keydown", function (evt) {
-    if (evt.type == "click" ||
-      (evt.type == "keydown" && evt.keyCode == 13)) {
+    if (evt.type == "click" || (evt.type == "keydown" && evt.keyCode == 13)) {
       let text = $("#d_otext_val").val().trim();
       let x = Number($("#d_ox_val").val());
       let y = Number($("#d_oy_val").val());
       let size = Number($("#d_osize_val").val());
 
-      if (text == '') return;
+      if (text == "") return;
 
       if (checkOled(x, y, size))
-        socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
         alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
     }
   });
 
   $("#d_osize_val").on("click keydown", function (evt) {
-    if (evt.type == "click" ||
-      (evt.type == "keydown" && evt.keyCode == 13)) {
+    if (evt.type == "click" || (evt.type == "keydown" && evt.keyCode == 13)) {
       let text = $("#d_otext_val").val().trim();
       let x = Number($("#d_ox_val").val());
       let y = Number($("#d_oy_val").val());
       let size = Number($("#d_osize_val").val());
 
-      if (text == '') return;
+      if (text == "") return;
 
       if (checkOled(x, y, size))
-        socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+        socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
         alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
     }
   });
 
-  $("#oled_bt").on("click", function(evt){
+  $("#oled_bt").on("click", function (evt) {
     let text = $("#d_otext_val").val().trim();
     let x = Number($("#d_ox_val").val());
     let y = Number($("#d_oy_val").val());
     let size = Number($("#d_osize_val").val());
 
-    if (text == '') return;
+    if (text == "") return;
 
     if (checkOled(x, y, size))
-      socket.emit("set_oled", {x: x, y: y, size: size, text: text});
+      socket.emit("set_oled", { x: x, y: y, size: size, text: text });
     else
       alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
   });
 
   $("#upload_oled").on("change", (e) => {
     let formData = new FormData();
-    formData.append('data', $("#upload_oled")[0].files[0]);
+    formData.append("data", $("#upload_oled")[0].files[0]);
     $.ajax({
       url: `/upload_oled`,
-      type:'post',
+      type: "post",
       data: formData,
       contentType: false,
-      processData: false    
-    })
-    .always((xhr, status) => {
+      processData: false,
+    }).always((xhr, status) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
-      }
-      else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON['result']}`);
+      } else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_oled").val("");
       }
     });
   });
 
-  $("#clear_oled_bt").on("click", function(){
+  $("#clear_oled_bt").on("click", function () {
     socket.emit("clear_oled");
   });
 
   socket.on("oled_path", (data) => {
-
     $("#oledfiles").empty();
     $("#oledfiles").append("<option value='-'>선택</option>");
-    for (let i =0; i < data.length; i++){
+    for (let i = 0; i < data.length; i++) {
       let filename = data[i];
       let extension = filename.split(".")[1].toLowerCase();
 
-      if (["png","jpg"].includes(extension))
-        $('#oledfiles').append(`<option value="${filename}">${filename.split(".jpg")[0]}</option>`);
+      if (["png", "jpg"].includes(extension))
+        $("#oledfiles").append(
+          `<option value="${filename}">${filename.split(".jpg")[0]}</option>`
+        );
     }
   });
-  
-  $("#oledpath").on("change", ()=> {
+
+  $("#oledpath").on("change", () => {
     let p = $("#oledpath").val();
-    if (p != '-') {
+    if (p != "-") {
       socket.emit("oled_path", p);
     }
   });
 
-  $("#oledfiles").on("change", ()=> {
+  $("#oledfiles").on("change", () => {
     let filename = $("#oledfiles").val();
 
-    if (filename != '-') {
+    if (filename != "-") {
       socket.emit("set_oled_image", `${$("#oledpath").val()}/${filename}`);
     }
   });
 
   socket.on("mic", function (d) {
-    $('#mic_status').text(d);
+    $("#mic_status").text(d);
   });
 
   $("#mic_bt").on("click", function () {
@@ -784,38 +835,44 @@ const getDevices = (socket) => {
       return;
     }
 
-    $('#mic_status').text("녹음 중");
+    if ($("#mic_status").hasClass("hide")) {
+      $("#mic_status").removeClass("hide").text("녹음 중");
+    } else {
+      $("#mic_status").addClass("hide").text("");
+    }
     socket.emit("mic", {
       time: val,
       volume: Number($("#volume").val()),
     });
   });
 
-  $("#mic_replay_bt").on("click", function(){
-    socket.emit("mic_replay", {volume:Number($("#volume").val())});
+  $("#mic_replay_bt").on("click", function () {
+    socket.emit("mic_replay", { volume: Number($("#volume").val()) });
   });
 
   socket.on("audio_path", (data) => {
     $("#audiofiles").empty();
     $("#audiofiles").append("<option value='-'>선택</option>");
-    for (let i =0; i < data.length; i++){
+    for (let i = 0; i < data.length; i++) {
       let filename = data[i];
       let extension = filename.split(".")[1];
 
       if (["mp3", "wav"].includes(extension))
-        $('#audiofiles').append(`<option value="${filename}">${filename.split(".")[0]}</option>`);
+        $("#audiofiles").append(
+          `<option value="${filename}">${filename.split(".")[0]}</option>`
+        );
     }
   });
 
-  $("#audiopath").on("change", ()=> {
+  $("#audiopath").on("change", () => {
     let p = $("#audiopath").val();
 
-    if (p != '-') {
+    if (p != "-") {
       socket.emit("audio_path", p);
     }
   });
 
-  $("#play_audio_bt").on("click", function(){
+  $("#play_audio_bt").on("click", function () {
     let filename = $("#audiofiles").val();
 
     if (filename == "-") {
@@ -823,115 +880,132 @@ const getDevices = (socket) => {
       return;
     }
     socket.emit("play_audio", {
-      filename:`${$("#audiopath").val()}/${filename}`,
-      volume:Number($("#volume").val()),
+      filename: `${$("#audiopath").val()}/${filename}`,
+      volume: Number($("#volume").val()),
     });
   });
 
-  $("#stop_audio_bt").on("click", function(){
+  $("#stop_audio_bt").on("click", function () {
     socket.emit("stop_audio");
   });
 };
 
 const getSimulations = (socket) => {
-  socket.on('sim_result', (d) => {
+  socket.on("sim_result", (d) => {
     console.log(d);
   });
 
-  socket.on('sim_update_audio', (d) => {
+  socket.on("sim_update_audio", (d) => {
     console.log(d);
   });
 
-  socket.on('sim_update_oled', (d) => {
+  socket.on("sim_update_oled", (d) => {
     console.log(d);
   });
 
-  socket.on('sim_update_motion', (d) => {
+  socket.on("sim_update_motion", (d) => {
     console.log(d);
   });
 
-  socket.on('sim_load_items', (d) => {
-    console.log('sim_load_items:', d);
+  socket.on("sim_load_items", (d) => {
+    console.log("sim_load_items:", d);
   });
 
-  socket.emit('sim_update_audio', "/home/pi/openpibo-files/audio/music");
-  socket.emit('sim_update_oled', "/home/pi/openpibo-files/icon");
-  socket.emit('sim_update_motion', 'default');
-  socket.emit('sim_update_motion', 'mymotion');
-  socket.emit('sim_add_items',
-              {
-                name:'test1',
-                data:
-                  [
-                    {
-                        'time':1,
-                        'motion':{'name':'foot1', 'cycle':10},
-                        'eye':[255,0,0,0,0,255],
-                        'oled':(/*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */{'x':0, 'y':20, 'size':25, 'text':'파이보'}),
-                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
-                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
-                    },
-                    {
-                        'time':2.5,
-                        'motion':{'name':'foot1', 'cycle':10},
-                        'eye':[255,0,0,0,0,255],
-                        'oled':(/*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */{'x':0, 'y':20, 'size':25, 'text':'파이보'}),
-                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
-                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
-                    },
-                    {
-                        'time':3,
-                        'motion':{'name':'foot1', 'cycle':10},
-                        'eye':[255,0,0,0,0,255],
-                        'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'}/* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/),
-                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
-                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
-                    }
-                    ]
-              }
-    );
+  socket.emit("sim_update_audio", "/home/pi/openpibo-files/audio/music");
+  socket.emit("sim_update_oled", "/home/pi/openpibo-files/icon");
+  socket.emit("sim_update_motion", "default");
+  socket.emit("sim_update_motion", "mymotion");
+  socket.emit("sim_add_items", {
+    name: "test1",
+    data: [
+      {
+        time: 1,
+        motion: { name: "foot1", cycle: 10 },
+        eye: [255, 0, 0, 0, 0, 255],
+        oled: /*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */ {
+          x: 0,
+          y: 20,
+          size: 25,
+          text: "파이보",
+        },
+        audio: { audiof: "/home/pi/openpibo-files/audio/test.mp3", volume: 50 },
+        tts: { voice_type: "main", text: "안녕하세요", volume: 50 },
+      },
+      {
+        time: 2.5,
+        motion: { name: "foot1", cycle: 10 },
+        eye: [255, 0, 0, 0, 0, 255],
+        oled: /*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */ {
+          x: 0,
+          y: 20,
+          size: 25,
+          text: "파이보",
+        },
+        audio: { audiof: "/home/pi/openpibo-files/audio/test.mp3", volume: 50 },
+        tts: { voice_type: "main", text: "안녕하세요", volume: 50 },
+      },
+      {
+        time: 3,
+        motion: { name: "foot1", cycle: 10 },
+        eye: [255, 0, 0, 0, 0, 255],
+        oled: {
+          imagef: "/home/pi/openpibo-files/icon/bot.png",
+        } /* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/,
+        audio: { audiof: "/home/pi/openpibo-files/audio/test.mp3", volume: 50 },
+        tts: { voice_type: "main", text: "안녕하세요", volume: 50 },
+      },
+    ],
+  });
 
-  socket.emit('sim_add_items', 
-              {
-                name:'test2',
-                data:
-                  [
-                    {
-                        'time':10,
-                        'motion':{'name':'foot1', 'cycle':10},
-                        'eye':[255,0,0,0,0,255],
-                        'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'}/* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/),
-                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
-                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
-                    },
-                    {
-                        'time':25,
-                        'motion':{'name':'foot1', 'cycle':10},
-                        'eye':[255,0,0,0,0,255],
-                        'oled':({'imagef':'/home/pi/openpibo-files/icon/bot.png'}/* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/),
-                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
-                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
-                    },
-                    {
-                        'time':30,
-                        'motion':{'name':'foot1', 'cycle':10},
-                        'eye':[255,0,0,0,0,255],
-                        'oled':(/*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */{'x':0, 'y':20, 'size':25, 'text':'파이보'}),
-                        'audio':{'audiof':"/home/pi/openpibo-files/audio/test.mp3", 'volume':50},
-                        'tts':{'voice_type':'main', 'text':'안녕하세요', 'volume':50}
-                    }
-                    ]
-              }
-    );
-  socket.emit('sim_load_items'); // 이름만
+  socket.emit("sim_add_items", {
+    name: "test2",
+    data: [
+      {
+        time: 10,
+        motion: { name: "foot1", cycle: 10 },
+        eye: [255, 0, 0, 0, 0, 255],
+        oled: {
+          imagef: "/home/pi/openpibo-files/icon/bot.png",
+        } /* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/,
+        audio: { audiof: "/home/pi/openpibo-files/audio/test.mp3", volume: 50 },
+        tts: { voice_type: "main", text: "안녕하세요", volume: 50 },
+      },
+      {
+        time: 25,
+        motion: { name: "foot1", cycle: 10 },
+        eye: [255, 0, 0, 0, 0, 255],
+        oled: {
+          imagef: "/home/pi/openpibo-files/icon/bot.png",
+        } /* | {'x':0, 'y':20, 'size':25, 'text':'파이보'}*/,
+        audio: { audiof: "/home/pi/openpibo-files/audio/test.mp3", volume: 50 },
+        tts: { voice_type: "main", text: "안녕하세요", volume: 50 },
+      },
+      {
+        time: 30,
+        motion: { name: "foot1", cycle: 10 },
+        eye: [255, 0, 0, 0, 0, 255],
+        oled: /*{'imagef':'/home/pi/openpibo-files/icon/bot.png'} | */ {
+          x: 0,
+          y: 20,
+          size: 25,
+          text: "파이보",
+        },
+        audio: { audiof: "/home/pi/openpibo-files/audio/test.mp3", volume: 50 },
+        tts: { voice_type: "main", text: "안녕하세요", volume: 50 },
+      },
+    ],
+  });
+  socket.emit("sim_load_items"); // 이름만
   //socket.emit('sim_remove_items', 'test1');
-  socket.emit('sim_remove_items'); // 전체 삭제
-  socket.emit('sim_load_items'); // 이름만
-  socket.emit('sim_load_items', 'test2');
-}
+  socket.emit("sim_remove_items"); // 전체 삭제
+  socket.emit("sim_load_items"); // 이름만
+  socket.emit("sim_load_items", "test2");
+};
 
 $(function () {
-  const socket = io('ws://' + window.location.hostname+':80',{path:'/ws/socket.io'});
+  const socket = io("ws://" + window.location.hostname + ":80", {
+    path: "/ws/socket.io",
+  });
 
   getStatus(socket);
   getVisions(socket);
@@ -963,7 +1037,7 @@ $(function () {
     $(`#article_${name}`).show("slide");
   };
 
-  handleMenu("home");
+  handleMenu("device");
   const menus = $("nav").find("button");
   menus.each((idx) => {
     const element = menus.get(idx);
