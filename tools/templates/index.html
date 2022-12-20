@@ -24,7 +24,6 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=221218" />
   </head>
   <body>
     <header class="title">
@@ -551,7 +550,531 @@
             </section>
           </article>
           <article id="article_motion" class="margin">
-            <section class="pibo-section">
+            <section class="motion-pibo-section">
+              <div class="motion-btn-group">
+                <button id="init_bt">
+                  <i class="fa-solid fa-person"></i>
+                  원래자세
+                </button>
+                <div class="motion-time-group">
+                  <div>
+                    <span class="label small">시간</span>
+                    <input
+                      type="number"
+                      name="m_time_val"
+                      id="m_time_val"
+                      min="0"
+                      max="300"
+                      step="0.1"
+                      value="0"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <button id="add_frame_bt" class="btn-teal">
+                    <i class="fa-solid fa-plus"></i>
+                    추가하기
+                  </button>
+                </div>
+              </div>
+              <img src="../static/pibo_body.png" alt="pibo body" />
+              <div class="motion-input-group">
+                <div class="motion-group motion-m5-group">
+                  <span class="label small">Head Tilt</span>
+                  <div class="motion-input-label">
+                    <span class="label">M5</span>
+                    <input
+                      type="number"
+                      name="head_tilt_value"
+                      id="m5_value"
+                      min="-25"
+                      max="25"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="head_tilt_range"
+                    id="m5_range"
+                    min="-25"
+                    max="25"
+                  />
+                </div>
+                <div class="motion-group motion-m4-group">
+                  <span class="label small">Head Pan</span>
+                  <div class="motion-input-label">
+                    <span class="label">M4</span>
+                    <input
+                      type="number"
+                      name="head_pan_value"
+                      id="m4_value"
+                      min="-50"
+                      max="50"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="head_pan_range"
+                    id="m4_range"
+                    min="-50"
+                    max="50"
+                  />
+                </div>
+                <div class="motion-group motion-m2-group">
+                  <span class="label small">Right Arm</span>
+                  <div class="motion-input-label">
+                    <span class="label">M2</span>
+                    <input
+                      type="number"
+                      name="right_arm_value"
+                      id="m2_value"
+                      min="-80"
+                      max="80"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="right_arm_range"
+                    id="m2_range"
+                    min="-80"
+                    max="80"
+                  />
+                </div>
+                <div class="motion-group motion-m8-group">
+                  <span class="label small">Left Arm</span>
+                  <div class="motion-input-label">
+                    <span class="label">M8</span>
+                    <input
+                      type="number"
+                      name="left_arm_value"
+                      id="m8_value"
+                      min="-80"
+                      max="80"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="left_arm_range"
+                    id="m8_range"
+                    min="-80"
+                    max="80"
+                  />
+                </div>
+                <div class="motion-group motion-m3-group">
+                  <span class="label small">Right Hand</span>
+                  <div class="motion-input-label">
+                    <span class="label">M3</span>
+                    <input
+                      type="number"
+                      name="right_hand_value"
+                      id="m3_value"
+                      min="-30"
+                      max="30"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="right_hand_range"
+                    id="m3_range"
+                    min="-30"
+                    max="30"
+                  />
+                </div>
+                <div class="motion-group motion-m9-group">
+                  <span class="label small">Left Hand</span>
+                  <div class="motion-input-label">
+                    <span class="label">M9</span>
+                    <input
+                      type="number"
+                      name="left_hand_value"
+                      id="m9_value"
+                      min="-30"
+                      max="30"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="left_hand_range"
+                    id="m9_range"
+                    min="-30"
+                    max="30"
+                  />
+                </div>
+                <div class="motion-group motion-m1-group">
+                  <span class="label small">Right Leg</span>
+                  <div class="motion-input-label">
+                    <span class="label">M1</span>
+                    <input
+                      type="number"
+                      name="right_leg_value"
+                      id="m1_value"
+                      min="-35"
+                      max="35"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="right_leg_range"
+                    id="m1_range"
+                    min="-35"
+                    max="35"
+                  />
+                </div>
+                <div class="motion-group motion-m7-group">
+                  <span class="label small">Left Leg</span>
+                  <div class="motion-input-label">
+                    <span class="label">M7</span>
+                    <input
+                      type="number"
+                      name="left_leg_value"
+                      id="m7_value"
+                      min="-35"
+                      max="35"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="left_leg_range"
+                    id="m7_range"
+                    min="-35"
+                    max="35"
+                  />
+                </div>
+                <div class="motion-group motion-m0-group">
+                  <span class="label small">Right Foot</span>
+                  <div class="motion-input-label">
+                    <span class="label">M0</span>
+                    <input
+                      type="number"
+                      name="right_foot_value"
+                      id="m0_value"
+                      min="-25"
+                      max="25"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="right_foot_range"
+                    id="m0_range"
+                    min="-25"
+                    max="25"
+                  />
+                </div>
+                <div class="motion-group motion-m6-group">
+                  <span class="label small">Left Foot</span>
+                  <div class="motion-input-label">
+                    <span class="label">M6</span>
+                    <input
+                      type="number"
+                      name="left_foot_value"
+                      id="m6_value"
+                      min="-25"
+                      max="25"
+                      pattern="\d*"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    name="left_foot_range"
+                    id="m6_range"
+                    min="-25"
+                    max="25"
+                  />
+                </div>
+              </div>
+            </section>
+            <section class="motion-record-section">
+              <div class="horizontal space-between">
+                <div class="label-input-wrap">
+                  <span class="label small">재생횟수</span>
+                  <input
+                    type="number"
+                    name="play_cycle_val"
+                    id="play_cycle_val"
+                    min="1"
+                    max="100"
+                    value="1"
+                    pattern="\d*"
+                  />
+                  <button id="play_frame_bt" class="btn-teal">
+                    <i class="fa-solid fa-play"></i>
+                    실행하기
+                  </button>
+                  <button id="stop_frame_bt" class="btn-teal">
+                    <i class="fa-solid fa-stop"></i>
+                    정지하기
+                  </button>
+                </div>
+                <button id="init_frame_bt" class="btn-teal">
+                  <i class="fa-solid fa-trash-can"></i>
+                  모두지우기
+                </button>
+              </div>
+              <div class="motion-table-wrap">
+                <table id="motor_table">
+                  <thead>
+                    <tr>
+                      <td>시간</td>
+                      <td>M0</td>
+                      <td>M1</td>
+                      <td>M2</td>
+                      <td>M3</td>
+                      <td>M4</td>
+                      <td>M5</td>
+                      <td>M6</td>
+                      <td>M7</td>
+                      <td>M8</td>
+                      <td>M9</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>999.9초</td>
+                      <td>-25</td>
+                      <td>-35</td>
+                      <td>-80</td>
+                      <td>-30</td>
+                      <td>-50</td>
+                      <td>-25</td>
+                      <td>-25</td>
+                      <td>-35</td>
+                      <td>-80</td>
+                      <td>-30</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <section class="motion-file-section">
+              <div class="label-input-wrap">
+                <span class="label small">모션이름</span>
+                <input
+                  type="text"
+                  name="motion_name_val"
+                  id="motion_name_val"
+                />
+                <button id="add_motion_bt" class="btn-teal">
+                  <i class="fa-solid fa-check-double"></i>
+                  등록하기
+                </button>
+              </div>
+              <div class="horizontal gap-quarter space-between">
+                <button id="delete_motion_bt" class="btn-red">
+                  <i class="fa-solid fa-minus"></i>
+                  삭제하기
+                </button>
+                <button id="load_motion_bt">
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                  불러오기
+                </button>
+              </div>
+              <div class="motion-path">
+                <input type="text" value="/home/pi/mymotion.json" disabled />
+                <textarea
+                  name="motor_record"
+                  id="motor_record"
+                  rows="48"
+                  wrap="hard"
+                  disabled
+                ></textarea>
+                모션 예제:
+                <b>
+                  <a
+                    id="motion_forward_bt"
+                    style="color: #df7e3d; cursor: pointer"
+                    >forward</a
+                  >,
+                  <a
+                    id="motion_backward_bt"
+                    style="color: #df7e3d; cursor: pointer"
+                    >backward</a
+                  >,
+                  <a id="motion_left_bt" style="color: #df7e3d; cursor: pointer"
+                    >left</a
+                  >,
+                  <a
+                    id="motion_right_bt"
+                    style="color: #df7e3d; cursor: pointer"
+                    >right</a
+                  >,
+                  <a id="motion_wave_bt" style="color: #df7e3d; cursor: pointer"
+                    >wave</a
+                  >,
+                  <a
+                    id="motion_welcome_bt"
+                    style="color: #df7e3d; cursor: pointer"
+                    >welcome</a
+                  >,
+                  <a
+                    id="motion_dance_bt"
+                    style="color: #df7e3d; cursor: pointer"
+                    >dance</a
+                  >,
+                  <a id="motion_foot_bt" style="color: #df7e3d; cursor: pointer"
+                    >foot</a
+                  >,
+                  <a
+                    id="motion_happy_bt"
+                    style="color: #df7e3d; cursor: pointer"
+                    >happy</a
+                  >,
+                  <a id="motion_sad_bt" style="color: #df7e3d; cursor: pointer"
+                    >sad</a
+                  >
+                </b>
+              </div>
+              <button id="reset_motion_bt" class="btn-red">
+                <i class="fa-solid fa-trash-can"></i>
+                모두 지우기
+              </button>
+            </section>
+            <section>
+              <div class="motion-record">
+                <div>
+                  <span>재생횟수: </span>
+                  <input
+                    type="number"
+                    name="play_cycle_val"
+                    id="play_cycle_val"
+                    min="1"
+                    max="100"
+                    value="1"
+                    pattern="\d*"
+                  />
+                  <span> - </span>
+                  <button id="play_frame_bt" class="btn-teal">
+                    <i class="fa-solid fa-play"></i>
+                    실행하기
+                  </button>
+                  <button id="stop_frame_bt" class="btn-teal">
+                    <i class="fa-solid fa-stop"></i>
+                    정지하기
+                  </button>
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                  <button id="init_frame_bt" class="btn-teal">
+                    <i class="fa-solid fa-trash-can"></i>
+                    모두지우기
+                  </button>
+                </div>
+                <div class="motion-table-wrap">
+                  <table id="motor_table">
+                    <thead>
+                      <tr>
+                        <td>시간</td>
+                        <td>M0</td>
+                        <td>M1</td>
+                        <td>M2</td>
+                        <td>M3</td>
+                        <td>M4</td>
+                        <td>M5</td>
+                        <td>M6</td>
+                        <td>M7</td>
+                        <td>M8</td>
+                        <td>M9</td>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <div class="motion-name-wrap">
+                  <span>모션이름:</span>
+                  <input
+                    type="text"
+                    name="motion_name_val"
+                    id="motion_name_val"
+                  />
+                  <button id="add_motion_bt" class="btn-red">
+                    <i class="fa-solid fa-check-double"></i>
+                    등록하기
+                  </button>
+                  <button id="load_motion_bt">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    불러오기
+                  </button>
+                  <button id="delete_motion_bt">
+                    <i class="fa-solid fa-minus"></i>
+                    삭제하기
+                  </button>
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                  <button id="reset_motion_bt">
+                    <i class="fa-solid fa-trash-can"></i>
+                    모두지우기
+                  </button>
+                </div>
+                <div class="motion-path-wrap">
+                  <input type="text" value="/home/pi/mymotion.json" disabled />
+                  <textarea
+                    name="motor_record"
+                    id="motor_record"
+                    rows="48"
+                    wrap="hard"
+                    disabled
+                  ></textarea>
+                  <span class="label small">모션 예제</span>
+                  <div class="motion-path-eg-wrap"></div>
+                  <b>
+                    <a
+                      id="motion_forward_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >forward</a
+                    >,
+                    <a
+                      id="motion_backward_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >backward</a
+                    >,
+                    <a
+                      id="motion_left_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >left</a
+                    >,
+                    <a
+                      id="motion_right_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >right</a
+                    >,
+                    <a
+                      id="motion_wave_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >wave</a
+                    >,
+                    <a
+                      id="motion_welcome_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >welcome</a
+                    >,
+                    <a
+                      id="motion_dance_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >dance</a
+                    >,
+                    <a
+                      id="motion_foot_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >foot</a
+                    >,
+                    <a
+                      id="motion_happy_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >happy</a
+                    >,
+                    <a
+                      id="motion_sad_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >sad</a
+                    >
+                  </b>
+                </div>
+              </div>
+            </section>
+            <!-- <section>
               <div>
                 <div style="float: left">
                   <button id="init_bt">
@@ -577,223 +1100,6 @@
                   </button>
                 </div>
               </div>
-              <img src="../static/pibo_body.png" alt="pibo body" />
-              <div class="motion-input-group">
-                <div class="motion-input-row">
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M5(Head Tilt)</span>
-                      <input
-                        type="number"
-                        name="head_tilt_value"
-                        id="m5_value"
-                        min="-25"
-                        max="25"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="head_tilt_range"
-                      id="m5_range"
-                      min="-25"
-                      max="25"
-                    />
-                  </div>
-                </div>
-                <div class="motion-input-row">
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M4(Head Pan)</span>
-                      <input
-                        type="number"
-                        name="head_pan_value"
-                        id="m4_value"
-                        min="-50"
-                        max="50"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="head_pan_range"
-                      id="m4_range"
-                      min="-50"
-                      max="50"
-                    />
-                  </div>
-                </div>
-                <div class="motion-input-row">
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M2(Right Arm)</span>
-                      <input
-                        type="number"
-                        name="right_arm_value"
-                        id="m2_value"
-                        min="-80"
-                        max="80"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="right_arm_range"
-                      id="m2_range"
-                      min="-80"
-                      max="80"
-                    />
-                  </div>
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M8(Left Arm)</span>
-                      <input
-                        type="number"
-                        name="left_arm_value"
-                        id="m8_value"
-                        min="-80"
-                        max="80"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="left_arm_range"
-                      id="m8_range"
-                      min="-80"
-                      max="80"
-                    />
-                  </div>
-                </div>
-                <div class="motion-input-row">
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M3(Right Hand)</span>
-                      <input
-                        type="number"
-                        name="right_hand_value"
-                        id="m3_value"
-                        min="-30"
-                        max="30"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="right_hand_range"
-                      id="m3_range"
-                      min="-30"
-                      max="30"
-                    />
-                  </div>
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M9(Left Hand)</span>
-                      <input
-                        type="number"
-                        name="left_hand_value"
-                        id="m9_value"
-                        min="-30"
-                        max="30"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="left_hand_range"
-                      id="m9_range"
-                      min="-30"
-                      max="30"
-                    />
-                  </div>
-                </div>
-                <div class="motion-input-row">
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M1(Right Leg)</span>
-                      <input
-                        type="number"
-                        name="right_leg_value"
-                        id="m1_value"
-                        min="-35"
-                        max="35"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="right_leg_range"
-                      id="m1_range"
-                      min="-35"
-                      max="35"
-                    />
-                  </div>
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M7(Left Leg)</span>
-                      <input
-                        type="number"
-                        name="left_leg_value"
-                        id="m7_value"
-                        min="-35"
-                        max="35"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="left_leg_range"
-                      id="m7_range"
-                      min="-35"
-                      max="35"
-                    />
-                  </div>
-                </div>
-                <div class="motion-input-row">
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M0(Right Foot)</span>
-                      <input
-                        type="number"
-                        name="right_foot_value"
-                        id="m0_value"
-                        min="-25"
-                        max="25"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="right_foot_range"
-                      id="m0_range"
-                      min="-25"
-                      max="25"
-                    />
-                  </div>
-                  <div>
-                    <div class="motion-input-label">
-                      <span class="label">M6(Left Foot)</span>
-                      <input
-                        type="number"
-                        name="left_foot_value"
-                        id="m6_value"
-                        min="-25"
-                        max="25"
-                        pattern="\d*"
-                      />
-                    </div>
-                    <input
-                      type="range"
-                      name="left_foot_range"
-                      id="m6_range"
-                      min="-25"
-                      max="25"
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
-            <section>
               <div class="motion-record">
                 <div>
                   <span>재생횟수: </span>
@@ -930,7 +1236,7 @@
                   </b>
                 </div>
               </div>
-            </section>
+            </section> -->
           </article>
           <article id="article_vision">
             <section>

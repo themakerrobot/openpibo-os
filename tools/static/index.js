@@ -147,6 +147,26 @@ const getVisions = (socket) => {
 };
 
 const getMotions = (socket) => {
+  if (window.innerHeight > window.innerWidth) {
+    console.log("portrait");
+    if (document.body.clientWidth - 100 > 600) {
+      $("section.motion-pibo-section>img").width(
+        (document.body.clientWidth - 100) / 2
+      );
+    } else {
+      $("section.motion-pibo-section>img").width(
+        document.body.clientWidth - 100
+      );
+      $("section.motion-pibo-section").width("100%");
+    }
+  }
+  if (window.innerWidth > window.innerHeight) {
+    console.log("landscape");
+    $("section.motion-pibo-section>img").height(
+      document.body.clientHeight - 150
+    );
+    $("section.motion-pibo-section>img").css("margin", "1em");
+  }
   const motor_default = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0];
 
   for (let i = 0; i < 10; i++) {
@@ -1037,7 +1057,7 @@ $(function () {
     $(`#article_${name}`).show("slide");
   };
 
-  handleMenu("device");
+  handleMenu("motion");
   const menus = $("nav").find("button");
   menus.each((idx) => {
     const element = menus.get(idx);

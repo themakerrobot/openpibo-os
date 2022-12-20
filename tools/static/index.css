@@ -54,16 +54,16 @@ label {
   /* #article_device > section {
     width: 96% !important;
     margin: 0 auto;
-  } */
-  /* #article_home > section {
-    width: 96%;
-    margin: 0 auto;
-  } */
-  #article_vision > section {
+  }
+  #article_home > section {
     width: 96%;
     margin: 0 auto;
   }
   #article_motion > section {
+    width: 96%;
+    margin: 0 auto;
+  } */
+  #article_vision > section {
     width: 96%;
     margin: 0 auto;
   }
@@ -80,19 +80,20 @@ label {
 @media (min-width: 1000px) {
   /* #article_home > section {
     width: 49%;
-  } */
-  #article_vision > section {
-    width: 49%;
   }
   #article_motion > section:nth-child(2) {
     width: calc(100% - 600px);
   }
+  #article_device > section {
+    width: 49%;
+  }
+  */
+  #article_vision > section {
+    width: 49%;
+  }
   #article_speech > section {
     width: 49%;
   }
-  /* #article_device > section {
-    width: 49%;
-  } */
 }
 
 header,
@@ -524,7 +525,7 @@ label.label {
   font-size: 14px;
   font-weight: bold;
 }
-
+/*
 .pibo-section {
   position: relative;
   min-width: 590px;
@@ -559,12 +560,23 @@ label.label {
   flex-flow: row;
   align-items: center;
 }
-.motion-input-label input {
-  width: 52px;
-}
 .motion-input-label span {
   font-size: 1.2rem;
   width: 100%;
+}
+#init_bt {
+  position: absolute;
+}
+.motion-table-wrap {
+  height: 510px;
+  overflow-y: scroll;
+  margin: 0.5em 0;
+  border: 1px solid var(--light-green);
+  border-radius: 2px;
+}
+*/
+.motion-input-label input {
+  width: 52px;
 }
 .motion-input-row:nth-child(2) {
   margin-top: 120px;
@@ -584,17 +596,6 @@ label.label {
 .motion-input-row:nth-child(6) {
   margin-top: 110px;
   column-gap: 30px;
-}
-#init_bt {
-  position: absolute;
-}
-
-.motion-table-wrap {
-  height: 510px;
-  overflow-y: scroll;
-  margin: 0.5em 0;
-  border: 1px solid var(--light-green);
-  border-radius: 2px;
 }
 .motion-record {
   display: flex;
