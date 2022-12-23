@@ -93,6 +93,11 @@ const getStatus = (socket) => {
     if (confirm("업데이트를 하시겠습니까?(불안정-문제가 발생할 수 있습니다.)"))
       socket.emit("swupdate");
   });
+
+  $("#restore_bt").on("click", function () {
+    if (confirm("초기화하시겠습니까?"))
+      socket.emit("restore");
+  });
 };
 
 const getVisions = (socket) => {

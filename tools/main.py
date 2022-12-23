@@ -461,6 +461,16 @@ async def f(sid, d=None):
   os.system("curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main.sh > /home/pi/update")
   os.system("bash /home/pi/update")
 
+@app.sio.on('restore')
+async def f(sid, d=None):
+  os.system("rm -rf /home/pi/myimage/*")
+  os.system("rm -rf /home/pi/myaudio/*")
+  os.system("rm -rf /home/pi/code/*")
+  os.system("rm -rf /home/pi/mymotion.json")
+  os.system("rm -rf /home/pi/config.json")
+  os.system("shutdown -r now")
+  return
+
 @app.on_event("startup")
 async def f():
   global logger, pibo

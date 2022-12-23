@@ -3,9 +3,18 @@
 # ap start
 sudo /home/pi/openpibo-os/system/wifi-ap-sta run
 
+# 복구 usb
+if [ -f /media/usb/_index.py ]; then
+  sudo python3 /media/usb/_index.py
+  exit 0
+fi
+
 # Amp init
 sudo gpio mode 7 out
 sudo gpio write 7 1
+
+# pir on
+echo "#30:on!" > /dev/ttyS0
 
 sudo amixer -c Headphones sset Headphone 75%
 sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
