@@ -52,7 +52,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
 html::-webkit-scrollbar,
@@ -61,7 +61,7 @@ article::-webkit-scrollbar,
 section::-webkit-scrollbar,
 textarea::-webkit-scrollbar,
 div::-webkit-scrollbar {
-  width:6px;
+  width: 6px;
   height: 6px;
 }
 
@@ -263,7 +263,7 @@ div {
 }
 
 .toggle {
-  font-size:1.4rem;
+  font-size: 1.4rem;
   cursor: pointer;
   display: inline-block;
 }
@@ -316,19 +316,19 @@ div {
 nav {
   left: 0;
   height: 100%;
-  background-color:#f8f8f8;
+  background-color: #f8f8f8;
   border: #e7e7e7;
   position: fixed;
   z-index: 99;
 }
 
 nav ul {
-  -webkit-padding-start:0px;
+  -webkit-padding-start: 0px;
   list-style-type: none;
 }
 
 nav li {
-  text-align:center;
+  text-align: center;
 }
 
 nav button {
@@ -342,7 +342,7 @@ nav button {
   padding: 0.3em;
   border-radius: 0;
   box-shadow: none;
-  font-size:1rem;
+  font-size: 1rem;
   font-weight: bold;
   font-family: Tahoma, sans-serif;
   padding: 20px 0 20px 0;
@@ -373,7 +373,7 @@ nav button:hover {
 }
 
 nav button.menu-selected {
-  opacity: 1.0;
+  opacity: 1;
 }
 
 button,
@@ -457,7 +457,7 @@ footer {
   padding-left: 16px;
   padding-right: 16px;
   bottom: 0;
-  background-color: var(--dark-yellow);;
+  background-color: var(--dark-yellow);
   width: 100vw;
   height: 3rem;
   font-size: 1.2rem;
@@ -484,8 +484,8 @@ header.title {
 .title h2 {
   margin: 0.1em auto;
   font-family: Tahoma, sans-serif;
-  font-size:2rem;
-  padding:0.3rem 0.3rem 0.3rem 0.3rem;
+  font-size: 2rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
 }
 
 main {
@@ -699,7 +699,7 @@ label.label {
 
 .motion-path input {
   border-bottom: none;
-  background: rgba(240,240,240,0.8);
+  background: rgba(240, 240, 240, 0.8);
   width: 100%;
 }
 
@@ -746,10 +746,10 @@ tbody {
 }
 
 #s_record_tb thead td:nth-child(n + 2) {
-  width:100px;
+  width: 100px;
 }
 #s_record_tb tbody td:first-child {
-  min-width:100px;
+  min-width: 100px;
 }
 #s_record_tb tbody td:nth-child(n + 2) {
   background: white;
@@ -809,7 +809,10 @@ tbody {
   width: 70%;
   margin-top: 2px;
 }
-
+.oled-group > div > input[type="number"] {
+  width: auto;
+  min-width: 60px;
+}
 i.fa > span {
   font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
