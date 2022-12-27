@@ -242,7 +242,12 @@ const getMotions = (socket) => {
 
   // 모션 추가
   $("#add_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").val();
+    let motionName = $("#motion_name_val").val().trim();
+
+    if (motionName == "") {
+      alert("먼저 모션이름을 적어주세요.");
+      return;
+    }
     if (confirm(motionName + " 모션을 등록하시겠습니까?")) {
       socket.emit("add_motion", motionName);
       $("#motion_name_val").val("");
@@ -251,7 +256,13 @@ const getMotions = (socket) => {
 
   // 모션 불러오기
   $("#load_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").val();
+    let motionName = $("#motion_name_val").val().trim();
+
+    if (motionName == "") {
+      alert("먼저 모션이름을 적어주세요.");
+      return;
+    }
+
     if (confirm(motionName + " 모션을 불러오시겠습니까?")) {
       socket.emit("load_motion", motionName);
       $("#motion_name_val").val("");
@@ -292,7 +303,12 @@ const getMotions = (socket) => {
 
   // 모션 삭제
   $("#delete_motion_bt").on("click", function () {
-    let motionName = $("#motion_name_val").val();
+    let motionName = $("#motion_name_val").val().trim();
+
+    if (motionName == "") {
+      alert("먼저 모션이름을 적어주세요.");
+      return;
+    }
     if (confirm(motionName + " 모션을 삭제하시겠습니까?")) {
       socket.emit("delete_motion", motionName);
       $("#motion_name_val").val("");
@@ -1992,8 +2008,6 @@ $(function () {
           ? "<i class='fa-solid fa-person-running'></i>"
           : "<i class='fa-solid fa-person'></i>"
       );
-      const menu = $("nav").find("button.menu-selected").attr("name");
-      handleMenu(menu);
     });
 
     $("input:checkbox[name=onoff_sel]").change(function () {
@@ -2065,6 +2079,10 @@ $(function () {
         confirm("업데이트를 하시겠습니까?(불안정-문제가 발생할 수 있습니다.)")
       )
         socket.emit("swupdate");
+    });
+
+    $("#restore_bt").on("click", function () {
+      if (confirm("초기화하시겠습니까?")) socket.emit("restore");
     });
   };
 

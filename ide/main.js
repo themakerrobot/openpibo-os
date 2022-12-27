@@ -261,13 +261,12 @@ io.on('connection', (socket) => {
 
   socket.on('save', (d) => {
     try {
-      codeText = d['codetext'];
-      codePath = d['codepath'];
-
-      if (isProtect(path.dirname(codePath))) {
+      if (isProtect(d['codepath']) || isProtect(path.dirname(d['codepath']))) {
         io.emit('update', {dialog:'파일 저장 오류: 보호 파일입니다.'});
         return;
       }
+      codeText = d['codetext'];
+      codePath = d['codepath'];
       execSync('mkdir -p ' + path.dirname(codePath));
       fs.writeFileSync(codePath, codeText);
       execSync('chown -R pi:pi ' + path.dirname(codePath));
@@ -278,13 +277,12 @@ io.on('connection', (socket) => {
 
   socket.on('execute', async (d) => {
     try {
-      codeText = d['codetext'];
-      codePath = d['codepath'];
-
-      if (isProtect(path.dirname(codePath))) {
+      if (isProtect(d['codepath']) || isProtect(path.dirname(d['codepath']))) {
         io.emit('update', {dialog:'실행 오류: 보호 파일입니다.', exit:true});
         return;
       }
+      codeText = d['codetext'];
+      codePath = d['codepath'];
       if(ps) ps.kill('SIGKILL');
       execSync('mkdir -p ' + path.dirname(codePath));
       fs.writeFileSync(codePath, codeText);

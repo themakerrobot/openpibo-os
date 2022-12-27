@@ -7,6 +7,10 @@
       content="no-cache, no-store, must-revalidate"
     />
     <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0 user-scalable=no"
     />
@@ -14,7 +18,11 @@
     <link rel="manifest" href="../static/manifest.json" />
     <title>Pibo Maker</title>
     <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
-    <link rel="stylesheet" href="../static/all.min.css?v1" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="../static/all.min.css?ver=202212271032"
+      type="text/css"
+    />
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
@@ -176,6 +184,10 @@
                   <button id="restart_bt">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                     재시작하기
+                  </button>
+                  <button id="restore_bt">
+                    <i class="fa-solid fa-window-restore"></i>
+                    초기화하기
                   </button>
                 </div>
               </div>
@@ -445,11 +457,11 @@
                       <option value="/home/pi/openpibo-files/icon/recycle">
                         재활용
                       </option>
-                      <option value="/home/pi/openpibo-files/icon/story">
-                        이야기
-                      </option>
                       <option value="/home/pi/openpibo-files/icon/weather">
                         날씨
+                      </option>
+                      <option value="/home/pi/openpibo-files/icon/etc">
+                        기타 이미지
                       </option>
                       <option value="/home/pi/myimage">내 이미지</option>
                     </select>
@@ -933,12 +945,8 @@
                   <option value="main">파이보</option>
                   <option value="boy">남자아이</option>
                   <option value="girl">여자아이</option>
-                  <option value="e_main">(영문)파이보</option>
-                  <option value="e_boy">(영문)남자아이</option>
-                  <option value="e_girl">(영문)여자아이</option>
                 </select>
               </div>
-
               <div class="speech-input-group">
                 <span class="label">음성합성:</span>
                 <input type="text" id="s_tts_val" />
