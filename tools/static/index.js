@@ -1899,7 +1899,7 @@ const getSimulations = (socket) => {
   if (loadedFile) {
     selectFile = loadedFile.name;
     selectFileContents = loadedFile.data;
-    const index = loadedFile.index || 0;
+    const index = loadedFile.index > -1 ? loadedFile.index : 0;
     $("#sequence_warn").hide();
     $("h3[name=sequence_title]").text(selectFile);
     foldSimulatorFile(selectFile);
