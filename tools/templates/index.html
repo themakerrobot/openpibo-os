@@ -18,8 +18,8 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=202212141057" />
-    <link rel="stylesheet" href="../static/simulator.css?ver=202212141057" />
+    <link rel="stylesheet" href="../static/index.css?ver=202212271032" />
+    <link rel="stylesheet" href="../static/simulator.css?ver=202212271032" />
   </head>
   <body>
     <header class="title">
@@ -365,7 +365,7 @@
               </div>
               <div class="oled-group">
                 <span class="label">문자입력하기</span>
-                <div style="margin-top: 10px">
+                <div style="margin-top: 10px" class="horizontal input-wrap">
                   <label for="d_ox_val" class="label">
                     <i class="fa-solid fa-x"></i>
                   </label>
@@ -403,7 +403,7 @@
                     pattern="\d*"
                   />
                 </div>
-                <div style="margin-top: 5px">
+                <div style="margin-top: 5px" class="horizontal input-wrap">
                   <label for="d_otext_val" class="label">
                     <i class="fa-solid fa-font"></i>
                   </label>
@@ -1248,25 +1248,30 @@
                             class="horizontal vertical-align"
                             id="oled_text_config"
                           >
-                            <span class="label small">위치</span>
-                            <div class="horizontal space-between">
-                              <div>
-                                <span class="label small">X</span>
-                                <input
-                                  type="number"
-                                  class="number"
-                                  id="oled_x"
-                                  name="oled_x"
-                                />
-                                <span class="label small">Y</span>
-                                <input
-                                  type="number"
-                                  class="number"
-                                  id="oled_y"
-                                  name="oled_y"
-                                />
+                            <div
+                              class="horizontal space-between vertical-align"
+                              style="flex-wrap: wrap"
+                            >
+                              <div class="horizontal vertical-align">
+                                <span class="label small">위치</span>
+                                <div>
+                                  <span class="label small">X</span>
+                                  <input
+                                    type="number"
+                                    class="number"
+                                    id="oled_x"
+                                    name="oled_x"
+                                  />
+                                  <span class="label small">Y</span>
+                                  <input
+                                    type="number"
+                                    class="number"
+                                    id="oled_y"
+                                    name="oled_y"
+                                  />
+                                </div>
                               </div>
-                              <div>
+                              <div class="horizontal vertical-align">
                                 <span class="label small">크기</span>
                                 <input
                                   type="number"
@@ -1402,5 +1407,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=202212141057"></script>
+  <script src="../static/index.js?ver=202212271032"></script>
 </html>
