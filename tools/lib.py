@@ -9,14 +9,14 @@ from openpibo.motion import Motion
 import asyncio
 import numpy as np
 
-import time, datetime
+import time,datetime
 import base64
 import cv2
 import os,json,shutil,csv
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 from queue import Queue
-from threading import Thread
+from threading import Thread, Timer
 import log
 logger = log.configure_logger()
 
@@ -235,7 +235,10 @@ class Pibo:
       time.sleep(0.15)
 
   def set_neopixel(self, d):
-    self.neopixel_value[d['idx']] = d['value']
+    if type(d) is dict and 'idx' in d and 'value' in d:
+      self.neopixel_value[d['idx']] = d['value']
+    if type(d) is list and len(d) == 6:
+      self.neopixel_value = d
     self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
 
   def set_oled_image(self, filepath):
@@ -441,3 +444,66 @@ class Pibo:
       json.dump(self.motion_j, f)
     shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
     return self.motion_j
+
+  # simulate
+  def sim_motion(self, name, cycle=1, path=None):
+    self.mot.set_motion(name, cycle, path)
+    asyncio.run(self.emit('sim_result', {'motion':'stop'}, callback=None))
+
+  def async_sim_motion(self, name, cycle=1, path=None):
+    self.mot.stop()
+    Thread(name='sim_audio', target=self.sim_motion, args=(name, cycle, path), daemon=True).start()
+
+  def sim_audio(self, filename, volume):
+    self.stop_audio()
+    self.play_audio(filename, volume, False)
+    asyncio.run(self.emit('sim_result', {'audio':'stop'}, callback=None))
+
+  def async_sim_audio(self, filename, volume):
+    Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume), daemon=True).start()
+
+  def set_simulate(self, item):
+    logger.info('[set_simulate]', item)
+    if 'eye' in item:
+      d = item['eye']
+      content = d['content']
+      self.set_neopixel(content)
+    if 'motion' in item:
+      d = item['motion']
+      content = d['content']
+      self.stop_frame()
+      if d['type'] == 'default':
+        self.async_sim_motion(content, d['cycle'])
+      if d['type'] == 'mymotion':
+        self.async_sim_motion(content, d['cycle'], "/home/pi/mymotion.json")
+    if 'audio' in item:
+      d = item['audio']
+      content = d['content']
+      self.stop_audio()
+      self.async_sim_audio(d["type"]+content, d["volume"])
+    if 'oled' in item:
+      d = item['oled']
+      content = d['content']
+      if d['type'] == 'text':
+        self.set_oled({'x':d['x'], 'y': d['y'], 'size': d['size'], 'text': content})
+      else:
+        self.set_oled_image(content)
+    if 'tts' in item:
+      d = item['tts']
+      content = d['content']
+      self.tts({'text': content, 'voice_type': d['type'], 'volume': d['volume']})
+
+  def start_simulate(self, items):
+    self.stop_simulate()
+    self.timers = []
+    for idx, item in enumerate(items):
+      timer = Timer(item['time'], self.set_simulate, args=(item,))
+      timer.start()
+      self.timers.append(timer)
+
+  def stop_simulate(self):
+    try:
+      for timer in self.timers:
+        timer.cancel()
+    except Exception as ex:
+      logger.error(ex)

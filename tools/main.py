@@ -4,11 +4,10 @@ from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-import argparse
-from lib import Pibo, to_base64
-from threading import Thread
-import time, datetime, os, json, shutil, log, cv2
+from lib import Pibo
+import time,os,json,shutil,log
 import network_disp
+import argparse
 
 MODEL_PATH = "/home/pi/models"
 
@@ -361,14 +360,14 @@ async def f(sid, d=None):
   content = d['content']
   if pibo.onoff == True:
     if key == 'eye':
-      for idx, value in enumerate(content, start=0):
-        pibo.set_neopixel({'idx': idx, 'value': value})
+      pibo.set_neopixel(content)
     elif key == 'motion':
-      pibo.load_motion(content)
-      pibo.play_frame(d['cycle'])
+      if d['type'] == 'default':
+        pibo.async_sim_motion(content, d['cycle'])
+      if d['type'] == 'mymotion':
+        pibo.async_sim_motion(content, d['cycle'], "/home/pi/mymotion.json")
     elif key == 'audio':
-      pibo.stop_audio()
-      pibo.play_audio(d["type"]+content, d["volume"], True)
+      pibo.async_sim_audio(d["type"]+content, d["volume"])
     elif key == 'oled':
       if d['type'] == 'text':
         pibo.set_oled({'x':d['x'], 'y': d['y'], 'size': d['size'], 'text': content})
@@ -382,8 +381,7 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   if pibo.onoff == True:
     if d == 'eye':
-      for idx in range(6):
-        pibo.set_neopixel({'idx': idx, 'value': 0})
+      pibo.set_neopixel([0,0,0,0,0,0])
     elif d == 'motion':
       pibo.stop_frame()
     elif d == 'audio':
@@ -412,12 +410,12 @@ async def f(sid, d=None):
 @app.sio.on('sim_play_items')
 async def f(sid, d=None):
   if pibo.onoff == True:
-    pass
+    pibo.start_simulate(d)
 
 @app.sio.on('sim_stop_items')
 async def f(sid, d=None):
   if pibo.onoff == True:
-    pass
+    pibo.stop_simulate()
 
 @app.sio.on('sim_add_items')
 async def f(sid, d=None):
