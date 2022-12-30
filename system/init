@@ -1,5 +1,13 @@
 #!/bin/sh -e
 #
+# hostname management
+rpi_serial=$(grep "Serial" /proc/cpuinfo | awk '{print $3}' | rev | cut -c -8 | rev)
+if [ $rpi_serial != "$(hostname)" ]
+then
+  sudo hostnamectl set-hostname --static ${rpi_serial}
+  sudo shutdown -r now
+fi
+
 # ap start
 sudo /home/pi/openpibo-os/system/wifi-ap-sta run
 
