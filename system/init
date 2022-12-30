@@ -5,6 +5,11 @@ rpi_serial=$(grep "Serial" /proc/cpuinfo | awk '{print $3}' | rev | cut -c -8 | 
 if [ $rpi_serial != "$(hostname)" ]
 then
   sudo hostnamectl set-hostname --static ${rpi_serial}
+  echo "127.0.0.1 localhost" > /etc/hosts
+  echo "::1       localhost ip6-localhost ip6-loopback" >> /etc/hosts
+  echo "ff02::1   ip6-allnodes" >> /etc/hosts
+  echo "ff02::2   ip6-allrouters" >> /etc/hosts
+  echo "127.0.0.1 ${rpi_serial}" >> /etc/hosts
   sudo shutdown -r now
 fi
 
