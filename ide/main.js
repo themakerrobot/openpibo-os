@@ -138,7 +138,7 @@ app.post('/upload', upload.single('data'), (req, res) => {
     return;
   }
   io.emit('update_file_manager', {data: readDirectory(PATH)});
-  execSync('chown -R pi:pi ' + PATH);
+  execSync(`chown -R pi:pi "${PATH}"`);
   res.status(200).end();
 });
 
@@ -221,9 +221,9 @@ io.on('connection', (socket) => {
     fs.access(p, fs.constants.F_OK, (evt) => {
       try {
         if(evt.code == 'ENOENT') {
-          execSync('mkdir -p ' + path.dirname(p));
-          execSync('touch ' + p);
-          execSync('chown -R pi:pi ' + path.dirname(p));
+          execSync(`mkdir -p "${path.dirname(p)}"`);
+          execSync(`touch "${p}"`);
+          execSync(`chown -R pi:pi "${path.dirname(p)}"`);
           io.emit('update_file_manager', {data: readDirectory(PATH)});
         }
       } catch (err) {
@@ -248,8 +248,8 @@ io.on('connection', (socket) => {
     fs.access(p, fs.constants.F_OK, (evt) => {
       try {
         if(evt.code == 'ENOENT') {
-          execSync('mkdir -p ' + p);
-          execSync('chown -R pi:pi ' + p);
+          execSync(`mkdir -p "${p}"`);
+          execSync(`chown -R pi:pi "${p}"`);
           io.emit('update_file_manager', {data: readDirectory(PATH)});
         }
       } catch (err) {
@@ -267,9 +267,9 @@ io.on('connection', (socket) => {
       }
       codeText = d['codetext'];
       codePath = d['codepath'];
-      execSync('mkdir -p ' + path.dirname(codePath));
+      execSync(`mkdir -p "${path.dirname(codePath)}"`);
       fs.writeFileSync(codePath, codeText);
-      execSync('chown -R pi:pi ' + path.dirname(codePath));
+      execSync(`chown -R pi:pi "${path.dirname(codePath)}"`);
     } catch (err) {
       io.emit('update', {code:'', dialog:'파일 저장 오류: ' + err.toString()});
     }
@@ -284,9 +284,9 @@ io.on('connection', (socket) => {
       codeText = d['codetext'];
       codePath = d['codepath'];
       if(ps) ps.kill('SIGKILL');
-      execSync('mkdir -p ' + path.dirname(codePath));
+      execSync(`mkdir -p "${path.dirname(codePath)}"`);
       fs.writeFileSync(codePath, codeText);
-      execSync('chown -R pi:pi ' + path.dirname(codePath));
+      execSync(`chown -R pi:pi "${path.dirname(codePath)}"`);
       await execute(codeExec[d["codetype"]], codePath);
     } catch (err) {
       io.emit('update', {code:'', dialog:'실행 오류: ' + err.toString(), exit:true});
