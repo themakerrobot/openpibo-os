@@ -1247,16 +1247,17 @@ const getSimulations = (socket) => {
 
   // 시퀀스 설정 영역(section.config) 초기화
   const setConfigSection = (obj) => {
+    const volume = Number($("#volume").val());
     const initialData = {
       eye: { type: "default", content: [] },
       motion: { type: "default", content: null, cycle: 1 },
       audio: {
         type: "/home/pi/openpibo-files/audio/music/",
         content: "",
-        volume: 30,
+        volume,
       },
       oled: { type: "text", content: null, x: 0, y: 0, size: 10 },
-      tts: { type: "main", content: "", volume: 60 },
+      tts: { type: "main", content: "", volume },
     };
 
     const configData = {
@@ -1272,6 +1273,11 @@ const getSimulations = (socket) => {
       },
       set val(param) {
         const { key, value: v, bInit } = param;
+        const playBtn = $(`#${key}_play_bt`);
+        if (playBtn.children("i").hasClass("fa-stop")) {
+          playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
+          simSocket("sim_stop_item", key);
+        }
         if (bInit) {
           this.data[key] = { ...initialData[key], ...v };
         } else {
@@ -1332,10 +1338,6 @@ const getSimulations = (socket) => {
         const icon = playBtn.children("i");
         if (icon.hasClass("fa-play")) {
           icon.removeClass("fa-play").addClass("fa-stop");
-          socket.on("sim_result", (res) => {
-            // 완료 신호 올 경우 상태 변경할 것
-            console.log("sim_result", res);
-          });
           simSocket("sim_play_item", { key, ...configData.data[key] });
         } else {
           icon.removeClass("fa-stop").addClass("fa-play");
@@ -1875,6 +1877,20 @@ const getSimulations = (socket) => {
     setOledCard(configData.value.oled);
     setTtsCard(configData.value.tts);
 
+    socket.on("sim_result", (res) => {
+      // 완료 신호 올 경우 상태 변경할 것
+      console.log(`sim_result:`, res);
+      if (typeof res === "object") {
+        const [[key, v]] = Object.entries(res);
+        const playBtn = $(`#${key}_play_bt`);
+        if (v === "stop" && playBtn.children("i").hasClass("fa-stop")) {
+          console.log("sim_stop_item", res);
+          playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
+          simSocket("sim_stop_item", Object.values(res)[0]);
+        }
+      }
+    });
+
     const timeInput = $("#config_time_input");
     timeInput.val(configData.value.time || 0);
     const timeSave = $("#config_time_bt");
@@ -2008,6 +2024,8 @@ $(function () {
           ? "<i class='fa-solid fa-person-running'></i>"
           : "<i class='fa-solid fa-person'></i>"
       );
+      const menu = $("nav").find("button.menu-selected").attr("name");
+      handleMenu(menu);
     });
 
     $("input:checkbox[name=onoff_sel]").change(function () {
