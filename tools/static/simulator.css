@@ -559,25 +559,25 @@ div#timeline_card>div.row.head div.cell:nth-child(2) {
 div#timeline_body div.timeline.row.selected:focus-visible {
   outline: none;
 }
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(1) {
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(1) {
   background-color: var(--light-green);
 }
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(2) {
-  background-color: #C9DFA2 !important;
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(2) {
+  background-color: #c9dfa2 !important;
 }
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(3).use {
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(3).use {
   background-color: var(--eye-color) !important;
 }
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(4).use {
-  background-color: var(--motion) !important;
-}
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(5).use {
-  background-color: var(--audio) !important;
-}
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(6).use {
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(4).use {
   background-color: var(--oled) !important;
 }
-div#timeline_body div.timeline.row.selected>div.cell:nth-child(7).use {
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(5).use {
+  background-color: var(--motion) !important;
+}
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(6).use {
+  background-color: var(--audio) !important;
+}
+div#timeline_body div.timeline.row.selected > div.cell:nth-child(7).use {
   background-color: var(--tts) !important;
 }
 div#timeline_body div.cell:nth-child(2) {
@@ -589,13 +589,13 @@ div#timeline_body div.cell:nth-child(3).use {
   background-color: var(--eye-color-fill) !important;
 }
 div#timeline_body div.cell:nth-child(4).use {
-  background-color: var(--motion-fill) !important;
+  background-color: var(--oled-fill) !important;
 }
 div#timeline_body div.cell:nth-child(5).use {
-  background-color: var(--audio-fill) !important;
+  background-color: var(--motion-fill) !important;
 }
 div#timeline_body div.cell:nth-child(6).use {
-  background-color: var(--oled-fill) !important;
+  background-color: var(--audio-fill) !important;
 }
 div#timeline_body div.cell:nth-child(7).use {
   background-color: var(--tts-fill) !important;

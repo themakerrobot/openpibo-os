@@ -1137,86 +1137,6 @@
                         </div>
                       </div>
                     </div>
-                    <div id="motion_card" class="config card outline">
-                      <div class="horizontal space-between">
-                        <button id="motion_init_bt">
-                          <i class="fa-solid fa-x"></i>
-                        </button>
-                        <header style="display: flex; align-items: center">
-                          <i class="icon-motion"></i>모션
-                        </header>
-                        <button class="play" id="motion_play_bt">
-                          <i class="fa-solid fa-play"></i>
-                        </button>
-                      </div>
-                      <div class="card-contents">
-                        <div class="horizontal vertical-align">
-                          <span class="label small">분류</span>
-                          <div
-                            id="motion_radio_group"
-                            class="radio-group fullWidth"
-                          ></div>
-                        </div>
-                        <div class="horizontal vertical-align">
-                          <span class="label small">이름</span
-                          ><select
-                            class="fullWidth"
-                            name="motion_select"
-                            id="motion_select"
-                            required
-                          ></select>
-                        </div>
-                        <div class="horizontal vertical-align">
-                          <span class="label small">반복</span>
-                          <input
-                            type="number"
-                            name="motion_cycle_input"
-                            id="motion_cycle_input"
-                            class="number"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div id="audio_card" class="config card outline">
-                      <div class="horizontal space-between">
-                        <button id="audio_init_bt">
-                          <i class="fa-solid fa-x"></i>
-                        </button>
-                        <header style="display: flex; align-items: center">
-                          <i class="icon-audio"></i>오디오
-                        </header>
-                        <button class="play" id="audio_play_bt">
-                          <i class="fa-solid fa-play"></i>
-                        </button>
-                      </div>
-                      <div class="card-contents">
-                        <div class="horizontal vertical-align">
-                          <span class="label small">분류</span>
-                          <div
-                            id="audio_radio_group"
-                            class="radio-group stack fullWidth"
-                          ></div>
-                        </div>
-                        <div class="horizontal vertical-align">
-                          <span class="label small">파일</span
-                          ><select
-                            class="fullWidth"
-                            name="audio_select"
-                            id="audio_select"
-                            required
-                          ></select>
-                        </div>
-                        <div class="horizontal vertical-align">
-                          <span class="label small">소리</span>
-                          <input
-                            type="number"
-                            name="audio_volume_input"
-                            id="audio_volume_input"
-                            class="number"
-                          />
-                        </div>
-                      </div>
-                    </div>
                     <div id="oled_card" class="config card outline">
                       <div class="horizontal space-between">
                         <button id="oled_init_bt">
@@ -1244,7 +1164,7 @@
                           >
                             <span class="label small">내용</span>
                             <textarea
-                              rows="2"
+                              rows="3"
                               class="fullWidth"
                               id="oled_textarea"
                               name="oled_textarea"
@@ -1316,6 +1236,86 @@
                         </div>
                       </div>
                     </div>
+                    <div id="motion_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="motion_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-motion"></i>모션
+                        </header>
+                        <button class="play" id="motion_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <div
+                            id="motion_radio_group"
+                            class="radio-group fullWidth"
+                          ></div>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">이름</span
+                          ><select
+                            class="fullWidth"
+                            name="motion_select"
+                            id="motion_select"
+                            required
+                          ></select>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">반복</span>
+                          <input
+                            type="number"
+                            name="motion_cycle_input"
+                            id="motion_cycle_input"
+                            class="number"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div id="audio_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="audio_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-audio"></i>오디오
+                        </header>
+                        <button class="play" id="audio_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <div
+                            id="audio_radio_group"
+                            class="radio-group stack fullWidth"
+                          ></div>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">파일</span
+                          ><select
+                            class="fullWidth"
+                            name="audio_select"
+                            id="audio_select"
+                            required
+                          ></select>
+                        </div>
+                        <!-- <div class="horizontal vertical-align">
+                          <span class="label small">소리</span>
+                          <input
+                            type="number"
+                            name="audio_volume_input"
+                            id="audio_volume_input"
+                            class="number"
+                          />
+                        </div> -->
+                      </div>
+                    </div>
                     <div id="tts_card" class="config card outline">
                       <div class="horizontal space-between">
                         <button id="tts_init_bt">
@@ -1341,7 +1341,7 @@
                         <div class="horizontal vertical-align">
                           <span class="label small">내용</span>
                           <textarea
-                            rows="2"
+                            rows="3"
                             class="fullWidth"
                             id="tts_textarea"
                             name="tts_textarea"
@@ -1349,7 +1349,7 @@
                             maxlength="48"
                           ></textarea>
                         </div>
-                        <div class="horizontal vertical-align">
+                        <!-- <div class="horizontal vertical-align">
                           <span class="label small">소리</span>
                           <input
                             type="number"
@@ -1357,7 +1357,7 @@
                             id="tts_volume_input"
                             name="tts_volume_input"
                           />
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                     <div class="config card outline" style="opacity: 0"></div>
@@ -1379,9 +1379,9 @@
                   </div>
                   <div class="cell head"><i class="fa-solid fa-clock"></i></div>
                   <div class="cell head"><i class="icon-eye-color"></i></div>
+                  <div class="cell head"><i class="icon-oled"></i></div>
                   <div class="cell head"><i class="icon-motion"></i></div>
                   <div class="cell head"><i class="icon-audio"></i></div>
-                  <div class="cell head"><i class="icon-oled"></i></div>
                   <div class="cell head"><i class="icon-tts"></i></div>
                 </div>
                 <div id="timeline_body" class="timeline body"></div>

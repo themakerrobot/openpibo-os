@@ -26,12 +26,12 @@ body {
   --dark-red: #d85a41;
   --eye-color: rgb(240, 103, 79);
   --eye-color-fill: rgba(240, 103, 79, 0.35);
-  --motion: rgb(255, 200, 61);
-  --motion-fill: rgba(255, 200, 61, 0.35);
-  --audio: rgb(64, 197, 175);
-  --audio-fill: rgba(64, 197, 175, 0.35);
-  --oled: rgb(64, 154, 225);
-  --oled-fill: rgba(64, 154, 225, 0.35);
+  --oled: rgb(255, 200, 61);
+  --oled-fill: rgba(255, 200, 61, 0.35);
+  --motion: rgb(64, 197, 175);
+  --motion-fill: rgba(64, 197, 175, 0.35);
+  --audio: rgb(64, 154, 225);
+  --audio-fill: rgba(64, 154, 225, 0.35);
   --tts: rgb(180, 160, 255);
   --tts-fill: rgba(180, 160, 255, 0.35);
 }

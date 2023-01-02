@@ -1125,13 +1125,13 @@ const getSimulations = (socket) => {
     cells[1] = fItems.eye
       ? $(`<div class="timeline cell use"></div>`)
       : $(`<div class="timeline cell"></div>`);
-    cells[2] = fItems.motion
+    cells[2] = fItems.oled
       ? $(`<div class="timeline cell use"></div>`)
       : $(`<div class="timeline cell"></div>`);
-    cells[3] = fItems.audio
+    cells[3] = fItems.motion
       ? $(`<div class="timeline cell use"></div>`)
       : $(`<div class="timeline cell"></div>`);
-    cells[4] = fItems.oled
+    cells[4] = fItems.audio
       ? $(`<div class="timeline cell use"></div>`)
       : $(`<div class="timeline cell"></div>`);
     cells[5] = fItems.tts
