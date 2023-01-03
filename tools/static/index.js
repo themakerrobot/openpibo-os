@@ -1886,7 +1886,7 @@ const getSimulations = (socket) => {
         if (v === "stop" && playBtn.children("i").hasClass("fa-stop")) {
           console.log("sim_stop_item", res);
           playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
-          simSocket("sim_stop_item", Object.values(res)[0]);
+          // simSocket("sim_stop_item", Object.values(res)[0]);
         }
       }
     });
