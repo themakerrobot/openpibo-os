@@ -505,5 +505,7 @@ class Pibo:
     try:
       for timer in self.timers:
         timer.cancel()
+      self.stop_frame()
+      self.stop_audio()
     except Exception as ex:
       logger.error(ex)
