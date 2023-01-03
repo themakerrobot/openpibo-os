@@ -361,6 +361,7 @@ async def f(sid, d=None):
   if pibo.onoff == True:
     if key == 'eye':
       pibo.set_neopixel(content)
+      return await emit('sim_result', {'eye':'stop'})
     elif key == 'motion':
       if d['type'] == 'default':
         pibo.async_sim_motion(content, d['cycle'])
@@ -373,9 +374,12 @@ async def f(sid, d=None):
         pibo.set_oled({'x':d['x'], 'y': d['y'], 'size': d['size'], 'text': content})
       else:
         pibo.set_oled_image(content)
+      return await emit('sim_result', {'oled':'stop'})
     elif key == 'tts':
       pibo.tts({'text': content, 'voice_type': d['type'], 'volume': d['volume']})
-    return await emit('sim_result', "sim_play_item ok")
+      return await emit('sim_result', {'tts':'stop'})
+    else:
+      return await emit('sim_result', "sim_play_item error: " + d)
 
 @app.sio.on('sim_stop_item')
 async def f(sid, d=None):
