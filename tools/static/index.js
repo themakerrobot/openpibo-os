@@ -1828,9 +1828,9 @@ const getSimulations = (socket) => {
         { value: "main", label: "파이보" },
         { value: "boy", label: "소년" },
         { value: "girl", label: "소녀" },
-        { value: "e_main", label: "파이보(영문)" },
-        { value: "e_boy", label: "소년(영문)" },
-        { value: "e_girl", label: "소녀(영문)" },
+        // { value: "e_main", label: "파이보(영문)" },
+        // { value: "e_boy", label: "소년(영문)" },
+        // { value: "e_girl", label: "소녀(영문)" },
       ];
       const ttsSelect = $("#tts_select");
       ttsSelect.children().remove();
