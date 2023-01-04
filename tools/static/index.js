@@ -893,14 +893,16 @@ const getSimulations = (socket) => {
           openBtn.on("click", (e) => {
             openSequence(name);
           });
-          removeBtn.on("click", (e) => {
+          removeBtn.off("click").on("click", (e) => {
             const index = e.target.name.split("_")[2];
             if (fileList[index] === selectFile) {
               if (confirm("현재 편집 중인 시퀀스입니다. 삭제하시겠습니까?")) {
                 simSocket("sim_remove_items", fileList[index]);
                 openSequence(null);
               }
-            } else {
+            } else if (
+              confirm(`${fileList[index]} 시퀀스를 삭제하시겠습니까?`)
+            ) {
               simSocket("sim_remove_items", fileList[index]);
               openSequence(null);
             }
