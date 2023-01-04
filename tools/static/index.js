@@ -1270,7 +1270,7 @@ const getSimulations = (socket) => {
         volume,
       },
       oled: { type: "text", content: null, x: 0, y: 0, size: 10 },
-      tts: { type: "main", content: "", volume },
+      tts: { type: "espeak", content: "", volume },
     };
 
     const configData = {
@@ -1293,6 +1293,8 @@ const getSimulations = (socket) => {
         }
         if (bInit) {
           this.data[key] = { ...initialData[key], ...v };
+        } else if (key === "audio" || key === "tts") {
+          this.data[key] = { ...this.data[key], ...v, volume };
         } else {
           this.data[key] = { ...this.data[key], ...v };
         }
@@ -1351,7 +1353,16 @@ const getSimulations = (socket) => {
         const icon = playBtn.children("i");
         if (icon.hasClass("fa-play")) {
           icon.removeClass("fa-play").addClass("fa-stop");
-          simSocket("sim_play_item", { key, ...configData.data[key] });
+          if (key === "audio" || key === "tts") {
+            const volume = Number($("#volume").val());
+            simSocket("sim_play_item", {
+              key,
+              ...configData.data[key],
+              volume,
+            });
+          } else {
+            simSocket("sim_play_item", { key, ...configData.data[key] });
+          }
         } else {
           icon.removeClass("fa-stop").addClass("fa-play");
           simSocket("sim_stop_item", key);
