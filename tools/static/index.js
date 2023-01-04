@@ -1356,10 +1356,6 @@ const getSimulations = (socket) => {
     const setCardBtnEvent = (key) => {
       const playBtn = $(`#${key}_play_bt`);
       const initBtn = $(`#${key}_init_bt`);
-      if (playBtn.children("i").hasClass("fa-stop")) {
-        playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
-        simSocket("sim_stop_item", key);
-      }
 
       playBtn.off("click").on("click", () => {
         const icon = playBtn.children("i");
@@ -1912,20 +1908,6 @@ const getSimulations = (socket) => {
     setAudioCard(configData.value.audio);
     setOledCard(configData.value.oled);
     setTtsCard(configData.value.tts);
-
-    socket.on("sim_result", (res) => {
-      // 완료 신호 올 경우 상태 변경할 것
-      console.log(`sim_result:`, res);
-      if (typeof res === "object") {
-        const [[key, v]] = Object.entries(res);
-        const playBtn = $(`#${key}_play_bt`);
-        if (v === "stop" && playBtn.children("i").hasClass("fa-stop")) {
-          console.log("sim_stop_item", res);
-          playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
-          // simSocket("sim_stop_item", Object.values(res)[0]);
-        }
-      }
-    });
 
     const timeInput = $("#config_time_input");
     timeInput.val(configData.value.time || 0);
