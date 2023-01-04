@@ -849,6 +849,17 @@ const getSimulations = (socket) => {
     const result = cb ? tempSocket[name](params, cb) : tempSocket[name](params);
     return result;
   };
+  socket.on("sim_result", (res) => {
+    // 완료 신호 올 경우 상태 변경할 것
+    console.log(`sim_result:`, res);
+    if (typeof res === "object") {
+      const [[key, v]] = Object.entries(res);
+      const playBtn = $(`#${key}_play_bt`);
+      if (v === "stop" && playBtn.children("i").hasClass("fa-stop")) {
+        playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
+      }
+    }
+  });
 
   const getSimFile = () => {
     return JSON.parse(localStorage.getItem("sim_file"));
