@@ -849,6 +849,17 @@ const getSimulations = (socket) => {
     const result = cb ? tempSocket[name](params, cb) : tempSocket[name](params);
     return result;
   };
+  socket.on("sim_result", (res) => {
+    // 완료 신호 올 경우 상태 변경할 것
+    console.log(`sim_result:`, res);
+    if (typeof res === "object") {
+      const [[key, v]] = Object.entries(res);
+      const playBtn = $(`#${key}_play_bt`);
+      if (v === "stop" && playBtn.children("i").hasClass("fa-stop")) {
+        playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
+      }
+    }
+  });
 
   const getSimFile = () => {
     return JSON.parse(localStorage.getItem("sim_file"));
@@ -882,14 +893,16 @@ const getSimulations = (socket) => {
           openBtn.on("click", (e) => {
             openSequence(name);
           });
-          removeBtn.on("click", (e) => {
+          removeBtn.off("click").on("click", (e) => {
             const index = e.target.name.split("_")[2];
             if (fileList[index] === selectFile) {
               if (confirm("현재 편집 중인 시퀀스입니다. 삭제하시겠습니까?")) {
                 simSocket("sim_remove_items", fileList[index]);
                 openSequence(null);
               }
-            } else {
+            } else if (
+              confirm(`${fileList[index]} 시퀀스를 삭제하시겠습니까?`)
+            ) {
               simSocket("sim_remove_items", fileList[index]);
               openSequence(null);
             }
@@ -972,54 +985,68 @@ const getSimulations = (socket) => {
     }
   };
 
-  $("#sequence_name_val").on("keyup", (e) => {
-    $(e.target).val(e.target.value.replace(/[^\da-zA-Z]/g, ""));
-  });
-
-  // 새 시퀀스 만들기 이벤트
-  $("#add_sequence_bt").on("click", function () {
-    // 입력받은 제목 값 상단 타이틀에 써주기
-    const title = $("#sequence_name_val").val();
-    const fileList = Array.from($("#sequence_list li p")).map((el) =>
-      $(el).text()
-    );
-    if (title) {
-      if (fileList.indexOf(title) < 0) {
-        simSocket("sim_add_items", { name: title, data: [] });
-        onFileList();
-        openSequence(title);
-      } else {
-        alert("이미 존재하는 시퀀스입니다.");
-      }
-    } else {
-      alert("제목이 입력되지 않았습니다.");
-    }
-  });
-  // 저장된 시퀀스 모두 지우기 이벤트
-  $("#remove_all_sequence_bt").on("click", function (e) {
-    if (
-      $("#sequence_list").children().length &&
-      confirm("저장된 시퀀스를 모두 삭제하시겠습니까?")
-    ) {
-      simSocket("sim_remove_items");
-      openSequence(null);
-      onFileList();
-    }
-  });
-  // sequence_title_unfold_bt 펼치기 이벤트
-  $("#sequence_title_unfold_bt").on("click", function () {
-    foldSimulatorFile(false);
-  });
-  // sequence_title_fold_bt 접기 이벤트
-  $("#sequence_title_fold_bt").on("click", function (e) {
-    foldSimulatorFile(true);
-  });
   // 제목 입력시 이벤트
+  $("#sequence_name_val")
+    .off("keyup")
+    .on("keyup", (e) => {
+      $(e.target).val(e.target.value.replace(/[^\da-zA-Z]/g, ""));
+    });
+  // 새 시퀀스 만들기 이벤트
+  $("#add_sequence_bt")
+    .off("click")
+    .on("click", function () {
+      // 입력받은 제목 값 상단 타이틀에 써주기
+      const title = $("#sequence_name_val").val();
+      const fileList = Array.from($("#sequence_list li p")).map((el) =>
+        $(el).text()
+      );
+      if (title) {
+        if (fileList.indexOf(title) < 0) {
+          simSocket("sim_add_items", { name: title, data: [] });
+          onFileList();
+          openSequence(title);
+        } else {
+          alert("이미 존재하는 시퀀스입니다.");
+        }
+      } else {
+        alert("제목이 입력되지 않았습니다.");
+      }
+    });
+  // 저장된 시퀀스 모두 지우기 이벤트
+  $("#remove_all_sequence_bt")
+    .off("click")
+    .on("click", function (e) {
+      if (
+        $("#sequence_list").children().length &&
+        confirm("저장된 시퀀스를 모두 삭제하시겠습니까?")
+      ) {
+        simSocket("sim_remove_items");
+        openSequence(null);
+        onFileList();
+      }
+    });
+  // sequence_title_unfold_bt 펼치기 이벤트
+  $("#sequence_title_unfold_bt")
+    .off("click")
+    .on("click", function () {
+      foldSimulatorFile(false);
+    });
+  // sequence_title_fold_bt 접기 이벤트
+  $("#sequence_title_fold_bt")
+    .off("click")
+    .on("click", function (e) {
+      foldSimulatorFile(true);
+    });
   // 시퀀스 저장 이벤트
-  $("#sequence_save_bt").on("click", () => {
-    // selectFile(파일명), selectFileContents(내용)
-    simSocket("sim_add_items", { name: selectFile, data: selectFileContents });
-  });
+  $("#sequence_save_bt")
+    .off("click")
+    .on("click", () => {
+      // selectFile(파일명), selectFileContents(내용)
+      simSocket("sim_add_items", {
+        name: selectFile,
+        data: selectFileContents,
+      });
+    });
 
   // 타임라인 아이템 클릭 이벤트
   const handleTimelineItemClick = (row, bCheck) => {
@@ -1049,7 +1076,6 @@ const getSimulations = (socket) => {
       checkedRows.length === selectFileContents.length
     );
   };
-
   // 시퀀스 타임라인 아이템 추가
   const addTimelineItem = (item) => {
     if (!item) return;
@@ -1244,7 +1270,6 @@ const getSimulations = (socket) => {
       setConfigSection();
     }
   };
-
   // 시퀀스 설정 영역(section.config) 초기화
   const setConfigSection = (obj) => {
     const volume = Number($("#volume").val());
@@ -1257,7 +1282,7 @@ const getSimulations = (socket) => {
         volume,
       },
       oled: { type: "text", content: null, x: 0, y: 0, size: 10 },
-      tts: { type: "main", content: "", volume },
+      tts: { type: "espeak", content: "", volume },
     };
 
     const configData = {
@@ -1274,12 +1299,14 @@ const getSimulations = (socket) => {
       set val(param) {
         const { key, value: v, bInit } = param;
         const playBtn = $(`#${key}_play_bt`);
-        if (playBtn.children("i").hasClass("fa-stop")) {
+        if (playBtn.children("i").hasClass("fa-stop") || bInit) {
           playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
           simSocket("sim_stop_item", key);
         }
         if (bInit) {
           this.data[key] = { ...initialData[key], ...v };
+        } else if (key === "audio" || key === "tts") {
+          this.data[key] = { ...this.data[key], ...v, volume };
         } else {
           this.data[key] = { ...this.data[key], ...v };
         }
@@ -1329,16 +1356,21 @@ const getSimulations = (socket) => {
     const setCardBtnEvent = (key) => {
       const playBtn = $(`#${key}_play_bt`);
       const initBtn = $(`#${key}_init_bt`);
-      if (playBtn.children("i").hasClass("fa-stop")) {
-        playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
-        simSocket("sim_stop_item", key);
-      }
 
       playBtn.off("click").on("click", () => {
         const icon = playBtn.children("i");
         if (icon.hasClass("fa-play")) {
           icon.removeClass("fa-play").addClass("fa-stop");
-          simSocket("sim_play_item", { key, ...configData.data[key] });
+          if (key === "audio" || key === "tts") {
+            const volume = Number($("#volume").val());
+            simSocket("sim_play_item", {
+              key,
+              ...configData.data[key],
+              volume,
+            });
+          } else {
+            simSocket("sim_play_item", { key, ...configData.data[key] });
+          }
         } else {
           icon.removeClass("fa-stop").addClass("fa-play");
           simSocket("sim_stop_item", key);
@@ -1876,20 +1908,6 @@ const getSimulations = (socket) => {
     setAudioCard(configData.value.audio);
     setOledCard(configData.value.oled);
     setTtsCard(configData.value.tts);
-
-    socket.on("sim_result", (res) => {
-      // 완료 신호 올 경우 상태 변경할 것
-      console.log(`sim_result:`, res);
-      if (typeof res === "object") {
-        const [[key, v]] = Object.entries(res);
-        const playBtn = $(`#${key}_play_bt`);
-        if (v === "stop" && playBtn.children("i").hasClass("fa-stop")) {
-          console.log("sim_stop_item", res);
-          playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
-          // simSocket("sim_stop_item", Object.values(res)[0]);
-        }
-      }
-    });
 
     const timeInput = $("#config_time_input");
     timeInput.val(configData.value.time || 0);
