@@ -446,21 +446,23 @@ class Pibo:
     return self.motion_j
 
   # simulate
-  def sim_motion(self, name, cycle=1, path=None):
+  def sim_motion(self, name, cycle=1, path=None, log=True):
     self.mot.set_motion(name, cycle, path)
-    asyncio.run(self.emit('sim_result', {'motion':'stop'}, callback=None))
+    if log == True:
+      asyncio.run(self.emit('sim_result', {'motion':'stop'}, callback=None))
 
-  def async_sim_motion(self, name, cycle=1, path=None):
+  def async_sim_motion(self, name, cycle=1, path=None, log=True):
     self.mot.stop()
-    Thread(name='sim_audio', target=self.sim_motion, args=(name, cycle, path), daemon=True).start()
+    Thread(name='sim_audio', target=self.sim_motion, args=(name, cycle, path, log), daemon=True).start()
 
-  def sim_audio(self, filename, volume):
+  def sim_audio(self, filename, volume, log=True):
     self.stop_audio()
     self.play_audio(filename, volume, False)
-    asyncio.run(self.emit('sim_result', {'audio':'stop'}, callback=None))
+    if log == True:
+      asyncio.run(self.emit('sim_result', {'audio':'stop'}, callback=None))
 
-  def async_sim_audio(self, filename, volume):
-    Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume), daemon=True).start()
+  def async_sim_audio(self, filename, volume, log=True):
+    Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume, log), daemon=True).start()
 
   def set_simulate(self, item):
     logger.info('[set_simulate]', item)
@@ -473,14 +475,14 @@ class Pibo:
       content = d['content']
       self.stop_frame()
       if d['type'] == 'default':
-        self.async_sim_motion(content, d['cycle'])
+        self.async_sim_motion(content, d['cycle'], log=False)
       if d['type'] == 'mymotion':
-        self.async_sim_motion(content, d['cycle'], "/home/pi/mymotion.json")
+        self.async_sim_motion(content, d['cycle'], "/home/pi/mymotion.json", log=False)
     if 'audio' in item:
       d = item['audio']
       content = d['content']
       self.stop_audio()
-      self.async_sim_audio(d["type"]+content, d["volume"])
+      self.async_sim_audio(d["type"]+content, d["volume"], log=False)
     if 'oled' in item:
       d = item['oled']
       content = d['content']
@@ -505,5 +507,7 @@ class Pibo:
     try:
       for timer in self.timers:
         timer.cancel()
+      self.stop_frame()
+      self.stop_audio()
     except Exception as ex:
       logger.error(ex)
