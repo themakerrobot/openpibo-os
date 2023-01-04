@@ -1299,7 +1299,7 @@ const getSimulations = (socket) => {
       set val(param) {
         const { key, value: v, bInit } = param;
         const playBtn = $(`#${key}_play_bt`);
-        if (playBtn.children("i").hasClass("fa-stop")) {
+        if (playBtn.children("i").hasClass("fa-stop") || bInit) {
           playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
           simSocket("sim_stop_item", key);
         }
