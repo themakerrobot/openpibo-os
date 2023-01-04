@@ -985,54 +985,68 @@ const getSimulations = (socket) => {
     }
   };
 
-  $("#sequence_name_val").on("keyup", (e) => {
-    $(e.target).val(e.target.value.replace(/[^\da-zA-Z]/g, ""));
-  });
-
-  // 새 시퀀스 만들기 이벤트
-  $("#add_sequence_bt").on("click", function () {
-    // 입력받은 제목 값 상단 타이틀에 써주기
-    const title = $("#sequence_name_val").val();
-    const fileList = Array.from($("#sequence_list li p")).map((el) =>
-      $(el).text()
-    );
-    if (title) {
-      if (fileList.indexOf(title) < 0) {
-        simSocket("sim_add_items", { name: title, data: [] });
-        onFileList();
-        openSequence(title);
-      } else {
-        alert("이미 존재하는 시퀀스입니다.");
-      }
-    } else {
-      alert("제목이 입력되지 않았습니다.");
-    }
-  });
-  // 저장된 시퀀스 모두 지우기 이벤트
-  $("#remove_all_sequence_bt").on("click", function (e) {
-    if (
-      $("#sequence_list").children().length &&
-      confirm("저장된 시퀀스를 모두 삭제하시겠습니까?")
-    ) {
-      simSocket("sim_remove_items");
-      openSequence(null);
-      onFileList();
-    }
-  });
-  // sequence_title_unfold_bt 펼치기 이벤트
-  $("#sequence_title_unfold_bt").on("click", function () {
-    foldSimulatorFile(false);
-  });
-  // sequence_title_fold_bt 접기 이벤트
-  $("#sequence_title_fold_bt").on("click", function (e) {
-    foldSimulatorFile(true);
-  });
   // 제목 입력시 이벤트
+  $("#sequence_name_val")
+    .off("keyup")
+    .on("keyup", (e) => {
+      $(e.target).val(e.target.value.replace(/[^\da-zA-Z]/g, ""));
+    });
+  // 새 시퀀스 만들기 이벤트
+  $("#add_sequence_bt")
+    .off("click")
+    .on("click", function () {
+      // 입력받은 제목 값 상단 타이틀에 써주기
+      const title = $("#sequence_name_val").val();
+      const fileList = Array.from($("#sequence_list li p")).map((el) =>
+        $(el).text()
+      );
+      if (title) {
+        if (fileList.indexOf(title) < 0) {
+          simSocket("sim_add_items", { name: title, data: [] });
+          onFileList();
+          openSequence(title);
+        } else {
+          alert("이미 존재하는 시퀀스입니다.");
+        }
+      } else {
+        alert("제목이 입력되지 않았습니다.");
+      }
+    });
+  // 저장된 시퀀스 모두 지우기 이벤트
+  $("#remove_all_sequence_bt")
+    .off("click")
+    .on("click", function (e) {
+      if (
+        $("#sequence_list").children().length &&
+        confirm("저장된 시퀀스를 모두 삭제하시겠습니까?")
+      ) {
+        simSocket("sim_remove_items");
+        openSequence(null);
+        onFileList();
+      }
+    });
+  // sequence_title_unfold_bt 펼치기 이벤트
+  $("#sequence_title_unfold_bt")
+    .off("click")
+    .on("click", function () {
+      foldSimulatorFile(false);
+    });
+  // sequence_title_fold_bt 접기 이벤트
+  $("#sequence_title_fold_bt")
+    .off("click")
+    .on("click", function (e) {
+      foldSimulatorFile(true);
+    });
   // 시퀀스 저장 이벤트
-  $("#sequence_save_bt").on("click", () => {
-    // selectFile(파일명), selectFileContents(내용)
-    simSocket("sim_add_items", { name: selectFile, data: selectFileContents });
-  });
+  $("#sequence_save_bt")
+    .off("click")
+    .on("click", () => {
+      // selectFile(파일명), selectFileContents(내용)
+      simSocket("sim_add_items", {
+        name: selectFile,
+        data: selectFileContents,
+      });
+    });
 
   // 타임라인 아이템 클릭 이벤트
   const handleTimelineItemClick = (row, bCheck) => {
@@ -1062,7 +1076,6 @@ const getSimulations = (socket) => {
       checkedRows.length === selectFileContents.length
     );
   };
-
   // 시퀀스 타임라인 아이템 추가
   const addTimelineItem = (item) => {
     if (!item) return;
@@ -1257,7 +1270,6 @@ const getSimulations = (socket) => {
       setConfigSection();
     }
   };
-
   // 시퀀스 설정 영역(section.config) 초기화
   const setConfigSection = (obj) => {
     const volume = Number($("#volume").val());
