@@ -17,8 +17,6 @@ from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 from queue import Queue
 from threading import Thread, Timer
-import log
-logger = log.configure_logger()
 
 def to_base64(im):
   im = cv2.resize(im, (320,240))
@@ -26,9 +24,10 @@ def to_base64(im):
   return base64.b64encode(im).decode('utf-8')
 
 class Pibo:
-  def __init__(self, emit_func=None):
+  def __init__(self, emit_func=None, logger=None):
     self.emit = emit_func
     self.onoff = False
+    self.logger = logger
 
   ## vision
   def vision_start(self):
@@ -68,7 +67,7 @@ class Pibo:
         else:
           img, res = self.frame, ""
       except Exception as ex:
-        logger.error(f'[vision_loop] Error: {ex}')
+        self.logger.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
 
       self.res_img = img.copy()
@@ -190,7 +189,7 @@ class Pibo:
     self.devque.put(f'#{code}:{data}!')
 
   def decode_pkt(self, pkt):
-    logger.info(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
+    self.logger.info(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
     pkt = pkt.split(":")
     code, data = pkt[0], pkt[1]
 
@@ -228,7 +227,7 @@ class Pibo:
         else:
           pass
       except Exception as ex:
-        logger.error(f'[device_loop] Error: {ex}')
+        self.logger.error(f'[device_loop] Error: {ex}')
         del self.dev
         self.dev = Device()
         time.sleep(3)
@@ -281,7 +280,7 @@ class Pibo:
         self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type, lang=lang)
       self.play_audio('/home/pi/speech.mp3', volume, True)
     except Exception as ex:
-      logger.error(f'[tts] Error: {ex}')
+      self.logger.error(f'[tts] Error: {ex}')
       pass
     return
 
@@ -329,7 +328,7 @@ class Pibo:
     try:
       self.tts({'text':ans, 'voice_type':voice_type, 'volume':volume})
     except Exception as ex:
-      logger.error(f'[question] Error: {ex}')
+      self.logger.error(f'[question] Error: {ex}')
       pass
     return ans
 
@@ -346,7 +345,7 @@ class Pibo:
         self.motion_j = json.load(f)
         #await self.emit('disp_code', self.motion_j)
     except Exception as ex:
-      logger.error(f'[motion_start] Error: {ex}')
+      self.logger.error(f'[motion_start] Error: {ex}')
       pass
 
   def motion_stop(self):
@@ -465,7 +464,7 @@ class Pibo:
     Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume, log), daemon=True).start()
 
   def set_simulate(self, item):
-    logger.info('[set_simulate]', item)
+    self.logger.info('[set_simulate]', item)
     if 'eye' in item:
       d = item['eye']
       content = d['content']
@@ -510,4 +509,4 @@ class Pibo:
       self.stop_frame()
       self.stop_audio()
     except Exception as ex:
-      logger.error(ex)
+      self.logger.error(ex)

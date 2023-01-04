@@ -10,7 +10,6 @@ import network_disp
 import argparse
 
 MODEL_PATH = "/home/pi/models"
-
 try:
   app = FastAPI()
   app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -97,26 +96,22 @@ async def f(data:UploadFile = File(...)):
 async def f(sid, d=None):
   if pibo.onoff:
     await emit('disp_vision', pibo.vision_type)
-  return
 
 @app.sio.on('detect')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.vision_type=d
-  return
 
 # device
 @app.sio.on('set_neopixel')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.set_neopixel(d)
-  return
 
 @app.sio.on('set_oled')
 async def f_set_oled(sid, d=None):
   if pibo.onoff:
     pibo.set_oled(d)
-  return
 
 @app.sio.on('oled_path')
 async def f(sid, d=None):
@@ -126,13 +121,11 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.set_oled_image(d)
-  return
 
 @app.sio.on('clear_oled')
 async def f(sid, d=None):
   if pibo.onoff:
     network_disp.run()
-  return
 
 @app.sio.on('mic')
 async def f(sid, d=None):
@@ -140,32 +133,27 @@ async def f(sid, d=None):
     pibo.mic(d)
     await emit('mic', '')
     pibo.play_audio('/home/pi/stream.wav', d['volume'], True)
-  return
 
 @app.sio.on('mic_replay')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.play_audio('/home/pi/stream.wav', d['volume'], True)
-  return
 
 @app.sio.on('tts')
 async def f(sid, d=None):
   if pibo.onoff:
-    res = pibo.tts(d)
-  return
+    pibo.tts(d)
 
 @app.sio.on('play_audio')
 async def f(sid, d=None):
   if pibo.onoff:
-    res = pibo.stop_audio()
-    res = pibo.play_audio(d["filename"], d["volume"], True)
-  return
+    pibo.stop_audio()
+    pibo.play_audio(d["filename"], d["volume"], True)
 
 @app.sio.on('stop_audio')
 async def f(sid, d=None):
   if pibo.onoff:
-    res = pibo.stop_audio()
-  return
+    pibo.stop_audio()
 
 # speech
 @app.sio.on('question')
@@ -173,13 +161,11 @@ async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.question(d)
     await emit('disp_speech', {'answer':res, 'chat_list':list(reversed(pibo.chat_list))})
-  return
 
 @app.sio.on('disp_speech')
 async def f(sid, d=None):
   if pibo.onoff:
     await emit('disp_speech', {'chat_list':list(reversed(pibo.chat_list))})
-  return
 
 @app.post('/upload_csv')
 async def f(data:UploadFile = File(...)):
@@ -203,7 +189,6 @@ async def f(data:UploadFile = File(...)):
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.reset_csv()
-  return
 
 # motion
 @app.sio.on('disp_motion')
@@ -211,80 +196,68 @@ async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.get_motor_info()
     await emit('disp_motion', {'pos':res[0], 'table':res[1], 'record':res[2]})
-  return
 
 @app.sio.on('set_motor')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.set_motor(d['idx'], d['pos'])
-  return
 
 @app.sio.on('set_motors')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.set_motors(d['pos_lst'])
-  return
 
 @app.sio.on('add_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.add_frame(d)
     await emit('disp_motion', {'table':res})
-  return
 
 @app.sio.on('delete_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.delete_frame(d)
     await emit('disp_motion', {'table':res})
-  return
 
 @app.sio.on('init_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.init_frame()
     await emit('disp_motion',{'table':res})
-  return
 
 @app.sio.on('play_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.play_frame(d)
-  return
 
 @app.sio.on('stop_frame')
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.stop_frame()
-  return
 
 @app.sio.on('add_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.add_motion(d)
     await emit('disp_motion', {'record':res})
-  return
 
 @app.sio.on('load_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.load_motion(d)
     await emit('disp_motion', {'table':res})
-  return
 
 @app.sio.on('delete_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.delete_motion(d)
     await emit('disp_motion', {'record':res})
-  return
 
 @app.sio.on('reset_motion')
 async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.reset_motion()
     await emit('disp_motion', {'record':res})
-  return
 
 @app.sio.on('onoff')
 async def f(sid, d=None):
@@ -309,7 +282,6 @@ async def f(sid, d=None):
         pibo.motion_stop()
         pibo.onoff = False
     network_disp.run()
-
   return await emit('onoff', 'on' if pibo.onoff else 'off')
 
 @app.sio.on('wifi')
@@ -335,7 +307,6 @@ async def f(sid, d=None):
       f.write(tmp)
     os.system('wpa_cli -i wlan0 reconfigure')
     os.system("shutdown -r now")
-  return
 
 @app.sio.on('audio_path')
 async def f(sid, d=None):
@@ -492,12 +463,10 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   os.system('shutdown -h now &')
   os.system('echo "#11:!" > /dev/ttyS0')
-  return
 
 @app.sio.on('restart')
 async def f(sid, d=None):
   os.system("shutdown -r now")
-  return
 
 @app.sio.on('swupdate')
 async def f(sid, d=None):
@@ -512,23 +481,20 @@ async def f(sid, d=None):
   os.system("rm -rf /home/pi/mymotion.json")
   os.system("rm -rf /home/pi/config.json")
   os.system("shutdown -r now")
-  return
 
 @app.on_event("startup")
 async def f():
   global logger, pibo
-  logger = log.configure_logger()
+  logger = log.configure_logger(level="info")
   logger.info(f'Network Display: {network_disp.run()}')
-  pibo = Pibo(emit)
-  return
+  pibo = Pibo(emit, logger)
 
 async def emit(key, data, callback=None):
   try:
+    logger.debug(f'{key}')
     await app.sio.emit(key, data, callback=callback)
   except Exception as ex:
     logger.error(f'[emit] Error: {ex}')
-    pass
-  return
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
@@ -536,4 +502,4 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   import uvicorn
-  uvicorn.run("main:app", host="0.0.0.0", port=args.port)
+  uvicorn.run("main:app", host="0.0.0.0", port=args.port, access_log=False)
