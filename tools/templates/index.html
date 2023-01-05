@@ -1368,9 +1368,14 @@
             <section class="timeline">
               <div class="horizontal space-between" style="flex: 0 0">
                 <h3 class="mark">시퀀스 타임라인</h3>
-                <button class="btn-teal" id="timeline_play_bt">
-                  <i class="fa-solid fa-play"></i> 실행
-                </button>
+                <div class="horizontal gap-8" style="flex-grow: 0">
+                  <button class="btn-teal" id="timeline_play_bt">
+                    <i class="fa-solid fa-play"></i> 실행
+                  </button>
+                  <button class="btn-teal" id="timeline_stop_bt">
+                    <i class="fa-solid fa-stop"></i> 정지
+                  </button>
+                </div>
               </div>
               <div id="timeline_card" class="timeline card">
                 <div class="timeline row head">
@@ -1386,13 +1391,17 @@
                 </div>
                 <div id="timeline_body" class="timeline body"></div>
               </div>
-              <div id="timeline_bottom_wrap" class="horizontal space-between">
+              <div
+                id="timeline_bottom_wrap"
+                class="horizontal"
+                style="justify-content: flex-end"
+              >
                 <button class="btn-red" id="timeline_del_bt">
                   <i class="fa-solid fa-trash-can"></i> 선택 지우기
                 </button>
-                <button class="btn-teal" id="timeline_sel_play_bt">
+                <!-- <button class="btn-teal" id="timeline_sel_play_bt">
                   <i class="fa-solid fa-play"></i> 선택 실행
-                </button>
+                </button> -->
               </div>
             </section>
           </article>

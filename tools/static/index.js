@@ -789,10 +789,26 @@ const getSimulations = (socket) => {
   $("#sequence_title").hide();
   $("#config_contents").hide();
   $("#timeline_play_bt").hide();
+  $("#timeline_stop_bt").hide();
   $("#timeline_card").hide();
   $("#timeline_bottom_wrap").hide();
   $("section.timeline").css("align-self", "baseline");
   $("#sequence_contents").show("slide");
+
+  const playing = {
+    value: false,
+    get status() {
+      return this.value;
+    },
+    set status(v) {
+      this.value = v;
+      if (v) {
+        $("#timeline_body").addClass("playing");
+      } else {
+        $("#timeline_body").removeClass("playing");
+      }
+    },
+  };
 
   const simSocket = (name, params, cb) => {
     // play 되는 socket 함수들 cb으로 실행완료 후 동작 넘기도록?
@@ -803,6 +819,47 @@ const getSimulations = (socket) => {
       },
       sim_play_items: (data) => {
         console.log("PLAY TIMELINE ITEMS", data);
+        playing.status = true;
+        const rows = $("#timeline_body .timeline.row");
+        rows.removeClass("selected");
+        const times = data.reduce((acc, { time: t }, i) => {
+          const time = i === 0 ? t * 1000 : t * 1000 - data[i - 1].time * 1000;
+          acc.push(
+            () =>
+              new Promise((resolve, reject) => {
+                if (!playing.status) {
+                  rows.attr("tabindex", 0).blur();
+                  rows.removeClass("selected");
+                  reject(true);
+                } else {
+                  setTimeout(() => {
+                    rows.attr("tabindex", 0).blur();
+                    rows.removeClass("selected");
+                    console.log("Finished", i, time);
+                    const row = rows.eq(i);
+                    row.addClass("selected");
+                    row.attr("tabindex", -1).focus();
+                    resolve(true);
+                  }, time);
+                }
+              })
+          );
+          return acc;
+        }, []);
+        const execPlays = (arr) => {
+          return arr.reduce(
+            (a, c) => a.then(c).catch(() => {}),
+            Promise.resolve()
+          );
+        };
+        const arr = execPlays(times);
+        arr.then(() => {
+          console.log("END");
+          const timeVal = $("#config_time_input").val().replace(".", "_");
+          const itemName = `timeline_row_${timeVal}`;
+          console.log(timeVal, itemName);
+          handleTimelineItemClick($(`div[name=${itemName}]`));
+        });
         socket.emit("sim_play_items", data);
       },
       sim_stop_item: (data) => {
@@ -811,6 +868,7 @@ const getSimulations = (socket) => {
       },
       sim_stop_items: () => {
         console.log("STOP TIMELINE ITEMS");
+        playing.status = false;
         socket.emit("sim_stop_items");
       },
       sim_update_audio: (type, cb) => {
@@ -931,6 +989,7 @@ const getSimulations = (socket) => {
       $("#sequence_contents").hide();
       $("#config_contents").show("blind");
       $("#timeline_play_bt").show();
+      $("#timeline_stop_bt").show();
       $("#timeline_card").show();
       $("#timeline_bottom_wrap").show();
       $("section.timeline").css("align-self", "unset");
@@ -942,6 +1001,7 @@ const getSimulations = (socket) => {
       }
       $("#config_contents").hide();
       $("#timeline_play_bt").hide();
+      $("#timeline_stop_bt").hide();
       $("#timeline_card").hide();
       $("#timeline_bottom_wrap").hide();
       $("section.timeline").css("align-self", "baseline");
@@ -1050,6 +1110,7 @@ const getSimulations = (socket) => {
 
   // 타임라인 아이템 클릭 이벤트
   const handleTimelineItemClick = (row, bCheck) => {
+    if (playing.status) return;
     const time = Number(row.text());
     const checkbox = row.find("div.cell input[type=checkbox]");
     if (bCheck) {
@@ -1105,6 +1166,10 @@ const getSimulations = (socket) => {
       $(r)
         .off("click")
         .on("click", (e) => {
+          if (playing.status) {
+            e.preventDefault();
+            return;
+          }
           handleTimelineItemClick(
             $(e.currentTarget),
             $(e.target).prop("type") === "checkbox"
@@ -1165,7 +1230,13 @@ const getSimulations = (socket) => {
       : $(`<div class="timeline cell"></div>`);
 
     const checkbox = $(`<input type="checkbox" /></div>`);
-    checkbox.off("change").on("change", () => {
+    // checkbox.off("click").on("click", () => {
+    //   console.log("checkbox");
+    //   if (playing.status) return;
+    // });
+    checkbox.change(() => {
+      console.log("checkbox");
+      if (playing.status) return;
       const checkedRows = $(
         "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
       );
@@ -1182,8 +1253,13 @@ const getSimulations = (socket) => {
   // 시퀀스 타임라인 영역(section.timeline) 초기화
   const setTimelineSection = (list = [], index = 0) => {
     const playBtn = $("#timeline_play_bt");
-    playBtn.off("click").on("click", (e) => {
-      const icon = playBtn.children("i");
+    const stopBtn = $("#timeline_stop_bt");
+    stopBtn.off("click").on("click", () => {
+      simSocket("sim_stop_items");
+    });
+    playBtn.off("click").on("click", () => {
+      simSocket("sim_play_items", selectFileContents);
+      /* const icon = playBtn.children("i");
       if (icon.hasClass("fa-play")) {
         playBtn.text(" 정지");
         playBtn.prepend(icon.removeClass("fa-play").addClass("fa-stop"));
@@ -1192,10 +1268,11 @@ const getSimulations = (socket) => {
         playBtn.text(" 실행");
         playBtn.prepend(icon.removeClass("fa-stop").addClass("fa-play"));
         simSocket("sim_stop_items");
-      }
+      } */
     });
     const allCheckbox = $("#timeline_all_check");
     allCheckbox.off("change").on("change", (e) => {
+      if (playing.status) return;
       const value = $(e.target).is(":checked");
       const rows = $("#timeline_body input[type=checkbox]");
       rows.prop("checked", value);
@@ -1992,10 +2069,10 @@ $(function () {
         $(`main>div.content`).removeClass("modal");
         getSimulations(socket);
       } else {
-        $(`main>div.content`)
-          .css({ opacity: 0 })
-          .animate({ opacity: 1 })
-          .addClass("modal");
+        // $(`main>div.content`)
+        //   .css({ opacity: 0 })
+        //   .animate({ opacity: 1 })
+        //   .addClass("modal");
       }
     } else {
       $(`main>div.content`).removeClass("modal");
@@ -2129,7 +2206,7 @@ $(function () {
   getDevices(socket);
   getSimulations(socket);
 
-  handleMenu("simulator");
+  handleMenu("home");
   const menus = $("nav").find("button");
   menus.each((idx) => {
     const element = menus.get(idx);

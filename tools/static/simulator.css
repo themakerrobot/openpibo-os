@@ -546,6 +546,10 @@ div#timeline_body {
   overflow-y: auto;
 }
 
+div#timeline_body.playing {
+  filter: brightness(0.95);
+}
+
 div#timeline_body div.cell {
   background-color: #ffffff;
   width: 100%;
@@ -561,6 +565,9 @@ div#timeline_body div.cell:nth-child(1) {
 }
 div#timeline_card > div.row.head div.cell:nth-child(2) {
   flex: 0 0 45px;
+}
+div#timeline_body.playing div.timeline.row {
+  filter: brightness(1.1);
 }
 div#timeline_body div.timeline.row.selected:focus-visible {
   outline: none;
