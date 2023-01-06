@@ -20,10 +20,20 @@ body {
   --dark-yellow: #f4d85a;
   --light-green: #edf5e0;
   --light-yellow: rgb(248, 242, 172);
-  --teal: #13bfd5;
+  --teal: rgb(18, 189, 212);
   --dark-teal: #11abbf;
   --red: #f16449;
   --dark-red: #d85a41;
+  --eye-color: rgb(240, 103, 79);
+  --eye-color-fill: rgba(240, 103, 79, 0.35);
+  --oled: rgb(255, 200, 61);
+  --oled-fill: rgba(255, 200, 61, 0.35);
+  --motion: rgb(64, 197, 175);
+  --motion-fill: rgba(64, 197, 175, 0.35);
+  --audio: rgb(64, 154, 225);
+  --audio-fill: rgba(64, 154, 225, 0.35);
+  --tts: rgb(180, 160, 255);
+  --tts-fill: rgba(180, 160, 255, 0.35);
 }
 html:lang(ko) {
   font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
@@ -42,7 +52,46 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  overflow-x:hidden;
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+article::-webkit-scrollbar,
+section::-webkit-scrollbar,
+textarea::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+article::-webkit-scrollbar-track,
+section::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+  background-color: rgba(16, 16, 16, 0.2);
+  border-radius: 3px;
+  margin: 3px;
+}
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+article::-webkit-scrollbar-thumb,
+section::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
+  background-color: rgba(16, 16, 16, 0.4);
+  border-radius: 3px;
+}
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+article::-webkit-scrollbar-thumb:hover,
+section::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover,
+div::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(16, 16, 16, 0.65);
+  border-radius: 3px;
 }
 
 header,
@@ -116,6 +165,7 @@ input {
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
 }
 
+textarea,
 select,
 input {
   background: rgb(248, 242, 172, 0.85);
@@ -213,7 +263,7 @@ div {
 }
 
 .toggle {
-  font-size:1.4rem;
+  font-size: 1.4rem;
   cursor: pointer;
   display: inline-block;
 }
@@ -266,19 +316,19 @@ div {
 nav {
   left: 0;
   height: 100%;
-  background-color:#f8f8f8;
+  background-color: #f8f8f8;
   border: #e7e7e7;
   position: fixed;
   z-index: 99;
 }
 
 nav ul {
-  -webkit-padding-start:0px;
+  -webkit-padding-start: 0px;
   list-style-type: none;
 }
 
 nav li {
-  text-align:center;
+  text-align: center;
 }
 
 nav button {
@@ -292,7 +342,7 @@ nav button {
   padding: 0.3em;
   border-radius: 0;
   box-shadow: none;
-  font-size:1rem;
+  font-size: 1rem;
   font-weight: bold;
   font-family: Tahoma, sans-serif;
   padding: 20px 0 20px 0;
@@ -314,13 +364,16 @@ nav button[name="vision"]::after {
 nav button[name="speech"]::after {
   content: url("speech.png");
 }
+nav button[name="simulator"]::after {
+  content: url("simulator.png");
+}
 
 nav button:hover {
   opacity: 0.7;
 }
 
 nav button.menu-selected {
-  opacity: 1.0;
+  opacity: 1;
 }
 
 button,
@@ -358,7 +411,7 @@ input[type="submit"] {
 }
 button.btn-teal:hover,
 input[type="submit"]:hover {
-  background-color: var(--dark-teal);
+  background-color: var(--dark-teal) !important;
 }
 button.btn-teal:active,
 input[type="submit"]:active {
@@ -380,7 +433,11 @@ input[type="submit"] {
 }
 button.btn-red:hover,
 input[type="submit"]:hover {
-  background-color: var(--dark-red);
+  background-color: var(--dark-red) !important;
+}
+button.btn-red:disabled,
+input[type="submit"]:disabled {
+  color: rgba(255, 255, 255, 50%);
 }
 button.btn-red:active,
 input[type="submit"]:active {
@@ -400,7 +457,7 @@ footer {
   padding-left: 16px;
   padding-right: 16px;
   bottom: 0;
-  background-color: var(--dark-yellow);;
+  background-color: var(--dark-yellow);
   width: 100vw;
   height: 3rem;
   font-size: 1.2rem;
@@ -427,8 +484,8 @@ header.title {
 .title h2 {
   margin: 0.1em auto;
   font-family: Tahoma, sans-serif;
-  font-size:2rem;
-  padding:0.3rem 0.3rem 0.3rem 0.3rem;
+  font-size: 2rem;
+  padding: 0.3rem 0.3rem 0.3rem 0.3rem;
 }
 
 main {
@@ -642,7 +699,7 @@ label.label {
 
 .motion-path input {
   border-bottom: none;
-  background: rgba(240,240,240,0.8);
+  background: rgba(240, 240, 240, 0.8);
   width: 100%;
 }
 
@@ -689,10 +746,10 @@ tbody {
 }
 
 #s_record_tb thead td:nth-child(n + 2) {
-  width:100px;
+  width: 100px;
 }
 #s_record_tb tbody td:first-child {
-  min-width:100px;
+  min-width: 100px;
 }
 #s_record_tb tbody td:nth-child(n + 2) {
   background: white;
@@ -739,22 +796,23 @@ tbody {
 .eye-color-input-group input[type="number"] {
   max-width: 60px;
 }
-
 .device-status-group {
   display: flex;
   flex-flow: column;
   gap: 8px;
 }
 
-.oled-group input[type="number"] {
+.oled-group > input {
   width: 54px;
 }
-
-.oled-group input[type="text"] {
+.oled-group > div > input {
   width: 70%;
   margin-top: 2px;
 }
-
+.oled-group > div > input[type="number"] {
+  width: auto;
+  min-width: 60px;
+}
 i.fa > span {
   font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;

@@ -9,16 +9,14 @@ from openpibo.motion import Motion
 import asyncio
 import numpy as np
 
-import time, datetime
+import time,datetime
 import base64
 import cv2
 import os,json,shutil,csv
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 from queue import Queue
-from threading import Thread
-import log
-logger = log.configure_logger()
+from threading import Thread, Timer
 
 def to_base64(im):
   im = cv2.resize(im, (320,240))
@@ -26,9 +24,10 @@ def to_base64(im):
   return base64.b64encode(im).decode('utf-8')
 
 class Pibo:
-  def __init__(self, emit_func=None):
+  def __init__(self, emit_func=None, logger=None):
     self.emit = emit_func
     self.onoff = False
+    self.logger = logger
 
   ## vision
   def vision_start(self):
@@ -68,7 +67,7 @@ class Pibo:
         else:
           img, res = self.frame, ""
       except Exception as ex:
-        logger.error(f'[vision_loop] Error: {ex}')
+        self.logger.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
 
       self.res_img = img.copy()
@@ -190,7 +189,7 @@ class Pibo:
     self.devque.put(f'#{code}:{data}!')
 
   def decode_pkt(self, pkt):
-    logger.info(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
+    self.logger.info(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
     pkt = pkt.split(":")
     code, data = pkt[0], pkt[1]
 
@@ -228,14 +227,17 @@ class Pibo:
         else:
           pass
       except Exception as ex:
-        logger.error(f'[device_loop] Error: {ex}')
+        self.logger.error(f'[device_loop] Error: {ex}')
         del self.dev
         self.dev = Device()
         time.sleep(3)
       time.sleep(0.15)
 
   def set_neopixel(self, d):
-    self.neopixel_value[d['idx']] = d['value']
+    if type(d) is dict and 'idx' in d and 'value' in d:
+      self.neopixel_value[d['idx']] = d['value']
+    if type(d) is list and len(d) == 6:
+      self.neopixel_value = d
     self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
 
   def set_oled_image(self, filepath):
@@ -278,7 +280,7 @@ class Pibo:
         self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type, lang=lang)
       self.play_audio('/home/pi/speech.mp3', volume, True)
     except Exception as ex:
-      logger.error(f'[tts] Error: {ex}')
+      self.logger.error(f'[tts] Error: {ex}')
       pass
     return
 
@@ -326,7 +328,7 @@ class Pibo:
     try:
       self.tts({'text':ans, 'voice_type':voice_type, 'volume':volume})
     except Exception as ex:
-      logger.error(f'[question] Error: {ex}')
+      self.logger.error(f'[question] Error: {ex}')
       pass
     return ans
 
@@ -343,7 +345,7 @@ class Pibo:
         self.motion_j = json.load(f)
         #await self.emit('disp_code', self.motion_j)
     except Exception as ex:
-      logger.error(f'[motion_start] Error: {ex}')
+      self.logger.error(f'[motion_start] Error: {ex}')
       pass
 
   def motion_stop(self):
@@ -441,3 +443,70 @@ class Pibo:
       json.dump(self.motion_j, f)
     shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
     return self.motion_j
+
+  # simulate
+  def sim_motion(self, name, cycle=1, path=None, log=True):
+    self.mot.set_motion(name, cycle, path)
+    if log == True:
+      asyncio.run(self.emit('sim_result', {'motion':'stop'}, callback=None))
+
+  def async_sim_motion(self, name, cycle=1, path=None, log=True):
+    self.mot.stop()
+    Thread(name='sim_audio', target=self.sim_motion, args=(name, cycle, path, log), daemon=True).start()
+
+  def sim_audio(self, filename, volume, log=True):
+    self.stop_audio()
+    self.play_audio(filename, volume, False)
+    if log == True:
+      asyncio.run(self.emit('sim_result', {'audio':'stop'}, callback=None))
+
+  def async_sim_audio(self, filename, volume, log=True):
+    Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume, log), daemon=True).start()
+
+  def set_simulate(self, item):
+    self.logger.info('[set_simulate]', item)
+    if 'eye' in item:
+      d = item['eye']
+      content = d['content']
+      self.set_neopixel(content)
+    if 'motion' in item:
+      d = item['motion']
+      content = d['content']
+      self.stop_frame()
+      if d['type'] == 'default':
+        self.async_sim_motion(content, d['cycle'], log=False)
+      if d['type'] == 'mymotion':
+        self.async_sim_motion(content, d['cycle'], "/home/pi/mymotion.json", log=False)
+    if 'audio' in item:
+      d = item['audio']
+      content = d['content']
+      self.stop_audio()
+      self.async_sim_audio(d["type"]+content, d["volume"], log=False)
+    if 'oled' in item:
+      d = item['oled']
+      content = d['content']
+      if d['type'] == 'text':
+        self.set_oled({'x':d['x'], 'y': d['y'], 'size': d['size'], 'text': content})
+      else:
+        self.set_oled_image(content)
+    if 'tts' in item:
+      d = item['tts']
+      content = d['content']
+      self.tts({'text': content, 'voice_type': d['type'], 'volume': d['volume']})
+
+  def start_simulate(self, items):
+    self.stop_simulate()
+    self.timers = []
+    for idx, item in enumerate(items):
+      timer = Timer(item['time'], self.set_simulate, args=(item,))
+      timer.start()
+      self.timers.append(timer)
+
+  def stop_simulate(self):
+    try:
+      for timer in self.timers:
+        timer.cancel()
+      self.stop_frame()
+      self.stop_audio()
+    except Exception as ex:
+      self.logger.error(ex)

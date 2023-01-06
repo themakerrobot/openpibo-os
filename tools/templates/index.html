@@ -2,35 +2,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0 user-scalable=no"
     />
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="manifest" href="../static/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="../static/manifest.json" />
     <title>Pibo Maker</title>
-    <link rel="stylesheet" href="../static/all.min.css?ver=221223" type="text/css" />
+    <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
     <link
-      rel="shortcut icon"
-      href="../static/icon.png"
-      type="image/x-icon"
+      rel="stylesheet"
+      href="../static/all.min.css?ver=20230106"
+      type="text/css"
     />
+    <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=221223" />
+    <link rel="stylesheet" href="../static/index.css?ver=20230106" />
+    <link rel="stylesheet" href="../static/simulator.css?ver=20230106" />
   </head>
   <body>
     <header class="title">
-      <div style="float:left">
+      <div style="float: left">
         <h2>
           <i class="fa-solid fa-microchip"> Tools <span id="state"></span></i>
         </h2>
       </div>
-      <div style="float:right">
+      <div style="float: right">
         <h2>
-          <a id='logo_bt'>
-            <img src="../static/themaker.png" style="height:22px"/>
+          <a id="logo_bt">
+            <img src="../static/themaker.png" style="height: 22px" />
           </a>
         </h2>
       </div>
@@ -38,22 +47,23 @@
     <main>
       <nav>
         <ul>
-          <li style="padding:10px 0 20px 0">
-              <label class="toggle">
-                <input
-                  class="toggle-checkbox"
-                  type="checkbox"
-                  name="onoff_sel"
-                  disabled
-                />
-                <div class="toggle-switch"></div>
-              </label>
+          <li style="padding: 10px 0 20px 0">
+            <label class="toggle">
+              <input
+                class="toggle-checkbox"
+                type="checkbox"
+                name="onoff_sel"
+                disabled
+              />
+              <div class="toggle-switch"></div>
+            </label>
           </li>
-          <li><button name="home"></li>
-          <li><button name="device"></li>
-          <li><button name="motion"></li>
-          <li><button name="vision"></li>
-          <li><button name="speech"></li>
+          <li><button name="home" /></li>
+          <li><button name="device" /></li>
+          <li><button name="motion" /></li>
+          <li><button name="vision" /></li>
+          <li><button name="speech" /></li>
+          <li><button name="simulator" /></li>
         </ul>
       </nav>
       <div class="content">
@@ -62,8 +72,9 @@
           <article id="article_home">
             <section>
               <ul>
-                <li><span class="label">Home</span>
-                  <ul>    
+                <li>
+                  <span class="label">Home</span>
+                  <ul>
                     <li>인터넷 설정하기</li>
                     <li>소리크기 설정하기</li>
                     <li>눈색상 확인하기</li>
@@ -72,7 +83,7 @@
                 </li>
                 <li>
                   <span class="label">Device</span>
-                  <ul>    
+                  <ul>
                     <li>눈색상 조정하기</li>
                     <li>오디오 사용하기</li>
                     <li>디스플레이(OLED) 사용하기</li>
@@ -81,18 +92,22 @@
                 </li>
                 <li>
                   <span class="label">Motion</span>
-                  <ul>    
+                  <ul>
                     <li>모터 제어하기</li>
                     <li>모션 만들기</li>
                   </ul>
                 </li>
                 <li>
                   <span class="label">Camera</span>
-                  <ul>    
+                  <ul>
                     <li>사진 저장하기</li>
-                    <li>컴퓨터비전 기능 체험하기
+                    <li>
+                      컴퓨터비전 기능 체험하기
                       <ul>
-                        <li>만화화, QR코드/얼굴/사물/포즈 인식, 티쳐블머신 이미지 분류</li>
+                        <li>
+                          만화화, QR코드/얼굴/사물/포즈 인식, 티쳐블머신 이미지
+                          분류
+                        </li>
                       </ul>
                     </li>
                   </ul>
@@ -118,10 +133,15 @@
                     </label>
                     <label for="password" class="label">
                       비밀번호:
-                      <input type="password" name="password" id="password" required />
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                      />
                     </label>
                   </div>
-                  <button id='wifi_bt'>
+                  <button id="wifi_bt">
                     <i class="fa-solid fa-check-double"></i>
                     확인하기
                   </button>
@@ -176,10 +196,10 @@
           <article id="article_device">
             <section>
               <div>
-                <div style="float:left">
+                <div style="float: left">
                   <h3 class="mark">눈 색상 조정하기</h3>
                 </div>
-                <div style="float:right">
+                <div style="float: right">
                   <button id="eye_save_bt">
                     <i class="fa-solid fa-check-double"></i>
                     저장하기
@@ -278,13 +298,14 @@
                 </div>
               </div>
 
-              <div style="margin-top:30px">
+              <div style="margin-top: 30px">
                 <h3 class="mark">오디오 사용하기</h3>
                 <span class="label">마이크</span>
-                <div style="margin-top:10px">
-                  파일: <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
+                <div style="margin-top: 10px">
+                  파일:
+                  <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
                 </div>
-                <div style="margin-top:10px">
+                <div style="margin-top: 10px">
                   <input
                     type="number"
                     name="mic_time_val"
@@ -304,22 +325,32 @@
                     다시듣기
                   </button>
                   <i class="fa-solid fa-ellipsis"></i>
-                  <span class="label" id="mic_status"></span>                      
+                  <span class="label" id="mic_status"></span>
                 </div>
               </div>
 
-              <div style="margin-top:30px">
+              <div style="margin-top: 30px">
                 <span class="label">음악재생</span>
-                <div style="margin-top:10px">
+                <div style="margin-top: 10px">
                   <select id="audiopath" name="audiopath">
                     <option value="-">폴더선택</option>
-                    <option value="/home/pi/openpibo-files/audio/music">음악</option>
-                    <option value="/home/pi/openpibo-files/audio/voice">목소리</option>
-                    <option value="/home/pi/openpibo-files/audio/effect">효과음</option>
-                    <option value="/home/pi/openpibo-files/audio/animal">동물소리</option>
+                    <option value="/home/pi/openpibo-files/audio/music">
+                      음악
+                    </option>
+                    <option value="/home/pi/openpibo-files/audio/voice">
+                      목소리
+                    </option>
+                    <option value="/home/pi/openpibo-files/audio/effect">
+                      효과음
+                    </option>
+                    <option value="/home/pi/openpibo-files/audio/animal">
+                      동물소리
+                    </option>
                     <option value="/home/pi/myaudio">내 오디오</option>
                   </select>
-                  <select id="audiofiles" name="audiofiles"><option value='-'>파일선택</option></select>
+                  <select id="audiofiles" name="audiofiles">
+                    <option value="-">파일선택</option>
+                  </select>
                   <button id="play_audio_bt">
                     <i class="fa-solid fa-play"></i>
                     재생하기
@@ -334,10 +365,10 @@
 
             <section>
               <div>
-                <div style="float:left">
+                <div style="float: left">
                   <h3 class="mark">디스플레이(OLED) 사용하기</h3>
                 </div>
-                <div style="float:right">
+                <div style="float: right">
                   <button id="clear_oled_bt">
                     <i class="fa-solid fa-eraser"></i>
                     초기화하기
@@ -346,7 +377,7 @@
               </div>
               <div class="oled-group">
                 <span class="label">문자입력하기</span>
-                <div style="margin-top:10px">
+                <div style="margin-top: 10px" class="horizontal input-wrap">
                   <label for="d_ox_val" class="label">
                     <i class="fa-solid fa-x"></i>
                   </label>
@@ -382,9 +413,9 @@
                     min="1"
                     max="50"
                     pattern="\d*"
-                  />                  
+                  />
                 </div>
-                <div style="margin-top:5px">
+                <div style="margin-top: 5px" class="horizontal input-wrap">
                   <label for="d_otext_val" class="label">
                     <i class="fa-solid fa-font"></i>
                   </label>
@@ -400,23 +431,38 @@
                   </button>
                 </div>
 
-                <div style="margin-top:30px">
+                <div style="margin-top: 30px">
                   <span class="label">사진입력하기(PC)</span>
-                  <form method="post" action="/upload_oled" enctype="multipart/form-data" style="margin-top:5px">
-                    <input type="file" id="upload_oled" accept=".jpg, .png">
-                  </form>                  
+                  <form
+                    method="post"
+                    action="/upload_oled"
+                    enctype="multipart/form-data"
+                    style="margin-top: 5px"
+                  >
+                    <input type="file" id="upload_oled" accept=".jpg, .png" />
+                  </form>
                 </div>
 
-                <div style="margin-top:30px">
+                <div style="margin-top: 30px">
                   <span class="label">사진입력하기(로봇)</span>
-                  <div style="margin-top:10px">
+                  <div style="margin-top: 10px">
                     <select id="oledpath" name="oledpath">
                       <option value="-">폴더선택</option>
-                      <option value="/home/pi/openpibo-files/icon/expression">표정</option>
-                      <option value="/home/pi/openpibo-files/icon/game">가위바위보</option>
-                      <option value="/home/pi/openpibo-files/icon/recycle">재활용</option>
-                      <option value="/home/pi/openpibo-files/icon/weather">날씨</option>
-                      <option value="/home/pi/openpibo-files/icon/etc">기타 이미지</option>
+                      <option value="/home/pi/openpibo-files/icon/expression">
+                        표정
+                      </option>
+                      <option value="/home/pi/openpibo-files/icon/game">
+                        가위바위보
+                      </option>
+                      <option value="/home/pi/openpibo-files/icon/recycle">
+                        재활용
+                      </option>
+                      <option value="/home/pi/openpibo-files/icon/weather">
+                        날씨
+                      </option>
+                      <option value="/home/pi/openpibo-files/icon/etc">
+                        기타 이미지
+                      </option>
                       <option value="/home/pi/myimage">내 이미지</option>
                     </select>
                     <select id="oledfiles" name="oledfiles">
@@ -425,13 +471,13 @@
                   </div>
                 </div>
               </div>
-              <br>
+              <br />
               <div class="device-status-group">
                 <h3 class="mark">센서 인식하기</h3>
                 <div>
                   <span class="label">인체감지</span>
                   <i class="fa-solid fa-terminal"></i>
-                  <i><span id="d_pir_val"></span></i>                  
+                  <i><span id="d_pir_val"></span></i>
                 </div>
                 <div>
                   <span class="label">터치감지</span>
@@ -441,7 +487,7 @@
                 <div hidden>
                   <span class="label">버튼감지</span>
                   <i class="fa-solid fa-terminal"></i>
-                  <i><span id="d_button_val"></span></i>                  
+                  <i><span id="d_button_val"></span></i>
                 </div>
               </div>
             </section>
@@ -449,13 +495,13 @@
           <article id="article_motion" class="margin">
             <section class="pibo-section">
               <div>
-                <div style="float:left">
+                <div style="float: left">
                   <button id="init_bt">
-                  <i class="fa-solid fa-person"></i>
-                  원래자세
-                </button>
+                    <i class="fa-solid fa-person"></i>
+                    원래자세
+                  </button>
                 </div>
-                <div style="float:right">
+                <div style="float: right">
                   <span>시간:</span>
                   <input
                     type="number"
@@ -763,20 +809,66 @@
                   </button>
                 </div>
                 <div class="motion-path">
-                  <input type="text" value="/home/pi/mymotion.json" disabled>
-                  <textarea name="motor_record" id="motor_record" rows="48" wrap="hard" disabled></textarea>
+                  <input type="text" value="/home/pi/mymotion.json" disabled />
+                  <textarea
+                    name="motor_record"
+                    id="motor_record"
+                    rows="48"
+                    wrap="hard"
+                    disabled
+                  ></textarea>
                   모션 예제:
                   <b>
-                    <a id="motion_forward_bt" style="color:#df7e3d;cursor:pointer">forward</a>,
-                    <a id="motion_backward_bt" style="color:#df7e3d;cursor:pointer">backward</a>,
-                    <a id="motion_left_bt" style="color:#df7e3d;cursor:pointer">left</a>,
-                    <a id="motion_right_bt" style="color:#df7e3d;cursor:pointer">right</a>,
-                    <a id="motion_wave_bt" style="color:#df7e3d;cursor:pointer">wave</a>,
-                    <a id="motion_welcome_bt" style="color:#df7e3d;cursor:pointer">welcome</a>,
-                    <a id="motion_dance_bt" style="color:#df7e3d;cursor:pointer">dance</a>,
-                    <a id="motion_foot_bt" style="color:#df7e3d;cursor:pointer">foot</a>,
-                    <a id="motion_happy_bt" style="color:#df7e3d;cursor:pointer">happy</a>,
-                    <a id="motion_sad_bt" style="color:#df7e3d;cursor:pointer">sad</a>
+                    <a
+                      id="motion_forward_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >forward</a
+                    >,
+                    <a
+                      id="motion_backward_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >backward</a
+                    >,
+                    <a
+                      id="motion_left_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >left</a
+                    >,
+                    <a
+                      id="motion_right_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >right</a
+                    >,
+                    <a
+                      id="motion_wave_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >wave</a
+                    >,
+                    <a
+                      id="motion_welcome_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >welcome</a
+                    >,
+                    <a
+                      id="motion_dance_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >dance</a
+                    >,
+                    <a
+                      id="motion_foot_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >foot</a
+                    >,
+                    <a
+                      id="motion_happy_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >happy</a
+                    >,
+                    <a
+                      id="motion_sad_bt"
+                      style="color: #df7e3d; cursor: pointer"
+                      >sad</a
+                    >
                   </b>
                 </div>
               </div>
@@ -791,18 +883,23 @@
               <h3 class="mark">Vision 설정</h3>
               <div>
                 <header>기능 설정</header>
-                <input type="radio" name="v_func_type" value="camera" checked>없음
-                <input type="radio" name="v_func_type" value="cartoon">만화
-                <input type="radio" name="v_func_type" value="qr">QR코드
-                <input type="radio" name="v_func_type" value="face">얼굴
-                <input type="radio" name="v_func_type" value="object">사물
-                <input type="radio" name="v_func_type" value="pose">포즈
-                <input type="radio" name="v_func_type" value="tm">티쳐블머신
+                <input
+                  type="radio"
+                  name="v_func_type"
+                  value="camera"
+                  checked
+                />없음
+                <input type="radio" name="v_func_type" value="cartoon" />만화
+                <input type="radio" name="v_func_type" value="qr" />QR코드
+                <input type="radio" name="v_func_type" value="face" />얼굴
+                <input type="radio" name="v_func_type" value="object" />사물
+                <input type="radio" name="v_func_type" value="pose" />포즈
+                <input type="radio" name="v_func_type" value="tm" />티쳐블머신
               </div>
               <div>
                 <header>티쳐블머신 모델 업로드</header>
                 <form method="post" enctype="multipart/form-data">
-                  <input type="file" id="v_upload_tm" accept=".zip">
+                  <input type="file" id="v_upload_tm" accept=".zip" />
                 </form>
               </div>
               <div>
@@ -825,17 +922,17 @@
               <div class="speech-input-group">
                 <span class="label">대화데이터:</span>
                 <form method="post" enctype="multipart/form-data">
-                  <input type="file" id="s_upload_csv" accept=".csv">
+                  <input type="file" id="s_upload_csv" accept=".csv" />
                 </form>
-                <a id="s_reset_csv_bt" style="cursor:pointer">
+                <a id="s_reset_csv_bt" style="cursor: pointer">
                   <i class="fa-solid fa-eraser"></i>
                   <i>초기화하기</i>
                 </a>
               </div>
               <div class="speech-input-group">
                 <span class="label">음성:</span>
-                <input type="radio" name="s_voice_en" value="on" checked>On
-                <input type="radio" name="s_voice_en" value="off">Off
+                <input type="radio" name="s_voice_en" value="on" checked />On
+                <input type="radio" name="s_voice_en" value="off" />Off
               </div>
               <div class="speech-input-group">
                 <span class="label">파일:</span>
@@ -852,7 +949,7 @@
               </div>
               <div class="speech-input-group">
                 <span class="label">음성합성:</span>
-                <input type="text" id="s_tts_val">
+                <input type="text" id="s_tts_val" />
                 <button id="s_tts_bt">
                   <i class="fa-solid fa-check-double"></i>
                   실행하기
@@ -889,7 +986,7 @@
                 <table id="s_record_tb">
                   <thead>
                     <tr>
-                      <td style="width:100px"><b>시간</b></td>
+                      <td style="width: 100px"><b>시간</b></td>
                       <td><b>질문</b></td>
                       <td><b>대답</b></td>
                     </tr>
@@ -899,31 +996,440 @@
               </div>
             </section>
           </article>
+          <article id="article_simulator">
+            <div class="vertical">
+              <section class="new-and-list">
+                <h5 id="sequence_warn" class="warning no-sequence">
+                  <i class="fa-solid fa-warning"></i>선택된 시퀀스가 없습니다.
+                  새 시퀀스를 만들거나 저장된 시퀀스를 불러오기하여 시퀀스를
+                  설정하세요.
+                </h5>
+                <div id="sequence_title" class="horizontal space-between">
+                  <button id="sequence_title_unfold_bt">
+                    <i class="fa-solid fa-angle-down right-gap"></i>펼치기
+                  </button>
+                  <button id="sequence_title_fold_bt">
+                    <i class="fa-solid fa-angle-up right-gap"></i>접기
+                  </button>
+                  <h3 name="sequence_title" class="mark">undefined</h3>
+                  <button id="sequence_save_bt" class="btn-teal">
+                    <i class="fa-solid fa-check right-gap"></i> 저장하기
+                  </button>
+                </div>
+                <div id="sequence_contents" class="horizontal space-between">
+                  <div class="vertical" style="gap: 0.5em">
+                    <div class="horizontal space-between">
+                      <h3 class="mark">새 시퀀스 만들기</h3>
+                      <button id="add_sequence_bt" class="btn-teal">
+                        <i class="fa-solid fa-plus"></i>
+                        만들기
+                      </button>
+                    </div>
+                    <div class="card outline" style="gap: 0.25em">
+                      <div class="input-wrap">
+                        <span class="label small">이름</span>
+                        <input
+                          type="text"
+                          class="fullWidth"
+                          name="sequence_name_val"
+                          id="sequence_name_val"
+                          maxlength="30"
+                          minlength="1"
+                        />
+                      </div>
+                      <span class="label small guide"
+                        >영문 및 숫자만을 이용하여 입력하세요.</span
+                      >
+                    </div>
+                  </div>
+                  <div class="vertical" style="gap: 0.5em">
+                    <div class="horizontal space-between">
+                      <h3 class="mark">저장된 시퀀스 목록</h3>
+                      <button id="remove_all_sequence_bt" class="btn-red">
+                        <i class="fa-solid fa-trash-can"></i>
+                        모두 지우기
+                      </button>
+                    </div>
+                    <div class="card outline">
+                      <div id="no_sequence_warn" class="no-sequence">
+                        저장된 시퀀스가 없습니다.
+                      </div>
+                      <ul id="sequence_list" class="style-none fullWidth"></ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="config">
+                <h3 class="mark">시간별 시퀀스 내용 설정</h3>
+                <div id="config_contents">
+                  <div class="time-wrap">
+                    <div
+                      class="horizontal space-between fullWidth"
+                      style="align-items: center"
+                    >
+                      <header>
+                        <i
+                          class="fa-solid fa-clock"
+                          style="margin-right: 0.5em"
+                        ></i
+                        >시간
+                      </header>
+                      <div class="time-input-wrapper horizontal">
+                        <input
+                          type="number"
+                          id="config_time_input"
+                          class="number"
+                          value="0"
+                          step="0.1"
+                        /><span>초 부터 실행</span
+                        ><button class="btn-teal" id="config_time_bt">
+                          <i class="fa-solid fa-add"></i> 추가하기
+                        </button>
+                      </div>
+                    </div>
+                    <div id="eye_color_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="eye_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-eye-color"></i>
+                          눈 색상
+                        </header>
+                        <button class="play" id="eye_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <div
+                            id="eye_radio_group"
+                            class="radio-group fullWidth"
+                          ></div>
+                        </div>
+                        <div class="horizontal space-between">
+                          <span class="label small"></span>
+                          <div
+                            id="eye_color_group_r"
+                            class="color-swatch-group fullWidth"
+                          >
+                            <span class="label small">오른쪽</span>
+                            <div class="color swatch"></div>
+                            <div id="color_input_r" class="color-input-wrap">
+                              <input type="tel" name="color_red_r" readonly />
+                              <input type="tel" name="color_green_r" readonly />
+                              <input type="tel" name="color_blue_r" readonly />
+                            </div>
+                          </div>
+                          <div
+                            id="eye_color_group_l"
+                            class="color-swatch-group fullWidth"
+                          >
+                            <span class="label small">왼쪽</span>
+                            <div class="color swatch"></div>
+                            <div id="color_input_l" class="color-input-wrap">
+                              <input type="tel" name="color_red_l" readonly />
+                              <input type="tel" name="color_green_l" readonly />
+                              <input type="tel" name="color_blue_l" readonly />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="oled_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="oled_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-oled"></i>디스플레이
+                        </header>
+                        <button class="play" id="oled_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <div
+                            id="oled_radio_group"
+                            class="radio-group fullWidth"
+                          ></div>
+                        </div>
+                        <div id="oled_text_group">
+                          <div
+                            class="horizontal vertical-align"
+                            id="oled_text_content"
+                          >
+                            <span class="label small">내용</span>
+                            <textarea
+                              rows="3"
+                              class="fullWidth"
+                              id="oled_textarea"
+                              name="oled_textarea"
+                              placeholder="디스플레이에 출력할 내용을 입력하세요."
+                              maxlength="140"
+                            ></textarea>
+                          </div>
+                          <div
+                            class="horizontal vertical-align"
+                            id="oled_text_config"
+                          >
+                            <div
+                              class="horizontal space-between vertical-align"
+                              style="flex-wrap: wrap"
+                            >
+                              <div class="horizontal vertical-align">
+                                <span class="label small">위치</span>
+                                <div>
+                                  <span class="label small">X</span>
+                                  <input
+                                    type="number"
+                                    class="number"
+                                    id="oled_x"
+                                    name="oled_x"
+                                    min="0"
+                                    max="128"
+                                  />
+                                  <span class="label small">Y</span>
+                                  <input
+                                    type="number"
+                                    class="number"
+                                    id="oled_y"
+                                    name="oled_y"
+                                    min="0"
+                                    max="64"
+                                  />
+                                </div>
+                              </div>
+                              <div class="horizontal vertical-align">
+                                <span class="label small">크기</span>
+                                <input
+                                  type="number"
+                                  class="number"
+                                  id="oled_size"
+                                  name="oled_size"
+                                  min="1"
+                                  max="50"
+                                  pattern="\d*"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="oled_img_group">
+                          <div class="horizontal vertical-align">
+                            <span class="label small">종류</span>
+                            <select
+                              id="oled_path_select"
+                              class="fullWidth"
+                            ></select>
+                          </div>
+                          <div class="horizontal vertical-align">
+                            <span class="label small">파일</span>
+                            <select
+                              id="oled_img_select"
+                              class="fullWidth"
+                            ></select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="motion_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="motion_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-motion"></i>모션
+                        </header>
+                        <button class="play" id="motion_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <div
+                            id="motion_radio_group"
+                            class="radio-group fullWidth"
+                          ></div>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">이름</span
+                          ><select
+                            class="fullWidth"
+                            name="motion_select"
+                            id="motion_select"
+                            required
+                          ></select>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">반복</span>
+                          <input
+                            type="number"
+                            name="motion_cycle_input"
+                            id="motion_cycle_input"
+                            class="number"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div id="audio_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="audio_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-audio"></i>오디오
+                        </header>
+                        <button class="play" id="audio_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <div
+                            id="audio_radio_group"
+                            class="radio-group stack fullWidth"
+                          ></div>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">파일</span
+                          ><select
+                            class="fullWidth"
+                            name="audio_select"
+                            id="audio_select"
+                            required
+                          ></select>
+                        </div>
+                        <!-- <div class="horizontal vertical-align">
+                          <span class="label small">소리</span>
+                          <input
+                            type="number"
+                            name="audio_volume_input"
+                            id="audio_volume_input"
+                            class="number"
+                          />
+                        </div> -->
+                      </div>
+                    </div>
+                    <div id="tts_card" class="config card outline">
+                      <div class="horizontal space-between">
+                        <button id="tts_init_bt">
+                          <i class="fa-solid fa-x"></i>
+                        </button>
+                        <header style="display: flex; align-items: center">
+                          <i class="icon-tts"></i>음성
+                        </header>
+                        <button class="play" id="tts_play_bt">
+                          <i class="fa-solid fa-play"></i>
+                        </button>
+                      </div>
+                      <div class="card-contents">
+                        <div class="horizontal vertical-align">
+                          <span class="label small">분류</span>
+                          <select
+                            class="fullWidth"
+                            name="tts_select"
+                            id="tts_select"
+                            required
+                          ></select>
+                        </div>
+                        <div class="horizontal vertical-align">
+                          <span class="label small">내용</span>
+                          <textarea
+                            rows="3"
+                            class="fullWidth"
+                            id="tts_textarea"
+                            name="tts_textarea"
+                            placeholder="음성 출력할 내용을 입력하세요."
+                            maxlength="48"
+                          ></textarea>
+                        </div>
+                        <!-- <div class="horizontal vertical-align">
+                          <span class="label small">소리</span>
+                          <input
+                            type="number"
+                            class="number"
+                            id="tts_volume_input"
+                            name="tts_volume_input"
+                          />
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="config card outline" style="opacity: 0"></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <section class="timeline">
+              <div class="horizontal space-between" style="flex: 0 0">
+                <h3 class="mark">시퀀스 타임라인</h3>
+                <div class="horizontal gap-8" style="flex-grow: 0">
+                  <button class="btn-teal" id="timeline_play_bt">
+                    <i class="fa-solid fa-play"></i> 실행하기
+                  </button>
+                  <button class="btn-teal" id="timeline_stop_bt">
+                    <i class="fa-solid fa-stop"></i> 정지하기
+                  </button>
+                </div>
+              </div>
+              <div id="timeline_card" class="timeline card">
+                <div class="timeline row head">
+                  <div class="cell head">
+                    <input type="checkbox" id="timeline_all_check" />
+                  </div>
+                  <div class="cell head"><i class="fa-solid fa-clock"></i></div>
+                  <div class="cell head"><i class="icon-eye-color"></i></div>
+                  <div class="cell head"><i class="icon-oled"></i></div>
+                  <div class="cell head"><i class="icon-motion"></i></div>
+                  <div class="cell head"><i class="icon-audio"></i></div>
+                  <div class="cell head"><i class="icon-tts"></i></div>
+                </div>
+                <div id="timeline_body" class="timeline body"></div>
+              </div>
+              <div
+                id="timeline_bottom_wrap"
+                class="horizontal"
+                style="justify-content: flex-end"
+              >
+                <button class="btn-red" id="timeline_del_bt">
+                  <i class="fa-solid fa-trash-can"></i> 선택 지우기
+                </button>
+                <!-- <button class="btn-teal" id="timeline_sel_play_bt">
+                  <i class="fa-solid fa-play"></i> 선택 실행
+                </button> -->
+              </div>
+            </section>
+          </article>
         </div>
       </div>
     </main>
   </body>
   <footer>
-    <div style="float:left;padding:0.7rem 0 0.7rem 0">
-        <a id="devtool_bt" >
-          <i class="fa-solid fa-arrow-up-right-from-square"> IDE로 이동</i>
-        </a>
-        <i class="fa-brands fa-raspberry-pi"></i>
-        <span id="s_os_version"></span>,
-        <i class="fa-solid fa-id-badge"></i>
-        <span id="s_serial"></span>
+    <div style="float: left; padding: 0.7rem 0 0.7rem 0">
+      <a id="devtool_bt">
+        <i class="fa-solid fa-arrow-up-right-from-square"> IDE로 이동</i>
+      </a>
+      <i class="fa-brands fa-raspberry-pi"></i>
+      <span id="s_os_version"></span>,
+      <i class="fa-solid fa-id-badge"></i>
+      <span id="s_serial"></span>
     </div>
-    <div style="float:right;padding:0.7rem 0 0.7rem 0">
-        <i class="fa-solid fa-wifi"></i>
-        <span id="s_network"></span>,
-        <i class="fa-solid fa-temperature-empty"></i>
-        <span id="s_cpu_temp"></span>,
-        <i class="fa-solid fa-memory"></i>
-        <span id="s_memory"></span>,
-        <i class="fa-solid fa-clock"></i>
-        <span id="s_runtime"></span>,
-        <span id="d_battery_val"></span> <span id="d_dc_val"></span>
+    <div style="float: right; padding: 0.7rem 0 0.7rem 0">
+      <i class="fa-solid fa-wifi"></i>
+      <span id="s_network"></span>,
+      <i class="fa-solid fa-temperature-empty"></i>
+      <span id="s_cpu_temp"></span>,
+      <i class="fa-solid fa-memory"></i>
+      <span id="s_memory"></span>,
+      <i class="fa-solid fa-clock"></i>
+      <span id="s_runtime"></span>, <span id="d_battery_val"></span>
+      <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=221231"></script>
+  <script src="../static/index.js?ver=20230106"></script>
 </html>
