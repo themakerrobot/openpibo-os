@@ -814,11 +814,9 @@ const getSimulations = (socket) => {
     // play 되는 socket 함수들 cb으로 실행완료 후 동작 넘기도록?
     const tempSocket = {
       sim_play_item: (data) => {
-        console.log("CONFIGURATION PLAY", data);
         socket.emit("sim_play_item", data);
       },
       sim_play_items: (data) => {
-        console.log("PLAY TIMELINE ITEMS", data);
         playing.status = true;
         const rows = $("#timeline_body .timeline.row");
         rows.removeClass("selected");
@@ -855,19 +853,17 @@ const getSimulations = (socket) => {
         const arr = execPlays(times);
         arr.then(() => {
           console.log("END");
+          playing.status = false;
           const timeVal = $("#config_time_input").val().replace(".", "_");
           const itemName = `timeline_row_${timeVal}`;
-          console.log(timeVal, itemName);
           handleTimelineItemClick($(`div[name=${itemName}]`));
         });
         socket.emit("sim_play_items", data);
       },
       sim_stop_item: (data) => {
-        console.log("CONFIGURATION STOP", data);
         socket.emit("sim_stop_item", data);
       },
       sim_stop_items: () => {
-        console.log("STOP TIMELINE ITEMS");
         playing.status = false;
         socket.emit("sim_stop_items");
       },
@@ -909,7 +905,6 @@ const getSimulations = (socket) => {
   };
   socket.on("sim_result", (res) => {
     // 완료 신호 올 경우 상태 변경할 것
-    console.log(`sim_result:`, res);
     if (typeof res === "object") {
       const [[key, v]] = Object.entries(res);
       const playBtn = $(`#${key}_play_bt`);
@@ -1235,7 +1230,6 @@ const getSimulations = (socket) => {
     //   if (playing.status) return;
     // });
     checkbox.change(() => {
-      console.log("checkbox");
       if (playing.status) return;
       const checkedRows = $(
         "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
@@ -1298,7 +1292,7 @@ const getSimulations = (socket) => {
             selectFileContents = selectFileContents.filter(
               (content) => content.time !== Number($(item).text())
             );
-            $(item).addClass("hide");
+            $(item).remove(".row");
             $(item).children().remove();
           });
         }
@@ -1376,14 +1370,12 @@ const getSimulations = (socket) => {
       set val(param) {
         const { key, value: v, bInit } = param;
         const playBtn = $(`#${key}_play_bt`);
-        if (playBtn.children("i").hasClass("fa-stop") || bInit) {
+        if (playBtn.children("i").hasClass("fa-stop")) {
           playBtn.children("i").removeClass("fa-stop").addClass("fa-play");
           simSocket("sim_stop_item", key);
         }
         if (bInit) {
           this.data[key] = { ...initialData[key], ...v };
-        } else if (key === "audio" || key === "tts") {
-          this.data[key] = { ...this.data[key], ...v, volume };
         } else {
           this.data[key] = { ...this.data[key], ...v };
         }
@@ -1403,6 +1395,7 @@ const getSimulations = (socket) => {
         !keyData ||
         (keyData && "type" in keyData && keyData.type !== target.val())
       ) {
+        simSocket("sim_stop_item", key);
         if (key === "eye") {
           configData.val = {
             key: "eye",
@@ -1455,6 +1448,7 @@ const getSimulations = (socket) => {
       });
       initBtn.off("click").on("click", () => {
         const data = initialData[key];
+        simSocket("sim_stop_item", key);
         switch (key) {
           case "eye":
             return setEyeColorCard(data);
@@ -1474,7 +1468,7 @@ const getSimulations = (socket) => {
 
     /* 눈 색상 카드 */
     const setEyeColorCard = (data) => {
-      configData.val = { key: "eye", value: data, bInit: true };
+      // configData.val = { key: "eye", value: data, bInit: true };
 
       const eyeColorList = [
         [239, 51, 64],
@@ -1640,7 +1634,7 @@ const getSimulations = (socket) => {
 
     /* 모션 카드 */
     const setMotionCard = (data) => {
-      configData.val = { key: "motion", value: data, bInit: true };
+      // configData.val = { key: "motion", value: data, bInit: true };
 
       const setMotionList = (list, name, cycle) => {
         const motionList = [
@@ -1716,7 +1710,7 @@ const getSimulations = (socket) => {
 
     /* 오디오 카드 */
     const setAudioCard = (data) => {
-      configData.val = { key: "audio", value: data, bInit: true };
+      // configData.val = { key: "audio", value: data, bInit: true };
       const setAudioList = (list, type, sData) => {
         const content = sData && sData.type === type ? sData.content : null;
         const audioFileList = [
@@ -1789,7 +1783,7 @@ const getSimulations = (socket) => {
 
     /* 디스플레이 카드 */
     const setOledCard = (data) => {
-      configData.val = { key: "oled", value: data, bInit: true };
+      // configData.val = { key: "oled", value: data, bInit: true };
 
       const setOledImageList = (list, imgPath, name) => {
         const imageList = [
@@ -1930,7 +1924,7 @@ const getSimulations = (socket) => {
 
     /* 음성 카드 */
     const setTtsCard = (data) => {
-      configData.val = { key: "tts", value: data, bInit: true };
+      // configData.val = { key: "tts", value: data, bInit: true };
 
       const ttsOptionsList = [
         { value: "espeak", label: "기본" },
@@ -2004,10 +1998,21 @@ const getSimulations = (socket) => {
         );
         if (validCheck) {
           const itemName = `timeline_row_${time.toString().replace(".", "_")}`;
-          addTimelineItem({
-            ...configData.value,
-            time,
-          });
+          addTimelineItem(
+            {
+              ...configData.value,
+              audio: {
+                ...configData.value.audio,
+                volume: Number($("#volume").val()),
+              },
+              tts: {
+                ...configData.value.tts,
+                volume: Number($("#volume").val()),
+              },
+              time,
+            },
+            true
+          );
           handleTimelineItemClick($(`div[name=${itemName}]`));
           const index = $("#timeline_body")
             .children()

@@ -1,0 +1,360 @@
+{
+  "name": "helloPibo",
+  "data": [
+    {
+      "motion": { "type": "default", "content": "stop_body", "cycle": 1 },
+      "time": 0
+    },
+    {
+      "motion": { "type": "mymotion", "content": "headup", "cycle": 1 },
+      "time": 0.2
+    },
+    {
+      "eye": { "type": "custom", "content": [50, 50, 50, 50, 50, 50] },
+      "time": 1.5
+    },
+    {
+      "eye": { "type": "custom", "content": [100, 100, 100, 100, 100, 100] },
+      "time": 1.7
+    },
+    {
+      "eye": { "type": "custom", "content": [150, 150, 150, 150, 150, 150] },
+      "time": 2
+    },
+    {
+      "eye": { "type": "custom", "content": [200, 200, 200, 200, 200, 200] },
+      "time": 2.5
+    },
+    {
+      "eye": { "type": "custom", "content": [255, 255, 255, 255, 255, 255] },
+      "time": 3
+    },
+    {
+      "eye": { "type": "default", "content": [3, 191, 215, 3, 191, 215] },
+      "motion": { "type": "default", "content": "wake_up1", "cycle": 1 },
+      "time": 3.5
+    },
+    {
+      "motion": { "type": "default", "content": "speak_n1", "cycle": 1 },
+      "audio": {
+        "type": "/home/pi/openpibo-files/audio/effect/",
+        "content": "kid_surprised.mp3",
+        "volume": 80
+      },
+      "oled": {
+        "type": "image",
+        "content": "/home/pi/openpibo-files/icon/expression/delight.jpg",
+        "x": 0,
+        "y": 0,
+        "size": 10
+      },
+      "time": 11
+    },
+    {
+      "tts": { "type": "main", "content": "안녕 난 파이보야~", "volume": 50 },
+      "time": 13
+    },
+    {
+      "motion": { "type": "default", "content": "stop", "cycle": 1 },
+      "audio": {
+        "type": "/home/pi/openpibo-files/audio/music/",
+        "content": "nature.mp3",
+        "volume": 80
+      },
+      "oled": { "type": "text", "content": " ", "x": 0, "y": 0, "size": 10 },
+      "time": 15
+    },
+    {
+      "oled": { "type": "text", "content": "pibo", "x": 0, "y": 58, "size": 5 },
+      "time": 15.1
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "pibo",
+        "x": 8,
+        "y": 50,
+        "size": 10
+      },
+      "time": 15.2
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "pibo",
+        "x": 16,
+        "y": 36,
+        "size": 15
+      },
+      "time": 15.3
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "pibo",
+        "x": 24,
+        "y": 30,
+        "size": 20
+      },
+      "time": 15.4
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "pibo",
+        "x": 32,
+        "y": 20,
+        "size": 30
+      },
+      "time": 15.5
+    },
+    {
+      "oled": { "type": "text", "content": " ", "x": 0, "y": 0, "size": 0 },
+      "time": 15.7
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "pibo",
+        "x": 32,
+        "y": 20,
+        "size": 30
+      },
+      "time": 16
+    },
+    {
+      "oled": { "type": "text", "content": " ", "x": 0, "y": 0, "size": 0 },
+      "time": 16.3
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "pibo",
+        "x": 32,
+        "y": 20,
+        "size": 30
+      },
+      "time": 16.6
+    },
+    {
+      "tts": {
+        "type": "main",
+        "content": "너랑 친하게 지내고 싶어~",
+        "volume": 19
+      },
+      "time": 17
+    },
+    {
+      "eye": { "type": "default", "content": [255, 142, 223, 255, 142, 223] },
+      "oled": {
+        "type": "image",
+        "content": "/home/pi/openpibo-files/icon/expression/heart.jpg",
+        "x": 0,
+        "y": 0,
+        "size": 10
+      },
+      "time": 20
+    },
+    {
+      "oled": { "type": "text", "content": "ㅁ", "x": 4, "y": 28, "size": 16 },
+      "time": 22
+    },
+    {
+      "oled": { "type": "text", "content": "마", "x": 4, "y": 28, "size": 16 },
+      "time": 22.1
+    },
+    {
+      "oled": { "type": "text", "content": "만", "x": 4, "y": 28, "size": 16 },
+      "time": 22.2
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만ㄴ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.3
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.4
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나ㄱ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.5
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.6
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 ㄷ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.7
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 도",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.8
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 되",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 22.9
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 되ㅇ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.1
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어ㅅ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.2
+    },
+    {
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어서",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.3
+    },
+    {
+      "eye": { "type": "default", "content": [255, 255, 255, 255, 255, 255] },
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어서 ㄱ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.4
+    },
+    {
+      "eye": { "type": "default", "content": [255, 142, 223, 255, 142, 223] },
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어서 기",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.5
+    },
+    {
+      "eye": { "type": "default", "content": [255, 255, 255, 255, 255, 255] },
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어서 기ㅃ",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.6
+    },
+    {
+      "eye": { "type": "default", "content": [255, 142, 223, 255, 142, 223] },
+      "oled": {
+        "type": "text",
+        "content": "만나게 되어서 기뻐",
+        "x": 4,
+        "y": 28,
+        "size": 16
+      },
+      "time": 23.7
+    },
+    {
+      "eye": { "type": "default", "content": [3, 191, 215, 255, 142, 223] },
+      "motion": { "type": "default", "content": "happy1", "cycle": 1 },
+      "time": 24
+    },
+    {
+      "eye": { "type": "default", "content": [255, 255, 255, 255, 255, 255] },
+      "time": 24.5
+    },
+    {
+      "eye": { "type": "default", "content": [3, 191, 215, 3, 191, 215] },
+      "time": 25
+    },
+    {
+      "eye": { "type": "default", "content": [255, 255, 255, 255, 255, 255] },
+      "time": 25.5
+    },
+    {
+      "eye": { "type": "default", "content": [3, 191, 215, 3, 191, 215] },
+      "time": 26
+    },
+    {
+      "eye": { "type": "default", "content": [255, 255, 255, 255, 255, 255] },
+      "time": 26.5
+    },
+    {
+      "eye": { "type": "default", "content": [3, 191, 215, 3, 191, 215] },
+      "time": 27
+    },
+    {
+      "motion": { "type": "default", "content": "stop", "cycle": 1 },
+      "oled": { "type": "text", "content": " ", "x": 0, "y": 0, "size": 10 },
+      "time": 28
+    }
+  ],
+  "index": 9
+}
