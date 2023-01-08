@@ -508,5 +508,6 @@ class Pibo:
         timer.cancel()
       self.stop_frame()
       self.stop_audio()
+      self.set_motors([0, 0, -80, 0, 0, 0, 0, 0, 80, 0])
     except Exception as ex:
       self.logger.error(ex)

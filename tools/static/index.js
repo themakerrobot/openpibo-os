@@ -2124,6 +2124,10 @@ $(function () {
           ? "<i class='fa-solid fa-person-running'></i> (<span style='color:#fe7070'>on</span>)"
           : "<i class='fa-solid fa-person'></i> (<span style='color:#fe7070'>off</span>)"
       );
+
+      if (d == "on") {
+        socket.emit("disp_motion");
+      }
     });
 
     $("input:checkbox[name=onoff_sel]").change(function () {

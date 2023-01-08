@@ -12,6 +12,8 @@ then
   echo "127.0.0.1 ${rpi_serial}" >> /etc/hosts
   sudo shutdown -r now
 fi
+# motor init
+servo init
 
 # ap start
 sudo /home/pi/openpibo-os/system/wifi-ap-sta run

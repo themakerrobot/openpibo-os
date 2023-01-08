@@ -398,6 +398,6 @@ audio.preview-audio {
 .result {
   border-radius: 5px;
   min-width:400px;
-  min-height:586px;
-  height:calc(75.5vh + 20px);
+  min-height:555px;
+  height:79.5vh;
 }
