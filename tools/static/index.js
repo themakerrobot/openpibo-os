@@ -1229,8 +1229,11 @@ const getSimulations = (socket) => {
     //   console.log("checkbox");
     //   if (playing.status) return;
     // });
-    checkbox.change(() => {
-      if (playing.status) return;
+    checkbox.off("change").on("change", (e) => {
+      if (playing.status) {
+        e.preventDefault();
+        return;
+      }
       const checkedRows = $(
         "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
       );
@@ -1471,14 +1474,14 @@ const getSimulations = (socket) => {
       // configData.val = { key: "eye", value: data, bInit: true };
 
       const eyeColorList = [
-        [239, 51, 64],
-        [242, 113, 28],
-        [255, 222, 34],
-        [33, 186, 69],
-        [3, 191, 215],
-        [163, 51, 200],
-        [255, 142, 223],
-        [255, 255, 255],
+        { name: "255_0_0", value: [239, 51, 64] },
+        { name: "242_113_28", value: [242, 113, 28] },
+        { name: "255_222_34", value: [255, 222, 34] },
+        { name: "0_255_0", value: [33, 186, 69] },
+        { name: "3_191_215", value: [3, 191, 215] },
+        { name: "163_51_200", value: [163, 51, 200] },
+        { name: "255_142_223", value: [255, 142, 223] },
+        { name: "255_255_255", value: [255, 255, 255] },
       ];
 
       const transColorValue = (v) => {
@@ -1564,18 +1567,27 @@ const getSimulations = (socket) => {
         const eyeGroup = $(`#eye_color_group_${eye}>div.color.swatch`);
         eyeGroup.children().remove();
         setEyeColor([eye]);
-        const eyeColors = eyeColorList.map(([r, g, b]) => {
+        const eyeColors = eyeColorList.map(({ name, value: [r, g, b] }) => {
           const el = $(
-            `<span class="color" name="${eye}_${r}_${g}_${b}" style="background: rgb(${r}, ${g}, ${b})"></span>`
+            `<span class="color" name="${eye}_${name}" style="background: rgb(${r}, ${g}, ${b})"></span>`
           );
           if (data.content && data.content.length) {
             const [rr, rg, rb, lr, lg, lb] = data.content;
-            if (eye === "r" && rr === r && rg === g && rb === b) {
+            const colors = name.split("_");
+            const red = transColorValue(colors[0]);
+            const green = transColorValue(colors[1]);
+            const blue = transColorValue(colors[2]);
+            if (eye === "r" && rr === red && rg === green && rb === blue) {
               el.attr("selected", true);
-              eyeArr.unshift(...[r, g, b]);
-            } else if (eye === "l" && lr === r && lg === g && lb === b) {
+              eyeArr.unshift(...[red, green, blue]);
+            } else if (
+              eye === "l" &&
+              lr === red &&
+              lg === green &&
+              lb === blue
+            ) {
               el.attr("selected", true);
-              eyeArr.push(...[r, g, b]);
+              eyeArr.push(...[red, green, blue]);
             }
           }
           el.on("click", (e) =>
@@ -1621,9 +1633,9 @@ const getSimulations = (socket) => {
           } else {
             $(".color-swatch-group .color.swatch").removeClass("hide");
             $(".color-input-wrap input[type=tel]").prop("readonly", true);
+            setEyeColor(["r", null, null, null]);
+            setEyeColor(["l", null, null, null]);
           }
-          setEyeColor(["r", null, null, null]);
-          setEyeColor(["l", null, null, null]);
         });
         return [radioInput, $(`<label for="eye_${name}">${value}</label>`)];
       });
