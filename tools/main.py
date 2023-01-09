@@ -359,6 +359,7 @@ async def f(sid, d=None):
       pibo.set_neopixel([0,0,0,0,0,0])
     elif d == 'motion':
       pibo.stop_frame()
+      pibo.set_motors([0, 0, -80, 0, 0, 0, 0, 0, 80, 0])
     elif d == 'audio':
       pibo.stop_audio()
     elif d == 'oled':
