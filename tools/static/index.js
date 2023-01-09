@@ -1372,10 +1372,12 @@ const getSimulations = (socket) => {
     $("#timeline_body").children().remove();
     if (list.length) {
       list.forEach(addTimelineItem);
-      const itemName = `timeline_row_${list[index].time
-        .toString()
-        .replace(".", "_")}`;
-      handleTimelineItemClick($(`div[name=${itemName}]`));
+      if (index > -1) {
+        const itemName = `timeline_row_${list[index].time
+          .toString()
+          .replace(".", "_")}`;
+        handleTimelineItemClick($(`div[name=${itemName}]`));
+      }
     } else {
       selectFileContents = [];
       setConfigSection();
