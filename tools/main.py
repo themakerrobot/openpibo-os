@@ -480,6 +480,7 @@ async def f(sid, d=None):
   os.system("rm -rf /home/pi/myaudio/*")
   os.system("rm -rf /home/pi/code/*")
   os.system("rm -rf /home/pi/mymotion.json")
+  os.system("rm -rf /home/pi/mysim.json")
   os.system("rm -rf /home/pi/config.json")
   os.system("shutdown -r now")
 
