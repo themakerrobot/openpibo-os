@@ -1474,16 +1474,19 @@ const getSimulations = (socket) => {
       playBtn.off("click").on("click", () => {
         const icon = playBtn.children("i");
         if (icon.hasClass("fa-play")) {
-          icon.removeClass("fa-play").addClass("fa-stop");
-          if (key === "audio" || key === "tts") {
-            const volume = Number($("#volume").val());
-            simSocket("sim_play_item", {
-              key,
-              ...configData.data[key],
-              volume,
-            });
-          } else {
-            simSocket("sim_play_item", { key, ...configData.data[key] });
+          const { content } = configData.data[key];
+          if ((key === "eye" && content.join("").length) || content) {
+            icon.removeClass("fa-play").addClass("fa-stop");
+            if (key === "audio" || key === "tts") {
+              const volume = Number($("#volume").val());
+              simSocket("sim_play_item", {
+                key,
+                ...configData.data[key],
+                volume,
+              });
+            } else {
+              simSocket("sim_play_item", { key, ...configData.data[key] });
+            }
           }
         } else {
           icon.removeClass("fa-stop").addClass("fa-play");
