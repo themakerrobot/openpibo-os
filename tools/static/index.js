@@ -1744,8 +1744,12 @@ const getSimulations = (socket) => {
           "checked",
           (!data && name === "default") || (data && data.type === name)
         );
-        radioInput.on("click", (e) => {
+        radioInput.off("click").on("click", (e) => {
           radioButtonClickHandler(e);
+          configData.val = {
+            key: "motion",
+            value: { type: e.target.value, content: "" },
+          };
           simSocket("sim_update_motion", e.target.value, (list) => {
             setMotionList(list);
           });
@@ -1786,7 +1790,7 @@ const getSimulations = (socket) => {
           )
         );
         audioFileSelect.append(...audioSelectOptions);
-        audioFileSelect.on("change", (e) => {
+        audioFileSelect.off("change").on("change", (e) => {
           configData.val = {
             key: "audio",
             value: { type, content: e.target.value },
@@ -1812,8 +1816,12 @@ const getSimulations = (socket) => {
           "checked",
           (!data && name === "music") || (data && data.type === value)
         );
-        radioInput.on("click", (e) => {
+        radioInput.off("click").on("click", (e) => {
           radioButtonClickHandler(e);
+          configData.val = {
+            key: "audio",
+            value: { type: e.target.value, content: "" },
+          };
           simSocket("sim_update_audio", e.target.value, (list) => {
             setAudioList(list, e.target.value);
           });
@@ -1920,10 +1928,25 @@ const getSimulations = (socket) => {
         } else {
           $("#oled_img_group").hide();
           $("#oled_text_group").show();
-          const { content, x, y, size } = obj;
           const oledTA = $("#oled_textarea");
-          oledTA.val(content || "");
-          oledTA.on("change", (e) => {
+          let content = "";
+          let x = 0;
+          let y = 0;
+          let size = 10;
+          if (
+            obj &&
+            "content" in obj &&
+            "x" in obj &&
+            "y" in obj &&
+            "size" in obj
+          ) {
+            content = obj.content;
+            x = obj.x;
+            y = obj.y;
+            size = obj.size;
+          }
+          oledTA.val(content);
+          oledTA.off("change").on("change", (e) => {
             configData.val = {
               key: "oled",
               value: { type, content: e.target.value },
@@ -1933,17 +1956,22 @@ const getSimulations = (socket) => {
           const oledConfigInputs = Array.from($("#oled_text_config input"));
           oledConfigInputs.map((item) => {
             if (item.id === "oled_x") {
-              $(item).val(x || 0);
+              $(item).val(x);
             } else if (item.id === "oled_y") {
-              $(item).val(y || 0);
+              $(item).val(y);
             } else if (item.id === "oled_size") {
-              $(item).val(size || 10);
+              $(item).val(size);
             }
-            $(item).on("change", (e) => {
-              const { name, value } = e.target;
-              const key = name.split("oled_")[1];
-              configData.val = { key: "oled", value: { [key]: Number(value) } };
-            });
+            $(item)
+              .off("change")
+              .on("change", (e) => {
+                const { name, value } = e.target;
+                const key = name.split("oled_")[1];
+                configData.val = {
+                  key: "oled",
+                  value: { [key]: Number(value) },
+                };
+              });
           });
         }
       };
