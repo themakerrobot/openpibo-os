@@ -926,6 +926,34 @@ const getSimulations = (socket) => {
     localStorage.setItem("sim_file", JSON.stringify(obj));
   };
 
+  const setSimItem = ({ time, eye, oled, motion, audio, tts }) => {
+    const lastData = {};
+    if (eye && eye.content && eye.content.join("").length) {
+      lastData.eye = eye;
+    }
+    if (oled && oled.content) {
+      lastData.oled = oled;
+    }
+    if (motion && motion.content) {
+      lastData.motion = motion;
+    }
+    if (audio && audio.content) {
+      lastData.audio = audio;
+    }
+    if (tts && tts.content) {
+      lastData.tts = tts;
+    }
+    lastData.time = time;
+    const oldData = getSimFile();
+    if (oldData && "data" in oldData) {
+      const index = oldData.data.findIndex((item) => item.time === time);
+      localStorage.setItem(
+        "sim_file",
+        JSON.stringify({ ...oldData, index, lastData })
+      );
+    }
+  };
+
   // 시퀀스 파일 영역(section.new-and-list) 초기화
   const onFileList = () => {
     $("#sequence_list").empty();
@@ -1378,6 +1406,7 @@ const getSimulations = (socket) => {
       },
       set value(v) {
         this.data = { ...this.data, ...v };
+        setSimItem(this.data);
       },
       set val(param) {
         const { key, value: v, bInit } = param;
@@ -1390,6 +1419,7 @@ const getSimulations = (socket) => {
           this.data[key] = { ...initialData[key], ...v };
         } else {
           this.data[key] = { ...this.data[key], ...v };
+          setSimItem(this.data);
         }
       },
     };
@@ -2003,6 +2033,9 @@ const getSimulations = (socket) => {
 
     const timeInput = $("#config_time_input");
     timeInput.val(configData.value.time || 0);
+    timeInput.off("change").on("change", (e) => {
+      configData.value = { time: Number(e.target.value) };
+    });
     const timeSave = $("#config_time_bt");
     timeSave.off("click").on("click", () => {
       const t = timeInput.val();
@@ -2052,11 +2085,14 @@ const getSimulations = (socket) => {
   if (loadedFile) {
     selectFile = loadedFile.name;
     selectFileContents = loadedFile.data;
-    const index = loadedFile.index > -1 ? loadedFile.index : 0;
+    const index = loadedFile.index;
     $("#sequence_warn").hide();
     $("h3[name=sequence_title]").text(selectFile);
     foldSimulatorFile(selectFile);
     setTimelineSection(selectFileContents, index);
+    if ("lastData" in loadedFile && loadedFile.lastData) {
+      setConfigSection(loadedFile.lastData);
+    }
   } else {
     setConfigSection();
     setTimelineSection();
