@@ -1510,7 +1510,7 @@ const getSimulations = (socket) => {
 
     /* 눈 색상 카드 */
     const setEyeColorCard = (data) => {
-      // configData.val = { key: "eye", value: data, bInit: true };
+      configData.val = { key: "eye", value: data, bInit: true };
 
       const eyeColorList = [
         { name: "255_0_0", value: [239, 51, 64] },
@@ -1685,7 +1685,7 @@ const getSimulations = (socket) => {
 
     /* 모션 카드 */
     const setMotionCard = (data) => {
-      // configData.val = { key: "motion", value: data, bInit: true };
+      configData.val = { key: "motion", value: data, bInit: true };
 
       const setMotionList = (list, name, cycle) => {
         const motionList = [
@@ -1761,7 +1761,7 @@ const getSimulations = (socket) => {
 
     /* 오디오 카드 */
     const setAudioCard = (data) => {
-      // configData.val = { key: "audio", value: data, bInit: true };
+      configData.val = { key: "audio", value: data, bInit: true };
       const setAudioList = (list, type, sData) => {
         const content = sData && sData.type === type ? sData.content : null;
         const audioFileList = [
@@ -1834,7 +1834,7 @@ const getSimulations = (socket) => {
 
     /* 디스플레이 카드 */
     const setOledCard = (data) => {
-      // configData.val = { key: "oled", value: data, bInit: true };
+      configData.val = { key: "oled", value: data, bInit: true };
 
       const setOledImageList = (list, imgPath, name) => {
         const imageList = [
@@ -1975,7 +1975,7 @@ const getSimulations = (socket) => {
 
     /* 음성 카드 */
     const setTtsCard = (data) => {
-      // configData.val = { key: "tts", value: data, bInit: true };
+      configData.val = { key: "tts", value: data, bInit: true };
 
       const ttsOptionsList = [
         { value: "espeak", label: "기본" },
