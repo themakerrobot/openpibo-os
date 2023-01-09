@@ -427,7 +427,7 @@ async def f(sid, d=None):
 
     with open('/home/pi/mysim.json', 'w') as f:
       json.dump(res, f)
-    shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
+    shutil.chown('/home/pi/mysim.json', 'pi', 'pi')
     return await emit('sim_result', "sim_remove_items ok")
 
 @app.sio.on('sim_load_items')
