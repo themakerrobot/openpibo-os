@@ -1268,8 +1268,17 @@ const getSimulations = (socket) => {
       } */
     });
     const allCheckbox = $("#timeline_all_check");
+    allCheckbox.off("click").on("click", (e) => {
+      if (playing.status) {
+        e.preventDefault();
+        return;
+      }
+    });
     allCheckbox.off("change").on("change", (e) => {
-      if (playing.status) return;
+      if (playing.status) {
+        e.preventDefault();
+        return;
+      }
       const value = $(e.target).is(":checked");
       const rows = $("#timeline_body input[type=checkbox]");
       rows.prop("checked", value);
