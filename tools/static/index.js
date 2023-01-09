@@ -2128,6 +2128,8 @@ $(function () {
       if (d == "on") {
         socket.emit("disp_motion");
       }
+      const menu = $("nav").find("button.menu-selected").attr("name");
+      handleMenu(menu);
     });
 
     $("input:checkbox[name=onoff_sel]").change(function () {
