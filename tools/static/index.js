@@ -1421,8 +1421,8 @@ const getSimulations = (socket) => {
           this.data[key] = { ...initialData[key], ...v };
         } else {
           this.data[key] = { ...this.data[key], ...v };
-          setSimItem(this.data);
         }
+        setSimItem(this.data);
       },
     };
 
@@ -1441,11 +1441,19 @@ const getSimulations = (socket) => {
       ) {
         simSocket("sim_stop_item", key);
         if (key === "eye") {
-          configData.val = {
-            key: "eye",
-            value: { type: target.val() },
-            bInit: true,
-          };
+          if (target.val() === "custom" && keyData.content.join("").length) {
+            configData.val = {
+              key: "eye",
+              value: { type: target.val(), content: keyData.content },
+              bInit: true,
+            };
+          } else {
+            configData.val = {
+              key: "eye",
+              value: { type: target.val() },
+              bInit: true,
+            };
+          }
         } else if (key === "motion") {
           configData.val = {
             key: "motion",
@@ -1669,7 +1677,7 @@ const getSimulations = (socket) => {
           "checked",
           (!data && name === "default") || (data && data.type === name)
         );
-        radioInput.on("click", (e) => {
+        radioInput.off("click").on("click", (e) => {
           radioButtonClickHandler(e);
           if (e.target.name === "eye_custom") {
             $(".color-swatch-group .color.swatch").addClass("hide");
@@ -1901,6 +1909,10 @@ const getSimulations = (socket) => {
           );
         });
         oledPathSelect.off("change").on("change", (e) => {
+          configData.val = {
+            key: "oled",
+            value: { type: e.target.value, content: "" },
+          };
           simSocket("sim_update_oled", e.target.value, (list) =>
             setOledImageList(list, e.target.value, "")
           );
@@ -1989,8 +2001,15 @@ const getSimulations = (socket) => {
           "checked",
           (!data && name === "text") || (data && data.type === name)
         );
-        radioInput.on("click", (e) => {
+        radioInput.off("click").on("click", (e) => {
           radioButtonClickHandler(e);
+          configData.val = {
+            key: "motion",
+            value: {
+              type: e.target.name.indexOf("image") > 0 ? "image" : "text",
+              content: "",
+            },
+          };
           setOledContent(e.target.name.indexOf("image") > 0 ? "image" : "text");
         });
         return [radioInput, $(`<label for="oled_${name}">${value}</label>`)];
