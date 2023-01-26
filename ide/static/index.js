@@ -329,14 +329,20 @@ $("#eraser").on("click", () => {
 });
 
 $("#result_check").on("change", ()=> {
+  //editor.setSize(700, null);
   if ($("#result_check").is(":checked")) {
     $("#result_en").show();
-    editor.setSize(700, null);
+    if(document.body.offsetWidth > 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 820px)';
+    }
   }
   else {
     $("#result_en").hide();
-    editor.setSize("72.26vw", null); 
+    if(document.body.offsetWidth > 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 420px)';
+    }
   }
+  editor.refresh();
 });
 
 $("#home_bt").on("click", () => {

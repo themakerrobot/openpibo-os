@@ -48,19 +48,29 @@ header {
   font-weight: bold;
 }
 
-@media (max-width: 1030px) {
+@media (max-width: 1129px) {
   .result {
-    width:700px;
+    min-width:700px;
+    width:calc(99vw - 100px);
+  }
+  .CodeMirror {
+    width:calc(99vw - 100px);
   }
 }
-@media (min-width: 1030px) {
+@media (min-width: 1130px) {
   .result {
-    width:1040px;
+    width:calc(99vw - 100px);
+  }
+  .CodeMirror {
+    width:calc(99vw - 430px);
   }
 }
-@media (min-width: 1500px) {
+@media (min-width: 1530px) {
   .result {
     width:400px;
+  }
+  .CodeMirror {
+    width:calc(99vw - 830px);
   }
 }
 
@@ -258,6 +268,7 @@ main > div.content {
   flex-wrap: wrap;
   justify-content:center;
   padding-left: 40px;
+  padding-right: 40px;
 }
 
 main div.wrapper.ide {

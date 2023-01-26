@@ -5,7 +5,7 @@
 /* Added by yjlee - START */
   font-family: Consolas, 'Courier New', monospace;
   font-size: 14px; 
-  width:700px; 
+  min-width:700px;
   height: 79.5vh; 
   min-height:555px;
 /* Added by yjlee - END */
