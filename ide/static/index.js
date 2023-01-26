@@ -54,14 +54,17 @@ $("#fontsize").on("change", () => {
 socket.on("update", (data) => {
   if ("code" in data) {
     save_code = data["code"];
+    $("#codepath").html(data["filepath"]);
     editor.setValue(save_code);
   }
 
   if ("image" in data) {
+    $("#mediapath").html(data["filepath"]);
     $("#image").attr("src", `data:image/jpeg;charset=utf-8;base64,${data["image"]}`);
   }
 
   if ("audio" in data) {
+    $("#mediapath").html(data["filepath"]);
     $("#audio").attr("src", `data:audio/mpeg;charset=utf-8;base64,${data["audio"]}`);
   }
 
@@ -210,15 +213,12 @@ socket.on("update_file_manager", (d) => {
                 let filepath = PATH.join("/") + "/" + name;
 
                 if (["jpg", "png", "jpeg"].includes(ext.toLowerCase())) {
-                  $("#imgpath").text(filepath);
                   socket.emit("view", filepath);
                 }
                 else if(["wav", "mp3"].includes(ext.toLowerCase())) {
-                  $("#imgpath").text(filepath);
                   socket.emit("play", filepath);
                 }
                 else {
-                  $("#codepath").html(filepath);
                   socket.emit("load", filepath);
                 }
               }
@@ -297,7 +297,6 @@ $("#add_file").on("click", () => {
       return;
     }
 
-    $("#codepath").html(PATH.join("/") + "/" + name);
     socket.emit('add_file', PATH.join("/") + "/"+ name);
   }
 });

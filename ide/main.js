@@ -20,7 +20,6 @@ const protectList = [
   '/home/pi/node_modules',
   '/home/pi/package.json',
   '/home/pi/package-lock.json',
-  '/home/pi/mymotion.json',
   '/home/pi/config.json',
 ];
 
@@ -163,14 +162,14 @@ io.on('connection', (socket) => {
 
   socket.on('view', (p) => {
     fs.readFile(p, (err, data) => {
-      if(!err) io.emit('update', {image:Buffer.from(data).toString('base64')/*, dialog:'불러오기 완료: ' + p*/});
+      if(!err) io.emit('update', {image:Buffer.from(data).toString('base64'), filepath:p/*, dialog:'불러오기 완료: ' + p*/});
       else io.emit('update', {dialog:'오류: ' + err.toString()});
     });
   });
   
   socket.on('play', (p) => {
     fs.readFile(p, (err, data) => {
-      if(!err) io.emit('update', {audio:Buffer.from(data).toString('base64')/*, dialog:'불러오기 완료: ' + p*/});
+      if(!err) io.emit('update', {audio:Buffer.from(data).toString('base64'), filepath:p/*, dialog:'불러오기 완료: ' + p*/});
       else io.emit('update', {dialog:'오류: ' + err.toString()});
     });
   });
@@ -183,8 +182,8 @@ io.on('connection', (socket) => {
     }
 
     fs.readFile(p, (err, data) => {
-      if(!err) io.emit('update', {code: data.toString()/*, dialog:'불러오기 완료: ' + p*/});
-      else io.emit('update', {code:'', dialog:'불러오기 오류: ' + err.toString()});
+      if(!err) io.emit('update', {code: data.toString(), filepath:p/*, dialog:'불러오기 완료: ' + p*/});
+      else io.emit('update', {dialog:'불러오기 오류: ' + err.toString()});
     });
   });
 
@@ -227,14 +226,14 @@ io.on('connection', (socket) => {
           io.emit('update_file_manager', {data: readDirectory(PATH)});
         }
       } catch (err) {
-        io.emit('update', {code:'', dialog:'파일 생성 오류: ' + err.toString()});
+        io.emit('update', {dialog:'파일 생성 오류: ' + err.toString()});
         return;
       }
 
       codePath = p;
       fs.readFile(p, (err, data) => {
-        if(!err) io.emit('update', {code: data.toString(), dialog:'불러오기 완료: ' + p});
-        else io.emit('update', {code:'', dialog:'불러오기 오류: ' + err.toString()});
+        if(!err) io.emit('update', {code: data.toString(), filepath: p, dialog:'불러오기 완료: ' + p});
+        else io.emit('update', {dialog:'불러오기 오류: ' + err.toString()});
       });
     });
   });
@@ -253,7 +252,7 @@ io.on('connection', (socket) => {
           io.emit('update_file_manager', {data: readDirectory(PATH)});
         }
       } catch (err) {
-        io.emit('update', {code:'', dialog:'폴더 생성 오류: ' + err.toString()});
+        io.emit('update', {dialog:'폴더 생성 오류: ' + err.toString()});
         return;
       }
     });
@@ -271,7 +270,7 @@ io.on('connection', (socket) => {
       fs.writeFileSync(codePath, codeText);
       execSync(`chown -R pi:pi "${path.dirname(codePath)}"`);
     } catch (err) {
-      io.emit('update', {code:'', dialog:'파일 저장 오류: ' + err.toString()});
+      io.emit('update', {dialog:'파일 저장 오류: ' + err.toString()});
     }
   });
 
@@ -289,7 +288,7 @@ io.on('connection', (socket) => {
       execSync(`chown -R pi:pi "${path.dirname(codePath)}"`);
       await execute(codeExec[d["codetype"]], codePath);
     } catch (err) {
-      io.emit('update', {code:'', dialog:'실행 오류: ' + err.toString(), exit:true});
+      io.emit('update', {dialog:'실행 오류: ' + err.toString(), exit:true});
     }
   });
 });

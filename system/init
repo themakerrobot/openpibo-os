@@ -12,17 +12,18 @@ then
   echo "127.0.0.1 ${rpi_serial}" >> /etc/hosts
   sudo shutdown -r now
 fi
+
+# 복구 usb
+if [ -f /media/usb/_update ]; then
+  sudo /media/usb/_update
+  exit 0
+fi
+
 # motor init
 servo init
 
 # ap start
 sudo /home/pi/openpibo-os/system/wifi-ap-sta run
-
-# 복구 usb
-if [ -f /media/usb/_index.py ]; then
-  sudo python3 /media/usb/_index.py
-  exit 0
-fi
 
 # Amp init
 sudo gpio mode 7 out
