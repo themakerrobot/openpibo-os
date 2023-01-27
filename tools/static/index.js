@@ -1063,7 +1063,7 @@ const getSimulations = (socket) => {
     } else {
       selectFile = "";
       selectFileContents = null;
-      setSimFile({ name: "", data: {}, index: -1 });
+      setSimFile({ name: "", data: [], index: -1 });
       foldSimulatorFile(false);
     }
   };
