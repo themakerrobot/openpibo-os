@@ -219,6 +219,10 @@ socket.on("update_file_manager", (d) => {
                   socket.emit("play", filepath);
                 }
                 else {
+                  if(save_code != editor.getValue()){
+                    if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
+		      socket.emit("save", { codepath: $("#codepath").html(), codetext: editor.getValue() });
+		  }
                   socket.emit("load", filepath);
                 }
               }
