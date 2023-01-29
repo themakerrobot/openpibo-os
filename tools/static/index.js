@@ -25,6 +25,7 @@ const getVisions = (socket) => {
   $("#v_upload_tm").on("change", (e) => {
     let formData = new FormData();
     formData.append("data", $("#v_upload_tm")[0].files[0]);
+    $("#v_upload_tm").val("");
     $.ajax({
       url: `/upload_tm`,
       type: "post",
@@ -371,6 +372,7 @@ const getSpeech = (socket) => {
   $("#s_upload_csv").on("change", (e) => {
     let formData = new FormData();
     formData.append("data", $("#s_upload_csv")[0].files[0]);
+    $("#s_upload_csv").val("");
     $.ajax({
       url: `/upload_csv`,
       type: "post",
@@ -667,6 +669,7 @@ const getDevices = (socket) => {
   $("#upload_oled").on("change", (e) => {
     let formData = new FormData();
     formData.append("data", $("#upload_oled")[0].files[0]);
+    $("#upload_oled").val("");
     $.ajax({
       url: `/upload_oled`,
       type: "post",
