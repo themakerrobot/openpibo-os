@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="../static/cobalt.css" />
   <link rel="stylesheet" href="../static/duotone-light.css" />
   <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
-  <link rel="stylesheet" href="../static/index.css?ver=230108" />
+  <link rel="stylesheet" href="../static/index.css?ver=230129" />
 </head>
 
 <body>
@@ -160,6 +160,8 @@
             <button id="eraser" title="지우기">
               <i class="fa fa-solid fa-eraser"></i>
             </button>
+            <i class="fa fa-solid fa-link"></i>
+            <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" />
           </div>
         </div>
         <div class="filepath" style="width:400px">
@@ -170,6 +172,7 @@
         <div class="editor-row">
           <div class="editor-col">
             <textarea id="result" class="result" disabled></textarea>
+            <iframe id="terminal" class="result" src="" style="display:none"></iframe>
           </div>
         </div>
       </div>
@@ -196,6 +199,6 @@
       <span id="s_runtime"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=221218"></script>
+  <script src="../static/index.js?ver=230129"></script>
 </body>
 </html>

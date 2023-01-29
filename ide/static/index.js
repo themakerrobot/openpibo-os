@@ -323,25 +323,44 @@ $("#upload").on("change", (e) => {
 });
 
 $("#eraser").on("click", () => {
-  result.value = "";
-  $("#respath").text("");
+  if ($("#terminal_check").is(":checked")) {
+    $("#terminal").attr("src", "");
+  }
+  else {
+    result.value = "";
+    $("#respath").text("");
+  }
 });
 
 $("#result_check").on("change", ()=> {
   //editor.setSize(700, null);
   if ($("#result_check").is(":checked")) {
     $("#result_en").show();
-    if(document.body.offsetWidth > 1530) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 820px)';
+    if(document.body.offsetWidth >= 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 830px)';
     }
   }
   else {
     $("#result_en").hide();
-    if(document.body.offsetWidth > 1530) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 420px)';
+    if(document.body.offsetWidth >= 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 430px)';
     }
   }
   editor.refresh();
+});
+
+$("#terminal_check").on("change", ()=> {
+  if ($("#terminal_check").is(":checked")) {
+    $("#result").hide();
+    $("#terminal").show();
+    if ($("#terminal").attr("src") == "") {
+      $("#terminal").attr("src", `http://${window.location.hostname}:50001`);
+    }
+  }
+  else {
+    $("#result").show();
+    $("#terminal").hide();
+  }
 });
 
 $("#home_bt").on("click", () => {
