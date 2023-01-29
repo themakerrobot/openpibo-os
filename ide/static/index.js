@@ -318,7 +318,12 @@ $("#upload").on("change", (e) => {
     processData: false
   })
   .always((xhr, status) => {
-    alert(`파일 전송이 완료되었습니다. ${status}`);
+    if (status == "success") {
+      alert(`파일 전송이 완료되었습니다.`);
+    } else {
+      alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+      $("#upload").val("");
+    }
   });
 });
 
