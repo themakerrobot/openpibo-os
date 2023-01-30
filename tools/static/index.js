@@ -790,10 +790,10 @@ const getSimulations = (socket) => {
   let selectFile = null;
   let selectFileContents = [];
   $("#sequence_title").hide();
-  $("#config_contents").hide();
+  $("#config_contents").parent().hide();
   $("#timeline_play_bt").hide();
   $("#timeline_stop_bt").hide();
-  $("#timeline_card").hide();
+  $("#timeline_card").parent().css("opacity", 0);
   $("#timeline_bottom_wrap").hide();
   $("section.timeline").css("align-self", "baseline");
   $("#sequence_contents").show("slide");
@@ -1013,10 +1013,10 @@ const getSimulations = (socket) => {
       $("#sequence_title_fold_bt").hide();
       $("#sequence_title_unfold_bt").show();
       $("#sequence_contents").hide();
-      $("#config_contents").show("blind");
+      $("#config_contents").parent().show();
       $("#timeline_play_bt").show();
       $("#timeline_stop_bt").show();
-      $("#timeline_card").show();
+      $("#timeline_card").parent().css("opacity", 1);
       $("#timeline_bottom_wrap").show();
       $("section.timeline").css("align-self", "unset");
       $("#sequence_title").show("fade");
@@ -1025,10 +1025,10 @@ const getSimulations = (socket) => {
       if (!selectFile) {
         $("#sequence_title").hide();
       }
-      $("#config_contents").hide();
+      $("#config_contents").parent().hide();
       $("#timeline_play_bt").hide();
       $("#timeline_stop_bt").hide();
-      $("#timeline_card").hide();
+      $("#timeline_card").parent().css("opacity", 0);
       $("#timeline_bottom_wrap").hide();
       $("section.timeline").css("align-self", "baseline");
       $("#sequence_contents").show("shake");
