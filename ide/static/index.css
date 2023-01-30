@@ -54,6 +54,7 @@ header {
     width:calc(99vw - 100px);
   }
   .CodeMirror {
+    min-width:700px;
     width:calc(99vw - 100px);
   }
 }
@@ -67,10 +68,12 @@ header {
 }
 @media (min-width: 1530px) {
   .result, .terminal {
-    width:400px;
+    min-width:400px;
+    width:calc(40vw - 230px);
   }
   .CodeMirror {
-    width:calc(99vw - 830px);
+    min-width:700px;
+    width:calc(58vw - 200px);
   }
 }
 

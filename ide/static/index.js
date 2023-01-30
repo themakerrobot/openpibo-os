@@ -345,7 +345,7 @@ $("#result_check").on("change", ()=> {
   if ($("#result_check").is(":checked")) {
     $("#result_en").show();
     if(document.body.offsetWidth >= 1530) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 830px)';
+      document.querySelector("div.CodeMirror").style.width = 'calc(58vw - 200px)';
     }
   }
   else {
