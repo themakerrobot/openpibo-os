@@ -12,7 +12,6 @@ const codeMirrorMode = {
   },
   shell: "shell",
 };
-
 const max_filename_length = 30;
 
 const execute = document.getElementById("execute");
@@ -221,8 +220,8 @@ socket.on("update_file_manager", (d) => {
                 else {
                   if(save_code != editor.getValue()){
                     if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
-		      socket.emit("save", { codepath: $("#codepath").html(), codetext: editor.getValue() });
-		  }
+                      socket.emit("save", { codepath: $("#codepath").html(), codetext: editor.getValue() });
+                  }
                   socket.emit("load", filepath);
                 }
               }
@@ -360,6 +359,7 @@ $("#result_check").on("change", ()=> {
 
 $("#terminal_check").on("change", ()=> {
   if ($("#terminal_check").is(":checked")) {
+
     $("#result").hide();
     $("#terminal").show();
     if ($("#terminal").attr("src") == "") {
@@ -376,6 +376,7 @@ $("#home_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
     window.location.replace(`http://${window.location.hostname}:80`);
 });
+
 $("#home_bt").hover(
   function () { $(this).animate({ opacity: "0.7" }, 100); $(this).css("cursor", "pointer"); },
   function () { $(this).animate({ opacity: "1" }, 100); $(this).css("cursor", "default");}
