@@ -1,5 +1,6 @@
 import time,json,subprocess,os
 from openpibo.oled import Oled
+from openpibo.motion import Motion
 
 def disp(v):
   wip, ssid, sn = v[2] if v[0] == "" else v[0], v[3] if v[1] == "" else v[1], v[4]
@@ -10,12 +11,7 @@ def disp(v):
   o.show()
 
 if __name__ == "__main__":
-  try:
-    with open('/home/pi/config.json', 'r') as f:
-      tmp = json.load(f)
-      os.system('echo "#23:{}!" >/dev/ttyS0'.format(tmp['eye']))
-  except Exception as ex:
-      pass
+  os.system('echo "#20:200,200,200!" >/dev/ttyS0')
 
   try:
     with open('/home/pi/.OS_VERSION', 'r') as f:
@@ -32,7 +28,9 @@ if __name__ == "__main__":
     o.set_font(size=12)
     o.draw_text((10,45), os_version)
     o.show()
-    time.sleep(5)
+
+    m = Motion()
+    m.set_motion("wake_up2", 1)
 
     text = 'PIBO ROBOT'
     for i in range(1,11):
@@ -44,6 +42,7 @@ if __name__ == "__main__":
     time.sleep(1)
     o.clear()
 
+    m.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 2500)
     for i in range(1,15):
       data = subprocess.check_output(['/home/pi/openpibo-os/system/get_network.sh']).decode('utf-8').strip('\n').split(',')
       if data[0] != '' or data[2] != '':
@@ -55,6 +54,14 @@ if __name__ == "__main__":
       o.clear()
       time.sleep(0.3)
     disp(data)
+
   except Exception as ex:
     with open('/home/pi/boot_errmsg', 'w') as f:
       f.write(f'[{time.ctime()}]\n{ex}')
+
+  try:
+    with open('/home/pi/config.json', 'r') as f:
+      tmp = json.load(f)
+      os.system('echo "#23:{}!" >/dev/ttyS0'.format(tmp['eye']))
+  except Exception as ex:
+      pass
