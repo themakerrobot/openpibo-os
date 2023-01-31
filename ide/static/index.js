@@ -332,7 +332,7 @@ $("#upload").on("change", (e) => {
 
 $("#eraser").on("click", () => {
   if ($("#terminal_check").is(":checked")) {
-    $("#terminal").attr("src", "");
+    $("#terminal").attr("src", `http://${window.location.hostname}:50001`);
   }
   else {
     result.value = "";
@@ -357,14 +357,11 @@ $("#result_check").on("change", ()=> {
   editor.refresh();
 });
 
+$("#terminal").attr("src", `http://${window.location.hostname}:50001`);
 $("#terminal_check").on("change", ()=> {
   if ($("#terminal_check").is(":checked")) {
-
     $("#result").hide();
     $("#terminal").show();
-    if ($("#terminal").attr("src") == "") {
-      $("#terminal").attr("src", `http://${window.location.hostname}:50001`);
-    }
   }
   else {
     $("#result").show();
