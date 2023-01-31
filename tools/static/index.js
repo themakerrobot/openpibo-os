@@ -2176,6 +2176,11 @@ $(function () {
       socket.emit("disp_motion");
     }
 
+    if (name != "motion") {
+      socket.emit("set_motor", { idx: 0, pos: 0});
+      socket.emit("set_motor", { idx: 6, pos: 0});
+    }
+
     $("h4#content_header").text(name.toUpperCase());
     $("nav").find("button").removeClass("menu-selected");
     $(`button[name=${name}]`).addClass("menu-selected");
