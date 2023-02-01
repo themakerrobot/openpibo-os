@@ -13,12 +13,6 @@ then
   sudo shutdown -r now
 fi
 
-# 복구 usb
-if [ -f /media/usb/_update ]; then
-  sudo /media/usb/_update
-  exit 0
-fi
-
 # motor init
 servo init
 
@@ -37,6 +31,12 @@ sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
 
 # network init
 sudo python3 /home/pi/openpibo-os/system/booting.py
+
+# 복구 usb
+if [ -f /media/usb/_update ]; then
+  sudo /media/usb/_update
+  exit 0
+fi
 
 # run ide
 cd /home/pi/openpibo-os/ide;sudo node main.js &
