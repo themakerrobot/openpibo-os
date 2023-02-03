@@ -557,6 +557,7 @@ const getDevices = (socket) => {
 
         if (isNaN(val) || val < min || val > max) {
           alert(min + " ~ " + max + " 사이를 입력하세요.");
+	  $(this).val(0);
         } else {
           socket.emit("set_neopixel", { idx: i, value: val });
         }
