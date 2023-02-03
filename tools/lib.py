@@ -58,6 +58,8 @@ class Pibo:
           img, res = self.face_detect()
         elif self.vision_type == "object":
           img, res = self.object_detect()
+        elif self.vision_type == "classify":
+          img, res = self.classify_image()
         elif self.vision_type == "pose":
           img, res = self.pose_detect()
         elif self.vision_type == "cartoon":
@@ -115,6 +117,23 @@ class Pibo:
       res += '[{}-({},{})] '.format(obj['name'], x1, y1)
 
     return im, res
+
+  def classify_image(self):
+    im = self.frame.copy()
+    res = self.det.classify_image(im)
+
+    r = []
+    im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
+    for i in range(len(res)):
+      #self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
+      pred = f"{res[i]['score']}%"
+      text= f"{res[i]['name']}:{pred}"
+      points = (20, 20+((i+1)*25))
+      ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))
+      r.append(f"{res[i]['name']}: {pred}")
+
+    im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
+    return im, ", ".join(r)
 
   def qr_detect(self):
     im = self.frame.copy()
