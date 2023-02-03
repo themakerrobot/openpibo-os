@@ -299,7 +299,10 @@ $("#add_file").on("click", () => {
       alert(`파일 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
       return;
     }
-
+    if(save_code != editor.getValue()){
+      if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
+        socket.emit("save", { codepath: $("#codepath").html(), codetext: editor.getValue() });
+    }
     socket.emit('add_file', PATH.join("/") + "/"+ name);
   }
 });
