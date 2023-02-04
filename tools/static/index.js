@@ -1902,9 +1902,10 @@ const getSimulations = (socket) => {
         oledPathSelect.children().remove();
         const oledPathOptions = oledImgOptionsList.map(({ label, value }) => {
           if (!path || path === value) {
-            simSocket("sim_update_oled", value, (list) =>
-              setOledImageList(list, path, img)
-            );
+	    //simSocket("sim_update_oled", value, (list) =>
+            //  setOledImageList(list, path, img)
+            //);
+            setOledImageList([], path, img)
           }
           return $(
             `<option value=${value} ${
