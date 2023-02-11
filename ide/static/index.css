@@ -53,7 +53,7 @@ header {
     min-width:700px;
     width:calc(99vw - 100px);
   }
-  .CodeMirror {
+  .CodeMirror, .blocklyDiv {
     min-width:700px;
     width:calc(99vw - 100px);
   }
@@ -62,7 +62,7 @@ header {
   .result, .terminal {
     width:calc(99vw - 100px);
   }
-  .CodeMirror {
+  .CodeMirror, .blocklyDiv {
     width:calc(99vw - 430px);
   }
 }
@@ -71,7 +71,7 @@ header {
     min-width:400px;
     width:calc(40vw - 230px);
   }
-  .CodeMirror {
+  .CodeMirror, .blocklyDiv  {
     min-width:700px;
     width:calc(58vw - 200px);
   }
@@ -200,6 +200,16 @@ button:active {
   transform: translateY(2px);
 }
 
+button.btn-teal {
+  font-family: "Noto Sans Regular", sans-serif;
+  font-size:1.2rem;
+  padding: 0.5rem 1rem;
+  outline: none;
+  background-color: var(--teal);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px #074c55;
+}
 button.btn-teal:hover {
   background-color: var(--dark-teal);
 }
@@ -322,7 +332,7 @@ div[name="codetype"] > button {
   box-shadow: none;
   color: rgba(0, 0, 0, 0.5);
   border-radius: 0;
-  width: 90px;
+  width: 80px;
 }
 
 i.fa > span {
@@ -414,4 +424,10 @@ audio.preview-audio {
   min-width:400px;
   min-height:555px;
   height:79.5vh;
+}
+
+.blocklyDiv {
+  min-height:555px;
+  height:79.5vh;
+  display: none; /*hide the element by default*/
 }

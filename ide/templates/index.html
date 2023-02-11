@@ -8,6 +8,13 @@
     content="width=device-width, initial-scale=1.0 user-scalable=no"
   />
   <title>Pibo Maker</title>
+
+  <script src="../static/blockly_compressed.js"></script>
+  <script src="../static/python_compressed.js"></script>
+  <script src="../static/blocks_compressed.js"></script>
+  <script src="../static/ko.js"></script>
+  <script src="../static/pythonblocks.js?ver=22a123asdasdfa13"></script>
+
   <script src="../static/jquery-3.1.1.min.js"></script>
   <script src="../static/codemirror.min.js"></script>
   <script src="../static/python.js"></script>
@@ -18,12 +25,13 @@
   <script src="../static/xml.js"></script>
   <script src="../static/shell.js"></script>
   <script src="../static/socket.io.min.js"></script>
+
   <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
   <link rel="stylesheet" href="../static/codemirror.css" />
   <link rel="stylesheet" href="../static/cobalt.css" />
   <link rel="stylesheet" href="../static/duotone-light.css" />
   <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
-  <link rel="stylesheet" href="../static/index.css?ver=230129" />
+  <link rel="stylesheet" href="../static/index.css?ver=230129v112" />
 </head>
 
 <body>
@@ -128,14 +136,19 @@
             <i class="fa-solid fa-text-height">
               <input type="number" id="fontsize" min="14" max="50" value="14" step="1" pattern="\d*" />
             </i>
-            <button id="execute" class="btn-teal" style="width:70px" title="실행">
+            <button id="execute" class="btn-teal" style="width:40px" title="실행">
               <i class="fa fa-solid fa-play"></i>
             </button>
-            <button id="stop" class="btn-red disabled" style="width:70px" title="정지">
+            <button id="stop" class="btn-red disabled" style="width:40px" title="정지">
               <i class="fa fa-solid fa-stop"></i>
             </button>
+            <button id="save" class="btn" style="width:40px" title="저장">
+              <i class="fa fa-solid fa-save"></i>
+            </button>
+            <i class="fa-solid fa-cube"></i>
+            <input type="checkbox" id="blockly_check" name="blockly_check" title="블록" />
             <i class="fa-solid fa-circle-half-stroke"></i>
-            <input type="checkbox" id="theme_check" name="theme_check" title="테마" checked/> / 
+            <input type="checkbox" id="theme_check" name="theme_check" title="테마" checked/>
             <i class="fa-solid fa-arrows-left-right-to-line"></i>
             <input type="checkbox" id="result_check" name="result_check" title="결과보기" checked/>
           </div>
@@ -147,9 +160,12 @@
         </div>
 
         <div class="editor-row">
-          <form id="code_form">
-            <textarea id="codemirror-code" name="source_code"></textarea>
-          </form>
+          <div id="codeDiv">
+            <form id="code_form">
+              <textarea id="codemirror-code" name="source_code"></textarea>
+            </form>
+          </div>
+          <div id="blocklyDiv" class="blocklyDiv"></div>
         </div>
       </div>
 
@@ -199,6 +215,6 @@
       <span id="s_runtime"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=230130"></script>
+  <script src="../static/index.js?ver=230130v2"></script>
 </body>
 </html>
