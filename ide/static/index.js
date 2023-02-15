@@ -1,7 +1,4 @@
-let PATH;
-let save_code = "";
-let save_block = "";
-const socket = io();
+const MAX_FILENAME_LENGTH = 30;
 const codeMirrorMode = {
   python: "python",
   html: {
@@ -13,14 +10,7 @@ const codeMirrorMode = {
   },
   shell: "shell",
 };
-const max_filename_length = 30;
-
-const execute = document.getElementById("execute");
-const stop = document.getElementById("stop");
-const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
-const result = document.getElementById("result");
-
-const editor = CodeMirror.fromTextArea(
+const codeEditor = CodeMirror.fromTextArea(
   document.getElementById("codemirror-code"),
   {
     lineNumbers: "true",
@@ -33,36 +23,53 @@ const editor = CodeMirror.fromTextArea(
           alert("파일이 없습니다.");
           return;
         }
-        save_code = editor.getValue();
-        CodeMirror.signal(editor, "change");
-        socket.emit("save", { codepath: $("#codepath").html(), codetext: save_code });
+        saveCode = codeEditor.getValue();
+        CodeMirror.signal(codeEditor, "change");
+        socket.emit("save", { codepath: $("#codepath").html(), codetext: saveCode });
       },
     },
   }
 );
 
+const execute = document.getElementById("execute");
+const stop = document.getElementById("stop");
+const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
+const result = document.getElementById("result");
+const socket = io();
+
+let CURRENT_PATH;
+let CODE_PATH = '';
+let BLOCK_PATH = '';
+let saveCode = "";
+let saveBlock = "{}";
+
 $("#logo_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    window.location.replace(`http://${window.location.hostname}:80`);
+    location.replace(`http://${location.hostname}:80`);
 });
 
 $("#fontsize").on("change", () => {
   document.querySelector("div.CodeMirror").style.fontSize = `${$("#fontsize").val()}px`;
-  editor.refresh();
+  codeEditor.refresh();
 });
 
 socket.on("update", (data) => {
   if ("code" in data) {
     $("#codepath").html(data["filepath"]);
-
     if ($("#blockly_check").is(":checked") ) {
-      save_block = data["code"];
-      Blockly.serialization.workspaces.load(JSON.parse(save_block), workspace);
+      saveBlock = data["code"];
+      try {
+        Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
+      }
+      catch(e) {
+        alert("블록 데이터를 불러오지 못했습니다.");
+        saveBlock = "{}";
+      }
       update_block();
     }
     else {      
-      save_code = data["code"];
-      editor.setValue(save_code);
+      saveCode = data["code"];
+      codeEditor.setValue(saveCode);
     }
   }
 
@@ -98,8 +105,8 @@ socket.on("update", (data) => {
 
 socket.emit("init");
 socket.on("init", (d) => {
-  save_code = d["codetext"];
-  editor.setValue(save_code);
+  saveCode = d["codetext"];
+  codeEditor.setValue(saveCode);
 
   codeTypeBtns.forEach((el) => {
     if (el.name == "python") el.classList.add("checked");
@@ -107,8 +114,8 @@ socket.on("init", (d) => {
   });
 
   $("#codepath").text(d["codepath"]);
-  PATH = d["path"].split("/");
-  socket.emit("load_directory", PATH.join("/"));
+  CURRENT_PATH = d["path"].split("/");
+  socket.emit("load_directory", CURRENT_PATH.join("/"));
 });
 
 socket.emit("system");
@@ -130,13 +137,13 @@ codeTypeBtns.forEach((btn) => {
     codeTypeBtns.forEach((el) => el.classList.remove("checked"));
     const target = e.currentTarget;
     target.classList.add("checked");
-    editor.setOption("mode", codeMirrorMode[target.name]);
+    codeEditor.setOption("mode", codeMirrorMode[target.name]);
   };
   btn.addEventListener("click", handler);
 });
 
-editor.on("change", () => {
-  $("#codecheck").html(save_code==editor.getValue() ? "" : "<i class='fa-solid fa-circle'></i>");
+codeEditor.on("change", () => {
+  $("#codecheck").html(saveCode==codeEditor.getValue() ? "" : "<i class='fa-solid fa-circle'></i>");
 });
 
 execute.addEventListener("click", () => {
@@ -155,29 +162,28 @@ execute.addEventListener("click", () => {
       alert("json 파일만 실행 가능합니다.");
       return;
     }
-    save_block = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
+    saveBlock = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
     socket.emit("save", { 
       codepath: filepath, 
-      codetext: save_block 
+      codetext: saveBlock 
     });
     update_block();
     socket.emit("execute", { codetype: "python", codepath: "/home/pi/blockly.py", codetext: Blockly.Python.workspaceToCode(workspace) });
   }
   else {
-    save_code = editor.getValue();
+    saveCode = codeEditor.getValue();
     codepath = $("#codepath").html();
-    CodeMirror.signal(editor, "change");
+    CodeMirror.signal(codeEditor, "change");
     codeTypeBtns.forEach((el) => {
       if (el.classList.value.includes("checked")) codetype = el.name;
     });
 
-
     if(codetype == 'html') {
       alert("html모드는 저장만 가능합니다.");
-      socket.emit("save", { codepath: $("#codepath").html(), codetext: save_code });
+      socket.emit("save", { codepath: $("#codepath").html(), codetext: saveCode });
       return;
     }
-    socket.emit("execute", { codetype: codetype, codepath: codepath, codetext: save_code });
+    socket.emit("execute", { codetype: codetype, codepath: codepath, codetext: saveCode });
   }
 
   execute.classList.add("disabled");
@@ -193,7 +199,7 @@ stop.addEventListener("click", () => {
 });
 
 socket.on("update_file_manager", (d) => {
-  $('#path').text(PATH.join("/"));
+  $('#path').text( CURRENT_PATH.join("/"));
   $("#fm_table > tbody").empty();
 
   let data;
@@ -224,21 +230,21 @@ socket.on("update_file_manager", (d) => {
               let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html()
 
               if (name == "..") {
-                if (PATH.length < 4) {
+                if (CURRENT_PATH.length < 4) {
                   alert("더이상 상위 폴더로 이동할 수 없습니다.");
                   return;
                 }
-                PATH.pop();
-                socket.emit("load_directory", PATH.join("/"));
+                CURRENT_PATH.pop();
+                socket.emit("load_directory", CURRENT_PATH.join("/"));
               }
               else if (type.includes("folder")) {
-                PATH.push(name);
-                socket.emit("load_directory", PATH.join("/"));
+                CURRENT_PATH.push(name);
+                socket.emit("load_directory", CURRENT_PATH.join("/"));
               }
               else if (type.includes("file")){
                 let ext = name.split(".");
                 ext = ext[ext.length-1];
-                let filepath = PATH.join("/") + "/" + name;
+                let filepath = CURRENT_PATH.join("/") + "/" + name;
 
                 if (["jpg", "png", "jpeg"].includes(ext.toLowerCase())) {
                   socket.emit("view", filepath);
@@ -247,16 +253,25 @@ socket.on("update_file_manager", (d) => {
                   socket.emit("play", filepath);
                 }
                 else {
-                  if ($("#blockly_check").is(":checked") == false) {
-                    if(save_code != editor.getValue()){
+                  if ($("#blockly_check").is(":checked")) {
+                    if(["json"].includes(ext.toLowerCase()) == false) {
+                      alert("json 파일만 로드 가능합니다.");
+                      return;
+                    }
+                    if (saveBlock != JSON.stringify(Blockly.serialization.workspaces.save(workspace))) {
                       if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
-                        socket.emit("save", { codepath: $("#codepath").html(), codetext: editor.getValue() });
+                        socket.emit("save", { codepath: $("#codepath").html(), codetext: JSON.stringify(Blockly.serialization.workspaces.save(workspace)) });
+                    }
+                  }
+                  else {
+                    if(saveCode != codeEditor.getValue()){
+                      if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
+                        socket.emit("save", { codepath: $("#codepath").html(), codetext: codeEditor.getValue() });
                     }
                   }
                   socket.emit("load", filepath);
                 }
               }
-              else {}
             })
             ,
             $("<td style='width:30px;text-align:center'>").append(["", "folder"].includes(data[i].type) || data[i].protect==true?"":`<a href='/download?filename=${data[i].name}'><i class='fa-solid fa-circle-down'></i></a>`)
@@ -277,13 +292,19 @@ socket.on("update_file_manager", (d) => {
                 //let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html();
                 let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
 
-                if (confirm(`${PATH.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
-                  if ((PATH.join("/") + "/" + name) == $("#codepath").html()) {
-                    $("#codepath").html("")
-                    save_code = "";
-                    editor.setValue(save_code);
+                if (confirm(`${CURRENT_PATH.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
+                  if ((CURRENT_PATH.join("/") + "/" + name) == $("#codepath").html()) {
+                    $("#codepath").html("");
+                    if ($("#blockly_check").is(":checked")) {
+                      saveBlock = "{}";
+                      Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
+                    }
+                    else {
+                      saveCode = "";
+                      codeEditor.setValue(saveCode);
+                    }
                   }
-                  socket.emit('delete', PATH.join("/") + "/" + name);
+                  socket.emit('delete', CURRENT_PATH.join("/") + "/" + name);
                 }
               })
             ,
@@ -293,7 +314,7 @@ socket.on("update_file_manager", (d) => {
 });
 
 $("#hiddenfile").on("change", () => {
-  socket.emit("load_directory", PATH.join("/"));
+  socket.emit("load_directory", CURRENT_PATH.join("/"));
 });
 
 $("#add_directory").on("click", () => {
@@ -304,12 +325,12 @@ $("#add_directory").on("click", () => {
       return;
     }
     name = name.trim().replace(/ /g, "_");
-    if(name.length > max_filename_length) {
-      alert(`폴더 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
+    if(name.length > MAX_FILENAME_LENGTH) {
+      alert(`폴더 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
       return;
     }
 
-    socket.emit('add_directory', PATH.join("/") + "/"+ name);
+    socket.emit('add_directory', CURRENT_PATH.join("/") + "/"+ name);
   }
 });
 
@@ -326,21 +347,21 @@ $("#add_file").on("click", () => {
     }
 
     name = name.trim().replace(/ /g, "_");
-    if(name.length > max_filename_length) {
-      alert(`파일 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
+    if(name.length > MAX_FILENAME_LENGTH) {
+      alert(`파일 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
       return;
     }
-    if(save_code != editor.getValue()){
+    if(saveCode != codeEditor.getValue()){
       if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
-        socket.emit("save", { codepath: $("#codepath").html(), codetext: editor.getValue() });
+        socket.emit("save", { codepath: $("#codepath").html(), codetext: codeEditor.getValue() });
     }
-    socket.emit('add_file', PATH.join("/") + "/"+ name);
+    socket.emit('add_file', CURRENT_PATH.join("/") + "/"+ name);
   }
 });
 
 $("#upload").on("change", (e) => {
-  if($("#upload")[0].files[0].name.length > max_filename_length) {
-    alert(`파일 이름이 너무 깁니다. (${max_filename_length}자 이내로 작성해주세요.)`);
+  if($("#upload")[0].files[0].name.length > MAX_FILENAME_LENGTH) {
+    alert(`파일 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
     return;
   }
 
@@ -366,7 +387,7 @@ $("#upload").on("change", (e) => {
 
 $("#eraser").on("click", () => {
   if ($("#terminal_check").is(":checked")) {
-    $("#terminal").attr("src", `http://${window.location.hostname}:50001`);
+    $("#terminal").attr("src", `http://${location.hostname}:50001`);
   }
   else {
     result.value = "";
@@ -375,7 +396,7 @@ $("#eraser").on("click", () => {
 });
 
 $("#result_check").on("change", ()=> {
-  //editor.setSize(700, null);
+  //codeEditor.setSize(700, null);
   if ($("#result_check").is(":checked")) {
     $("#result_en").show();
     if(document.body.offsetWidth >= 1530) {
@@ -390,11 +411,11 @@ $("#result_check").on("change", ()=> {
       document.querySelector("#blocklyDiv").style.width = 'calc(99vw - 430px)';
     }
   }
-  editor.refresh();
+  codeEditor.refresh();
   Blockly.svgResize(workspace);
 });
 
-$("#terminal").attr("src", `http://${window.location.hostname}:50001`);
+$("#terminal").attr("src", `http://${location.hostname}:50001`);
 $("#terminal_check").on("change", ()=> {
   if ($("#terminal_check").is(":checked")) {
     $("#result").hide();
@@ -408,7 +429,7 @@ $("#terminal_check").on("change", ()=> {
 
 $("#home_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    window.location.replace(`http://${window.location.hostname}:80`);
+    location.replace(`http://${location.hostname}:80`);
 });
 
 $("#home_bt").hover(
@@ -417,7 +438,7 @@ $("#home_bt").hover(
 );
 
 $("#theme_check").on("change", () => {
-  editor.setOption(
+  codeEditor.setOption(
     "theme",
     $("#theme_check").is(":checked")?"cobalt":"duotone-light"
   );
@@ -447,7 +468,7 @@ let workspace = Blockly.inject("blocklyDiv", {
   zoom: {
     controls: true,
     wheel: false,
-    startScale: 1.0,
+    startScale: 0.9,
     maxScale: 3,
     minScale: 0.3,
     scaleSpeed: 1.2,
@@ -459,11 +480,14 @@ $("#blockly_check").on("change", () => {
   if ($("#blockly_check").is(":checked")) {
     $("#codeDiv").hide();
     $("#blocklyDiv").show();
+    CODE_PATH = $("#codepath").html();
+    $("#codepath").html(BLOCK_PATH);
   }
   else {
-    socket.emit("load", "/home/pi/blockly.py");
     $("#blocklyDiv").hide();
     $("#codeDiv").show();
+    BLOCK_PATH = $("#codepath").html();
+    $("#codepath").html(CODE_PATH);
   }
   Blockly.svgResize(workspace);
 });
@@ -481,14 +505,15 @@ $("#save").on("click", () => {
       alert("json 파일만 저장 가능합니다.");
       return;
     }
-    save_block = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
+    saveBlock = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
     socket.emit("save", {
       codepath: "/home/pi/blockly.py",
       codetext: Blockly.Python.workspaceToCode(workspace) });
     socket.emit("save", { 
       codepath: $("#codepath").html(), 
-      codetext: save_block 
+      codetext: saveBlock 
     });
+    result.value = Blockly.Python.workspaceToCode(workspace);
     update_block();
   }
   else {
@@ -502,14 +527,14 @@ $("#save").on("click", () => {
       return;
     }
 
-    save_code = editor.getValue();
-    CodeMirror.signal(editor, "change");
-    socket.emit("save", { codepath: $("#codepath").html(), codetext: save_code });
+    saveCode = codeEditor.getValue();
+    CodeMirror.signal(codeEditor, "change");
+    socket.emit("save", { codepath: $("#codepath").html(), codetext: saveCode });
   }
 });
 
 function update_block() {
-  $("#codecheck").html(save_block==JSON.stringify(Blockly.serialization.workspaces.save(workspace)) ? "" : "<i class='fa-solid fa-circle'></i>");
+  $("#codecheck").html(saveBlock==JSON.stringify(Blockly.serialization.workspaces.save(workspace)) ? "" : "<i class='fa-solid fa-circle'></i>");
 }
 workspace.addChangeListener ((event)=>{
   if (event.type = Blockly.Events.BLOCK_CHANGE) {

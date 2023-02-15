@@ -394,7 +394,7 @@ Blockly.Msg["TEXT_TRIM_TOOLTIP"] = "문장의 왼쪽/오른쪽/양쪽에서 스�
 Blockly.Msg["TODAY"] = "오늘";
 Blockly.Msg["UNDO"] = "실행 취소";
 Blockly.Msg["UNNAMED_KEY"] = "이름이 없는";
-Blockly.Msg["VARIABLES_DEFAULT_NAME"] = "항목";
+Blockly.Msg["VARIABLES_DEFAULT_NAME"] = "변수";
 Blockly.Msg["VARIABLES_GET_CREATE_SET"] = "'집합 %1' 생성";
 Blockly.Msg["VARIABLES_GET_HELPURL"] = "https://ko.wikipedia.org/wiki/%EB%B3%80%EC%88%98_(%EC%BB%B4%ED%93%A8%ED%84%B0_%EA%B3%BC%ED%95%99)";
 Blockly.Msg["VARIABLES_GET_TOOLTIP"] = "변수에 저장 되어있는 값을 돌려줍니다.";
@@ -445,28 +445,31 @@ Blockly.Msg["COLLECT_WIKIPEDIA"] = "위키피디아에서 %1 검색하기";
 Blockly.Msg["COLLECT_WEATHER"] = "%1 날씨 검색하기";
 Blockly.Msg["COLLECT_NEWS"] = "%1 뉴스 검색하기";
 
-Blockly.Msg["DEVICE_SEND_RAW"] = "디바이스에 %1 요청하기";
 Blockly.Msg["DEVICE_EYE_ON"] = "눈 LED %1 %2 %3 %4 %5 %6 켜기";
 Blockly.Msg["DEVICE_EYE_OFF"] = "눈 LED 끄기";
 Blockly.Msg["DEVICE_GET_DC"] = "아답터 체크하기";
 Blockly.Msg["DEVICE_GET_BATTERY"] = "배터리 체크하기";
 Blockly.Msg["DEVICE_GET_SYSTEM"] = "시스템 메시지 체크하기";
+Blockly.Msg["DEVICE_GET_PIR"] = "사람 체크하기";
+Blockly.Msg["DEVICE_GET_TOUCH"] = "터치 체크하기";
+Blockly.Msg["DEVICE_GET_BUTTON"] = "버튼 체크하기";
 
-Blockly.Msg["MOTION_SET_MOTION"] = "모션 %1, %2 회 실행하기";
-Blockly.Msg["MOTION_SET_MYMOTION"] = "내 모션 %1, %2 실행하기";
 
-Blockly.Msg["OLED_SHOW"] = "OLED 보여주기";
+Blockly.Msg["MOTION_SET_MOTION"] = "모션 %1 %2 회 실행하기";
+Blockly.Msg["MOTION_SET_MYMOTION"] = "내 모션 %1 %2 회 실행하기";
+Blockly.Msg["MOTION_SET_MOTOR"] = "%1모터를 %2도로 이동하기";
+
+Blockly.Msg["OLED_SET_FONT"] = "OLED 글자 사이즈 %1 설정하기";
+Blockly.Msg["OLED_DRAW_TEXT"] = "OLED의 X %1 Y %2 에 %3 저장하기";
+Blockly.Msg["OLED_DRAW_IMAGE"] = "OLED %1 이미지 저장하기";
+Blockly.Msg["OLED_SHOW"] = "OLED 표시하기";
 Blockly.Msg["OLED_CLEAR"] = "OLED 지우기";
-//Blockly.Msg["OLED_SET_FONT"] = "OLED 폰트: %1 사이즈: %2 설정하기";
-Blockly.Msg["OLED_SET_FONT"] = "OLED 폰트 사이즈: %1 설정하기";
-Blockly.Msg["OLED_DRAW_TEXT"] = "OLED의 X %1 Y %2 에 %3 쓰기";
-Blockly.Msg["OLED_DRAW_IMAGE"] = "OLED %1 이미지 파일 쓰기";
 
 Blockly.Msg["SPEECH_TTS"] = "%1를 %3 목소리로 %2 에 저장하기";
-Blockly.Msg["SPEECH_GET_DIALOG"] = "%1의 대답 가져오기";
+Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 답하기";
 
-Blockly.Msg["VISION_READ"] = "이미지 촬영하기";
+Blockly.Msg["VISION_READ"] = "촬영하기";
 Blockly.Msg["VISION_IMWRITE"] = "이미지 %2 를 %1 에 저장하기";
-
+Blockly.Msg["VISION_CARTOONIZE"] = "이미지 %1 를 만화 이미지로 바꾸기";
 return Blockly.Msg;
 }));
