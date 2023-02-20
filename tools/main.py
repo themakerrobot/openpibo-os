@@ -25,8 +25,10 @@ async def f(request:Request):
 
 @app.get('/download_img', response_class=FileResponse)
 async def f():
-  if pibo.onoff:
-    pibo.imwrite('/home/pi/capture.jpg')
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
+
+  pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
 
 @app.get('/wifi')
@@ -44,8 +46,8 @@ async def f(ssid=None, psk=None):
     tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
     tmp+='update_config=1\n'
     tmp+='network={\n'
-    tmp+='\tssid="{}"\n'.format(ssid)
-    tmp+='\tpsk="{}"\n'.format(psk)
+    tmp+=f'\tssid="{ssid}"\n'
+    tmp+=f'\tpsk="{psk}"\n'
     tmp+='\tkey_mgmt=WPA-PSK\n'
     tmp+='}\n'
 
@@ -91,6 +93,7 @@ async def f(data:UploadFile = File(...)):
   os.remove(filepath)
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
+## socktio
 # vision
 @app.sio.on('disp_vision')
 async def f(sid, d=None):
@@ -298,8 +301,8 @@ async def f(sid, d=None):
     tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
     tmp+='update_config=1\n'
     tmp+='network={\n'
-    tmp+='\tssid="{}"\n'.format(d['ssid'])
-    tmp+='\tpsk="{}"\n'.format(d['psk'])
+    tmp+=f'\tssid="{d['ssid']}"\n'
+    tmp+=f'\tpsk="{d['psk']}"\n'
     tmp+='\tkey_mgmt=WPA-PSK\n'
     tmp+='}\n'
 
