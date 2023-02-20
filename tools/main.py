@@ -301,8 +301,8 @@ async def f(sid, d=None):
     tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
     tmp+='update_config=1\n'
     tmp+='network={\n'
-    tmp+=f'\tssid="{d['ssid']}"\n'
-    tmp+=f'\tpsk="{d['psk']}"\n'
+    tmp+='\tssid="{}"\n'.format(d['ssid'])
+    tmp+='\tpsk="{}"\n'.format(d['psk'])
     tmp+='\tkey_mgmt=WPA-PSK\n'
     tmp+='}\n'
 
