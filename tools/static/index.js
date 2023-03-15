@@ -1702,7 +1702,7 @@ const getSimulations = (socket) => {
 
     /* 모션 카드 */
     const setMotionCard = (data) => {
-      configData.val = { key: "motion", value: data, bInit: true };
+      configData.val = { key: "motion", type:"default", value: data, bInit: true };
 
       const setMotionList = (list, name, cycle) => {
         const motionList = [
