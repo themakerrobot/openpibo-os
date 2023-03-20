@@ -60,12 +60,13 @@ socket.on("update", (data) => {
       saveBlock = data["code"];
       try {
         Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
+        update_block();
       }
       catch(e) {
-        alert("블록 데이터를 불러오지 못했습니다.");
-        saveBlock = "{}";
+        //alert("블록 데이터를 불러오지 못했습니다.");
+        //saveBlock = "{}";
+        Blockly.serialization.workspaces.load(JSON.parse("{}"), workspace);
       }
-      update_block();
     }
     else {      
       saveCode = data["code"];
