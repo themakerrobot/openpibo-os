@@ -474,7 +474,7 @@ async def f(sid, d=None):
 
 @app.sio.on('swupdate')
 async def f(sid, d=None):
-  os.system("curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main.sh > /home/pi/update")
+  os.system("curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main > /home/pi/update")
   os.system("bash /home/pi/update")
 
 @app.sio.on('restore')
