@@ -4,7 +4,7 @@ Blockly.Python['audio_play'] = function(block) {
   Blockly.Python.definitions_['from_audio_import_Audio'] = 'from openpibo.audio import Audio';
   Blockly.Python.definitions_['assign_audio'] = 'audio = Audio()';
 
-  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC).trim();
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   const volume = block.getFieldValue("volume");
   return `audio.play(${filename}, ${volume})\n`;
 }
@@ -19,7 +19,7 @@ Blockly.Python['wikipedia_search'] = function(block) {
   Blockly.Python.definitions_['from_collect_import_Wikipedia'] = 'from openpibo.collect import Wikipedia';
   Blockly.Python.definitions_['assign_wikipedia'] = 'wikipedia = Wikipedia()';
 
-  const topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC).trim();
+  const topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
   return [`wikipedia.search(${topic})`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['weather_search'] = function(block) {
@@ -92,7 +92,7 @@ Blockly.Python['motion_set_motion'] = function(block) {
   Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
-  const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC).trim();
+  const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC);
   const cycle = block.getFieldValue("cycle");
   return `motion.set_motion(${name}, ${cycle})\n`;
 }
@@ -100,7 +100,7 @@ Blockly.Python['motion_set_mymotion'] = function(block) {
   Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
-  const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC).trim();
+  const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC);
   const cycle = block.getFieldValue("cycle");
   return `motion.set_mymotion(${name}, ${cycle})\n`;
 }
@@ -145,14 +145,14 @@ Blockly.Python['oled_draw_text'] = function(block) {
   const x = block.getFieldValue("x");
   const y = block.getFieldValue("y");
 
-  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC).trim();
+  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   return `oled.draw_text((${x}, ${y}), ${text})\n`;
 }
 Blockly.Python['oled_draw_image'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
 
-  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC).trim();
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   return `oled.draw_image(${filename})\n`;
 }
 Blockly.Python['oled_draw_rectangle'] = function(block) {
@@ -211,8 +211,8 @@ Blockly.Python['speech_tts'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Speech'] = 'from openpibo.speech import Speech';
   Blockly.Python.definitions_['assign_speech'] = 'speech = Speech()';
 
-  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC).trim();
-  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC).trim();
+  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   const voice = block.getFieldValue("voice");
   return `speech.tts(string=${text}, filename=${filename}, voice='${voice}')\n`;
 }
@@ -220,7 +220,7 @@ Blockly.Python['speech_get_dialog'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Dialog'] = 'from openpibo.speech import Dialog';
   Blockly.Python.definitions_['assign_dialog'] = 'dialog = Dialog()';
 
-  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC).trim();
+  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   return [`dialog.get_dialog(${text})`, Blockly.Python.ORDER_ATOMIC];
 }
 
@@ -234,7 +234,7 @@ Blockly.Python['vision_imwrite'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
 
-  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC).trim();
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   return `camera.imwrite(${filename}, ${img})\n`;
 }
@@ -270,8 +270,8 @@ Blockly.Python['vision_load_tm'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_TeachableMachine'] = 'from openpibo.vision import TeachableMachine';
   Blockly.Python.definitions_['assign_tm'] = 'tm = TeachableMachine()';
 
-  const modelpath = Blockly.Python.valueToCode(block, 'modelpath', Blockly.Python.ORDER_ATOMIC).trim();
-  const labelpath = Blockly.Python.valueToCode(block, 'labelpath', Blockly.Python.ORDER_ATOMIC).trim();
+  const modelpath = Blockly.Python.valueToCode(block, 'modelpath', Blockly.Python.ORDER_ATOMIC);
+  const labelpath = Blockly.Python.valueToCode(block, 'labelpath', Blockly.Python.ORDER_ATOMIC);
   return `tm.load(${modelpath}, ${labelpath})\n`;
 }
 Blockly.Python['vision_predict_tm'] = function(block) {
