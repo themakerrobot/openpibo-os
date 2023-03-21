@@ -5,7 +5,8 @@ const color_type={
   "motion": "#077097",
   "oled": "#076087",
   "speech": "#075077",
-  "vision": "#074067"
+  "vision": "#074067",
+  "utils":   "#073057",
 };
 
 Blockly.defineBlocksWithJsonArray(
@@ -305,6 +306,61 @@ Blockly.defineBlocksWithJsonArray(
       tooltip: 'call motion.set_motor',
       helpUrl: ''
     },
+    {
+      type: 'motion_set_speed',
+      message0: '%{BKY_MOTION_SET_SPEED}',
+      args0:
+        [
+          {"type": "field_dropdown", "name":"no",
+           "options":[
+              ['0','0'],['1','1'],['2','2'],['3','3'],['4','4'],
+              ['5','5'],['6','6'],['7','7'],['8','8'],['9','9'],
+            ]
+          },
+          {
+            "type": "field_number",
+            "name": "val",
+            "value": 40,
+            "min": 0,
+            "max": 255,
+            "precision": 1
+          }
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["motion"],
+      tooltip: 'call motion.set_speed',
+      helpUrl: ''
+    },
+    {
+      type: 'motion_set_acceleration',
+      message0: '%{BKY_MOTION_SET_ACCELERATION}',
+      args0: 
+        [
+          {"type": "field_dropdown", "name":"no",
+           "options":[
+              ['0','0'],['1','1'],['2','2'],['3','3'],['4','4'],
+              ['5','5'],['6','6'],['7','7'],['8','8'],['9','9'],
+            ]
+          },
+          {
+            "type": "field_number",
+            "name": "val",
+            "value": 0,
+            "min": 0,
+            "max": 255,
+            "precision": 1
+          }
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["motion"],
+      tooltip: 'call motion.set_acceleration',
+      helpUrl: ''
+    },
+
     // oled
     {
       type: 'oled_set_font',
@@ -324,7 +380,7 @@ Blockly.defineBlocksWithJsonArray(
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
-      colour: color_type["motion"],
+      colour: color_type["oled"],
       tooltip: 'call oled.set_font',
       helpUrl: ''
     },
@@ -354,7 +410,7 @@ Blockly.defineBlocksWithJsonArray(
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
-      colour: color_type["motion"],
+      colour: color_type["oled"],
       tooltip: 'call oled.draw_text',
       helpUrl: ''
     },
@@ -368,8 +424,163 @@ Blockly.defineBlocksWithJsonArray(
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
-      colour: color_type["motion"],
+      colour: color_type["oled"],
       tooltip: 'call oled.draw_image',
+      helpUrl: ''
+    },
+    {
+      type: 'oled_draw_rectangle',
+      message0: '%{BKY_OLED_DRAW_RECTANGLE}',
+      args0:
+        [
+          {
+            "type": "field_number",
+            "name": "x1",
+            "value": 0,
+            "min": 0,
+            "max": 128,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "y1",
+            "value": 0,
+            "min": 0,
+            "max": 64,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "x2",
+            "value": 0,
+            "min": 0,
+            "max": 128,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "y2",
+            "value": 0,
+            "min": 0,
+            "max": 64,
+            "precision": 1
+          },
+          {"type": "field_dropdown", "name":"fill",
+           "options":[
+              ['채우기','True'],['채우기 없음','False']
+            ]
+          },
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["oled"],
+      tooltip: 'call oled.draw_rectangle',
+      helpUrl: ''
+    },
+    {
+      type: 'oled_draw_ellipse',
+      message0: '%{BKY_OLED_DRAW_ELLIPSE}',
+      args0:
+        [
+          {
+            "type": "field_number",
+            "name": "x1",
+            "value": 0,
+            "min": 0,
+            "max": 128,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "y1",
+            "value": 0,
+            "min": 0,
+            "max": 64,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "x2",
+            "value": 0,
+            "min": 0,
+            "max": 128,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "y2",
+            "value": 0,
+            "min": 0,
+            "max": 64,
+            "precision": 1
+          },
+          {"type": "field_dropdown", "name":"fill",
+           "options":[
+              ['채우기','True'],['채우기 없음','False']
+            ]
+          },
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["oled"],
+      tooltip: 'call oled.draw_ellipse',
+      helpUrl: ''
+    },
+    {
+      type: 'oled_draw_line',
+      message0: '%{BKY_OLED_DRAW_LINE}',
+      args0:
+        [
+          {
+            "type": "field_number",
+            "name": "x1",
+            "value": 0,
+            "min": 0,
+            "max": 128,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "y1",
+            "value": 0,
+            "min": 0,
+            "max": 64,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "x2",
+            "value": 0,
+            "min": 0,
+            "max": 128,
+            "precision": 1
+          },
+          {
+            "type": "field_number",
+            "name": "y2",
+            "value": 0,
+            "min": 0,
+            "max": 64,
+            "precision": 1
+          },
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["oled"],
+      tooltip: 'call oled.draw_line',
+      helpUrl: ''
+    },
+    {
+      type: 'oled_invert',
+      message0: '%{BKY_OLED_INVERT}',
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["oled"],
+      tooltip: 'call oled.invert',
       helpUrl: ''
     },
     {
@@ -460,6 +671,121 @@ Blockly.defineBlocksWithJsonArray(
       inputsInline: true,
       colour: color_type["vision"],
       tooltip: 'call camera.cartoonize',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_object',
+      message0: '%{BKY_VISION_OBJECT}',
+      "args0": [
+        {"type": "input_value", "name": "img"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call detect.detect_object',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_qr',
+      message0: '%{BKY_VISION_QR}',
+      "args0": [
+        {"type": "input_value", "name": "img"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call detect.detect_qr',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_classification',
+      message0: '%{BKY_VISION_CLASSIFICATION}',
+      "args0": [
+        {"type": "input_value", "name": "img"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call detect.classify_image',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_load_tm',
+      message0: '%{BKY_VISION_LOAD_TM}',
+      args0:
+        [
+          {"type": "input_value", "name": "modelpath"},
+          {"type": "input_value", "name": "labelpath"}
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call tm.load',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_predict_tm',
+      message0: '%{BKY_VISION_PREDICT_TM}',
+      "args0": [
+        {"type": "input_value", "name": "img"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call tm.predict',
+      helpUrl: ''
+    },
+    {
+      type: 'utils_sleep',
+      message0: '%{BKY_UTILS_SLEEP}',
+      args0:
+        [
+          {
+            "type": "field_number",
+            "name": "time",
+            "value": 1,
+            "min": 0.1,
+            "max": 100,
+            "precision": 0.1
+          }
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["utils"],
+      tooltip: 'call time.sleep',
+      helpUrl: ''
+    },
+    {
+      type: 'utils_time',
+      message0: '%{BKY_UTILS_TIME}',
+      output: null,
+      inputsInline: true,
+      colour: color_type["utils"],
+      tooltip: 'call time.time',
+      helpUrl: ''
+    },
+    {
+      type: 'utils_current_time',
+      message0: '%{BKY_UTILS_CURRENT_TIME}',
+      output: null,
+      inputsInline: true,
+      colour: color_type["utils"],
+      tooltip: 'call time.strftime',
+      helpUrl: ''
+    },
+    {
+      type: 'utils_include',
+      message0: '%{BKY_UTILS_INCLUDE}',
+      "args0": [
+        {"type": "input_value", "name": "a"},
+        {"type": "input_value", "name": "b"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["utils"],
+      tooltip: 'call include',
       helpUrl: ''
     },
   ]

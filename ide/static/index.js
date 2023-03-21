@@ -247,6 +247,7 @@ socket.on("update_file_manager", (d) => {
                 ext = ext[ext.length-1];
                 let filepath = CURRENT_PATH.join("/") + "/" + name;
 
+                if(confirm(`${filepath} 파일을 불러오시겠습니까?`) == false) return;
                 if (["jpg", "png", "jpeg"].includes(ext.toLowerCase())) {
                   socket.emit("view", filepath);
                 }
@@ -479,6 +480,7 @@ let workspace = Blockly.inject("blocklyDiv", {
 
 $("#blockly_check").on("change", () => {
   if ($("#blockly_check").is(":checked")) {
+    alert("주의!) 저장할 파일은 먼저 선택해주세요.");
     $("#codeDiv").hide();
     $("#blocklyDiv").show();
     CODE_PATH = $("#codepath").html();
@@ -522,11 +524,6 @@ $("#save").on("click", () => {
     codeTypeBtns.forEach((el) => {
       if (el.classList.value.includes("checked")) codetype = el.name;
     });
-
-    if (codetype == "python" && filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "py") {
-      alert("py 파일만 저장 가능합니다.");
-      return;
-    }
 
     saveCode = codeEditor.getValue();
     CodeMirror.signal(codeEditor, "change");

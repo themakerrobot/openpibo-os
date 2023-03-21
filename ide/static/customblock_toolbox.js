@@ -109,6 +109,14 @@ const motion_box = [
     "kind": "block",
     "type": "motion_set_motor",
   },
+  {
+    "kind": "block",
+    "type": "motion_set_speed",
+  },
+  {
+    "kind": "block",
+    "type": "motion_set_acceleration",
+  },
 ];
 const oled_box = [
   {
@@ -142,6 +150,22 @@ const oled_box = [
         }
       }
     }
+  },
+  {
+    "kind": "block",
+    "type": "oled_draw_rectangle",
+  },
+  {
+    "kind": "block",
+    "type": "oled_draw_ellipse",
+  },
+  {
+    "kind": "block",
+    "type": "oled_draw_line",
+  },
+  {
+    "kind": "block",
+    "type": "oled_invert",
   },
   {
     "kind": "block",
@@ -224,6 +248,90 @@ const vision_box = [
         }
       }
     }
+  },
+  {
+    "kind": "block",
+    "type": "vision_object",
+    "inputs":{
+      "img":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+  {
+    "kind": "block",
+    "type": "vision_qr",
+    "inputs":{
+      "img":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+  {
+    "kind": "block",
+    "type": "vision_classification",
+    "inputs":{
+      "img":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+  {
+    "kind": "block",
+    "type": "vision_load_tm",
+    "inputs":{
+      "modelpath":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "모델 파일경로"
+          }
+        }
+      },
+      "labelpath":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "라벨 파일경로"
+          }
+        }
+      },
+    }
+  },
+  {
+    "kind": "block",
+    "type": "vision_predict_tm",
+    "inputs":{
+      "img":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+];
+const utils_box = [
+  {
+    "kind": "block",
+    "type": "utils_sleep",
+  },
+  {
+    "kind": "block",
+    "type": "utils_time",
+  },
+  {
+    "kind": "block",
+    "type": "utils_current_time",
+  },
+  {
+    "kind": "block",
+    "type": "utils_include",
   },
 ];
 
@@ -938,6 +1046,12 @@ const toolbox= {
       "name": "Vision",
       "contents": vision_box,
       "colour": color_type["vision"]
+    },
+    { // utils
+      "kind": "category",
+      "name": "Utils",
+      "contents": utils_box,
+      "colour": color_type["utils"]
     },
   ]
 }
