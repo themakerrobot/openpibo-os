@@ -34,7 +34,8 @@ sudo python3 /home/pi/openpibo-os/system/booting.py
 
 # 복구 usb
 if [ -f /media/usb/_update ]; then
-  sudo /media/usb/_update
+  sudo unzip /media/usb/update.zip -d /home/pi/
+  sudo bash /home/pi/_update
   exit 0
 fi
 
