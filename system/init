@@ -1,5 +1,13 @@
 #!/bin/sh -e
 #
+
+# recovery usb
+if [ -f /media/usb/update.zip ]; then
+  sudo unzip /media/usb/update.zip -d /home/pi/
+  sudo bash /home/pi/_update
+  exit 0
+fi
+
 # hostname management
 rpi_serial=$(grep "Serial" /proc/cpuinfo | awk '{print $3}' | rev | cut -c -8 | rev)
 if [ $rpi_serial != "$(hostname)" ]
@@ -31,13 +39,6 @@ sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
 
 # network init
 sudo python3 /home/pi/openpibo-os/system/booting.py
-
-# 복구 usb
-if [ -f /media/usb/update.zip ]; then
-  sudo unzip /media/usb/update.zip -d /home/pi/
-  sudo bash /home/pi/_update
-  exit 0
-fi
 
 # run ide
 cd /home/pi/openpibo-os/ide;sudo node main.js &
