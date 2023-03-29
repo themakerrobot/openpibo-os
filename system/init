@@ -1,6 +1,5 @@
 #!/bin/sh -e
 #
-
 # recovery usb
 if [ -f /media/usb/update.zip ]; then
   sudo unzip /media/usb/update.zip -d /home/pi/
