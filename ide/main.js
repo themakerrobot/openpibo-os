@@ -143,6 +143,7 @@ app.post('/upload', upload.single('data'), (req, res) => {
 
 io.on('connection', (socket) => {
   socket.on('init', () => {
+    io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
     fs.readFile(codePath, (err, data) => {
       if(!err) codeText = data.toString()
       else codeText = '';
@@ -163,32 +164,28 @@ io.on('connection', (socket) => {
   socket.on('view', (p) => {
     fs.readFile(p, (err, data) => {
       if(!err) io.emit('update', {image:Buffer.from(data).toString('base64'), filepath:p/*, dialog:'불러오기 완료: ' + p*/});
-      else io.emit('update', {dialog:'오류: ' + err.toString()});
+      else io.emit('update', {dialog:'보기 오류: ' + err.toString()});
     });
   });
   
   socket.on('play', (p) => {
     fs.readFile(p, (err, data) => {
       if(!err) io.emit('update', {audio:Buffer.from(data).toString('base64'), filepath:p/*, dialog:'불러오기 완료: ' + p*/});
-      else io.emit('update', {dialog:'오류: ' + err.toString()});
+      else io.emit('update', {dialog:'재생 오류: ' + err.toString()});
     });
   });
 
   //load 
   socket.on('load', (p) => {
     if (isProtect(p)) {
-      io.emit('update', {dialog:'파일 로드 오류: 보호 파일입니다.'});
+      io.emit('update', {dialog:'파일 불러오기 오류: 보호 파일입니다.'});
       return;
     }
 
     fs.readFile(p, (err, data) => {
       if(!err) io.emit('update', {code: data.toString(), filepath:p/*, dialog:'불러오기 완료: ' + p*/});
-      else io.emit('update', {dialog:'불러오기 오류: ' + err.toString()});
+      else io.emit('update', {dialog:'파일 불러오기 오류: ' + err.toString()});
     });
-  });
-
-  socket.on('system', () => {
-    io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
   });
 
   socket.on('delete', (d) => {
@@ -232,15 +229,15 @@ io.on('connection', (socket) => {
 
       codePath = p;
       fs.readFile(p, (err, data) => {
-        if(!err) io.emit('update', {code: data.toString(), filepath: p, dialog:'불러오기 완료: ' + p});
-        else io.emit('update', {dialog:'불러오기 오류: ' + err.toString()});
+        if(!err) io.emit('update', {code: data.toString(), filepath: p});
+        else io.emit('update', {dialog:'파일 불러오기 오류: ' + err.toString()});
       });
     });
   });
 
   socket.on('add_directory', (p) => {
     if (isProtect(PATH)) {
-      io.emit('update', {dialog:'폴더 생성 오류: 보호 폴더입니다.'});
+      io.emit('update', {dialog:'디렉토리 생성 오류: 보호 폴더입니다.'});
       return;
     }
 
@@ -252,7 +249,7 @@ io.on('connection', (socket) => {
           io.emit('update_file_manager', {data: readDirectory(PATH)});
         }
       } catch (err) {
-        io.emit('update', {dialog:'폴더 생성 오류: ' + err.toString()});
+        io.emit('update', {dialog:'디렉토리 생성 오류: ' + err.toString()});
         return;
       }
     });
@@ -292,3 +289,8 @@ io.on('connection', (socket) => {
     }
   });
 });
+
+
+setInterval(() => {
+  io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+}, 10000);

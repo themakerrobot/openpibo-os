@@ -50,30 +50,28 @@ header {
 
 @media (max-width: 1129px) {
   .result, .terminal {
-    min-width:700px;
-    width:calc(99vw - 100px);
+    min-width: 700px;
+    width: calc(100vw - 35px);
   }
   .CodeMirror, .blocklyDiv {
-    min-width:700px;
-    width:calc(99vw - 100px);
+    min-width: 700px;
+    width: calc(100vw - 35px);
   }
 }
 @media (min-width: 1130px) {
   .result, .terminal {
-    width:calc(99vw - 100px);
+    width: calc(100vw - 35px);
   }
   .CodeMirror, .blocklyDiv {
-    width:calc(99vw - 430px);
+    width: calc(100vw - 370px);
   }
 }
 @media (min-width: 1530px) {
   .result, .terminal {
-    min-width:400px;
-    width:calc(40vw - 230px);
+    width: calc(40vw - 190px);
   }
   .CodeMirror, .blocklyDiv  {
-    min-width:700px;
-    width:calc(58vw - 200px);
+    width: calc(60vw - 190px);
   }
 }
 
@@ -178,7 +176,7 @@ div {
 main {
   display: flex;
   flex: 1 0 80vh;
-  padding: 30px 0;
+  padding: 25px 0 0 0;
 }
 
 button {
@@ -279,8 +277,8 @@ main > div.content {
   gap: 1rem;
   flex-wrap: wrap;
   justify-content:center;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 main div.wrapper.ide {
@@ -289,7 +287,7 @@ main div.wrapper.ide {
   flex-flow: column;
   justify-content: flex-start;
   align-items: baseline;
-  gap: 0.5em;
+  gap: 0.2em;
 }
 
 .vertical {
@@ -297,14 +295,14 @@ main div.wrapper.ide {
   flex-flow: column;
 }
 .gap-8 {
-  gap: 0.5em;
+  gap: 0.1em;
 }
 
 #init_bt {
   position: absolute;
 }
 table {
-  width: 300px;
+  width: 310px;
 }
 
 tbody {
@@ -313,8 +311,7 @@ tbody {
 
 .fm-table-wrap {
   width: 320px;
-  height: calc(80.5vh - 365px);
-  min-height:200px;
+  height: calc(100vh - 440px);
   overflow-y: scroll;
   border: 1px solid var(--light-green);
   border-radius: 2px;
@@ -323,7 +320,7 @@ tbody {
 div[name="codetype"] {
   display: flex;
   border: 1px solid var(--yellow);
-  border-radius: 4px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
@@ -404,12 +401,13 @@ label[for=upload]:active {
 img.preview-img {
   width: 320px;
   height: 240px;
+  border-radius: 2px;
   background-color: var(--light-green);
 }
 
 audio.preview-audio {
   width: 320px;
-  height: 40px;
+  height: 59px;
 }
 
 .filepath {
@@ -420,14 +418,11 @@ audio.preview-audio {
 
 .result,
 .terminal {
-  border-radius: 5px;
-  min-width:400px;
-  min-height:555px;
-  height:79.5vh;
+  border-radius: 2px;
+  height:calc(100vh - 120px);
 }
 
 .blocklyDiv {
-  min-height:555px;
-  height:79.5vh;
+  height:calc(100vh - 120px);
   display: none; /*hide the element by default*/
 }

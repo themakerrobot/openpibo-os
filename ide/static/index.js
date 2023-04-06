@@ -37,7 +37,7 @@ const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
 const result = document.getElementById("result");
 const socket = io();
 
-let CURRENT_PATH;
+let CURRENT_DIR;
 let CODE_PATH = '';
 let BLOCK_PATH = '';
 let saveCode = "";
@@ -115,14 +115,9 @@ socket.on("init", (d) => {
   });
 
   $("#codepath").text(d["codepath"]);
-  CURRENT_PATH = d["path"].split("/");
-  socket.emit("load_directory", CURRENT_PATH.join("/"));
+  CURRENT_DIR = d["path"].split("/");
+  socket.emit("load_directory", CURRENT_DIR.join("/"));
 });
-
-socket.emit("system");
-setInterval(() => {
-  socket.emit("system");
-}, 10000);
 
 socket.on("system", (data) => {
   $("#s_serial").text(data[0]);
@@ -200,7 +195,7 @@ stop.addEventListener("click", () => {
 });
 
 socket.on("update_file_manager", (d) => {
-  $('#path').text( CURRENT_PATH.join("/"));
+  $('#path').text( CURRENT_DIR.join("/"));
   $("#fm_table > tbody").empty();
 
   let data;
@@ -231,21 +226,21 @@ socket.on("update_file_manager", (d) => {
               let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html()
 
               if (name == "..") {
-                if (CURRENT_PATH.length < 4) {
+                if (CURRENT_DIR.length < 4) {
                   alert("더이상 상위 폴더로 이동할 수 없습니다.");
                   return;
                 }
-                CURRENT_PATH.pop();
-                socket.emit("load_directory", CURRENT_PATH.join("/"));
+                CURRENT_DIR.pop();
+                socket.emit("load_directory", CURRENT_DIR.join("/"));
               }
               else if (type.includes("folder")) {
-                CURRENT_PATH.push(name);
-                socket.emit("load_directory", CURRENT_PATH.join("/"));
+                CURRENT_DIR.push(name);
+                socket.emit("load_directory", CURRENT_DIR.join("/"));
               }
               else if (type.includes("file")){
                 let ext = name.split(".");
                 ext = ext[ext.length-1];
-                let filepath = CURRENT_PATH.join("/") + "/" + name;
+                let filepath = CURRENT_DIR.join("/") + "/" + name;
 
                 if(confirm(`${filepath} 파일을 불러오시겠습니까?`) == false) return;
                 if (["jpg", "png", "jpeg"].includes(ext.toLowerCase())) {
@@ -294,8 +289,8 @@ socket.on("update_file_manager", (d) => {
                 //let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html();
                 let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
 
-                if (confirm(`${CURRENT_PATH.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
-                  if ((CURRENT_PATH.join("/") + "/" + name) == $("#codepath").html()) {
+                if (confirm(`${CURRENT_DIR.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
+                  if ((CURRENT_DIR.join("/") + "/" + name) == $("#codepath").html()) {
                     $("#codepath").html("");
                     if ($("#blockly_check").is(":checked")) {
                       saveBlock = "{}";
@@ -306,7 +301,7 @@ socket.on("update_file_manager", (d) => {
                       codeEditor.setValue(saveCode);
                     }
                   }
-                  socket.emit('delete', CURRENT_PATH.join("/") + "/" + name);
+                  socket.emit('delete', CURRENT_DIR.join("/") + "/" + name);
                 }
               })
             ,
@@ -316,7 +311,7 @@ socket.on("update_file_manager", (d) => {
 });
 
 $("#hiddenfile").on("change", () => {
-  socket.emit("load_directory", CURRENT_PATH.join("/"));
+  socket.emit("load_directory", CURRENT_DIR.join("/"));
 });
 
 $("#add_directory").on("click", () => {
@@ -332,7 +327,7 @@ $("#add_directory").on("click", () => {
       return;
     }
 
-    socket.emit('add_directory', CURRENT_PATH.join("/") + "/"+ name);
+    socket.emit('add_directory', CURRENT_DIR.join("/") + "/"+ name);
   }
 });
 
@@ -357,7 +352,7 @@ $("#add_file").on("click", () => {
       if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
         socket.emit("save", { codepath: $("#codepath").html(), codetext: codeEditor.getValue() });
     }
-    socket.emit('add_file', CURRENT_PATH.join("/") + "/"+ name);
+    socket.emit('add_file', CURRENT_DIR.join("/") + "/"+ name);
   }
 });
 
@@ -402,15 +397,15 @@ $("#result_check").on("change", ()=> {
   if ($("#result_check").is(":checked")) {
     $("#result_en").show();
     if(document.body.offsetWidth >= 1530) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(58vw - 200px)';
-      document.querySelector("#blocklyDiv").style.width = 'calc(58vw - 200px)';
+      document.querySelector("div.CodeMirror").style.width = 'calc(60vw - 190px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(60vw - 190px)';
     }
   }
   else {
     $("#result_en").hide();
     if(document.body.offsetWidth >= 1530) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(99vw - 430px)';
-      document.querySelector("#blocklyDiv").style.width = 'calc(99vw - 430px)';
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 370px)';
     }
   }
   codeEditor.refresh();
@@ -520,7 +515,6 @@ $("#save").on("click", () => {
     update_block();
   }
   else {
-    let codetype = "";
     codeTypeBtns.forEach((el) => {
       if (el.classList.value.includes("checked")) codetype = el.name;
     });
@@ -531,7 +525,7 @@ $("#save").on("click", () => {
   }
 });
 
-function update_block() {
+let update_block = () => {
   $("#codecheck").html(saveBlock==JSON.stringify(Blockly.serialization.workspaces.save(workspace)) ? "" : "<i class='fa-solid fa-circle'></i>");
 }
 workspace.addChangeListener ((event)=>{

@@ -2,15 +2,14 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-/* Added by yjlee - START */
+  /* Added by yjlee - START */
   font-family: Consolas, 'Courier New', monospace;
   font-size: 14px;
-  height: 79.5vh; 
-  min-height:555px;
-/* Added by yjlee - END */
+  height:calc(100vh - 120px);
+  border-radius: 2px;
+  /* Added by yjlee - END */
   color: black;
   direction: ltr;
-  border-radius: 5px;
 }
 
 /* PADDING */
