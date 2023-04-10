@@ -179,6 +179,10 @@ const oled_box = [
 const speech_box = [
   {
     "kind": "block",
+    "type": "speech_stt",
+  },
+  {
+    "kind": "block",
     "type": "speech_tts",
     "inputs":{
       "text":{

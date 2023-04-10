@@ -62,7 +62,7 @@ Blockly.defineBlocksWithJsonArray(
       args0: [
         {"type": "field_dropdown", "name":"topic",
          "options":[
-          [ '전국', '전국' ], [ '서울', '서울' ],
+          /*[ '전국', '전국' ], */[ '서울', '서울' ],
           [ '인천', '인천' ], [ '경기', '경기' ],
           [ '부산', '부산' ], [ '울산', '울산' ],
           [ '경남', '경남' ], [ '대구', '대구' ],
@@ -72,7 +72,14 @@ Blockly.defineBlocksWithJsonArray(
           [ '충남', '충남' ], [ '충북', '충북' ],
           [ '강원', '강원' ], [ '제주', '제주' ]
          ]
-       }],
+       },
+       {"type": "field_dropdown", "name":"mode",
+       "options":[
+        [ '종합', 'forecast' ], [ '오늘', 'today' ],
+        [ '내일', 'tomorrow' ], [ '모레', 'after_tomorrow' ]
+       ]
+      }
+      ],
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
@@ -100,6 +107,12 @@ Blockly.defineBlocksWithJsonArray(
             [ '아침&', '아침&' ],
             [ '썰전 라이브', '썰전 라이브' ],
             [ '정치부회의', '정치부회의' ]
+          ]
+          },
+          {"type": "field_dropdown", "name":"mode",
+          "options":[
+            [ '제목', 'title' ],
+            [ '내용', 'description' ]
           ]
           }
         ],
@@ -601,6 +614,26 @@ Blockly.defineBlocksWithJsonArray(
       inputsInline: true,
       colour: color_type["oled"],
       tooltip: 'call oled.clear',
+      helpUrl: ''
+    },
+    {
+      type: 'speech_stt',
+      message0: '%{BKY_SPEECH_STT}',
+      args0:
+        [
+          {
+            "type": "field_number",
+            "name": "timeout",
+            "value": 5,
+            "min": 1,
+            "max": 30,
+            "precision": 1
+          }
+        ],
+      output: 'String',
+      inputsInline: true,
+      colour: color_type["speech"],
+      tooltip: 'call speech.stt',
       helpUrl: ''
     },
     {

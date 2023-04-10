@@ -442,8 +442,8 @@ Blockly.Msg["AUDIO_PLAY"] = "%1 오디오 %2 음량으로 재생하기";
 Blockly.Msg["AUDIO_STOP"] = "오디오 정지하기";
 
 Blockly.Msg["COLLECT_WIKIPEDIA"] = "위키피디아에서 %1 검색하기";
-Blockly.Msg["COLLECT_WEATHER"] = "%1 날씨 검색하기";
-Blockly.Msg["COLLECT_NEWS"] = "%1 뉴스 검색하기";
+Blockly.Msg["COLLECT_WEATHER"] = "%1 날씨의 %2 검색하기";
+Blockly.Msg["COLLECT_NEWS"] = "%1 뉴스의 %2 검색하기";
 
 Blockly.Msg["DEVICE_EYE_ON"] = "눈 LED %1 %2 %3 %4 %5 %6 켜기";
 Blockly.Msg["DEVICE_EYE_OFF"] = "눈 LED 끄기";
@@ -473,6 +473,7 @@ Blockly.Msg["OLED_INVERT"] = "OLED 반전하기";
 Blockly.Msg["OLED_SHOW"] = "OLED 표시하기";
 Blockly.Msg["OLED_CLEAR"] = "OLED 지우기";
 
+Blockly.Msg["SPEECH_STT"] = "%1초 녹음하여 음성인식하기";
 Blockly.Msg["SPEECH_TTS"] = "%1를 %3 목소리로 %2 에 저장하기";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1의 대답하기";
 
