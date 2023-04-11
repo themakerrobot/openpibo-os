@@ -20,8 +20,7 @@ Blockly.Python['wikipedia_search'] = function(block) {
   Blockly.Python.definitions_['assign_wikipedia'] = 'wikipedia = Wikipedia()';
 
   const topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
-  //return [`wikipedia.search(${topic})`, Blockly.Python.ORDER_ATOMIC];
-  return [`[v['content'][0].strip().replace('\\n', ' ') for _,v in wikipedia.search(${topic}).items() if len(v['content']) > 0 and v['content'][0] != '\\n']`, Blockly.Python.ORDER_ATOMIC];
+  return [`wikipedia.search_for_block(${topic})`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['weather_search'] = function(block) {
   Blockly.Python.definitions_['from_collect_import_Weather'] = 'from openpibo.collect import Weather';
@@ -29,8 +28,7 @@ Blockly.Python['weather_search'] = function(block) {
 
   const topic = block.getFieldValue("topic");
   const mode = block.getFieldValue("mode");
-  //return [`weather.search("${topic}")`, Blockly.Python.ORDER_ATOMIC];
-  return [`weather.search("${topic}")["${mode}"] if "${mode}" == "forecast" else [ v if k == "weather" else float(v.split(' ~ ')[0]) if k == "minimum_temp" else float(v.split(' ~ ')[1]) for k,v in weather.search("${topic}")["${mode}"].items()]`, Blockly.Python.ORDER_ATOMIC];
+  return [`weather.search_for_block("${topic}", "${mode}")`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['news_search'] = function(block) {
   Blockly.Python.definitions_['from_collect_import_News'] = 'from openpibo.collect import News';
@@ -38,8 +36,7 @@ Blockly.Python['news_search'] = function(block) {
 
   const topic = block.getFieldValue("topic");
   const mode = block.getFieldValue("mode");
-  //return [`news.search("${topic}")`, Blockly.Python.ORDER_ATOMIC];
-  return [`[v["${mode}"] for v in news.search("${topic}") if '다시보기' not in v["${mode}"]]`, Blockly.Python.ORDER_ATOMIC];
+  return [`news.search_for_block("${topic}", "${mode}")`, Blockly.Python.ORDER_ATOMIC];
 }
 
 // device
@@ -217,7 +214,7 @@ Blockly.Python['speech_stt'] = function(block) {
   Blockly.Python.definitions_['assign_speech'] = 'speech = Speech()';
 
   const timeout = block.getFieldValue("timeout");
-  return [`speech.stt(timeout=${timeout})`, Blockly.Python.ORDER_ATOMIC];
+  return [`speech.stt(timeout=${timeout}, verbose=False)`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['speech_tts'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Speech'] = 'from openpibo.speech import Speech';
