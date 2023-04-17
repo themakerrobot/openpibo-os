@@ -663,7 +663,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: 'call speech.get_dialog',
+      tooltip: 'call dialog.get_dialog',
       helpUrl: ''
     },
     {
@@ -677,7 +677,7 @@ Blockly.defineBlocksWithJsonArray(
         previousStatement: true,
         inputsInline: true,
         colour: color_type["speech"],
-        tooltip: 'call speech.tts',
+        tooltip: 'call dialog.load',
         helpUrl: ''
     },
     {
