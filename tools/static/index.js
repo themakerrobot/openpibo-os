@@ -2309,9 +2309,11 @@ $(function () {
     });
 
     $("#wifi_bt").on("click", function () {
-      let comment = "WIFI 정보를 변경하시겠습니까?";
+      let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
       comment += "\nssid: " + $("#ssid").val().trim();
       comment += "\npassword: " + $("#password").val().trim();
+      comment += "\nWIFI 정보를 한번 더 확인하시기 바랍니다.";
+      comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
       if (confirm(comment)) {
         socket.emit("wifi", {
           ssid: $("#ssid").val(),
