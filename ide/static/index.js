@@ -392,6 +392,38 @@ $("#eraser").on("click", () => {
     $("#respath").text("");
   }
 });
+window.dispatchEvent(new Event('onresize'));
+window.onresize = () => {
+  if ($("#result_check").is(":checked")) {
+
+    if (window.innerWidth < 1130) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 35px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 35px)';
+    }
+    else if (window.innerWidth >= 1130 && window.innerWidth < 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 370px)';
+    }
+    else if(window.innerWidth >= 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(60vw - 190px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(60vw - 190px)';
+    }
+  }
+  else {
+    if (window.innerWidth < 1130) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 35px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 35px)';
+    }
+    else if (window.innerWidth >= 1130 && window.innerWidth < 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 370px)';
+    }
+    else if(window.innerWidth >= 1530) {
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 370px)';
+    }
+  }
+}
 
 $("#result_check").on("change", ()=> {
   //codeEditor.setSize(700, null);
