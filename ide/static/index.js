@@ -195,7 +195,7 @@ stop.addEventListener("click", () => {
 });
 
 socket.on("update_file_manager", (d) => {
-  CURRENT_DIR = d["path"].split("/");
+  CURRENT_DIR = "path" in d?d["path"].split("/"):CURRENT_DIR;
   $('#path').text( CURRENT_DIR.join("/"));
   $("#fm_table > tbody").empty();
 
