@@ -28,6 +28,15 @@ class Pibo:
     self.emit = emit_func
     self.onoff = False
     self.logger = logger
+    Timer(0, self.async_system_report).start()
+
+  ## system
+  def async_system_report(self):
+    self.system_status = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
+    asyncio.run(self.emit('system', self.system_status, callback=None))
+    _ = Timer(10, self.async_system_report)
+    _.daemon = True
+    _.start()
 
   ## vision
   def vision_start(self):

@@ -411,8 +411,8 @@ audio.preview-audio {
 }
 
 .filepath {
-  opacity: 0.7;
-  font-size: 1.1rem;
+  opacity: 0.8;
+  font-size: 1.2rem;
   overflow-x: auto;
 }
 

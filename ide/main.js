@@ -53,10 +53,16 @@ const readDirectory = (d) => {
   let dlst = [];
   let flst = [];
 
-  fs.readdirSync(d, {withFileTypes:true}).forEach(p => {
-    if(p.isDirectory()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
-    else flst.push({name:p.name, type:"file", protect:(isProtect(d) || isProtect(`${d}/${p.name}`))});
-  });
+  try {
+    fs.readdirSync(d, {withFileTypes:true}).forEach(p => {
+      if(p.isDirectory()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
+      else flst.push({name:p.name, type:"file", protect:(isProtect(d) || isProtect(`${d}/${p.name}`))});
+    });
+  }
+  catch (err) {
+    console.log(err);
+    return false;
+  }
   return dlst.concat(flst);
 }
 
@@ -114,7 +120,12 @@ const mutex = new Mutex();
 let upload = multer({ storage: storage });
 
 server.listen(port, () => {
-  execSync('v4l2-ctl -c vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3');
+  try {
+    execSync('v4l2-ctl -c vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3');
+  }
+  catch (err) {
+    console.log(err);
+  }
   console.log('Server Start: ', port);
 });
 
@@ -137,13 +148,25 @@ app.post('/upload', upload.single('data'), (req, res) => {
     return;
   }
   io.emit('update_file_manager', {data: readDirectory(PATH)});
-  execSync(`chown -R pi:pi "${PATH}"`);
+
+  try {
+    execSync(`chown -R pi:pi "${PATH}"`);
+  }
+  catch (err) {
+    console.log(err);
+  }
   res.status(200).end();
 });
 
 io.on('connection', (socket) => {
   socket.on('init', () => {
-    io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+    try {
+      io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+    }
+    catch (err) {
+      console.log(err);
+      io.emit('update', {dialog:'초기화: 시스템 파일 오류입니다.'});
+    }
     fs.readFile(codePath, (err, data) => {
       if(!err) codeText = data.toString()
       else codeText = '';
@@ -152,8 +175,15 @@ io.on('connection', (socket) => {
   });
 
   socket.on('load_directory', function(p) {
-    PATH = p;
-    io.emit('update_file_manager', {data: readDirectory(PATH)});
+    let res = readDirectory(p);
+    if (res) {
+      PATH = p;
+    }
+    else {
+      res = readDirectory(PATH);
+    }
+
+    io.emit('update_file_manager', {data: res, path:PATH});
   });
 
   socket.on('stop', () => {
@@ -290,7 +320,12 @@ io.on('connection', (socket) => {
   });
 });
 
-
 setInterval(() => {
-  io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+  try {
+    io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+  }
+  catch (err) {
+    console.log(err);
+    io.emit('update', {dialog:'초기화: 시스템 파일 오류입니다.'});
+  }
 }, 10000);

@@ -460,8 +460,7 @@ async def f(sid, d=None):
 
 @app.sio.on('system')
 async def f(sid, d=None):
-  res = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
-  return await emit('system', res)
+  return await emit('system', pibo.system_status)
 
 @app.sio.on('poweroff')
 async def f(sid, d=None):
@@ -470,27 +469,28 @@ async def f(sid, d=None):
 
 @app.sio.on('restart')
 async def f(sid, d=None):
-  os.system("shutdown -r now")
+  os.system('shutdown -r now')
 
 @app.sio.on('swupdate')
 async def f(sid, d=None):
-  os.system("curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main > /home/pi/update")
-  os.system("bash /home/pi/update")
+  os.system('curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main > /home/pi/update')
+  os.system('bash /home/pi/update')
 
 @app.sio.on('restore')
 async def f(sid, d=None):
-  os.system("rm -rf /home/pi/myimage/*")
-  os.system("rm -rf /home/pi/myaudio/*")
-  os.system("rm -rf /home/pi/code/*")
-  os.system("rm -rf /home/pi/mymotion.json")
-  os.system("rm -rf /home/pi/mysim.json")
-  os.system("rm -rf /home/pi/config.json")
-  os.system("shutdown -r now")
+  for item in os.listdir('/home/pi/'):
+    if item[0] == '.' or item in ['node_modules', 'package.json', 'package-lock.json', 'openpibo-os', 'openpibo-files']:
+      continue
+    if item in ['code', 'myimage', 'myaudio']:
+      os.system(f'rm -rf /home/pi/{item}/*')
+    else:
+      os.system(f'rm -rf /home/pi/{item}')
+  os.system('shutdown -r now')
 
-@app.on_event("startup")
+@app.on_event('startup')
 async def f():
   global logger, pibo
-  logger = log.configure_logger(level="info")
+  logger = log.configure_logger(level='info')
   logger.info(f'Network Display: {network_disp.run()}')
   pibo = Pibo(emit, logger)
 
@@ -507,4 +507,4 @@ if __name__ == '__main__':
   args = parser.parse_args()
 
   import uvicorn
-  uvicorn.run("main:app", host="0.0.0.0", port=args.port, access_log=False)
+  uvicorn.run('main:app', host='0.0.0.0', port=args.port, access_log=False)

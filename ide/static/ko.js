@@ -476,6 +476,7 @@ Blockly.Msg["OLED_CLEAR"] = "OLED 지우기";
 Blockly.Msg["SPEECH_STT"] = "%1초 녹음하여 음성인식하기";
 Blockly.Msg["SPEECH_TTS"] = "%1를 %3 목소리로 %2 에 저장하기";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1의 대답하기";
+Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 대화 파일 설정하기";
 
 Blockly.Msg["VISION_READ"] = "촬영하기";
 Blockly.Msg["VISION_IMWRITE"] = "이미지 %2 를 %1 에 저장하기";

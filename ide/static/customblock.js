@@ -667,6 +667,20 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'speech_load_dialog',
+      message0: '%{BKY_SPEECH_LOAD_DIALOG}',
+      args0:
+        [
+          {"type": "input_value", "name": "filename"}
+        ],
+        nextStatement: true,
+        previousStatement: true,
+        inputsInline: true,
+        colour: color_type["speech"],
+        tooltip: 'call speech.tts',
+        helpUrl: ''
+    },
+    {
       type: 'vision_read',
       message0: '%{BKY_VISION_READ}',
       output: null,

@@ -217,6 +217,20 @@ const speech_box = [
       }
     }
   },
+  {
+    "kind": "block",
+    "type": "speech_load_dialog",
+    "inputs":{
+      "filename":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "파일 경로"
+          }
+        }
+      }
+    }
+  }
 ];
 const vision_box = [
   {

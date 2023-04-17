@@ -2266,6 +2266,20 @@ $(function () {
       socket.emit("onoff", sel);
     });
 
+    $("input:checkbox[name=wifi_check]").change(function () {
+      let wifi_check_en = $("input:checkbox[name=wifi_check]").is(":checked");
+      if (wifi_check_en) {
+        $("#ssid").attr("disabled", false);
+        $("#password").attr("disabled", false);
+        $("#wifi_bt").attr("disabled", false);
+      }
+      else {
+        $("#ssid").attr("disabled", true);
+        $("#password").attr("disabled", true);
+        $("#wifi_bt").attr("disabled", true);
+      }
+    });
+
     $("#volume").val(
       window.localStorage.getItem("volume")
         ? window.localStorage.getItem("volume")
@@ -2277,10 +2291,6 @@ $(function () {
     });
 
     socket.emit("system");
-    setInterval(function () {
-      socket.emit("system");
-    }, 10000);
-
     socket.on("system", function (data) {
       $("#s_serial").text(data[0]);
       $("#s_os_version").text(data[1]);
@@ -2300,8 +2310,8 @@ $(function () {
 
     $("#wifi_bt").on("click", function () {
       let comment = "WIFI 정보를 변경하시겠습니까?";
-      comment += "\nssid: " + $("#ssid").val();
-      comment += "\npassword: " + $("#password").val();
+      comment += "\nssid: " + $("#ssid").val().trim();
+      comment += "\npassword: " + $("#password").val().trim();
       if (confirm(comment)) {
         socket.emit("wifi", {
           ssid: $("#ssid").val(),
