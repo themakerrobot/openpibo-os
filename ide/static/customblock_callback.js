@@ -66,12 +66,12 @@ Blockly.Python['device_eye_off'] = function(block) {
 Blockly.Python['device_get_dc'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
-  return ["device.get_dc()", Blockly.Python.ORDER_ATOMIC];
+  return ["device.get_dc().split(':')[1]", Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['device_get_battery'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
-  return ["device.get_battery()", Blockly.Python.ORDER_ATOMIC];
+  return ["device.get_battery().split(':')[1]", Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['device_get_system'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
