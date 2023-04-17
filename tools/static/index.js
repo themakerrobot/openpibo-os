@@ -2044,8 +2044,8 @@ const getSimulations = (socket) => {
       const ttsOptionsList = [
         { value: "espeak", label: "기본" },
         { value: "main", label: "파이보" },
-        { value: "boy", label: "소년" },
-        { value: "girl", label: "소녀" },
+        { value: "boy", label: "남자아이" },
+        { value: "girl", label: "" },
         // { value: "e_main", label: "파이보(영문)" },
         // { value: "e_boy", label: "소년(영문)" },
         // { value: "e_girl", label: "소녀(영문)" },
