@@ -115,6 +115,7 @@ a:visited {
 a:hover,
 a:focus {
   color: #0896d9;
+  cursor: pointer;
 }
 
 .readable-hidden,

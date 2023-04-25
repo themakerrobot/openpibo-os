@@ -679,3 +679,7 @@ else {
   $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
   $("#logined_id").html("");
 }
+
+$("#usedata_bt").on("click", ()=> {
+  alert(localStorage.getItem("usedata"));
+});
