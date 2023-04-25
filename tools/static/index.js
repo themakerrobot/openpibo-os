@@ -2371,7 +2371,7 @@ let usedata = {
 $(window).on("click keydown", (evt) => {
   if (["click", "keydown"].includes(evt.type)) {
     const key = $("nav").find("button.menu-selected").attr("name");
-    console.log(key, evt.type)
+    //console.log(key, evt.type)
     usedata[key][evt.type]++;
     localStorage.setItem("usedata", JSON.stringify(usedata));
   }
@@ -2383,7 +2383,7 @@ window.addEventListener('beforeunload', (evt) => {
   // })
 
   localStorage.clear("usedata");
-  console.log("beforeunload");
+  //console.log("beforeunload");
 });
 
 function showLogin() {

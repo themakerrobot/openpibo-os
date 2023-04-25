@@ -624,7 +624,7 @@ window.addEventListener('beforeunload', (evt) => {
   // })
 
   localStorage.clear("usedata");
-  console.log("beforeunload");
+  //console.log("beforeunload");
 });
 
 function showLogin() {
