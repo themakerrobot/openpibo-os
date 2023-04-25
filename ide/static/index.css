@@ -302,7 +302,7 @@ main div.wrapper.ide {
   position: absolute;
 }
 table {
-  width: 310px;
+  width: 300px;
 }
 
 tbody {
@@ -425,4 +425,60 @@ audio.preview-audio {
 .blocklyDiv {
   height:calc(100vh - 120px);
   display: none; /*hide the element by default*/
+}
+
+.login-popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.login-popup-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 420px;
+  height: 260px;
+  border-radius: 10px;
+}
+
+.login-popup-content input[type="text"],
+.login-popup-content input[type="password"] {
+  width: 290px;
+  border: 1px solid #ccc;
+  margin: 10px auto;
+}
+
+.login-popup-content tr {
+  background-color: white;
+}
+
+.login-popup-content .login {
+  background-color: var(--dark-teal);
+  float: left;
+  border: none;
+  cursor: pointer;
+  width: 48%;
+}
+
+.login-popup-content .cancel {
+  background-color: #ccc;
+  float: right;
+  border: none;
+  cursor: pointer;
+  width: 48%;
+}
+
+.login-popup-content .login:hover,
+.login-popup-content .login:focus,
+.login-popup-content .cancel:hover,
+.login-popup-content .cancel:focus {
+  opacity:0.8;
 }

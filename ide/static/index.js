@@ -45,7 +45,7 @@ let saveBlock = "{}";
 
 $("#logo_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    location.replace(`http://${location.hostname}:80`);
+    location.replace(`http://${location.hostname}`);
 });
 
 $("#fontsize").on("change", () => {
@@ -187,6 +187,9 @@ execute.addEventListener("click", () => {
   execute.disabled = true;
   stop.disabled = false;
   $("#respath").text($("#codepath").html());
+
+  usedata[$("#blockly_check").is(":checked")?"block":"text"]["execute"]++;
+  localStorage.setItem("usedata", JSON.stringify(usedata));
 });
 
 stop.addEventListener("click", () => {
@@ -459,7 +462,8 @@ $("#terminal_check").on("change", ()=> {
 
 $("#home_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    location.replace(`http://${location.hostname}:80`);
+  location.href = `http://${window.location.hostname}?username=${btoa(window.localStorage.getItem('username'))}&password=${btoa(window.localStorage.getItem("password"))}`;
+
 });
 
 $("#home_bt").hover(
@@ -604,3 +608,74 @@ $(document).keydown((evt)=> {
   }
   return true;
 });
+
+let usedata = {"block":{"click":0, "keydown":0, "execute":0}, "text":{"click":0, "keydown":0, "execute":0}};
+$(window).on("click keydown", (evt) => {
+  if (["click", "keydown"].includes(evt.type)) {
+    const key = $("#blockly_check").is(":checked")?"block":"text";
+    usedata[key][evt.type]++;
+    localStorage.setItem("usedata", JSON.stringify(usedata));
+  }
+});
+
+window.addEventListener('beforeunload', (evt) => {
+  // $.ajax({
+  //   url:`http://${window.location.hostname}:50000/download?filename=cat.mp3`,
+  // })
+
+  localStorage.clear("usedata");
+  console.log("beforeunload");
+});
+
+function showLogin() {
+  document.getElementById("loginPopup").style.display = "block";
+}
+
+function hideLogin() {
+  document.getElementById("loginPopup").style.display = "none";
+}
+
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+// Check if username and password are not empty
+  if (username === "" || password === "") {
+    alert("Please enter username and password.");
+    return;
+  }
+
+  localStorage.setItem("username", username);
+  localStorage.setItem("password", password);
+  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+  $("#logined_id").html(username);
+  // Here you can add your own authentication logic
+  // For example, you can send an AJAX request to your server and validate the credentials
+
+  // If authentication succeeds, hide the login popup
+  hideLogin();
+}
+
+$("#user_bt").on("click", () => {
+  if(confirm("로그아웃 하시겠습니까?")){
+    localStorage.clear("username");
+    localStorage.clear("password");
+    $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+    $("#logined_id").html("");
+    localStorage.clear("usedata");
+  }
+});
+
+const urlstr = new URL(location.href);
+if (urlstr.searchParams.get("username") !== null || urlstr.searchParams.get("password") !== null) {
+  localStorage.setItem("username", atob(urlstr.searchParams.get("username")));
+  localStorage.setItem("password", atob(urlstr.searchParams.get("password")));
+  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+  $("#logined_id").html(atob(urlstr.searchParams.get("username")));
+}
+else {
+  localStorage.clear("username");
+  localStorage.clear("password");
+  $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+  $("#logined_id").html("");
+}

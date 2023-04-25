@@ -2165,7 +2165,7 @@ const getSimulations = (socket) => {
 };
 
 $(function () {
-  const socket = io("ws://" + window.location.hostname + ":80", {
+  const socket = io(`http://${window.location.hostname}`, {
     path: "/ws/socket.io",
   });
 
@@ -2217,10 +2217,7 @@ $(function () {
         confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")
       ) {
         socket.emit("onoff", "off");
-        $(location).attr(
-          "href",
-          "http://" + window.location.hostname + ":50000"
-        );
+        location.href = `http://${window.location.hostname}:50000?username=${btoa(window.localStorage.getItem('username'))}&password=${btoa(window.localStorage.getItem("password"))}`;
       }
     });
     $("#devtool_bt").hover(
@@ -2235,7 +2232,7 @@ $(function () {
     );
 
     $("#logo_bt").on("click", () => {
-      window.location.replace(`http://${window.location.hostname}:80`);
+      location.href = `http://${window.location.hostname}`;
     });
 
     socket.emit("onoff");
@@ -2270,12 +2267,12 @@ $(function () {
       let wifi_check_en = $("input:checkbox[name=wifi_check]").is(":checked");
       if (wifi_check_en) {
         $("#ssid").attr("disabled", false);
-        $("#password").attr("disabled", false);
+        $("#psk").attr("disabled", false);
         $("#wifi_bt").attr("disabled", false);
       }
       else {
         $("#ssid").attr("disabled", true);
-        $("#password").attr("disabled", true);
+        $("#psk").attr("disabled", true);
         $("#wifi_bt").attr("disabled", true);
       }
     });
@@ -2305,19 +2302,19 @@ $(function () {
     }, 1000);
     socket.on("wifi", function (data) {
       $("#ssid").val(data["ssid"]);
-      $("#password").val(data["psk"]);
+      $("#psk").val(data["psk"]);
     });
 
     $("#wifi_bt").on("click", function () {
       let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
       comment += "\nssid: " + $("#ssid").val().trim();
-      comment += "\npassword: " + $("#password").val().trim();
+      comment += "\npassword: " + $("#psk").val().trim();
       comment += "\nWIFI 정보를 한번 더 확인하시기 바랍니다.";
       comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
       if (confirm(comment)) {
         socket.emit("wifi", {
           ssid: $("#ssid").val(),
-          psk: $("#password").val(),
+          psk: $("#psk").val(),
         });
       }
     });
@@ -2361,3 +2358,83 @@ $(function () {
     element.addEventListener("click", () => handleMenu(name));
   });
 });
+
+let usedata = {
+  "home":{"click":0, "keydown":0},
+  "device":{"click":0, "keydown":0},
+  "motion":{"click":0, "keydown":0},
+  "vision":{"click":0, "keydown":0},
+  "speech":{"click":0, "keydown":0},
+  "simulator":{"click":0, "keydown":0}
+};
+
+$(window).on("click keydown", (evt) => {
+  if (["click", "keydown"].includes(evt.type)) {
+    const key = $("nav").find("button.menu-selected").attr("name");
+    console.log(key, evt.type)
+    usedata[key][evt.type]++;
+    localStorage.setItem("usedata", JSON.stringify(usedata));
+  }
+});
+
+window.addEventListener('beforeunload', (evt) => {
+  // $.ajax({
+  //   url:`http://${window.location.hostname}:50000/download?filename=cat.mp3`,
+  // })
+
+  localStorage.clear("usedata");
+  console.log("beforeunload");
+});
+
+function showLogin() {
+  document.getElementById("loginPopup").style.display = "block";
+}
+
+function hideLogin() {
+  document.getElementById("loginPopup").style.display = "none";
+}
+
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+// Check if username and password are not empty
+  if (username === "" || password === "") {
+    alert("Please enter username and password.");
+    return;
+  }
+
+  window.localStorage.setItem("username", username);
+  window.localStorage.setItem("password", password);
+  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+  $("#logined_id").html(username);
+  // Here you can add your own authentication logic
+  // For example, you can send an AJAX request to your server and validate the credentials
+
+  // If authentication succeeds, hide the login popup
+  hideLogin();
+}
+
+$("#user_bt").on("click", () => {
+  if(confirm("로그아웃 하시겠습니까?")){
+    localStorage.clear("username");
+    localStorage.clear("password");
+    $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+    $("#logined_id").html("");
+    localStorage.clear("usedata");
+  }
+});
+
+const urlstr = new URL(location.href);
+if (urlstr.searchParams.get("username") !== null || urlstr.searchParams.get("password") !== null) {
+  localStorage.setItem("username", atob(urlstr.searchParams.get("username")));
+  localStorage.setItem("password", atob(urlstr.searchParams.get("password")));
+  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+  $("#logined_id").html(atob(urlstr.searchParams.get("username")));
+}
+else {
+  localStorage.clear("username");
+  localStorage.clear("password");
+  $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+  $("#logined_id").html("");
+}

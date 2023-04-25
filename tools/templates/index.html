@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.min.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=20230417v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=20230425v1" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230106" />
   </head>
   <body>
@@ -37,9 +37,13 @@
         </h2>
       </div>
       <div style="float: right">
-        <h2>
+        <h2 style="display: flex; align-items: center; justify-content: center;">
           <a id="logo_bt">
             <img src="../static/themaker.png" style="height: 22px" />
+          </a>
+          &nbsp;
+          <a onclick="showLogin()">
+            <span id="userinfo"></span>
           </a>
         </h2>
       </div>
@@ -66,6 +70,26 @@
           <li><button name="simulator"></li>
         </ul>
       </nav>
+
+      <div class="login-popup" id="loginPopup">
+        <div class="login-popup-content">
+          <h3>Login</h3>
+          <i class="fa-solid fa-user"></i>&nbsp;<a id="user_bt" style="font-weight:bold;color:#aaa;cursor:pointer"><u><span id="logined_id"></span></u></a> 님,
+          <table>
+            <tr>
+              <td>Username:</td>
+              <td><input type="text" id="username" name="username" /></td>
+            </tr>
+            <tr>
+              <td>Password:</td>
+              <td><input type="password" id="password" name="password" /></td>
+            </tr>
+          </table>
+          <button type="button" class="login" onclick="login()">Login</button>
+          <button type="button" class="cancel" onclick="hideLogin()">Cancel</button>
+        </div>
+      </div>
+
       <div class="content">
         <div class="wrapper">
           <h4 id="content_header">HOME</h4>
@@ -132,8 +156,8 @@
                       비밀번호:
                       <input
                         type="password"
-                        name="password"
-                        id="password"
+                        name="psk"
+                        id="psk"
                         disabled
                       />
                     </label>
@@ -1429,5 +1453,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=20230417v1"></script>
+  <script src="../static/index.js?ver=20230425v1"></script>
 </html>
