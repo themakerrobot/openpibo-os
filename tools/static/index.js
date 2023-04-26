@@ -2261,18 +2261,26 @@ $(function () {
       socket.emit("onoff", sel);
     });
 
-    $("input:checkbox[name=wifi_check]").change(function () {
-      let wifi_check_en = $("input:checkbox[name=wifi_check]").is(":checked");
-      if (wifi_check_en) {
-        $("#ssid").attr("disabled", false);
-        $("#psk").attr("disabled", false);
-        $("#wifi_bt").attr("disabled", false);
-      }
-      else {
-        $("#ssid").attr("disabled", true);
-        $("#psk").attr("disabled", true);
-        $("#wifi_bt").attr("disabled", true);
-      }
+    // $("input:checkbox[name=wifi_check]").change(function () {
+    //   let wifi_check_en = $("input:checkbox[name=wifi_check]").is(":checked");
+    //   if (wifi_check_en) {
+    //     $("#ssid").attr("disabled", false);
+    //     $("#psk").attr("disabled", false);
+    //     $("#wifi_bt").attr("disabled", false);
+    //   }
+    //   else {
+    //     $("#ssid").attr("disabled", true);
+    //     $("#psk").attr("disabled", true);
+    //     $("#wifi_bt").attr("disabled", true);
+    //   }
+    // });
+
+    $("#showWifi").on("click", ()=>{
+      document.getElementById("wifiPopup").style.display = "block";
+    });
+
+    $("#hidewifi").on("click", ()=>{
+      document.getElementById("wifiPopup").style.display = "none";
     });
 
     $("#volume").val(
@@ -2301,6 +2309,7 @@ $(function () {
     socket.on("wifi", function (data) {
       $("#ssid").val(data["ssid"]);
       $("#psk").val(data["psk"]);
+      $("#wifi_info").html(data["ssid"]);
     });
 
     $("#wifi_bt").on("click", function () {

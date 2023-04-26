@@ -90,6 +90,25 @@
         </div>
       </div>
 
+      <div class="wifi-popup" id="wifiPopup" style="display:none">
+        <div class="wifi-popup-content">
+          <h3>인터넷 설정하기</h3>
+          <i class="fa-solid fa-wifi"></i>&nbsp;<u><span id="wifi_info"></span></u>
+          <table>
+            <tr>
+              <td>wifi 이름:</td>
+              <td><input type="text" name="ssid" id="ssid" /></td>
+            </tr>
+            <tr>
+              <td>비밀번호:</td>
+              <td><input type="password" id="psk" name="psk" /></td>
+            </tr>
+          </table>
+          <button type="button" class="confirm" id="wifi_bt">Login</button>
+          <button type="button" class="cancel" id="hidewifi">Cancel</button>
+        </div>
+      </div>
+
       <div class="content">
         <div class="wrapper">
           <h4 id="content_header">HOME</h4>
@@ -141,7 +160,8 @@
             </section>
             <section>
               <h3 class="mark">시스템 설정</h3>
-              <div class="system-config-item">
+              <!--
+                <div class="system-config-item">
                 <header>
                   인터넷 설정하기
                   <input type="checkbox" id="wifi_check" name="wifi_check"/>
@@ -168,6 +188,7 @@
                   </button>
                 </div>
               </div>
+              -->
               <div class="system-config-item">
                 <header>소리크기 설정하기</header>
                 <div>
@@ -198,6 +219,10 @@
                     <i class="fa-solid fa-rotate"></i>
                     소프트웨어 업데이트
                   </button>
+                  <button id="restore_bt">
+                    <i class="fa-solid fa-window-restore"></i>
+                    초기화하기
+                  </button>
                   <button id="poweroff_bt">
                     <i class="fa-solid fa-power-off"></i>
                     종료하기
@@ -205,10 +230,6 @@
                   <button id="restart_bt">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                     재시작하기
-                  </button>
-                  <button id="restore_bt">
-                    <i class="fa-solid fa-window-restore"></i>
-                    초기화하기
                   </button>
                 </div>
               </div>
@@ -1442,7 +1463,9 @@
       <a id="usedata_bt"><span id="s_serial"></span></a>
     </div>
     <div style="float: right; padding: 0.7rem 0 0.7rem 0">
-      <i class="fa-solid fa-wifi"></i>
+      <a id="showWifi">
+        <i class="fa-solid fa-wifi"></i>
+      </a>
       <span id="s_network"></span>,
       <i class="fa-solid fa-temperature-empty"></i>
       <span id="s_cpu_temp"></span>,
@@ -1453,5 +1476,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=20230425v2"></script>
+  <script src="../static/index.js?ver=20230425v1"></script>
 </html>
