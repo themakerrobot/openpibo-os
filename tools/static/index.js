@@ -2165,7 +2165,7 @@ const getSimulations = (socket) => {
 };
 
 $(function () {
-  const socket = io(`http://${window.location.hostname}`, {
+  const socket = io(`http://${location.hostname}`, {
     path: "/ws/socket.io",
   });
 
@@ -2213,11 +2213,9 @@ $(function () {
 
   const getStatus = (socket) => {
     $("#devtool_bt").on("click", function () {
-      if (
-        confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")
-      ) {
+      if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
         socket.emit("onoff", "off");
-        location.href = `http://${window.location.hostname}:50000?username=${btoa(window.localStorage.getItem('username'))}&password=${btoa(window.localStorage.getItem("password"))}`;
+        location.href = `http://${location.hostname}:50000`;
       }
     });
     $("#devtool_bt").hover(
@@ -2232,7 +2230,7 @@ $(function () {
     );
 
     $("#logo_bt").on("click", () => {
-      location.href = `http://${window.location.hostname}`;
+      location.href = `http://${location.hostname}`;
     });
 
     socket.emit("onoff");
@@ -2278,13 +2276,13 @@ $(function () {
     });
 
     $("#volume").val(
-      window.localStorage.getItem("volume")
-        ? window.localStorage.getItem("volume")
+      localStorage.getItem("volume")
+        ? localStorage.getItem("volume")
         : 80
     );
 
     $("#volume").on("change", () => {
-      window.localStorage.setItem("volume", $("#volume").val());
+      localStorage.setItem("volume", $("#volume").val());
     });
 
     socket.emit("system");
@@ -2357,88 +2355,131 @@ $(function () {
     const name = element.getAttribute("name");
     element.addEventListener("click", () => handleMenu(name));
   });
-});
 
-let usedata = {
-  "home":{"click":0, "keydown":0},
-  "device":{"click":0, "keydown":0},
-  "motion":{"click":0, "keydown":0},
-  "vision":{"click":0, "keydown":0},
-  "speech":{"click":0, "keydown":0},
-  "simulator":{"click":0, "keydown":0}
-};
+  const init_usedata = {
+    "home":{"click":0, "keydown":0},
+    "device":{"click":0, "keydown":0},
+    "motion":{"click":0, "keydown":0},
+    "vision":{"click":0, "keydown":0},
+    "speech":{"click":0, "keydown":0},
+    "simulator":{"click":0, "keydown":0}
+  };
 
-$(window).on("click keydown", (evt) => {
-  if (["click", "keydown"].includes(evt.type)) {
-    const key = $("nav").find("button.menu-selected").attr("name");
-    //console.log(key, evt.type)
-    usedata[key][evt.type]++;
-    localStorage.setItem("usedata", JSON.stringify(usedata));
-  }
-});
+  $(document).on("click keydown", (evt) => {
+    if (["click", "keydown"].includes(evt.type)) {
+      usedata[$("nav").find("button.menu-selected").attr("name")][evt.type]++;
+    }
+  });
 
-window.addEventListener('beforeunload', (evt) => {
-  // $.ajax({
-  //   url:`http://${window.location.hostname}:50000/download?filename=cat.mp3`,
-  // })
+  $.ajax({
+    url: `/account`,
+  }).always((xhr, status) => {
+    if (status == "success") {
+      $("#logined_id").html(xhr['username']);
+      $("#username").val(xhr['username']);
+      $("#password").val(xhr['password']);
+      if (xhr['username'] == "" || xhr['password'] == "") $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+      else $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+    } else {
+      $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+    }
+  });
 
-  localStorage.clear("usedata");
-  //console.log("beforeunload");
-});
+  let usedata = init_usedata; // from server
 
-function showLogin() {
-  document.getElementById("loginPopup").style.display = "block";
-}
+  window.addEventListener('beforeunload', (evt) => {
+    $.ajax({
+      url: `/usedata/tools`,
+      type: "post",
+      data: JSON.stringify(usedata),
+      contentType: "application/json",
+    }).always((xhr, status) => {
+      if (status == "success") {
+        usedata = init_usedata;
+      } else {
+        alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+      }
+    });
+  });
 
-function hideLogin() {
-  document.getElementById("loginPopup").style.display = "none";
-}
+  $("#showLogin").on("click", ()=>{
+    document.getElementById("loginPopup").style.display = "block";
+  });
 
-function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  $("#hideLogin").on("click", ()=>{
+    document.getElementById("loginPopup").style.display = "none";
+  });
 
-// Check if username and password are not empty
-  if (username === "" || password === "") {
-    alert("Please enter username and password.");
-    return;
-  }
+  $("#login").on("click", ()=>{
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-  window.localStorage.setItem("username", username);
-  window.localStorage.setItem("password", password);
-  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-  $("#logined_id").html(username);
-  // Here you can add your own authentication logic
-  // For example, you can send an AJAX request to your server and validate the credentials
+  // Check if username and password are not empty
+    if (username === "" || password === "") {
+      alert("Please enter username and password.");
+      return;
+    }
 
-  // If authentication succeeds, hide the login popup
-  hideLogin();
-}
+    $.ajax({
+      url: `/loginout?username=${username}&password=${password}`,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        alert(`로그인 성공.`);
+        $("#logined_id").html(xhr['username']);
+        $("#username").val(xhr['username']);
+        $("#password").val(xhr['password']);
+        $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+      } else {
+        alert(`로그인 에러.\n >> ${xhr.responseJSON["result"]}`);
+      }
+    });
 
-$("#user_bt").on("click", () => {
-  if(confirm("로그아웃 하시겠습니까?")){
-    localStorage.clear("username");
-    localStorage.clear("password");
-    $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-    $("#logined_id").html("");
-    localStorage.clear("usedata");
-  }
-});
+    // Here you can add your own authentication logic
+    // For example, you can send an AJAX request to your server and validate the credentials
+    usedata = init_usedata; // from server
+    document.getElementById("loginPopup").style.display = "none";    
+  });
 
-const urlstr = new URL(location.href);
-if (urlstr.searchParams.get("username") !== null || urlstr.searchParams.get("password") !== null) {
-  localStorage.setItem("username", atob(urlstr.searchParams.get("username")));
-  localStorage.setItem("password", atob(urlstr.searchParams.get("password")));
-  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-  $("#logined_id").html(atob(urlstr.searchParams.get("username")));
-}
-else {
-  localStorage.clear("username");
-  localStorage.clear("password");
-  $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-  $("#logined_id").html("");
-}
+  $("#user_bt").on("click", () => {
+    if(confirm("로그아웃 하시겠습니까?")){
+      $.ajax({
+        url: `/loginout`,
+      }).always((xhr, status) => {
+        if (status == "success") {
+          alert(`로그아웃 성공.`);
+          $("#logined_id").html(xhr['username']);
+          $("#username").val(xhr['username']);
+          $("#password").val(xhr['password']);
+          $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+          document.getElementById("loginPopup").style.display = "none";
+          $.ajax({
+            url: `/usedata/tools`,
+            type: "post",
+            data: JSON.stringify(usedata),
+            contentType: "application/json",
+          }).always((xhr, status) => {
+            if (status == "success") {
+              usedata = init_usedata;
+            } else {
+              alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+            }
+          });
+        } else {
+          alert(`로그아웃 에러.\n >> ${xhr.responseJSON["result"]}`);
+        }
+      });
+    }
+  });
 
-$("#usedata_bt").on("click", ()=> {
-  alert(localStorage.getItem("usedata"));
+  $("#usedata_bt").on("click", ()=> {
+    $.ajax({
+      url: `/usedata/tools`,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        alert(JSON.stringify(xhr));
+      } else {
+        alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
+      }
+    });
+  });
 });

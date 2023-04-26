@@ -42,7 +42,7 @@
             <img src="../static/themaker.png" style="height: 22px" />
           </a>
           &nbsp;
-          <a onclick="showLogin()">
+          <a id="showLogin">
             <span id="userinfo"></span>
           </a>
         </h2>
@@ -85,8 +85,8 @@
               <td><input type="password" id="password" name="password" /></td>
             </tr>
           </table>
-          <button type="button" class="login" onclick="login()">Login</button>
-          <button type="button" class="cancel" onclick="hideLogin()">Cancel</button>
+          <button type="button" class="login" id="login">Login</button>
+          <button type="button" class="cancel" id="hideLogin">Cancel</button>
         </div>
       </div>
 
@@ -1453,5 +1453,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=20230425v1"></script>
+  <script src="../static/index.js?ver=20230425v2"></script>
 </html>

@@ -461,9 +461,9 @@ $("#terminal_check").on("change", ()=> {
 });
 
 $("#home_bt").on("click", () => {
-  if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-  location.href = `http://${window.location.hostname}?username=${btoa(window.localStorage.getItem('username'))}&password=${btoa(window.localStorage.getItem("password"))}`;
-
+  if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
+    location.href = `http://${location.hostname}`;
+  }
 });
 
 $("#home_bt").hover(
@@ -609,33 +609,54 @@ $(document).keydown((evt)=> {
   return true;
 });
 
-let usedata = {"block":{"click":0, "keydown":0, "execute":0}, "text":{"click":0, "keydown":0, "execute":0}};
-$(window).on("click keydown", (evt) => {
+const init_usedata = {"block":{"click":0, "keydown":0, "execute":0}, "text":{"click":0, "keydown":0, "execute":0}};
+
+$(document).on("click keydown", (evt) => {
   if (["click", "keydown"].includes(evt.type)) {
-    const key = $("#blockly_check").is(":checked")?"block":"text";
-    usedata[key][evt.type]++;
-    localStorage.setItem("usedata", JSON.stringify(usedata));
+    usedata[$("#blockly_check").is(":checked")?"block":"text"][evt.type]++;
   }
 });
 
-window.addEventListener('beforeunload', (evt) => {
-  // $.ajax({
-  //   url:`http://${window.location.hostname}:50000/download?filename=cat.mp3`,
-  // })
-
-  localStorage.clear("usedata");
-  //console.log("beforeunload");
+$.ajax({
+  url: `http://${location.hostname}/account`,
+}).always((xhr, status) => {
+  if (status == "success") {
+    $("#logined_id").html(xhr['username']);
+    $("#username").val(xhr['username']);
+    $("#password").val(xhr['password']);
+    if (xhr['username'] == "" || xhr['password'] == "") $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+    else $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+  } else {
+    $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+  }
 });
 
-function showLogin() {
+let usedata = init_usedata; // from server
+
+window.addEventListener('beforeunload', (evt) => {
+  $.ajax({
+    url: `http://${location.hostname}/usedata/ide`,
+    type: "post",
+    data: JSON.stringify(usedata),
+    contentType: "application/json",
+  }).always((xhr, status) => {
+    if (status == "success") {
+      usedata = init_usedata;
+    } else {
+      alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+    }
+  });
+});
+
+$("#showLogin").on("click", ()=>{
   document.getElementById("loginPopup").style.display = "block";
-}
+});
 
-function hideLogin() {
+$("#hideLogin").on("click", ()=>{
   document.getElementById("loginPopup").style.display = "none";
-}
+});
 
-function login() {
+$("#login").on("click", ()=>{
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
@@ -645,41 +666,65 @@ function login() {
     return;
   }
 
-  localStorage.setItem("username", username);
-  localStorage.setItem("password", password);
-  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-  $("#logined_id").html(username);
+  $.ajax({
+    url: `http://${location.hostname}/loginout?username=${username}&password=${password}`,
+  }).always((xhr, status) => {
+    if (status == "success") {
+      alert(`로그인 성공.`);
+      $("#logined_id").html(xhr['username']);
+      $("#username").val(xhr['username']);
+      $("#password").val(xhr['password']);
+      $("#userinfo").html('<i class="fa-solid fa-user"></i>');
+    } else {
+      alert(`로그인 에러.\n >> ${xhr.responseJSON["result"]}`);
+    }
+  });
+
   // Here you can add your own authentication logic
   // For example, you can send an AJAX request to your server and validate the credentials
-
-  // If authentication succeeds, hide the login popup
-  hideLogin();
-}
+  usedata = init_usedata; // from server
+  document.getElementById("loginPopup").style.display = "none";    
+});
 
 $("#user_bt").on("click", () => {
   if(confirm("로그아웃 하시겠습니까?")){
-    localStorage.clear("username");
-    localStorage.clear("password");
-    $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-    $("#logined_id").html("");
-    localStorage.clear("usedata");
+    $.ajax({
+      url: `http://${location.hostname}/loginout`,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        alert(`로그아웃 성공.`);
+        $("#logined_id").html(xhr['username']);
+        $("#username").val(xhr['username']);
+        $("#password").val(xhr['password']);
+        $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+        document.getElementById("loginPopup").style.display = "none";
+        $.ajax({
+          url: `http://${location.hostname}/usedata/ide`,
+          type: "post",
+          data: JSON.stringify(usedata),
+          contentType: "application/json",
+        }).always((xhr, status) => {
+          if (status == "success") {
+            usedata = init_usedata;
+          } else {
+            alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+          }
+        });
+      } else {
+        alert(`로그아웃 에러.\n >> ${xhr.responseJSON["result"]}`);
+      }
+    });
   }
 });
 
-const urlstr = new URL(location.href);
-if (urlstr.searchParams.get("username") !== null || urlstr.searchParams.get("password") !== null) {
-  localStorage.setItem("username", atob(urlstr.searchParams.get("username")));
-  localStorage.setItem("password", atob(urlstr.searchParams.get("password")));
-  $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-  $("#logined_id").html(atob(urlstr.searchParams.get("username")));
-}
-else {
-  localStorage.clear("username");
-  localStorage.clear("password");
-  $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-  $("#logined_id").html("");
-}
-
 $("#usedata_bt").on("click", ()=> {
-  alert(localStorage.getItem("usedata"));
+  $.ajax({
+    url: `http://${location.hostname}/usedata/ide`,
+  }).always((xhr, status) => {
+    if (status == "success") {
+      alert(JSON.stringify(xhr));
+    } else {
+      alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
+    }
+  });
 });

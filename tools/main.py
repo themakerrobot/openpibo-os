@@ -1,10 +1,12 @@
 from fastapi_socketio import SocketManager
-from fastapi import FastAPI,Request,UploadFile,File
+from fastapi import FastAPI,Request,UploadFile,File,Body
 from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 
 from lib import Pibo
+from collections import Counter
 import time,os,json,shutil,log
 import network_disp
 import argparse
@@ -14,14 +16,65 @@ try:
   app = FastAPI()
   app.mount("/static", StaticFiles(directory="static"), name="static")
   app.mount("/webfonts", StaticFiles(directory="webfonts"), name="webfonts")
+  app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
   templates = Jinja2Templates(directory="templates")
-  socketio = SocketManager(app=app)
+  socketio = SocketManager(app=app, cors_allowed_origins=[])
 except Exception as ex:
   logger.error(f'Server Error:{ex}')
 
 @app.get('/', response_class=HTMLResponse)
 async def f(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get('/loginout')
+async def f(username="", password=""):
+  res = {"username":username, "password":password}
+  with open('/home/pi/.account.json', 'w') as f:
+    json.dump(res, f)
+  return JSONResponse(content=res, status_code=200)
+
+@app.get('/account')
+async def f():
+  try:
+    res = {"username":"", "password":""}
+    with open('/home/pi/.account.json', 'rb') as f:
+      res = json.load(f)
+  except Exception as ex:
+    logger.error(f'[login] Error: {ex}')
+    pass
+  return JSONResponse(content=res, status_code=200)
+
+@app.get('/usedata/{key}')
+async def f(key="tools"):
+  try:
+    res = {}
+    with open(f'/home/pi/.{key}.json', 'rb') as f:
+      res = json.load(f)
+  except Exception as ex:
+    logger.error(f'[login] Error: {ex}')
+    pass
+  return JSONResponse(content=res, status_code=200)
+
+@app.post('/usedata/{key}')
+async def f(key="tools", data: dict = Body(...)):
+  try:
+    res = None
+    with open(f'/home/pi/.{key}.json', 'rb') as f:
+      res = json.load(f)
+  except Exception as ex:
+    logger.error(f'[usedata] Error: {ex}')
+    pass
+
+  if res == None:
+    with open(f'/home/pi/.{key}.json', 'w') as f:
+      json.dump(data, f)     
+  else:
+    tmp = {}
+    for k in data:
+      tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
+    with open(f'/home/pi/.{key}.json', 'w') as f:
+      json.dump(tmp, f)
+  return JSONResponse(content=res, status_code=200)
 
 @app.get('/download_img', response_class=FileResponse)
 async def f():
@@ -92,6 +145,7 @@ async def f(data:UploadFile = File(...)):
   pibo.set_oled_image(filepath)
   os.remove(filepath)
   return JSONResponse(content={"filename":data.filename}, status_code=200)
+
 
 ## socktio
 # vision
@@ -486,6 +540,30 @@ async def f(sid, d=None):
     else:
       os.system(f'rm -rf /home/pi/{item}')
   os.system('shutdown -r now')
+
+# @app.sio.on('login')
+# async def f(sid, d=None):
+#   res = {"username":d['username'], "password":d["password"]}
+#   with open('/home/pi/.account.json', 'w') as f:
+#     json.dump(res, f)
+#   return await emit('account', res)
+
+# @app.sio.on('logout')
+# async def f(sid, d=None):
+#   with open('/home/pi/.account.json', 'rb') as f:
+#     json.dump({"username":"", "password":""}, f)
+#   return await emit('account', res)
+
+# @app.sio.on('account')
+# async def f(sid, d=None):
+#   try:
+#     res = {"username":"", "password":""}
+#     with open('/home/pi/.account.json', 'rb') as f:
+#       res = json.load(f)
+#   except Exception as ex:
+#     logger.error(f'[login] Error: {ex}')
+#     pass
+#   return await emit('account', res)
 
 @app.on_event('startup')
 async def f():
