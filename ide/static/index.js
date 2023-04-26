@@ -126,6 +126,7 @@ socket.on("system", (data) => {
   $("#s_cpu_temp").text(data[3]);
   $("#s_memory").text(`${Math.floor(data[5]/data[4]/4*100)} %`);
   $("#s_network").text(`${data[6]}/${data[7].replace("\n", "")}`);
+  $("#wifi_info").html(data[6] + "/" + data[7].replace("\n", ""));
 });
 
 codeTypeBtns.forEach((btn) => {
@@ -607,6 +608,47 @@ $(document).keydown((evt)=> {
       return false;
   }
   return true;
+});
+
+$("#showWifi").on("click", ()=>{
+  document.getElementById("wifiPopup").style.display = "block";
+});
+
+$("#hidewifi").on("click", ()=>{
+  document.getElementById("wifiPopup").style.display = "none";
+});
+
+$("#wifi_bt").on("click", function () {
+  let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
+  comment += "\nssid: " + $("#ssid").val().trim();
+  comment += "\npassword: " + $("#psk").val().trim();
+  comment += "\nWIFI 정보를 한번 더 확인하시기 바랍니다.";
+  comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
+  if (confirm(comment)) {
+    $.ajax({
+      url: `http://${location.hostname}/wifi?ssid=${$("#ssid").val()}&psk=${$("#psk").val()}`,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        //
+      } else {
+        //
+      }
+    });
+    // socket.emit("wifi", {
+    //   ssid: $("#ssid").val(),
+    //   psk: $("#psk").val(),
+    // });
+  }
+});
+$.ajax({
+  url: `http://${location.hostname}/wifi`,
+}).always((xhr, status) => {
+  if (status == "success") {
+    $("#ssid").val(xhr["ssid"]);
+    $("#psk").val(xhr["psk"]);
+  } else {
+    //
+  }
 });
 
 const init_usedata = {"block":{"click":0, "keydown":0, "execute":0}, "text":{"click":0, "keydown":0, "execute":0}};
