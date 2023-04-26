@@ -35,6 +35,8 @@ initialise_ap_values() {
 	HOSTAPD_ctrl_interface_group="${HOSTAPD_ctrl_interface_group:-0}"
 	HOSTAPD_hw_mode="${HOSTAPD_hw_mode:-g}"
 	HOSTAPD_channel="${HOSTAPD_channel:-$(($RANDOM% 12+1))}"
+	#HOSTAPD_hw_mode="${HOSTAPD_hw_mode:-a}"
+	#HOSTAPD_channel="${HOSTAPD_channel:-36}"
 	HOSTAPD_macaddr_acl="${HOSTAPD_macaddr_acl:-0}"
 	HOSTAPD_auth_algs="${HOSTAPD_auth_algs:-1}"
 	HOSTAPD_ignore_broadcast_ssid="${HOSTAPD_ignore_broadcast_ssid:-0}"
