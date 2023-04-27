@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.min.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=20230425v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=20230425v32" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230106" />
   </head>
   <body>
@@ -82,7 +82,11 @@
             </tr>
             <tr>
               <td>비밀번호:</td>
-              <td><input type="password" id="password" name="password" /></td>
+              <td>
+                <div class="password">
+                  <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
+                </div>
+              </td>
             </tr>
           </table>
           <button type="button" class="login" id="login">확인</button>
@@ -96,16 +100,25 @@
           <i class="fa-solid fa-wifi"></i>&nbsp;<u><span id="wifi_info"></span></u>
           <table>
             <tr>
-              <td>wifi 이름:</td>
+              <td>Wifi 이름:</td>
               <td><input type="text" name="ssid" id="ssid" /></td>
             </tr>
             <tr>
               <td>비밀번호:</td>
-              <td><input type="password" id="psk" name="psk" /></td>
+              <td>
+                <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check "/>
+              </td>
             </tr>
           </table>
           <button type="button" class="confirm" id="wifi_bt">확인</button>
           <button type="button" class="cancel" id="hidewifi">취소</button>
+          <br><br>
+          <div style="width:378px;height:150px;overflow-y: scroll;">
+            <table class="wifi_list" id="wifi_list">
+              <thead><tr><th>사용가능한 네트워크</th><th>Signal</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -160,35 +173,6 @@
             </section>
             <section>
               <h3 class="mark">시스템 설정</h3>
-              <!--
-                <div class="system-config-item">
-                <header>
-                  인터넷 설정하기
-                  <input type="checkbox" id="wifi_check" name="wifi_check"/>
-                </header>
-                <div class="input-group-wifi">
-                  <div class="group-labels">
-                    <label for="ssid" class="label">
-                      wifi 이름:
-                      <input type="text" name="ssid" id="ssid" disabled />
-                    </label>
-                    <label for="password" class="label">
-                      비밀번호:
-                      <input
-                        type="password"
-                        name="psk"
-                        id="psk"
-                        disabled
-                      />
-                    </label>
-                  </div>
-                  <button id="wifi_bt" disabled>
-                    <i class="fa-solid fa-check-double"></i>
-                    확인하기
-                  </button>
-                </div>
-              </div>
-              -->
               <div class="system-config-item">
                 <header>소리크기 설정하기</header>
                 <div>
@@ -213,16 +197,9 @@
                   disabled
                 />
               </div>
+              <br>
               <div class="system-config-item">
                 <div>
-                  <button id="swupdate_bt">
-                    <i class="fa-solid fa-rotate"></i>
-                    소프트웨어 업데이트
-                  </button>
-                  <button id="restore_bt">
-                    <i class="fa-solid fa-window-restore"></i>
-                    초기화하기
-                  </button>
                   <button id="poweroff_bt">
                     <i class="fa-solid fa-power-off"></i>
                     종료하기
@@ -230,6 +207,14 @@
                   <button id="restart_bt">
                     <i class="fa-solid fa-arrow-rotate-left"></i>
                     재시작하기
+                  </button>
+                  <button id="restore_bt">
+                    <i class="fa-solid fa-window-restore"></i>
+                    초기화하기
+                  </button>
+                  <button id="swupdate_bt">
+                    <i class="fa-solid fa-rotate"></i>
+                    업데이트하기
                   </button>
                 </div>
               </div>
@@ -1476,5 +1461,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=20230425v1"></script>
+  <script src="../static/index.js?ver=20230425v2"></script>
 </html>

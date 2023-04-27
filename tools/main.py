@@ -10,6 +10,7 @@ from collections import Counter
 import time,os,json,shutil,log
 import network_disp
 import argparse
+import wifi
 
 MODEL_PATH = "/home/pi/models"
 try:
@@ -83,6 +84,10 @@ async def f():
 
   pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
+
+@app.get('/wifi_scan')
+async def f():
+  return JSONResponse(content=wifi.wifi_scan(), status_code=200)
 
 @app.get('/wifi')
 async def f(ssid=None, psk=None):

@@ -2261,21 +2261,46 @@ $(function () {
       socket.emit("onoff", sel);
     });
 
-    // $("input:checkbox[name=wifi_check]").change(function () {
-    //   let wifi_check_en = $("input:checkbox[name=wifi_check]").is(":checked");
-    //   if (wifi_check_en) {
-    //     $("#ssid").attr("disabled", false);
-    //     $("#psk").attr("disabled", false);
-    //     $("#wifi_bt").attr("disabled", false);
-    //   }
-    //   else {
-    //     $("#ssid").attr("disabled", true);
-    //     $("#psk").attr("disabled", true);
-    //     $("#wifi_bt").attr("disabled", true);
-    //   }
-    // });
-
     $("#showWifi").on("click", ()=>{
+      $("#wifi_list > tbody").empty();
+      $("#wifi_list > tbody").append(
+        $("<tr>")
+        .append(
+          $("<td>").append("Scanning..."),
+          $("<td>").append(""),
+        )
+      )
+      $.ajax({
+        url: `/wifi_scan`,
+      }).always((xhr, status) => {
+        if (status == "success") {
+          data = xhr
+          $("#wifi_list > tbody").empty();
+          for (let i = 0; i < data.length; i++) {
+            $("#wifi_list > tbody").append(
+              $("<tr>")
+                .append(
+                  $("<td>").append(data[i].essid),
+                  $("<td>").append(`${data[i].quality} / ${data[i].dBm}dBm`),
+                )
+                .hover(
+                  function () {
+                    $(this).animate({ opacity: "0.5" }, 100);
+                  },
+                  function () {
+                    $(this).animate({ opacity: "1" }, 100);
+                  }
+                )
+                .click(function () {
+                  let lst = $(this).children();
+                  $("#ssid").val(lst.eq(0).text());
+                })
+            );
+          }
+        } else {
+          //
+        }
+      });
       document.getElementById("wifiPopup").style.display = "block";
     });
 
@@ -2315,14 +2340,6 @@ $(function () {
       }
     });
 
-    // setTimeout(function () {
-    //   socket.emit("wifi");
-    // }, 1000);
-    // socket.on("wifi", function (data) {
-    //   $("#ssid").val(data["ssid"]);
-    //   $("#psk").val(data["psk"]);
-    // });
-
     $("#wifi_bt").on("click", function () {
       let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
       comment += "\nssid: " + $("#ssid").val().trim();
@@ -2339,10 +2356,6 @@ $(function () {
             //
           }
         });
-        // socket.emit("wifi", {
-        //   ssid: $("#ssid").val(),
-        //   psk: $("#psk").val(),
-        // });
       }
     });
 
@@ -2511,4 +2524,24 @@ $(function () {
       }
     });
   });
+});
+
+$('#password_check').on('click',function(){
+  $('#password_check').toggleClass('active');
+  if($('#password_check').hasClass('active')) {
+    $('#password').prop('type',"text");
+  }
+  else{
+    $('#password').prop('type',"password");
+  }
+});
+
+$('#psk_check').on('click',function(){
+  $('#psk_check').toggleClass('active');
+  if($('#psk_check').hasClass('active')) {
+    $('#psk').prop('type',"text");
+  }
+  else{
+    $('#psk').prop('type',"password");
+  }
 });

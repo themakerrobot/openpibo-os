@@ -611,11 +611,61 @@ $(document).keydown((evt)=> {
 });
 
 $("#showWifi").on("click", ()=>{
+  $("#wifi_list > tbody").empty();
+  $("#wifi_list > tbody").append(
+    $("<tr>")
+    .append(
+      $("<td>").append("Scanning..."),
+      $("<td>").append(""),
+    )
+  )
+  $.ajax({
+    url: `http://${location.hostname}/wifi_scan`,
+  }).always((xhr, status) => {
+    if (status == "success") {
+      data = xhr
+      $("#wifi_list > tbody").empty();
+      for (let i = 0; i < data.length; i++) {
+        $("#wifi_list > tbody").append(
+          $("<tr>")
+            .append(
+              $("<td>").append(data[i].essid),
+              $("<td>").append(`${data[i].quality} / ${data[i].dBm}dBm`),
+            )
+            .hover(
+              function () {
+                $(this).animate({ opacity: "0.5" }, 100);
+              },
+              function () {
+                $(this).animate({ opacity: "1" }, 100);
+              }
+            )
+            .click(function () {
+              let lst = $(this).children();
+              $("#ssid").val(lst.eq(0).text());
+            })
+        );
+      }
+    } else {
+      //
+    }
+  });
   document.getElementById("wifiPopup").style.display = "block";
 });
 
 $("#hidewifi").on("click", ()=>{
   document.getElementById("wifiPopup").style.display = "none";
+});
+
+$.ajax({
+  url: `http://${location.hostname}/wifi`,
+}).always((xhr, status) => {
+  if (status == "success") {
+    $("#ssid").val(xhr["ssid"]);
+    $("#psk").val(xhr["psk"]);
+  } else {
+    //
+  }
 });
 
 $("#wifi_bt").on("click", function () {
@@ -634,20 +684,6 @@ $("#wifi_bt").on("click", function () {
         //
       }
     });
-    // socket.emit("wifi", {
-    //   ssid: $("#ssid").val(),
-    //   psk: $("#psk").val(),
-    // });
-  }
-});
-$.ajax({
-  url: `http://${location.hostname}/wifi`,
-}).always((xhr, status) => {
-  if (status == "success") {
-    $("#ssid").val(xhr["ssid"]);
-    $("#psk").val(xhr["psk"]);
-  } else {
-    //
   }
 });
 
@@ -769,4 +805,24 @@ $("#usedata_bt").on("click", ()=> {
       alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
+});
+
+$('#password_check').on('click',function(){
+  $('#password_check').toggleClass('active');
+  if($('#password_check').hasClass('active')) {
+    $('#password').prop('type',"text");
+  }
+  else{
+    $('#password').prop('type',"password");
+  }
+});
+
+$('#psk_check').on('click',function(){
+  $('#psk_check').toggleClass('active');
+  if($('#psk_check').hasClass('active')) {
+    $('#psk').prop('type',"text");
+  }
+  else{
+    $('#psk').prop('type',"password");
+  }
 });

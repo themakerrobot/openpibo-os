@@ -85,11 +85,20 @@
           </tr>
           <tr>
             <td>비밀번호:</td>
-            <td><input type="password" id="psk" name="psk" /></td>
+            <td>
+              <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check "/>
+            </td>
           </tr>
         </table>
         <button type="button" class="confirm" id="wifi_bt">확인</button>
         <button type="button" class="cancel" id="hidewifi">취소</button>
+        <br><br>
+        <div style="width:378px;height:150px;overflow-y: scroll;">
+          <table class="wifi_list" id="wifi_list">
+            <thead><tr><th>사용가능한 네트워크</th><th>Signal</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
