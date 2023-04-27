@@ -302,11 +302,12 @@ main div.wrapper.ide {
 #init_bt {
   position: absolute;
 }
-table {
+
+.fm-table-wrap > table {
   width: 300px;
 }
 
-tbody {
+.fm-table-wrap > tbody {
   background-color: var(--light-green);
 }
 
@@ -457,7 +458,7 @@ audio.preview-audio {
   padding: 20px;
   border: 1px solid #888;
   width: 420px;
-  height: 300px;
+  height: 260px;
   border-radius: 10px;
 }
 
@@ -522,4 +523,8 @@ audio.preview-audio {
 .wifi_list td {
   border: 1px solid;
   cursor: pointer;
+}
+
+.wifi_list tbody {
+  background-color: #eee;
 }

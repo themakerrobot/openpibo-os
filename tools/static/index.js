@@ -2322,11 +2322,11 @@ $(function () {
     socket.on("system", function (data) {
       $("#s_serial").text(data[0]);
       $("#s_os_version").text(data[1]);
-      $("#s_runtime").text(Math.floor(data[2] / 3600) + " Hours");
+      $("#s_runtime").text(`${Math.floor(data[2] / 3600)} hours`);
       $("#s_cpu_temp").text(data[3]);
-      $("#s_memory").text(Math.floor((data[5] / data[4] / 4) * 100) + " %");
-      $("#s_network").text(data[6] + "/" + data[7].replace("\n", ""));
-      $("#wifi_info").html(data[6] + "/" + data[7].replace("\n", ""));
+      $("#s_memory").text(`${Math.floor(data[5]/data[4]/4*100)} %`);
+      $("#s_network").text(`${data[6]}/${data[7].replace("\n", "")}`);
+      $("#wifi_info").text(`${data[6]}/${data[7].replace("\n", "")}`);
     });
 
     $.ajax({
@@ -2338,6 +2338,19 @@ $(function () {
       } else {
         //
       }
+    });
+
+    $("#current_wifi").on("click", ()=> {
+      $.ajax({
+        url: `http://${location.hostname}/wifi`,
+      }).always((xhr, status) => {
+        if (status == "success") {
+          $("#ssid").val(xhr["ssid"]);
+          $("#psk").val(xhr["psk"]);
+        } else {
+          //
+        }
+      });
     });
 
     $("#wifi_bt").on("click", function () {

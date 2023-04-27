@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.min.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=20230425v32" />
+    <link rel="stylesheet" href="../static/index.css?ver=230427v1" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230106" />
   </head>
   <body>
@@ -83,9 +83,7 @@
             <tr>
               <td>비밀번호:</td>
               <td>
-                <div class="password">
-                  <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
-                </div>
+                <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
               </td>
             </tr>
           </table>
@@ -97,7 +95,7 @@
       <div class="wifi-popup" id="wifiPopup" style="display:none">
         <div class="wifi-popup-content">
           <h3>인터넷 설정하기</h3>
-          <i class="fa-solid fa-wifi"></i>&nbsp;<u><span id="wifi_info"></span></u>
+          <i class="fa-solid fa-wifi"></i>&nbsp;<a id="current_wifi"><span id="wifi_info"></span></a>
           <table>
             <tr>
               <td>Wifi 이름:</td>
@@ -1461,5 +1459,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=20230425v2"></script>
+  <script src="../static/index.js?ver=230427v1"></script>
 </html>

@@ -852,7 +852,7 @@ i.fa > span {
   padding: 20px;
   border: 1px solid #888;
   width: 420px;
-  height: 300px;
+  height: 260px;
   border-radius: 10px;
 }
 
@@ -917,4 +917,7 @@ i.fa > span {
 .wifi_list td {
   border: 1px solid;
   cursor: pointer;
+}
+.wifi_list tbody {
+  background-color: #eee;
 }

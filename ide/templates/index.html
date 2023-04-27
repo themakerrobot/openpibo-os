@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="../static/cobalt.css" />
   <link rel="stylesheet" href="../static/duotone-light.css" />
   <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
-  <link rel="stylesheet" href="../static/index.css?ver=230425v1" />
+  <link rel="stylesheet" href="../static/index.css?ver=230427v1" />
 </head>
 
 <body>
@@ -57,30 +57,32 @@
   <main>
     <div class="login-popup" id="loginPopup">
       <div class="login-popup-content">
-        <h3>Login</h3>
-        <i class="fa-solid fa-user"></i>&nbsp;<a id="user_bt" style="font-weight:bold;color:#aaa;cursor:pointer"><u><span id="logined_id"></span></u></a> 님, 
+        <h3>로그인 하기</h3>
+        <i class="fa-solid fa-user"></i>&nbsp;<a id="user_bt" style="font-weight:bold;color:#aaa;cursor:pointer"><u><span id="logined_id"></span></u></a> 님,
         <table>
           <tr>
-            <td>Username:</td>
-            <td><input type="text" id="username" name="username" required></td>
+            <td>아이디:</td>
+            <td><input type="text" id="username" name="username" /></td>
           </tr>
           <tr>
-            <td>Password:</td>
-            <td><input type="password" id="password" name="password" required></td>
+            <td>비밀번호:</td>
+            <td>
+              <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
+            </td>
           </tr>
         </table>
-        <button type="button" class="login" id="login">Login</button>
-        <button type="button" class="cancel" id="hideLogin">Cancel</button>
+        <button type="button" class="login" id="login">확인</button>
+        <button type="button" class="cancel" id="hideLogin">취소</button>
       </div>
     </div>
 
     <div class="wifi-popup" id="wifiPopup" style="display:none">
       <div class="wifi-popup-content">
         <h3>인터넷 설정하기</h3>
-        <i class="fa-solid fa-wifi"></i>&nbsp;<u><span id="wifi_info"></span></u>
+        <i class="fa-solid fa-wifi"></i>&nbsp;<a id="current_wifi"><span id="wifi_info"></span></a>
         <table>
           <tr>
-            <td>wifi 이름:</td>
+            <td>Wifi 이름:</td>
             <td><input type="text" name="ssid" id="ssid" /></td>
           </tr>
           <tr>
@@ -260,6 +262,6 @@
       <span id="s_runtime"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=230425v1"></script>
+  <script src="../static/index.js?ver=230427v1"></script>
 </body>
 </html>

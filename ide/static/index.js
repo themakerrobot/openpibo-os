@@ -126,7 +126,7 @@ socket.on("system", (data) => {
   $("#s_cpu_temp").text(data[3]);
   $("#s_memory").text(`${Math.floor(data[5]/data[4]/4*100)} %`);
   $("#s_network").text(`${data[6]}/${data[7].replace("\n", "")}`);
-  $("#wifi_info").html(data[6] + "/" + data[7].replace("\n", ""));
+  $("#wifi_info").text(`${data[6]}/${data[7].replace("\n", "")}`);
 });
 
 codeTypeBtns.forEach((btn) => {
@@ -666,6 +666,19 @@ $.ajax({
   } else {
     //
   }
+});
+
+$("#current_wifi").on("click", ()=> {
+  $.ajax({
+    url: `http://${location.hostname}/wifi`,
+  }).always((xhr, status) => {
+    if (status == "success") {
+      $("#ssid").val(xhr["ssid"]);
+      $("#psk").val(xhr["psk"]);
+    } else {
+      //
+    }
+  });
 });
 
 $("#wifi_bt").on("click", function () {
