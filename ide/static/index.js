@@ -689,7 +689,7 @@ $("#wifi_bt").on("click", function () {
   comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
   if (confirm(comment)) {
     $.ajax({
-      url: `http://${location.hostname}/wifi?ssid=${$("#ssid").val()}&psk=${$("#psk").val()}`,
+      url: `http://${location.hostname}/wifi?ssid=${encodeURIComponent($("#ssid").val().trim())}&psk=${encodeURIComponent($("#psk").val().trim())}`,
     }).always((xhr, status) => {
       if (status == "success") {
         //
@@ -748,17 +748,17 @@ $("#hideLogin").on("click", ()=>{
 });
 
 $("#login").on("click", ()=>{
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const username = $("#username").val().trim();
+  const password = $("#password").val().trim();
 
-// Check if username and password are not empty
+  // Check if username and password are not empty
   if (username === "" || password === "") {
     alert("Please enter username and password.");
     return;
   }
 
   $.ajax({
-    url: `http://${location.hostname}/loginout?username=${username}&password=${password}`,
+    url: `http://${location.hostname}/loginout?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
   }).always((xhr, status) => {
     if (status == "success") {
       alert(`로그인 성공.`);

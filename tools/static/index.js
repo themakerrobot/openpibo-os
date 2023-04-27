@@ -2353,6 +2353,8 @@ $(function () {
       });
     });
 
+    encodeURIComponent
+
     $("#wifi_bt").on("click", function () {
       let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
       comment += "\nssid: " + $("#ssid").val().trim();
@@ -2361,7 +2363,7 @@ $(function () {
       comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
       if (confirm(comment)) {
         $.ajax({
-          url: `/wifi?ssid=${$("#ssid").val()}&psk=${$("#psk").val()}`,
+          url: `/wifi?ssid=${encodeURIComponent($("#ssid").val().trim())}&psk=${encodeURIComponent($("#psk").val())}`,
         }).always((xhr, status) => {
           if (status == "success") {
             //
@@ -2466,8 +2468,8 @@ $(function () {
   });
 
   $("#login").on("click", ()=>{
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = $("#username").val().trim();
+    const password = $("#password").val().trim();
 
   // Check if username and password are not empty
     if (username === "" || password === "") {
@@ -2476,7 +2478,7 @@ $(function () {
     }
 
     $.ajax({
-      url: `/loginout?username=${username}&password=${password}`,
+      url: `/loginout?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
     }).always((xhr, status) => {
       if (status == "success") {
         alert(`로그인 성공.`);

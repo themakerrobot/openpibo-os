@@ -18,8 +18,8 @@ wifi_country() {
 
 initialise_ap_values() {
 	rpi_serial=$(grep "Serial" /proc/cpuinfo | awk '{print $3}')
-        processed_serial="$(echo "${rpi_serial: -8}" | tr '[:upper:]' '[:lower:]')"
-        AP_SSID="${AP_SSID:-pibo-${processed_serial}}"
+	processed_serial="$(echo "${rpi_serial: -8}" | tr '[:upper:]' '[:lower:]')"
+	AP_SSID="${AP_SSID:-pibo-${processed_serial}}"
 	AP_IFACE="${AP_IFACE:-ap0}"
 	AP_MAC="${AP_MAC:-99:88:77:66:55:44}"
 	WIFI_IFACE="${WIFI_IFACE:-wlan0}"
