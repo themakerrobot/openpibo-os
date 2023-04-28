@@ -2608,13 +2608,26 @@ $(function () {
   $("#usedata_bt").on("click", ()=> {
     $.ajax({
       url: `/usedata/tools`,
+      type: "post",
+      data: JSON.stringify(usedata),
+      contentType: "application/json",
     }).always((xhr, status) => {
       if (status == "success") {
         alert(JSON.stringify(xhr));
+        usedata = init_usedata;
       } else {
-        alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
+  //   $.ajax({
+  //     url: `/usedata/tools`,
+  //   }).always((xhr, status) => {
+  //     if (status == "success") {
+  //       alert(JSON.stringify(xhr));
+  //     } else {
+  //       alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
+  //     }
+  //   });
   });
 });
 
