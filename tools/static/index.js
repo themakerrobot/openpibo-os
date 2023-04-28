@@ -420,6 +420,7 @@ const getSpeech = (socket) => {
   $("#s_reset_csv_bt").on("click", function () {
     socket.emit("reset_csv");
     $("#s_upload_csv").val("");
+    alert("초기화 완료되었습니다.")
   });
 
   $("#s_question_val").on("keyup", function () {
