@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.min.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=230427v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=230428v1" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230106" />
   </head>
   <body>
@@ -323,7 +323,7 @@
                 </div>
               </div>
 
-              <div style="margin-top: 30px">
+              <div style="margin-top: 20px">
                 <h3 class="mark">오디오 사용하기</h3>
                 <span class="label">마이크</span>
                 <div style="margin-top: 10px">
@@ -354,7 +354,7 @@
                 </div>
               </div>
 
-              <div style="margin-top: 30px">
+              <div style="margin-top: 20px">
                 <span class="label">음악재생</span>
                 <div style="margin-top: 10px">
                   <select id="audiopath" name="audiopath">
@@ -385,6 +385,13 @@
                     정지하기
                   </button>
                 </div>
+              </div>
+
+              <div style="margin-top: 20px">
+                <span class="label">내 오디오에 업로드하기</span>
+                <form style="margin-top: 5px">
+                  <input type="file" id="upload_audio" accept=".mp3, .wav" />
+                </form>
               </div>
             </section>
 
@@ -456,19 +463,14 @@
                   </button>
                 </div>
 
-                <div style="margin-top: 30px">
+                <div style="margin-top: 20px">
                   <span class="label">사진입력하기(PC)</span>
-                  <form
-                    method="post"
-                    action="/upload_oled"
-                    enctype="multipart/form-data"
-                    style="margin-top: 5px"
-                  >
+                  <form style="margin-top: 5px">
                     <input type="file" id="upload_oled" accept=".jpg, .png" />
                   </form>
                 </div>
 
-                <div style="margin-top: 30px">
+                <div style="margin-top: 10px">
                   <span class="label">사진입력하기(로봇)</span>
                   <div style="margin-top: 10px">
                     <select id="oledpath" name="oledpath">
@@ -495,8 +497,14 @@
                     </select>
                   </div>
                 </div>
+                <div style="margin-top: 20px">
+                  <span class="label">내 이미지에 업로드하기</span>
+                  <form style="margin-top: 5px">
+                    <input type="file" id="upload_image" accept=".jpg, .png" />
+                  </form>
+                </div>
               </div>
-              <br />
+              <br>
               <div class="device-status-group">
                 <h3 class="mark">센서 인식하기</h3>
                 <div>
@@ -924,7 +932,7 @@
               </div>
               <div>
                 <header>티쳐블머신 모델 업로드</header>
-                <form method="post" enctype="multipart/form-data">
+                <form>
                   <input type="file" id="v_upload_tm" accept=".zip" />
                 </form>
               </div>
@@ -935,6 +943,30 @@
                   사진저장하기
                 </button>
               </div>
+              <div>
+                <header>카메라 위치 조정 <i class="fa-solid fa-location-crosshairs">&nbsp;<span id="v_location"></span></i></header>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                  <a id="v_pan_reset"><i class="fa-solid fa-arrows-left-right"></i></a>
+                  <input
+                    type="range"
+                    name="v_pan_range"
+                    id="v_pan_range"
+                    min="-50"
+                    max="50"
+                    style="width:50%;"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a id="v_tilt_reset"><i class="fa-solid fa-arrows-up-down"></i></a>
+                  <input
+                    type="range"
+                    name="v_tilt_range"
+                    id="v_tilt_range"
+                    min="-25"
+                    max="25"
+                    style="width:50%;"
+                  />
+                </div>
+              </div>
               <h3 class="mark">인식결과</h3>
               <div>
                 <span id="v_result"></span>
@@ -943,18 +975,7 @@
           </article>
           <article id="article_speech">
             <section>
-              <h3 class="mark">기능 설정</h3>
-
-              <div class="speech-input-group">
-                <span class="label">대화데이터:</span>
-                <form method="post" enctype="multipart/form-data">
-                  <input type="file" id="s_upload_csv" accept=".csv" />
-                </form>
-                <a id="s_reset_csv_bt" style="cursor: pointer">
-                  <i class="fa-solid fa-eraser"></i>
-                  <i>초기화하기</i>
-                </a>
-              </div>
+              <h3 class="mark">말하기</h3>
               <div class="speech-input-group">
                 <span class="label">음성:</span>
                 <input type="radio" name="s_voice_en" value="on" checked />On
@@ -976,13 +997,24 @@
               <div class="speech-input-group">
                 <span class="label">음성합성:</span>
                 <input type="text" id="s_tts_val" />
-                <button id="s_tts_bt">
+                <button id="s_tts_bt" style="width:120px">
                   <i class="fa-solid fa-check-double"></i>
                   실행하기
                 </button>
               </div>
-
+            </section>
+            <section>
               <h3 class="mark">대화하기</h3>
+              <div class="speech-input-group">
+                <span class="label">대화데이터:</span>
+                <form>
+                  <input type="file" id="s_upload_csv" accept=".csv" />
+                </form>
+                <a id="s_reset_csv_bt" style="cursor: pointer">
+                  <i class="fa-solid fa-eraser"></i>
+                  <i>초기화하기</i>
+                </a>
+              </div>
               <div class="speech-input-group">
                 <span class="label">질문:</span>
                 <input
@@ -991,7 +1023,7 @@
                   id="s_question_val"
                   placeholder="안녕하세요. 반갑습니다."
                 />
-                <button id="s_chat_bt">
+                <button id="s_chat_bt" style="width:120px">
                   <i class="fa-solid fa-comment-dots"></i>
                   질문하기
                 </button>
@@ -1005,10 +1037,10 @@
                   disabled
                 />
               </div>
-            </section>
-            <section>
-              <h3 class="mark">대화기록 (최근 대화 10개)</h3>
-              <div>
+              <div class="speech-input-group">
+                <span class="label">대화기록 (최근 대화 10개)</span>
+              </div>
+              <div class="speech-input-group">
                 <table id="s_record_tb">
                   <thead>
                     <tr>
@@ -1459,5 +1491,5 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/index.js?ver=230427v1"></script>
+  <script src="../static/index.js?ver=230428v1"></script>
 </html>

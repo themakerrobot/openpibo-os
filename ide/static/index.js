@@ -758,7 +758,10 @@ $("#login").on("click", ()=>{
   }
 
   $.ajax({
-    url: `http://${location.hostname}/loginout?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+    url: `http://${location.hostname}/account`,
+    type: "post",
+    data: JSON.stringify({username:username, password:password}),
+    contentType: "application/json",
   }).always((xhr, status) => {
     if (status == "success") {
       alert(`로그인 성공.`);
@@ -779,31 +782,34 @@ $("#login").on("click", ()=>{
 
 $("#user_bt").on("click", () => {
   if(confirm("로그아웃 하시겠습니까?")){
-    $.ajax({
-      url: `http://${location.hostname}/loginout`,
-    }).always((xhr, status) => {
-      if (status == "success") {
-        alert(`로그아웃 성공.`);
-        $("#logined_id").html(xhr['username']);
-        $("#username").val(xhr['username']);
-        $("#password").val(xhr['password']);
-        $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-        document.getElementById("loginPopup").style.display = "none";
-        $.ajax({
-          url: `http://${location.hostname}/usedata/ide`,
-          type: "post",
-          data: JSON.stringify(usedata),
-          contentType: "application/json",
-        }).always((xhr, status) => {
-          if (status == "success") {
-            usedata = init_usedata;
-          } else {
-            alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
-          }
-        });
-      } else {
-        alert(`로그아웃 에러.\n >> ${xhr.responseJSON["result"]}`);
-      }
+      $.ajax({
+        url: `http://${location.hostname}/account`,
+        type: "post",
+        data: JSON.stringify({username:"", password:""}),
+        contentType: "application/json",
+      }).always((xhr, status) => {
+        if (status == "success") {
+          alert(`로그아웃 성공.`);
+          $("#logined_id").html(xhr['username']);
+          $("#username").val(xhr['username']);
+          $("#password").val(xhr['password']);
+          $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
+          document.getElementById("loginPopup").style.display = "none";
+          $.ajax({
+            url: `http://${location.hostname}/usedata/ide`,
+            type: "post",
+            data: JSON.stringify(usedata),
+            contentType: "application/json",
+          }).always((xhr, status) => {
+            if (status == "success") {
+              usedata = init_usedata;
+            } else {
+              alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+            }
+          });
+        } else {
+          alert(`로그아웃 에러.\n >> ${xhr.responseJSON["result"]}`);
+        }
     });
   }
 });

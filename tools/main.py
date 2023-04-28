@@ -28,13 +28,6 @@ except Exception as ex:
 async def f(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get('/loginout')
-async def f(username="", password=""):
-  res = {"username":username, "password":password}
-  with open('/home/pi/.account.json', 'w') as f:
-    json.dump(res, f)
-  return JSONResponse(content=res, status_code=200)
-
 @app.get('/account')
 async def f():
   try:
@@ -45,6 +38,15 @@ async def f():
     logger.error(f'[login] Error: {ex}')
     pass
   return JSONResponse(content=res, status_code=200)
+
+@app.post('/account')
+async def f(data: dict = Body(...)):
+  if 'username' in data and 'password' in data:
+    with open('/home/pi/.account.json', 'w') as f:
+      json.dump(data, f)
+    return JSONResponse(content=data, status_code=200)
+  else:
+    return JSONResponse(content={'result':'account data 오류'}, status_code=500)
 
 @app.get('/usedata/{key}')
 async def f(key="tools"):
@@ -152,6 +154,17 @@ async def f(data:UploadFile = File(...)):
   os.remove(filepath)
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
+@app.post('/upload_file/{directory}')
+async def f(directory="myaudio", data:UploadFile = File(...)):
+  if directory not in ["myaudio", "myimage"]:
+    return JSONResponse(content={'result':'myaudio, myimage로 업로드만 가능합니다.'}, status_code=500)
+
+  os.system(f"mkdir -p /home/pi/{directory}")
+  filepath = f"/home/pi/{directory}/{data.filename}"
+  with open(filepath, 'wb') as f:
+    content = await data.read()
+    f.write(content)
+  return JSONResponse(content={"filename":data.filename}, status_code=200)
 
 ## socktio
 # vision
@@ -546,30 +559,6 @@ async def f(sid, d=None):
     else:
       os.system(f'rm -rf /home/pi/{item}')
   os.system('shutdown -r now')
-
-# @app.sio.on('login')
-# async def f(sid, d=None):
-#   res = {"username":d['username'], "password":d["password"]}
-#   with open('/home/pi/.account.json', 'w') as f:
-#     json.dump(res, f)
-#   return await emit('account', res)
-
-# @app.sio.on('logout')
-# async def f(sid, d=None):
-#   with open('/home/pi/.account.json', 'rb') as f:
-#     json.dump({"username":"", "password":""}, f)
-#   return await emit('account', res)
-
-# @app.sio.on('account')
-# async def f(sid, d=None):
-#   try:
-#     res = {"username":"", "password":""}
-#     with open('/home/pi/.account.json', 'rb') as f:
-#       res = json.load(f)
-#   except Exception as ex:
-#     logger.error(f'[login] Error: {ex}')
-#     pass
-#   return await emit('account', res)
 
 @app.on_event('startup')
 async def f():

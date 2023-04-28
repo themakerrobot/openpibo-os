@@ -62,7 +62,7 @@ def wifi_scan(interface='wlan0'):
   ssid_list = []
 
   for item in results:
-    if item['essid'] != "" and item['essid'] not in ssid_list and not '/x00' in item['essid']:
+    if item['essid'] != "" and item['essid'] not in ssid_list and not '\x00' in item['essid']:
       ssid_list.append(item['essid'])
       items.append({'essid':item['essid'].strip(), 'quality':item['signal_quality'], 'dBm':item['signal_level_dBm']})
   return items

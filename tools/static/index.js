@@ -41,6 +41,34 @@ const getVisions = (socket) => {
       }
     });
   });
+
+  $("#v_tilt_range").on("click touchend", function (evt) {
+    $("#m5_range").val(Number($("#v_tilt_range").val()));
+    $("#m5_value").val(Number($("#v_tilt_range").val()));
+    $("#v_location").text(`${$("#m4_range").val()}, ${$("#m5_range").val()}`);
+    socket.emit("set_motor", { idx: 5, pos: Number($("#v_tilt_range").val()) });
+  });
+  $("#v_pan_range").on("click touchend", function (evt) {
+    $("#m4_range").val(Number($("#v_pan_range").val()));
+    $("#m4_value").val(Number($("#v_pan_range").val()));
+    $("#v_location").text(`${$("#m4_range").val()}, ${$("#m5_range").val()}`);
+    socket.emit("set_motor", { idx: 4, pos: Number($("#v_pan_range").val()) });
+  });
+
+  $("#v_tilt_reset").on("click", function (evt) {
+    $("#v_tilt_range").val(0);
+    $("#m5_range").val(Number($("#v_tilt_range").val()));
+    $("#m5_value").val(Number($("#v_tilt_range").val()));
+    $("#v_location").text(`${$("#m4_range").val()}, ${$("#m5_range").val()}`);
+    socket.emit("set_motor", { idx: 5, pos: Number($("#v_tilt_range").val()) });
+  });
+  $("#v_pan_reset").on("click", () => {
+    $("#v_pan_range").val(0);
+    $("#m4_range").val(Number($("#v_pan_range").val()));
+    $("#m4_value").val(Number($("#v_pan_range").val()));
+    $("#v_location").text(`${$("#m4_range").val()}, ${$("#m5_range").val()}`);
+    socket.emit("set_motor", { idx: 4, pos: Number($("#v_pan_range").val()) });
+  });
 };
 
 const getMotions = (socket) => {
@@ -783,6 +811,46 @@ const getDevices = (socket) => {
 
   $("#stop_audio_bt").on("click", function () {
     socket.emit("stop_audio");
+  });
+
+  $("#upload_audio").on("change", (e) => {
+    let formData = new FormData();
+    formData.append("data", $("#upload_audio")[0].files[0]);
+    $("#upload_audio").val("");
+    $.ajax({
+      url: `/upload_file/myaudio`,
+      type: "post",
+      data: formData,
+      contentType: false,
+      processData: false,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        alert(`파일 전송이 완료되었습니다.`);
+      } else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        $("#upload_audio").val("");
+      }
+    });
+  });
+
+  $("#upload_image").on("change", (e) => {
+    let formData = new FormData();
+    formData.append("data", $("#upload_image")[0].files[0]);
+    $("#upload_image").val("");
+    $.ajax({
+      url: `/upload_file/myimage`,
+      type: "post",
+      data: formData,
+      contentType: false,
+      processData: false,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        alert(`파일 전송이 완료되었습니다.`);
+      } else {
+        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        $("#upload_image").val("");
+      }
+    });
   });
 };
 
@@ -1902,7 +1970,7 @@ const getSimulations = (socket) => {
         oledPathSelect.children().remove();
         const oledPathOptions = oledImgOptionsList.map(({ label, value }) => {
           //if (!path || path === value) {
-	  //  simSocket("sim_update_oled", value, (list) =>
+	        //  simSocket("sim_update_oled", value, (list) =>
           //    setOledImageList(list, path, img)
           //  );
           //}
@@ -2180,6 +2248,9 @@ $(function () {
     } else if (name === "device") {
       $("#d_otext_val").val("");
     } else if (name === "vision") {
+      $("#v_tilt_range").val($("#m5_range").val());
+      $("#v_pan_range").val($("#m4_range").val());
+      $("#v_location").text(`${$("#m4_range").val()}, ${$("#m5_range").val()}`);
       socket.emit("disp_vision");
     } else if (name === "motion") {
       socket.emit("disp_motion");
@@ -2478,7 +2549,10 @@ $(function () {
     }
 
     $.ajax({
-      url: `/loginout?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
+      url: `/account`,
+      type: "post",
+      data: JSON.stringify({username:username, password:password}),
+      contentType: "application/json",
     }).always((xhr, status) => {
       if (status == "success") {
         alert(`로그인 성공.`);
@@ -2500,7 +2574,10 @@ $(function () {
   $("#user_bt").on("click", () => {
     if(confirm("로그아웃 하시겠습니까?")){
       $.ajax({
-        url: `/loginout`,
+        url: `/account`,
+        type: "post",
+        data: JSON.stringify({username:"", password:""}),
+        contentType: "application/json",
       }).always((xhr, status) => {
         if (status == "success") {
           alert(`로그아웃 성공.`);

@@ -303,11 +303,11 @@ main div.wrapper.ide {
   position: absolute;
 }
 
-.fm-table-wrap > table {
+.fm-table-wrap table {
   width: 300px;
 }
 
-.fm-table-wrap > tbody {
+.fm-table-wrap tbody {
   background-color: var(--light-green);
 }
 
