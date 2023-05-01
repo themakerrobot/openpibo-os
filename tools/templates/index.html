@@ -26,7 +26,7 @@
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
     <script src="../static/socket.io.min.js"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="../static/index.css?ver=230428v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=230502v1" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230106" />
   </head>
   <body>
@@ -389,9 +389,13 @@
 
               <div style="margin-top: 20px">
                 <span class="label">내 오디오에 업로드하기</span>
-                <form style="margin-top: 5px">
-                  <input type="file" id="upload_audio" accept=".mp3, .wav" />
-                </form>
+                &nbsp;&nbsp;
+                <label for="upload_audio" class="upload_label" title="업로드"><i class="fa-solid fa-file-upload">&nbsp;업로드</i></label>
+                <div class="upload_div">
+                  <form>
+                    <input type="file" id="upload_audio" accept=".mp3, .wav" />
+                  </form>
+                </div>
               </div>
             </section>
 
@@ -463,13 +467,6 @@
                   </button>
                 </div>
 
-                <div style="margin-top: 20px">
-                  <span class="label">사진입력하기(PC)</span>
-                  <form style="margin-top: 5px">
-                    <input type="file" id="upload_oled" accept=".jpg, .png" />
-                  </form>
-                </div>
-
                 <div style="margin-top: 10px">
                   <span class="label">사진입력하기(로봇)</span>
                   <div style="margin-top: 10px">
@@ -497,14 +494,29 @@
                     </select>
                   </div>
                 </div>
+
+                <div style="margin-top: 20px">
+                  <span class="label">사진입력하기(PC)</span>
+                  &nbsp;&nbsp;
+                  <label for="upload_oled" class="upload_label" title="업로드"><i class="fa-solid fa-file-upload">&nbsp;업로드</i></label>
+                  <div class="upload_div">
+                    <form>
+                      <input type="file" id="upload_oled" accept=".jpg, .png" />
+                    </form>
+                  </div>
+                </div>
+
                 <div style="margin-top: 20px">
                   <span class="label">내 이미지에 업로드하기</span>
-                  <form style="margin-top: 5px">
-                    <input type="file" id="upload_image" accept=".jpg, .png" />
-                  </form>
+                  &nbsp;&nbsp;
+                  <label for="upload_image" class="upload_label" title="업로드"><i class="fa-solid fa-file-upload">&nbsp;업로드</i></label>
+                  <div class="upload_div">
+                    <form>
+                      <input type="file" id="upload_image" accept=".jpg, .png" />
+                    </form>
+                  </div>
                 </div>
               </div>
-              <br>
               <div class="device-status-group">
                 <h3 class="mark">센서 인식하기</h3>
                 <div>
@@ -931,10 +943,15 @@
                 <input type="radio" name="v_func_type" value="tm" />티쳐블머신
               </div>
               <div>
-                <header>티쳐블머신 모델 업로드</header>
-                <form>
-                  <input type="file" id="v_upload_tm" accept=".zip" />
-                </form>
+                <!-- <header>티쳐블머신 모델 업로드</header> -->
+                <span class="label">티쳐블머신 모델 업로드</span>
+                &nbsp;&nbsp;
+                <label for="v_upload_tm" class="upload_label" title="업로드"><i class="fa-solid fa-file-upload">&nbsp;업로드</i></label>
+                <div class="upload_div">
+                  <form>
+                    <input type="file" id="v_upload_tm" accept=".zip" />
+                  </form>
+                </div>
               </div>
               <div>
                 <header>카메라</header>
@@ -1008,14 +1025,14 @@
               <div class="speech-input-group">
                 <span class="label">대화데이터:</span>
                 &nbsp;
-                <label for="s_upload_csv" title="업로드"><i class="fa-solid fa-file-upload">&nbsp;업로드</i></label>
-                <div style="width:50px;height:50px;position:relative;overflow: hidden;">
+                <label for="s_upload_csv" class="upload_label" title="업로드"><i class="fa-solid fa-file-upload">&nbsp;업로드</i></label>
+                <div class="upload_div">
                   <form>
-                    <input type="file" id="s_upload_csv" accept=".csv" style="position:absolute;top:0;left:0;opacity:0;width:100%;height:100%;" />
+                    <input type="file" id="s_upload_csv" accept=".csv" />
                   </form>
                 </div>
                 <a id="s_reset_csv_bt" style="cursor: pointer">
-                  <label for="s_reset_csv_bt" title="초기화">
+                  <label for="s_reset_csv_bt" class="upload_label" title="초기화">
                     <i class="fa-solid fa-eraser">&nbsp;초기화</i>
                   </label>
                 </a>

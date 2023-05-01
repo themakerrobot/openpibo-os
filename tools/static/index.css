@@ -921,3 +921,23 @@ i.fa > span {
 .wifi_list tbody {
   background-color: #eee;
 }
+
+.upload_label {
+  cursor: pointer;
+  font-size:1.3rem;
+  background-color: var(--light-yellow);
+}
+
+.upload_label:hover {
+  box-shadow: 0 3px var(--mid-gray);
+}
+
+.upload_div input[type="file"] {
+  width: 0px;
+  height: 0px;
+  padding: 0;
+  overflow: hidden;
+  margin: -1px;
+  border: 0;
+  position:absolute;
+}
