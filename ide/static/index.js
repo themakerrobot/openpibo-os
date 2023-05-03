@@ -1,13 +1,6 @@
 const MAX_FILENAME_LENGTH = 30;
 const codeMirrorMode = {
   python: "python",
-  html: {
-        name: "htmlmixed",
-        scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i,
-                       mode: null},
-                      {matches: /(text|application)\/(x-)?vb(a|script)/i,
-                       mode: "vbscript"}]
-  },
   shell: "shell",
 };
 const codeEditor = CodeMirror.fromTextArea(
@@ -56,7 +49,12 @@ $("#fontsize").on("change", () => {
 socket.on("update", (data) => {
   if ("code" in data) {
     $("#codepath").html(data["filepath"]);
-    if ($("#blockly_check").is(":checked") ) {
+
+    let codetype = "";
+    codeTypeBtns.forEach((el) => {
+      if (el.classList.value.includes("checked")) codetype = el.name;
+    });
+    if (codetype == "block") {
       saveBlock = data["code"];
       try {
         Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
@@ -131,10 +129,37 @@ socket.on("system", (data) => {
 
 codeTypeBtns.forEach((btn) => {
   const handler = (e) => {
+    let before_codetype = "";
+    codeTypeBtns.forEach((el) => {
+      if (el.classList.value.includes("checked")) before_codetype = el.name;
+    });
     codeTypeBtns.forEach((el) => el.classList.remove("checked"));
     const target = e.currentTarget;
     target.classList.add("checked");
-    codeEditor.setOption("mode", codeMirrorMode[target.name]);
+    if (target.name == "block") {
+        if (BLOCK_PATH == "") {
+          alert("주의!) 저장할 파일은 먼저 선택해주세요.");
+        }
+        if (before_codetype != "block") {
+          $("#codeDiv").hide();
+          $("#blocklyDiv").show();
+          CODE_PATH = $("#codepath").html();
+          $("#codepath").html(BLOCK_PATH);
+        }
+    }
+    else {
+      if (CODE_PATH == "") {
+        alert("주의!) 저장할 파일은 먼저 선택해주세요.");
+      }
+      if (before_codetype == "block") {
+        $("#blocklyDiv").hide();
+        $("#codeDiv").show();
+        BLOCK_PATH = $("#codepath").html();
+        $("#codepath").html(CODE_PATH);
+      }
+      codeEditor.setOption("mode", codeMirrorMode[target.name]);
+    }
+    Blockly.svgResize(workspace);
   };
   btn.addEventListener("click", handler);
 });
@@ -154,7 +179,10 @@ execute.addEventListener("click", () => {
   let codepath = "";
   result.value = "";
 
-  if ($("#blockly_check").is(":checked")) {
+  codeTypeBtns.forEach((el) => {
+    if (el.classList.value.includes("checked")) codetype = el.name;
+  });
+  if (codetype == "block") {
     if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
       alert("json 파일만 실행 가능합니다.");
       return;
@@ -171,15 +199,6 @@ execute.addEventListener("click", () => {
     saveCode = codeEditor.getValue();
     codepath = $("#codepath").html();
     CodeMirror.signal(codeEditor, "change");
-    codeTypeBtns.forEach((el) => {
-      if (el.classList.value.includes("checked")) codetype = el.name;
-    });
-
-    if(codetype == 'html') {
-      alert("html모드는 저장만 가능합니다.");
-      socket.emit("save", { codepath: $("#codepath").html(), codetext: saveCode });
-      return;
-    }
     socket.emit("execute", { codetype: codetype, codepath: codepath, codetext: saveCode });
   }
 
@@ -189,7 +208,7 @@ execute.addEventListener("click", () => {
   stop.disabled = false;
   $("#respath").text($("#codepath").html());
 
-  usedata[$("#blockly_check").is(":checked")?"block":"text"]["execute"]++;
+  usedata[codetype=="block"?"block":"text"]["execute"]++;
   localStorage.setItem("usedata", JSON.stringify(usedata));
 });
 
@@ -255,7 +274,11 @@ socket.on("update_file_manager", (d) => {
                   socket.emit("play", filepath);
                 }
                 else {
-                  if ($("#blockly_check").is(":checked")) {
+                  let codetype = "";
+                  codeTypeBtns.forEach((el) => {
+                    if (el.classList.value.includes("checked")) codetype = el.name;
+                  });
+                  if (codetype == "block") {
                     if(["json"].includes(ext.toLowerCase()) == false) {
                       alert("json 파일만 로드 가능합니다.");
                       return;
@@ -297,7 +320,11 @@ socket.on("update_file_manager", (d) => {
                 if (confirm(`${CURRENT_DIR.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
                   if ((CURRENT_DIR.join("/") + "/" + name) == $("#codepath").html()) {
                     $("#codepath").html("");
-                    if ($("#blockly_check").is(":checked")) {
+                    let codetype = "";
+                    codeTypeBtns.forEach((el) => {
+                      if (el.classList.value.includes("checked")) codetype = el.name;
+                    });
+                    if (codetype == "block") {
                       saveBlock = "{}";
                       Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
                     }
@@ -511,23 +538,6 @@ let workspace = Blockly.inject("blocklyDiv", {
   },
 });
 
-$("#blockly_check").on("change", () => {
-  if ($("#blockly_check").is(":checked")) {
-    alert("주의!) 저장할 파일은 먼저 선택해주세요.");
-    $("#codeDiv").hide();
-    $("#blocklyDiv").show();
-    CODE_PATH = $("#codepath").html();
-    $("#codepath").html(BLOCK_PATH);
-  }
-  else {
-    $("#blocklyDiv").hide();
-    $("#codeDiv").show();
-    BLOCK_PATH = $("#codepath").html();
-    $("#codepath").html(CODE_PATH);
-  }
-  Blockly.svgResize(workspace);
-});
-
 $("#save").on("click", () => {
   let filepath = $("#codepath").html();
 
@@ -535,8 +545,11 @@ $("#save").on("click", () => {
     alert("파일이 없습니다.");
     return;
   }
-
-  if ($("#blockly_check").is(":checked")) {
+  let codetype = "";
+  codeTypeBtns.forEach((el) => {
+    if (el.classList.value.includes("checked")) codetype = el.name;
+  });
+  if (codetype == "block") {
     if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
       alert("json 파일만 저장 가능합니다.");
       return;
@@ -581,7 +594,11 @@ $(document).keydown((evt)=> {
         alert("파일이 없습니다.");
         return;
       }
-      if ($("#blockly_check").is(":checked")) {
+      let codetype = "";
+      codeTypeBtns.forEach((el) => {
+        if (el.classList.value.includes("checked")) codetype = el.name;
+      });
+      if (codetype == "block") {
         if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
           alert("json 파일만 저장 가능합니다.");
           return;
@@ -704,7 +721,11 @@ const init_usedata = {"block":{"click":0, "keydown":0, "execute":0}, "text":{"cl
 
 $(document).on("click keydown", (evt) => {
   if (["click", "keydown"].includes(evt.type)) {
-    usedata[$("#blockly_check").is(":checked")?"block":"text"][evt.type]++;
+    let codetype = "";
+    codeTypeBtns.forEach((el) => {
+      if (el.classList.value.includes("checked")) codetype = el.name;
+    });
+    usedata[codetype=="block"?"block":"text"][evt.type]++;
   }
 });
 
@@ -723,7 +744,6 @@ $.ajax({
 });
 
 let usedata = init_usedata; // from server
-
 window.addEventListener('beforeunload', (evt) => {
   $.ajax({
     url: `http://${location.hostname}/usedata/ide`,
@@ -828,33 +848,14 @@ $("#usedata_bt").on("click", ()=> {
       alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
-  // $.ajax({
-  //   url: `http://${location.hostname}/usedata/ide`,
-  // }).always((xhr, status) => {
-  //   if (status == "success") {
-  //     alert(JSON.stringify(xhr));
-  //   } else {
-  //     alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
-  //   }
-  // });
 });
 
 $('#password_check').on('click',function(){
   $('#password_check').toggleClass('active');
-  if($('#password_check').hasClass('active')) {
-    $('#password').prop('type',"text");
-  }
-  else{
-    $('#password').prop('type',"password");
-  }
+  $('#password').prop('type', $('#password_check').hasClass('active')?"text":"password");
 });
 
 $('#psk_check').on('click',function(){
   $('#psk_check').toggleClass('active');
-  if($('#psk_check').hasClass('active')) {
-    $('#psk').prop('type',"text");
-  }
-  else{
-    $('#psk').prop('type',"password");
-  }
+  $('#psk').prop('type', $('#psk_check').hasClass('active')?"text":"password");
 });
