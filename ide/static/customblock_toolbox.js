@@ -356,9 +356,9 @@ const utils_box = [
 const toolbox= {
   "kind": "categoryToolbox",
   "contents": [
-    { // logic
+    { // Logic
       "kind": "category",
-      "name": "Logic",
+      "name": "논리",
       "contents": [
         {
           "kind": "block",
@@ -393,7 +393,7 @@ const toolbox= {
     },
     { // Loops
       "kind": "category",
-      "name": "Loops",
+      "name": "반복",
       "contents": [
         {
           "kind": "block",
@@ -456,7 +456,7 @@ const toolbox= {
     },
     { // Math
       "kind": "category",
-      "name": "Math",
+      "name": "수학",
       "contents": [
         {
           "kind": "block",
@@ -656,7 +656,7 @@ const toolbox= {
     },
     { // Text
       "kind": "category",
-      "name": "Text",
+      "name": "문자열",
       "contents": [
         {
           "kind": "block",
@@ -816,7 +816,7 @@ const toolbox= {
     },
     { // Lists
       "kind": "category",
-      "name": "Lists",
+      "name": "목록",
       "contents": [
         {
           "kind": "block",
@@ -928,94 +928,94 @@ const toolbox= {
       ],
       "categorystyle": "list_category"
     },
-    { // Colour
-      "kind": "category",
-      "name": "Colour",
-      "contents": [
-        {
-          "kind": "block",
-          "type": "colour_picker"
-        },
-        {
-          "kind": "block",
-          "type": "colour_random"
-        },
-        {
-          "kind": "block",
-          "type": "colour_rgb",
-          "inputs": {
-            "RED": {
-              "shadow": {
-                "type": "math_number",
-                "fields": {
-                  "NUM": "100"
-                }
-              }
-            },
-            "GREEN": {
-              "shadow": {
-                "type": "math_number",
-                  "fields": {
-                "NUM": "50"
-                }
-              }
-            },
-            "BLUE": {
-              "shadow": {
-                "type": "math_number",
-                "fields": {
-                  "NUM": "0"
-                }
-              }
-            }
-          }
-        },
-        {
-          "kind": "block",
-          "type": "colour_blend",
-          "inputs": {
-            "COLOUR1": {
-              "shadow": {
-                "type": "colour_picker",
-                "fields": {
-                  "COLOUR": "#ff0000"
-                }
-              }
-            },
-            "COLOUR2": {
-              "shadow": {
-                "type": "colour_picker",
-                "fields": {
-                  "COLOUR": "#3333ff"
-                }
-              }
-            },
-            "RATIO": {
-              "shadow": {
-                "type": "math_number",
-                "fields": {
-                  "NUM": "0.5"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categorystyle": "colour_category"
-    },
+    // { // Colour
+    //   "kind": "category",
+    //   "name": "Colour",
+    //   "contents": [
+    //     {
+    //       "kind": "block",
+    //       "type": "colour_picker"
+    //     },
+    //     {
+    //       "kind": "block",
+    //       "type": "colour_random"
+    //     },
+    //     {
+    //       "kind": "block",
+    //       "type": "colour_rgb",
+    //       "inputs": {
+    //         "RED": {
+    //           "shadow": {
+    //             "type": "math_number",
+    //             "fields": {
+    //               "NUM": "100"
+    //             }
+    //           }
+    //         },
+    //         "GREEN": {
+    //           "shadow": {
+    //             "type": "math_number",
+    //               "fields": {
+    //             "NUM": "50"
+    //             }
+    //           }
+    //         },
+    //         "BLUE": {
+    //           "shadow": {
+    //             "type": "math_number",
+    //             "fields": {
+    //               "NUM": "0"
+    //             }
+    //           }
+    //         }
+    //       }
+    //     },
+    //     {
+    //       "kind": "block",
+    //       "type": "colour_blend",
+    //       "inputs": {
+    //         "COLOUR1": {
+    //           "shadow": {
+    //             "type": "colour_picker",
+    //             "fields": {
+    //               "COLOUR": "#ff0000"
+    //             }
+    //           }
+    //         },
+    //         "COLOUR2": {
+    //           "shadow": {
+    //             "type": "colour_picker",
+    //             "fields": {
+    //               "COLOUR": "#3333ff"
+    //             }
+    //           }
+    //         },
+    //         "RATIO": {
+    //           "shadow": {
+    //             "type": "math_number",
+    //             "fields": {
+    //               "NUM": "0.5"
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   ],
+    //   "categorystyle": "colour_category"
+    // },
     {
       "kind": "sep"
     },
     { // Variables
       "kind": "category",
-      "name": "Variables",
+      "name": "변수",
       "contents": [],
       "custom": "VARIABLE",
       "categorystyle": "variable_category"
     },
     { // Functions
       "kind": "category",
-      "name": "Functions",
+      "name": "함수",
       "contents": [],
       "custom": "PROCEDURE",
       "categorystyle": "procedure_category"
@@ -1023,51 +1023,51 @@ const toolbox= {
     {
       "kind": "sep",
     },
-    { // audio
+    { // Audio
       "kind": "category",
-      "name": "Audio",
+      "name": "소리",
       "contents": audio_box,
       "colour": color_type["audio"]
     },
-    { // collect
+    { // Collect
       "kind": "category",
-      "name": "Collect",
+      "name": "수집",
       "contents": collect_box,
       "colour": color_type["collect"]
     },
-    { // device
+    { // Device
       "kind": "category",
-      "name": "Device",
+      "name": "장치",
       "contents": device_box,
       "colour": color_type["device"]
     },
-    { // motion
+    { // Motion
       "kind": "category",
-      "name": "Motion",
+      "name": "동작",
       "contents": motion_box,
       "colour": color_type["motion"]
     },
-    { // oled
+    { // Oled
       "kind": "category",
-      "name": "Oled",
+      "name": "화면",
       "contents": oled_box,
       "colour": color_type["oled"]
     },
-    { // speech
+    { // Speech
       "kind": "category",
-      "name": "Speech",
+      "name": "음성",
       "contents": speech_box,
       "colour": color_type["speech"]
     },
-    { // vision
+    { // Vision
       "kind": "category",
-      "name": "Vision",
+      "name": "시각",
       "contents": vision_box,
       "colour": color_type["vision"]
     },
-    { // utils
+    { // Utils
       "kind": "category",
-      "name": "Utils",
+      "name": "도구",
       "contents": utils_box,
       "colour": color_type["utils"]
     },
