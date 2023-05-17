@@ -446,7 +446,7 @@ Blockly.Msg["COLLECT_WEATHER"] = "%1 날씨의 %2 검색하기";
 Blockly.Msg["COLLECT_NEWS"] = "%1 뉴스의 %2 검색하기";
 
 Blockly.Msg["DEVICE_EYE_ON"] = "눈 LED %1 %2 %3 %4 %5 %6 켜기";
-Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "색상 값으로 눈 LED %1 %2 켜기";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "색상 변수로 눈 LED %1 %2 켜기";
 Blockly.Msg["DEVICE_EYE_OFF"] = "눈 LED 끄기";
 Blockly.Msg["DEVICE_GET_DC"] = "아답터 체크하기";
 Blockly.Msg["DEVICE_GET_BATTERY"] = "배터리 체크하기";
