@@ -11,7 +11,7 @@ Blockly.Python['audio_play'] = function(block) {
 
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
   const volume = block.getFieldValue("volume");
-  return `audio.play(${filename}, ${volume})\n`;
+  return `audio.play(${filename}.strip(), ${volume})\n`;
 }
 Blockly.Python['audio_stop'] = function(block) {
   Blockly.Python.definitions_['from_audio_import_Audio'] = 'from openpibo.audio import Audio';
@@ -62,17 +62,10 @@ Blockly.Python['device_eye_colour_on'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
 
-  const left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC).substr(2,6);
-  const right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC).substr(2,6);
+  const l = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC)._trim();
+  const r = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC)._trim();
 
-  const val0 = parseInt(left.substr(0,2), 16);
-  const val1 = parseInt(left.substr(2,2), 16);
-  const val2 = parseInt(left.substr(4,2), 16);
-  const val3 = parseInt(right.substr(0,2), 16);
-  const val4 = parseInt(right.substr(2,2), 16);
-  const val5 = parseInt(right.substr(4,2), 16);
-
-  return `device.eye_on(${val0}, ${val1}, ${val2}, ${val3}, ${val4}, ${val5})\n`
+  return `device.eye_on(*([int(${l}[${l}.index('#'):${l}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]+[int(${r}[${r}.index('#'):${r}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]))\n`
 }
 Blockly.Python['device_eye_off'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
