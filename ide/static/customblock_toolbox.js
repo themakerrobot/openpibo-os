@@ -49,6 +49,22 @@ const device_box = [
   },
   {
     "kind": "block",
+    "type": "device_eye_colour_on",
+    "inputs":{
+      "left":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      },
+      "right":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+  {
+    "kind": "block",
     "type": "device_eye_off",
   },
   {
@@ -785,6 +801,72 @@ const toolbox= {
         },
         {
           "kind": "block",
+          "type": "text_count",
+          "inputs": {
+            "SUB": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "a"
+                }
+              }
+            },
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_replace",
+          "inputs": {
+            "FROM": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "m"
+                }
+              }
+            },
+            "TO": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "w"
+                }
+              }
+            },
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_reverse",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
           "type": "text_print",
           "inputs": {
             "TEXT": {
@@ -810,7 +892,7 @@ const toolbox= {
               }
             }
           }
-        }
+        },
       ],
       "categorystyle": "text_category"
     },
@@ -924,85 +1006,89 @@ const toolbox= {
         {
           "kind": "block",
           "type": "lists_sort"
-        }
+        },
+        {
+          "kind": "block",
+          "type": "lists_reverse"
+        },
       ],
       "categorystyle": "list_category"
     },
-    // { // Colour
-    //   "kind": "category",
-    //   "name": "Colour",
-    //   "contents": [
-    //     {
-    //       "kind": "block",
-    //       "type": "colour_picker"
-    //     },
-    //     {
-    //       "kind": "block",
-    //       "type": "colour_random"
-    //     },
-    //     {
-    //       "kind": "block",
-    //       "type": "colour_rgb",
-    //       "inputs": {
-    //         "RED": {
-    //           "shadow": {
-    //             "type": "math_number",
-    //             "fields": {
-    //               "NUM": "100"
-    //             }
-    //           }
-    //         },
-    //         "GREEN": {
-    //           "shadow": {
-    //             "type": "math_number",
-    //               "fields": {
-    //             "NUM": "50"
-    //             }
-    //           }
-    //         },
-    //         "BLUE": {
-    //           "shadow": {
-    //             "type": "math_number",
-    //             "fields": {
-    //               "NUM": "0"
-    //             }
-    //           }
-    //         }
-    //       }
-    //     },
-    //     {
-    //       "kind": "block",
-    //       "type": "colour_blend",
-    //       "inputs": {
-    //         "COLOUR1": {
-    //           "shadow": {
-    //             "type": "colour_picker",
-    //             "fields": {
-    //               "COLOUR": "#ff0000"
-    //             }
-    //           }
-    //         },
-    //         "COLOUR2": {
-    //           "shadow": {
-    //             "type": "colour_picker",
-    //             "fields": {
-    //               "COLOUR": "#3333ff"
-    //             }
-    //           }
-    //         },
-    //         "RATIO": {
-    //           "shadow": {
-    //             "type": "math_number",
-    //             "fields": {
-    //               "NUM": "0.5"
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   ],
-    //   "categorystyle": "colour_category"
-    // },
+    { // Colour
+      "kind": "category",
+      "name": "색상",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "colour_picker"
+        },
+        {
+          "kind": "block",
+          "type": "colour_random"
+        },
+        {
+          "kind": "block",
+          "type": "colour_rgb",
+          "inputs": {
+            "RED": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "100"
+                }
+              }
+            },
+            "GREEN": {
+              "shadow": {
+                "type": "math_number",
+                  "fields": {
+                "NUM": "50"
+                }
+              }
+            },
+            "BLUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "colour_blend",
+          "inputs": {
+            "COLOUR1": {
+              "shadow": {
+                "type": "colour_picker",
+                "fields": {
+                  "COLOUR": "#ff0000"
+                }
+              }
+            },
+            "COLOUR2": {
+              "shadow": {
+                "type": "colour_picker",
+                "fields": {
+                  "COLOUR": "#3333ff"
+                }
+              }
+            },
+            "RATIO": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0.5"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categorystyle": "colour_category"
+    },
     {
       "kind": "sep"
     },

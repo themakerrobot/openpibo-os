@@ -180,6 +180,21 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'device_eye_colour_on',
+      message0: '%{BKY_DEVICE_EYE_COLOUR_ON}',
+      args0:
+        [
+          {"type": "input_value", "name": "left"},
+          {"type": "input_value", "name": "right"}
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["device"],
+      tooltip: 'call device.eye_on',
+      helpUrl: ''
+    },
+    {
       type: 'device_eye_off',
       message0: '%{BKY_DEVICE_EYE_OFF}',
       nextStatement: true,

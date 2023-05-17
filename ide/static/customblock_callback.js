@@ -58,6 +58,22 @@ Blockly.Python['device_eye_on'] = function(block) {
 
   return `device.eye_on(${val0}, ${val1}, ${val2}, ${val3}, ${val4}, ${val5})\n`
 }
+Blockly.Python['device_eye_colour_on'] = function(block) {
+  Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
+  Blockly.Python.definitions_['assign_device'] = 'device = Device()';
+
+  const left = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC).substr(2,6);
+  const right = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC).substr(2,6);
+
+  const val0 = parseInt(left.substr(0,2), 16);
+  const val1 = parseInt(left.substr(2,2), 16);
+  const val2 = parseInt(left.substr(4,2), 16);
+  const val3 = parseInt(right.substr(0,2), 16);
+  const val4 = parseInt(right.substr(2,2), 16);
+  const val5 = parseInt(right.substr(4,2), 16);
+
+  return `device.eye_on(${val0}, ${val1}, ${val2}, ${val3}, ${val4}, ${val5})\n`
+}
 Blockly.Python['device_eye_off'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
