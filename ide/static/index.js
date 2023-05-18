@@ -536,6 +536,8 @@ let workspace = Blockly.inject("blocklyDiv", {
     scaleSpeed: 1.2,
     pinch: true
   },
+  theme:"minimalist",
+  renderer:"zelos" // "zelos", "minimalist", "thrasos"
 });
 
 $("#save").on("click", () => {

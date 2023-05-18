@@ -438,7 +438,7 @@ Blockly.Msg["COLOUR_HUE"] = "20";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 
 // openpibo
-Blockly.Msg["AUDIO_PLAY"] = "%1 오디오 %2 음량으로 재생하기";
+Blockly.Msg["AUDIO_PLAY"] = "%1 %2 오디오 %3 음량으로 재생하기";
 Blockly.Msg["AUDIO_STOP"] = "오디오 정지하기";
 
 Blockly.Msg["COLLECT_WIKIPEDIA"] = "위키피디아에서 %1 검색하기";
@@ -468,26 +468,26 @@ Blockly.Msg["OLED_DRAW_RECTANGLE"] = "OLED의 %1 %2, %3 %4 좌표에 %5 네모 �
 Blockly.Msg["OLED_DRAW_ELLIPSE"] = "OLED의 %1 %2, %3 %4 좌표에 %5 원 저장하기";
 Blockly.Msg["OLED_DRAW_LINE"] = "OLED의 %1 %2, %3 %4 좌표에 선 저장하기";
 
-Blockly.Msg["OLED_DRAW_IMAGE"] = "OLED %1 이미지 저장하기";
+Blockly.Msg["OLED_DRAW_IMAGE"] = "OLED %1 %2 이미지 저장하기";
 
 Blockly.Msg["OLED_INVERT"] = "OLED 반전하기";
 Blockly.Msg["OLED_SHOW"] = "OLED 표시하기";
 Blockly.Msg["OLED_CLEAR"] = "OLED 지우기";
 
 Blockly.Msg["SPEECH_STT"] = "%1초 녹음하여 음성인식하기";
-Blockly.Msg["SPEECH_TTS"] = "%1를 %3 목소리로 %2 에 저장하기";
+Blockly.Msg["SPEECH_TTS"] = "%1를 %4 목소리로 %2 %3 에 저장하기";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1의 대답하기";
-Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 대화 파일 설정하기";
+Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 대화 파일 설정하기";
 
 Blockly.Msg["VISION_READ"] = "촬영하기";
-Blockly.Msg["VISION_IMWRITE"] = "이미지 %2 를 %1 에 저장하기";
+Blockly.Msg["VISION_IMWRITE"] = "이미지 %3 를 %1 %2 에 저장하기";
 Blockly.Msg["VISION_CARTOONIZE"] = "이미지 %1 만화 이미지로 바꾸기";
 
 Blockly.Msg["VISION_OBJECT"] = "이미지 %1 사물 찾기";
 Blockly.Msg["VISION_QR"] = "이미지 %1 QR코드 찾기";
 Blockly.Msg["VISION_CLASSIFICATION"] = "이미지 %1 분류 하기";
 
-Blockly.Msg["VISION_LOAD_TM"] = "티처블머신 %1 %2 모델 설정하기";
+Blockly.Msg["VISION_LOAD_TM"] = "티처블머신 %1 %2 %3 모델 설정하기";
 Blockly.Msg["VISION_PREDICT_TM"] = "티처블머신으로 이미지 %1 분류 하기";
 
 Blockly.Msg["UTILS_SLEEP"] = "%1 초 동안 지연시키기";

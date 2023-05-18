@@ -7,7 +7,7 @@ const audio_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "파일 경로"
+            "TEXT": "파일이름"
           }
         }
       },
@@ -161,7 +161,7 @@ const oled_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "이미지 파일경로"
+            "TEXT": "이미지 파일이름"
           }
         }
       }
@@ -241,7 +241,7 @@ const speech_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "파일 경로"
+            "TEXT": "파일이름"
           }
         }
       }
@@ -261,7 +261,7 @@ const vision_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "이미지 파일경로"
+            "TEXT": "이미지 파일이름"
           }
         }
       },
@@ -324,7 +324,7 @@ const vision_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "모델 파일경로"
+            "TEXT": "모델 파일이름"
           }
         }
       },
@@ -332,7 +332,7 @@ const vision_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "라벨 파일경로"
+            "TEXT": "라벨 파일이름"
           }
         }
       },

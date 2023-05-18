@@ -16,6 +16,18 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_AUDIO_PLAY}',
       args0: 
         [
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code', '/home/pi/code/' ],
+              [ 'myaudio', '/home/pi/myaudio/' ],
+              [ '(openpibo-files) animal', '/home/pi/openpibo-files/audio/animal/'],
+              [ '(openpibo-files) effect', '/home/pi/openpibo-files/audio/effect/'],
+              [ '(openpibo-files) music', '/home/pi/openpibo-files/audio/music/'],
+              [ '(openpibo-files) voice', '/home/pi/openpibo-files/audio/voice/'],
+              [ 'user', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
           {"type": "input_value", "name": "filename"}, 
           {
             "type": "field_number",
@@ -443,6 +455,20 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_OLED_DRAW_IMAGE}',
       args0: 
         [
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code', '/home/pi/code/' ],
+              [ 'myimage', '/home/pi/myimage/'],
+              [ '(openpibo-files) etc', '/home/pi/openpibo-files/icon/etc/'],
+              [ '(openpibo-files) expression', '/home/pi/openpibo-files/icon/expression/'],
+              [ '(openpibo-files) game', '/home/pi/openpibo-files/icon/game/'],
+              [ '(openpibo-files) recycle', '/home/pi/openpibo-files/icon/recycle/'],
+              [ '(openpibo-files) weather', '/home/pi/openpibo-files/icon/weather/'],
+              [ '(openpibo-files) image', '/home/pi/openpibo-files/image/'],
+              [ 'user', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
           {"type": "input_value", "name": "filename"}
         ],
       nextStatement: true,
@@ -653,6 +679,14 @@ Blockly.defineBlocksWithJsonArray(
       args0:
         [
           {"type": "input_value", "name": "text"},
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code', '/home/pi/code/' ],
+              [ 'myaudio', '/home/pi/myaudio/'],
+              [ 'user', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
           {"type": "input_value", "name": "filename"},
           {"type": "field_dropdown", "name":"voice",
            "options":[
@@ -686,6 +720,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_SPEECH_LOAD_DIALOG}',
       args0:
         [
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code', '/home/pi/code/' ],
+              [ 'user', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
           {"type": "input_value", "name": "filename"}
         ],
         nextStatement: true,
@@ -709,6 +750,14 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_VISION_IMWRITE}',
       args0:
         [
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code', '/home/pi/code/' ],
+              [ 'myimage', '/home/pi/myimage/'],
+              [ 'user', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
           {"type": "input_value", "name": "filename"},
           {"type": "input_value", "name": "img"}
         ],
@@ -772,6 +821,14 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_VISION_LOAD_TM}',
       args0:
         [
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code', '/home/pi/code/' ],
+              [ 'models', '/home/pi/models/'],
+              [ 'user', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
           {"type": "input_value", "name": "modelpath"},
           {"type": "input_value", "name": "labelpath"}
         ],
