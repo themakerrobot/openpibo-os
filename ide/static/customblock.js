@@ -18,13 +18,13 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"dir",
             "options":[
-              [ 'code', '/home/pi/code/' ],
-              [ 'myaudio', '/home/pi/myaudio/' ],
-              [ '(openpibo-files) animal', '/home/pi/openpibo-files/audio/animal/'],
-              [ '(openpibo-files) effect', '/home/pi/openpibo-files/audio/effect/'],
-              [ '(openpibo-files) music', '/home/pi/openpibo-files/audio/music/'],
-              [ '(openpibo-files) voice', '/home/pi/openpibo-files/audio/voice/'],
-              [ 'user', '/home/pi/' ],
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myaudio/', '/home/pi/myaudio/' ],
+              [ '(openpibo-files) animal/', '/home/pi/openpibo-files/audio/animal/'],
+              [ '(openpibo-files) effect/', '/home/pi/openpibo-files/audio/effect/'],
+              [ '(openpibo-files) music/', '/home/pi/openpibo-files/audio/music/'],
+              [ '(openpibo-files) voice/', '/home/pi/openpibo-files/audio/voice/'],
+              [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
           },
@@ -457,15 +457,15 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"dir",
             "options":[
-              [ 'code', '/home/pi/code/' ],
-              [ 'myimage', '/home/pi/myimage/'],
-              [ '(openpibo-files) etc', '/home/pi/openpibo-files/icon/etc/'],
-              [ '(openpibo-files) expression', '/home/pi/openpibo-files/icon/expression/'],
-              [ '(openpibo-files) game', '/home/pi/openpibo-files/icon/game/'],
-              [ '(openpibo-files) recycle', '/home/pi/openpibo-files/icon/recycle/'],
-              [ '(openpibo-files) weather', '/home/pi/openpibo-files/icon/weather/'],
-              [ '(openpibo-files) image', '/home/pi/openpibo-files/image/'],
-              [ 'user', '/home/pi/' ],
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myimage/', '/home/pi/myimage/'],
+              [ '(openpibo-files) etc/', '/home/pi/openpibo-files/icon/etc/'],
+              [ '(openpibo-files) expression/', '/home/pi/openpibo-files/icon/expression/'],
+              [ '(openpibo-files) game/', '/home/pi/openpibo-files/icon/game/'],
+              [ '(openpibo-files) recycle/', '/home/pi/openpibo-files/icon/recycle/'],
+              [ '(openpibo-files) weather/', '/home/pi/openpibo-files/icon/weather/'],
+              [ '(openpibo-files) image/', '/home/pi/openpibo-files/image/'],
+              [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
           },
@@ -681,9 +681,9 @@ Blockly.defineBlocksWithJsonArray(
           {"type": "input_value", "name": "text"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
-              [ 'code', '/home/pi/code/' ],
-              [ 'myaudio', '/home/pi/myaudio/'],
-              [ 'user', '/home/pi/' ],
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myaudio/', '/home/pi/myaudio/'],
+              [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
           },
@@ -722,8 +722,8 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"dir",
             "options":[
-              [ 'code', '/home/pi/code/' ],
-              [ 'user', '/home/pi/' ],
+              [ 'code/', '/home/pi/code/' ],
+              [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
           },
@@ -752,9 +752,9 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"dir",
             "options":[
-              [ 'code', '/home/pi/code/' ],
-              [ 'myimage', '/home/pi/myimage/'],
-              [ 'user', '/home/pi/' ],
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myimage/', '/home/pi/myimage/'],
+              [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
           },
@@ -823,9 +823,9 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"dir",
             "options":[
-              [ 'code', '/home/pi/code/' ],
-              [ 'models', '/home/pi/models/'],
-              [ 'user', '/home/pi/' ],
+              [ 'code/', '/home/pi/code/' ],
+              [ 'models/', '/home/pi/models/'],
+              [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
           },
