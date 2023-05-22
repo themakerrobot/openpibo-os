@@ -213,7 +213,7 @@ const speech_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "/home/pi/tts.mp3"
+            "TEXT": "파일이름"
           }
         }
       },
