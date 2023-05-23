@@ -12,13 +12,21 @@ Blockly.Python['audio_play'] = function(block) {
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
   const volume = block.getFieldValue("volume");
-
   return `audio.play('${dir}'+${filename}.strip(), ${volume})\n`;
 }
 Blockly.Python['audio_stop'] = function(block) {
   Blockly.Python.definitions_['from_audio_import_Audio'] = 'from openpibo.audio import Audio';
   Blockly.Python.definitions_['assign_audio'] = 'audio = Audio()';
+
   return 'audio.stop()\n'
+}
+Blockly.Python['audio_record'] = function(block) {
+  Blockly.Python.definitions_['import_os'] = 'import os';
+
+  const dir = block.getFieldValue("dir");
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
+  const timeout = block.getFieldValue("timeout");
+  return `os.system("arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d ${timeout} -t wav -q stream.raw;sox stream.raw -c 1 -b 16 " + '${dir}'+${filename}.strip() + ";rm stream.raw")\n`;
 }
 
 // collect

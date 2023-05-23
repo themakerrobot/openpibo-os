@@ -440,6 +440,7 @@ Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 // openpibo
 Blockly.Msg["AUDIO_PLAY"] = "%1 %2 오디오 %3 음량으로 재생하기";
 Blockly.Msg["AUDIO_STOP"] = "오디오 정지하기";
+Blockly.Msg["AUDIO_RECORD"] = "%3초 동안 녹음해서 %1 %2 에 저장하기";
 
 Blockly.Msg["COLLECT_WIKIPEDIA"] = "위키피디아에서 %1 검색하기";
 Blockly.Msg["COLLECT_WEATHER"] = "%1 날씨의 %2 검색하기";

@@ -17,6 +17,20 @@ const audio_box = [
     "kind": "block",
     "type": "audio_stop",
   },
+  {
+    "kind": "block",
+    "type": "audio_record",
+    "inputs":{
+      "filename":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "파일이름"
+          }
+        }
+      },
+    }
+  }
 ];
 const collect_box = [
   {

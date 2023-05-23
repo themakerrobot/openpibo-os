@@ -56,6 +56,36 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'audio_record',
+      message0: '%{BKY_AUDIO_RECORD}',
+      args0:
+        [
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myaudio/', '/home/pi/myaudio/' ],
+              [ '/home/pi/', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
+          {"type": "input_value", "name": "filename"},
+          {
+            "type": "field_number",
+            "name": "timeout",
+            "value": 5,
+            "min": 0,
+            "max": 100,
+            "precision": 1
+          }
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["audio"],
+      tooltip: 'call audio.record',
+      helpUrl: ''
+    },
+    {
       type: 'wikipedia_search',
       message0: '%{BKY_COLLECT_WIKIPEDIA}',
       args0: 
@@ -322,8 +352,16 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"no",
            "options":[
-              ['0','0'],['1','1'],['2','2'],['3','3'],['4','4'],
-              ['5','5'],['6','6'],['7','7'],['8','8'],['9','9'],
+              ['오른발[0]','0'],
+              ['오른다리[1]','1'],
+              ['오른팔[2]','2'],
+              ['오른손[3]','3'],
+              ['목[4]','4'],
+              ['머리[5]','5'],
+              ['왼발[6]','6'],
+              ['왼다리[7]','7'],
+              ['왼팔[8]','8'],
+              ['왼손[9]','9'],
             ]
           },
           {
@@ -349,8 +387,16 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"no",
            "options":[
-              ['0','0'],['1','1'],['2','2'],['3','3'],['4','4'],
-              ['5','5'],['6','6'],['7','7'],['8','8'],['9','9'],
+              ['오른발[0]','0'],
+              ['오른다리[1]','1'],
+              ['오른팔[2]','2'],
+              ['오른손[3]','3'],
+              ['목[4]','4'],
+              ['머리[5]','5'],
+              ['왼발[6]','6'],
+              ['왼다리[7]','7'],
+              ['왼팔[8]','8'],
+              ['왼손[9]','9'],
             ]
           },
           {
@@ -376,8 +422,16 @@ Blockly.defineBlocksWithJsonArray(
         [
           {"type": "field_dropdown", "name":"no",
            "options":[
-              ['0','0'],['1','1'],['2','2'],['3','3'],['4','4'],
-              ['5','5'],['6','6'],['7','7'],['8','8'],['9','9'],
+            ['오른발[0]','0'],
+            ['오른다리[1]','1'],
+            ['오른팔[2]','2'],
+            ['오른손[3]','3'],
+            ['목[4]','4'],
+            ['머리[5]','5'],
+            ['왼발[6]','6'],
+            ['왼다리[7]','7'],
+            ['왼팔[8]','8'],
+            ['왼손[9]','9'],
             ]
           },
           {
