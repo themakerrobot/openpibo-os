@@ -2651,3 +2651,7 @@ $('#psk_check').on('click',function(){
     $('#psk').prop('type',"password");
   }
 });
+
+$('#ssid_en').on('click', function(){
+  $("#ssid").attr("disabled", $("#ssid_en").is(":checked")?false:true);
+});

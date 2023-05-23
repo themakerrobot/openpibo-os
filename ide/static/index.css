@@ -433,7 +433,7 @@ audio.preview-audio {
 .login-popup {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 999;
   left: 0;
   top: 0;
   width: 100%;
@@ -467,6 +467,11 @@ audio.preview-audio {
   width: 278px;
   border: 1px solid #ccc;
   margin: 5px auto;
+}
+
+.wifi-popup-content input:disabled {
+  opacity: 0.5;
+  filter: grayscale(0.5);
 }
 
 .wifi-popup-content input[type="password"],

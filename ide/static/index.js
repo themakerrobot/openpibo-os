@@ -536,7 +536,7 @@ let workspace = Blockly.inject("blocklyDiv", {
     scaleSpeed: 1.2,
     pinch: true
   },
-  renderer:"zelos" // "zelos", "minimalist", "thrasos"
+  renderer:"minimalist" // "zelos", "minimalist", "thrasos"
 });
 
 $("#save").on("click", () => {
@@ -859,4 +859,8 @@ $('#password_check').on('click',function(){
 $('#psk_check').on('click',function(){
   $('#psk_check').toggleClass('active');
   $('#psk').prop('type', $('#psk_check').hasClass('active')?"text":"password");
+});
+
+$('#ssid_en').on('click', function(){
+  $("#ssid").attr("disabled", $("#ssid_en").is(":checked")?false:true);
 });
