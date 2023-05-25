@@ -827,7 +827,7 @@ i.fa > span {
 .login-popup {
   display: none;
   position: fixed;
-  z-index: 999;
+  z-index: 59;
   left: 0;
   top: 0;
   width: 100%;
