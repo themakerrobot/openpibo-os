@@ -72,8 +72,18 @@ let storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8')
+    name = file.originalname.split('.')[file.originalname.length-1]
     let name = file.originalname.replace(/ /g, "_");
     cb(null, name);
+  }
+});
+
+let storage_for_home = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/home/pi');
+  },
+  filename: function (req, file, cb) {
+    cb(null, '.tmp.jpg');
   }
 });
 
@@ -118,6 +128,7 @@ const execute = async(EXEC, codepath) => {
 
 const mutex = new Mutex();
 let upload = multer({ storage: storage });
+let upload_for_home = multer({ storage: storage_for_home});
 
 server.listen(port, () => {
   try {
@@ -130,6 +141,7 @@ server.listen(port, () => {
 });
 
 app.use('/static', express.static(__dirname + '/static'));
+app.use('/svg', express.static(__dirname + '/svg'));
 app.use('/webfonts', express.static(__dirname + '/webfonts'));
 
 app.get('/', (req, res) => {
@@ -151,6 +163,19 @@ app.post('/upload', upload.single('data'), (req, res) => {
 
   try {
     execSync(`chown -R pi:pi "${PATH}"`);
+  }
+  catch (err) {
+    console.log(err);
+  }
+  res.status(200).end();
+});
+
+app.post('/show', upload_for_home.single('data'), (req, res) => {
+  try {
+    fs.readFile("/home/pi/.tmp.jpg", (err, data) => {
+      if(!err) io.emit('update', {image:Buffer.from(data).toString('base64'), filepath:"/home/pi/.tmp.jpg"});
+      else io.emit('update', {dialog:'보기 오류: ' + err.toString()});
+    });
   }
   catch (err) {
     console.log(err);

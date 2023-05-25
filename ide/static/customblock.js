@@ -16,6 +16,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_AUDIO_PLAY}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/circle-play-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
@@ -48,6 +55,15 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'audio_stop',
       message0: '%{BKY_AUDIO_STOP}',
+      args0: [
+        {
+          "type": "field_image",
+          "src": "svg/stop-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
+      ],
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
@@ -60,6 +76,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_AUDIO_RECORD}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/microphone-lines-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
