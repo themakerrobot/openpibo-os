@@ -686,7 +686,7 @@ const toolbox= {
     },
     { // Text
       "kind": "category",
-      "name": "문자열",
+      "name": "문자",
       "contents": [
         {
           "kind": "block",
@@ -1127,7 +1127,7 @@ const toolbox= {
       "kind": "category",
       "name": "소리",
       "contents": audio_box,
-      "colour": color_type["audio"]
+      "colour": color_type["audio"],
     },
     { // Collect
       "kind": "category",

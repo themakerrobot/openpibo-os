@@ -14,7 +14,7 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'audio_play',
       message0: '%{BKY_AUDIO_PLAY}',
-      args0: 
+      args0:
         [
           {
             "type": "field_image",
