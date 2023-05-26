@@ -442,59 +442,59 @@ Blockly.Msg["AUDIO_PLAY"] = "%1 %2 %3 %4 오디오 %5 음량으로 재생하기"
 Blockly.Msg["AUDIO_STOP"] = "%1 %2 오디오 정지하기";
 Blockly.Msg["AUDIO_RECORD"] = "%1 %2 %5 초 동안 녹음해서 %3 %4 에 저장하기";
 
-Blockly.Msg["COLLECT_WIKIPEDIA"] = "위키피디아에서 %1 검색하기";
-Blockly.Msg["COLLECT_WEATHER"] = "%1 날씨의 %2 검색하기";
-Blockly.Msg["COLLECT_NEWS"] = "%1 뉴스의 %2 검색하기";
+Blockly.Msg["COLLECT_WIKIPEDIA"] = "%1 %2 위키피디아에서 %3 검색하기";
+Blockly.Msg["COLLECT_WEATHER"] = "%1 %2 %3 날씨의 %4 검색하기";
+Blockly.Msg["COLLECT_NEWS"] = "%1 %2 %3 뉴스의 %4 검색하기";
 
-Blockly.Msg["DEVICE_EYE_ON"] = "눈 LED %1 %2 %3 %4 %5 %6 켜기";
-Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "색상 변수로 눈 LED %1 %2 켜기";
-Blockly.Msg["DEVICE_EYE_OFF"] = "눈 LED 끄기";
-Blockly.Msg["DEVICE_GET_DC"] = "아답터 체크하기";
-Blockly.Msg["DEVICE_GET_BATTERY"] = "배터리 체크하기";
-Blockly.Msg["DEVICE_GET_SYSTEM"] = "시스템 메시지 체크하기";
-Blockly.Msg["DEVICE_GET_PIR"] = "사람 체크하기";
-Blockly.Msg["DEVICE_GET_TOUCH"] = "터치 체크하기";
-Blockly.Msg["DEVICE_GET_BUTTON"] = "버튼 체크하기";
+Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 눈 LED %3 %4 %5 %6 %7 %8 켜기";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "%1 %2 색상 변수로 눈 LED %3 %4 켜기";
+Blockly.Msg["DEVICE_EYE_OFF"] = "%1 %2 눈 LED 끄기";
+Blockly.Msg["DEVICE_GET_DC"] = "%1 %2 아답터 체크하기";
+Blockly.Msg["DEVICE_GET_BATTERY"] = "%1 %2 배터리 체크하기";
+Blockly.Msg["DEVICE_GET_SYSTEM"] = "%1 %2 시스템 메시지 체크하기";
+Blockly.Msg["DEVICE_GET_PIR"] = "%1 %2 사람 체크하기";
+Blockly.Msg["DEVICE_GET_TOUCH"] = "%1 %2 터치 체크하기";
+Blockly.Msg["DEVICE_GET_BUTTON"] = "%1 %2 버튼 체크하기";
 
-Blockly.Msg["MOTION_SET_MOTION"] = "모션 %1 %2 회 실행하기";
-Blockly.Msg["MOTION_SET_MYMOTION"] = "내 모션 %1 %2 회 실행하기";
-Blockly.Msg["MOTION_SET_MOTOR"] = "%1모터를 %2도로 이동하기";
-Blockly.Msg["MOTION_SET_SPEED"] = "%1모터를 %2 속도로 설정하기";
-Blockly.Msg["MOTION_SET_ACCELERATION"] = "%1모터를 %2 가속도로 설정하기";
+Blockly.Msg["MOTION_SET_MOTION"] = "%1 %2 모션 %3 %4 회 실행하기";
+Blockly.Msg["MOTION_SET_MYMOTION"] = "%1 %2 내 모션 %3 %4 회 실행하기";
+Blockly.Msg["MOTION_SET_MOTOR"] = "%1 %2 %3 모터를 %4도로 이동하기";
+Blockly.Msg["MOTION_SET_SPEED"] = "%1 %2 %3 모터를 %4 속도로 설정하기";
+Blockly.Msg["MOTION_SET_ACCELERATION"] = "%1 %2 %3 모터를 %4 가속도로 설정하기";
 
-Blockly.Msg["OLED_SET_FONT"] = "OLED 글자 사이즈 %1 설정하기";
-Blockly.Msg["OLED_DRAW_TEXT"] = "OLED의 X %1 Y %2 에 %3 저장하기";
+Blockly.Msg["OLED_SET_FONT"] = "%1 %2 OLED 글자 사이즈 %3 설정하기";
+Blockly.Msg["OLED_DRAW_TEXT"] = "%1 %2 OLED의 X %3 Y %4 에 %5 저장하기";
 
-Blockly.Msg["OLED_DRAW_RECTANGLE"] = "OLED의 %1 %2, %3 %4 좌표에 %5 네모 저장하기";
-Blockly.Msg["OLED_DRAW_ELLIPSE"] = "OLED의 %1 %2, %3 %4 좌표에 %5 원 저장하기";
-Blockly.Msg["OLED_DRAW_LINE"] = "OLED의 %1 %2, %3 %4 좌표에 선 저장하기";
+Blockly.Msg["OLED_DRAW_RECTANGLE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 %7 네모 저장하기";
+Blockly.Msg["OLED_DRAW_ELLIPSE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 %7 원 저장하기";
+Blockly.Msg["OLED_DRAW_LINE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 선 저장하기";
 
-Blockly.Msg["OLED_DRAW_IMAGE"] = "OLED %1 %2 이미지 저장하기";
+Blockly.Msg["OLED_DRAW_IMAGE"] = "%1 %2 OLED %3 %4 이미지 저장하기";
 
-Blockly.Msg["OLED_INVERT"] = "OLED 반전하기";
-Blockly.Msg["OLED_SHOW"] = "OLED 표시하기";
-Blockly.Msg["OLED_CLEAR"] = "OLED 지우기";
+Blockly.Msg["OLED_INVERT"] = "%1 %2 OLED 반전하기";
+Blockly.Msg["OLED_SHOW"] = "%1 %2 OLED 표시하기";
+Blockly.Msg["OLED_CLEAR"] = "%1 %2 OLED 지우기";
 
-Blockly.Msg["SPEECH_STT"] = "%1초 녹음하여 음성인식하기";
-Blockly.Msg["SPEECH_TTS"] = "%1를 %4 목소리로 %2 %3 에 저장하기";
-Blockly.Msg["SPEECH_GET_DIALOG"] = "%1의 대답하기";
-Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 대화 파일 설정하기";
+Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 초 녹음하여 음성인식하기";
+Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 를 %6 목소리로 %4 %5 에 저장하기";
+Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기";
+Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";
 
-Blockly.Msg["VISION_READ"] = "촬영하기";
-Blockly.Msg["VISION_IMWRITE"] = "이미지 %3 를 %1 %2 에 저장하기";
-Blockly.Msg["VISION_CARTOONIZE"] = "이미지 %1 만화 이미지로 바꾸기";
+Blockly.Msg["VISION_READ"] = "%1 %2 촬영하기";
+Blockly.Msg["VISION_IMWRITE"] = "%1 %2 이미지 %5 를 %3 %4 에 저장하기";
+Blockly.Msg["VISION_CARTOONIZE"] = "%1 %2 이미지 %3 만화 이미지로 바꾸기";
 
-Blockly.Msg["VISION_OBJECT"] = "이미지 %1 사물 찾기";
-Blockly.Msg["VISION_QR"] = "이미지 %1 QR코드 찾기";
-Blockly.Msg["VISION_CLASSIFICATION"] = "이미지 %1 분류 하기";
+Blockly.Msg["VISION_OBJECT"] = "%1 %2 이미지 %3 사물 찾기";
+Blockly.Msg["VISION_QR"] = "%1 %2 이미지 %3 QR코드 찾기";
+Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류 하기";
 
-Blockly.Msg["VISION_LOAD_TM"] = "티처블머신 %1 %2 %3 모델 설정하기";
-Blockly.Msg["VISION_PREDICT_TM"] = "티처블머신으로 이미지 %1 분류 하기";
+Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";
+Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류 하기";
 
-Blockly.Msg["UTILS_SLEEP"] = "%1 초 동안 지연시키기";
-Blockly.Msg["UTILS_TIME"] = "시간 값 알아오기";
-Blockly.Msg["UTILS_CURRENT_TIME"] = "현재 시간 확인하기";
-Blockly.Msg["UTILS_INCLUDE"] = "%1 가 %2 에 포함되는지 확인하기";
+Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
+Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
+Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 현재 시간 확인하기";
+Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 %3 가 %4 에 포함되는지 확인하기";
 
 return Blockly.Msg;
 }));

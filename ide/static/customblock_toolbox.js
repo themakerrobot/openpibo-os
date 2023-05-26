@@ -1111,7 +1111,7 @@ const toolbox= {
       "name": "변수",
       "contents": [],
       "custom": "VARIABLE",
-      "categorystyle": "variable_category"
+      "categorystyle": "variable_category",
     },
     { // Functions
       "kind": "category",

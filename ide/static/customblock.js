@@ -1,12 +1,12 @@
 const color_type={
-  "audio": "#07A0C7",
-  "collect": "#0790B7",
-  "device": "#0780A7",
-  "motion": "#077097",
-  "oled": "#076087",
-  "speech": "#075077",
-  "vision": "#074067",
-  "utils":   "#073057",
+  "audio":    "#50B0A0",
+  "collect":  "#50A5A0",
+  "device":   "#50A0A0",
+  "motion":   "#5095A0",
+  "oled":     "#5090A0",
+  "speech":   "#5085A0",
+  "vision":   "#5080A0",
+  "utils":    "#5075A0",
 };
 
 Blockly.defineBlocksWithJsonArray(
@@ -78,7 +78,7 @@ Blockly.defineBlocksWithJsonArray(
         [
           {
             "type": "field_image",
-            "src": "svg/microphone-lines-solid.svg",
+            "src": "svg/microphone-solid.svg",
             "width": 33,
             "height": 33
           },
@@ -113,6 +113,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_COLLECT_WIKIPEDIA}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/searchengin.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "topic"}
         ],
       output: 'String',
@@ -125,6 +132,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'weather_search',
       message0: '%{BKY_COLLECT_WEATHER}',
       args0: [
+        {
+          "type": "field_image",
+          "src": "svg/cloud-sun-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "field_dropdown", "name":"topic",
          "options":[
           [ '전국', '전국' ], [ '서울', '서울' ],
@@ -156,6 +170,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_COLLECT_NEWS}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/newspaper-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"topic",
           "options":[
             [ '속보', '속보' ],
@@ -188,6 +209,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_DEVICE_EYE_ON}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/eye-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {
             "type": "field_number",
             "name": "val0",
@@ -249,6 +277,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_DEVICE_EYE_COLOUR_ON}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/eye-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "left"},
           {"type": "input_value", "name": "right"}
         ],
@@ -262,6 +297,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_eye_off',
       message0: '%{BKY_DEVICE_EYE_OFF}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/eye-slash-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
@@ -272,6 +317,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_get_dc',
       message0: '%{BKY_DEVICE_GET_DC}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/plug-circle-check-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
@@ -281,6 +336,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_get_battery',
       message0: '%{BKY_DEVICE_GET_BATTERY}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/battery-full-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
@@ -290,6 +355,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_get_system',
       message0: '%{BKY_DEVICE_GET_SYSTEM}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/microchip-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
@@ -299,6 +374,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_get_pir',
       message0: '%{BKY_DEVICE_GET_PIR}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/person-circle-check-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
@@ -308,6 +393,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_get_touch',
       message0: '%{BKY_DEVICE_GET_TOUCH}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/hand-point-up-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
@@ -317,6 +412,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_get_button',
       message0: '%{BKY_DEVICE_GET_BUTTON}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/toggle-on-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
@@ -329,6 +434,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_MOTION_SET_MOTION}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/person-walking-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "name"}, 
           {
             "type": "field_number",
@@ -351,6 +463,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_MOTION_SET_MYMOTION}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/person-walking-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "name"}, 
           {
             "type": "field_number",
@@ -373,6 +492,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_MOTION_SET_MOTOR}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/gears-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
            "options":[
               ['오른발[0]','0'],
@@ -408,6 +534,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_MOTION_SET_SPEED}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/gears-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
            "options":[
               ['오른발[0]','0'],
@@ -443,6 +576,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_MOTION_SET_ACCELERATION}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/gears-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
            "options":[
             ['오른발[0]','0'],
@@ -480,6 +620,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_OLED_SET_FONT}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/text-width-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           // {"type": "input_value", "name": "font"}, 
           {
             "type": "field_number",
@@ -502,6 +649,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_OLED_DRAW_TEXT}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/font-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {
             "type": "field_number",
             "name": "x",
@@ -532,6 +686,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_OLED_DRAW_IMAGE}',
       args0: 
         [
+          {
+            "type": "field_image",
+            "src": "svg/image-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
@@ -560,6 +721,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_OLED_DRAW_RECTANGLE}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/draw-polygon-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {
             "type": "field_number",
             "name": "x1",
@@ -611,6 +779,13 @@ Blockly.defineBlocksWithJsonArray(
       args0:
         [
           {
+            "type": "field_image",
+            "src": "svg/draw-polygon-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+          {
             "type": "field_number",
             "name": "x1",
             "value": 0,
@@ -661,6 +836,13 @@ Blockly.defineBlocksWithJsonArray(
       args0:
         [
           {
+            "type": "field_image",
+            "src": "svg/draw-polygon-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+          {
             "type": "field_number",
             "name": "x1",
             "value": 0,
@@ -703,6 +885,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'oled_invert',
       message0: '%{BKY_OLED_INVERT}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/circle-half-stroke-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+        ],
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
@@ -713,6 +905,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'oled_show',
       message0: '%{BKY_OLED_SHOW}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/display-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+        ],
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
@@ -723,6 +925,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'oled_clear',
       message0: '%{BKY_OLED_CLEAR}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/eraser-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+        ],
       nextStatement: true,
       previousStatement: true,
       inputsInline: true,
@@ -735,6 +947,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_SPEECH_STT}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/ear-listen-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {
             "type": "field_number",
             "name": "timeout",
@@ -755,6 +974,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_SPEECH_TTS}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/file-audio-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "text"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
@@ -784,6 +1010,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_SPEECH_GET_DIALOG}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/comment-dots-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "text"}
         ],
       output: 'String',
@@ -797,6 +1030,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_SPEECH_LOAD_DIALOG}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/database-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
@@ -816,6 +1056,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'vision_read',
       message0: '%{BKY_VISION_READ}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/camera-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
@@ -827,6 +1077,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_VISION_IMWRITE}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/file-image-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
@@ -849,6 +1106,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'vision_cartoonize',
       message0: '%{BKY_VISION_CARTOONIZE}',
       "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/wand-magic-sparkles-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
       ],
       output: null,
@@ -861,6 +1125,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'vision_object',
       message0: '%{BKY_VISION_OBJECT}',
       "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/object-group-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
       ],
       output: null,
@@ -873,6 +1144,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'vision_qr',
       message0: '%{BKY_VISION_QR}',
       "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/qrcode-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
       ],
       output: null,
@@ -885,6 +1163,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'vision_classification',
       message0: '%{BKY_VISION_CLASSIFICATION}',
       "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/object-group-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
       ],
       output: null,
@@ -898,6 +1183,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_VISION_LOAD_TM}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/database-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
@@ -920,6 +1212,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'vision_predict_tm',
       message0: '%{BKY_VISION_PREDICT_TM}',
       "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/object-group-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
       ],
       output: null,
@@ -933,6 +1232,13 @@ Blockly.defineBlocksWithJsonArray(
       message0: '%{BKY_UTILS_SLEEP}',
       args0:
         [
+          {
+            "type": "field_image",
+            "src": "svg/bed-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
           {
             "type": "field_number",
             "name": "time",
@@ -952,6 +1258,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'utils_time',
       message0: '%{BKY_UTILS_TIME}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/stopwatch-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
@@ -961,6 +1277,16 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'utils_current_time',
       message0: '%{BKY_UTILS_CURRENT_TIME}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/clock-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"}
+        ],
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
@@ -971,6 +1297,13 @@ Blockly.defineBlocksWithJsonArray(
       type: 'utils_include',
       message0: '%{BKY_UTILS_INCLUDE}',
       "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/list-check-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
         {"type": "input_value", "name": "a"},
         {"type": "input_value", "name": "b"}
       ],
