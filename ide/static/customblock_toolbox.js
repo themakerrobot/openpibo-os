@@ -1118,7 +1118,7 @@ const toolbox= {
       "name": "함수",
       "contents": [],
       "custom": "PROCEDURE",
-      "categorystyle": "procedure_category"
+      "categorystyle": "procedure_category",
     },
     {
       "kind": "sep",
