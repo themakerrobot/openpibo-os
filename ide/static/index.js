@@ -536,6 +536,14 @@ let workspace = Blockly.inject("blocklyDiv", {
     scaleSpeed: 1.2,
     pinch: true
   },
+  move:{
+    scrollbars: {
+      horizontal: true,
+      vertical: true
+    },
+    drag: true,
+    wheel: true,
+  },
   renderer:"zelos", // "zelos", "minimalist", "thrasos"
 });
 
