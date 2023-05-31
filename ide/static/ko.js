@@ -482,19 +482,24 @@ Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";
 
 Blockly.Msg["VISION_READ"] = "%1 %2 촬영하기";
 Blockly.Msg["VISION_IMWRITE"] = "%1 %2 이미지 %5 를 %3 %4 에 저장하기";
+Blockly.Msg["VISION_IMSHOW_TO_IDE"] = "%1 %2 이미지 파일 %3 %4 를 IDE에 표시하기";
 Blockly.Msg["VISION_CARTOONIZE"] = "%1 %2 이미지 %3 만화 이미지로 바꾸기";
 
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 이미지 %3 사물 찾기";
 Blockly.Msg["VISION_QR"] = "%1 %2 이미지 %3 QR코드 찾기";
-Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류 하기";
+Blockly.Msg["VISION_POSE"] = "%1 %2 이미지 %3 포즈 찾기";
+Blockly.Msg["VISION_ANALYZE_POSE"] = "%1 %2 포즈 결과 %3 분석하기";
+
+Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류하기";
 
 Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";
-Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류 하기";
+Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류하기";
 
 Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 현재 시간 확인하기";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 %3 가 %4 에 포함되는지 확인하기";
+Blockly.Msg["UTILS_DICT"] = "%1 %2 딕셔너리 %3 의 키 %4 값 가져오기";
 
 return Blockly.Msg;
 }));

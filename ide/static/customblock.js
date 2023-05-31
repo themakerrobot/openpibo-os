@@ -1103,6 +1103,35 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_imshow_to_ide',
+      message0: '%{BKY_VISION_IMSHOW_TO_IDE}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/display-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myimage/', '/home/pi/myimage/'],
+              [ '/home/pi/', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
+          {"type": "input_value", "name": "filename"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call camera.imshow_to_ide',
+      helpUrl: ''
+    },
+    {
       type: 'vision_cartoonize',
       message0: '%{BKY_VISION_CARTOONIZE}',
       "args0": [
@@ -1157,6 +1186,44 @@ Blockly.defineBlocksWithJsonArray(
       inputsInline: true,
       colour: color_type["vision"],
       tooltip: 'call detect.detect_qr',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_pose',
+      message0: '%{BKY_VISION_POSE}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/qrcode-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call detect.detect_pose',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_analyze_pose',
+      message0: '%{BKY_VISION_ANALYZE_POSE}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/qrcode-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "val"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call detect.analyze_pose',
       helpUrl: ''
     },
     {
@@ -1312,6 +1379,27 @@ Blockly.defineBlocksWithJsonArray(
       colour: color_type["utils"],
       tooltip: 'call include',
       helpUrl: ''
+    },
+    {
+      type: 'utils_dict',
+      message0: '%{BKY_UTILS_DICT}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/list-check-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "dictionary"},
+          {"type": "input_value", "name": "keyname"}
+        ],
+        output: null,
+        inputsInline: true,
+        colour: color_type["utils"],
+        tooltip: 'call Dict[keyname]',
+        helpUrl: ''
     },
   ]
 );

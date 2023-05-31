@@ -7,7 +7,7 @@ const audio_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "파일이름"
+            "TEXT": "오디오 파일이름"
           }
         }
       },
@@ -25,7 +25,7 @@ const audio_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "파일이름"
+            "TEXT": "오디오 파일이름"
           }
         }
       },
@@ -227,7 +227,7 @@ const speech_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "파일이름"
+            "TEXT": "오디오 파일이름"
           }
         }
       },
@@ -255,7 +255,7 @@ const speech_box = [
         "shadow": {
           "type": "text",
           "fields": {
-            "TEXT": "파일이름"
+            "TEXT": "csv 파일이름"
           }
         }
       }
@@ -288,6 +288,20 @@ const vision_box = [
   },
   {
     "kind": "block",
+    "type": "vision_imshow_to_ide",
+    "inputs":{
+      "filename":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "이미지 파일이름"
+          }
+        }
+      },
+    }
+  },
+  {
+    "kind": "block",
     "type": "vision_cartoonize",
     "inputs":{
       "img":{
@@ -313,6 +327,28 @@ const vision_box = [
     "type": "vision_qr",
     "inputs":{
       "img":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+  {
+    "kind": "block",
+    "type": "vision_pose",
+    "inputs":{
+      "img":{
+        "shadow": {
+          "type": "variables_get",
+        }
+      }
+    }
+  },
+  {
+    "kind": "block",
+    "type": "vision_analyze_pose",
+    "inputs":{
+      "val":{
         "shadow": {
           "type": "variables_get",
         }
@@ -380,6 +416,25 @@ const utils_box = [
   {
     "kind": "block",
     "type": "utils_include",
+  },
+  {
+    "kind": "block",
+    "type": "utils_dict",
+    "inputs":{
+      "dictionary":{
+        "shadow":{
+          "type":"variables_get",
+        }
+      },
+      "keyname":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "키 이름"
+          }
+        }
+      },
+    }
   },
 ];
 
@@ -1297,3 +1352,5 @@ Blockly.registry.register(
     Blockly.registry.Type.TOOLBOX_ITEM,
     Blockly.ToolboxCategory.registrationName,
     CustomCategory, true);
+
+

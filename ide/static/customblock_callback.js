@@ -282,6 +282,14 @@ Blockly.Python['vision_imwrite'] = function(block) {
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   return `camera.imwrite('${dir}'+${filename}.strip(), ${img})\n`;
 }
+Blockly.Python['vision_imshow_to_ide'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
+  Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
+
+  const dir = block.getFieldValue("dir");
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
+  return `camera.imshow_to_ide('${dir}'+${filename}.strip())\n`;
+}
 Blockly.Python['vision_cartoonize'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
@@ -302,6 +310,20 @@ Blockly.Python['vision_qr'] = function(block) {
 
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   return [`detect.detect_qr(${img})['data']`, Blockly.Python.ORDER_ATOMIC];
+}
+Blockly.Python['vision_pose'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';
+  Blockly.Python.definitions_['assign_detect'] = 'detect = Detect()';
+
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  return [`detect.detect_pose(${img})`, Blockly.Python.ORDER_ATOMIC];
+}
+Blockly.Python['vision_analyze_pose'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';
+  Blockly.Python.definitions_['assign_detect'] = 'detect = Detect()';
+
+  const val = Blockly.Python.valueToCode(block, 'val', Blockly.Python.ORDER_ATOMIC);
+  return [`detect.analyze_pose(${val})`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['vision_classification'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';
@@ -349,4 +371,10 @@ Blockly.Python['utils_include'] = function(block) {
   const b = Blockly.Python.valueToCode(block, 'b', Blockly.Python.ORDER_ATOMIC);
 
   return [`${a} in ${b}`, Blockly.Python.ORDER_ATOMIC];
+}
+Blockly.Python['utils_dict'] = function(block) {
+  const dictionary = Blockly.Python.valueToCode(block, 'dictionary', Blockly.Python.ORDER_ATOMIC);
+  const keyname = Blockly.Python.valueToCode(block, 'keyname', Blockly.Python.ORDER_ATOMIC)._trim();
+
+  return [`${dictionary}[${keyname}.strip()]`, Blockly.Python.ORDER_ATOMIC];
 }
