@@ -323,7 +323,24 @@ Blockly.Python['vision_analyze_pose'] = function(block) {
   Blockly.Python.definitions_['assign_detect'] = 'detect = Detect()';
 
   const val = Blockly.Python.valueToCode(block, 'val', Blockly.Python.ORDER_ATOMIC);
-  return [`detect.analyze_pose(${val})`, Blockly.Python.ORDER_ATOMIC];
+  const type = block.getFieldValue("type");
+  let res = '';
+
+  switch (type) {
+    case 'motion':
+      res = `detect.analyze_pose(${val})`;
+      break;
+    case 'pose':
+      res = `[[_i.coordinate.x, _i.coordinate.y] for _i in ${val}['data'][0][0]]`
+      break;
+    case 'person':
+      res = `[_j for _i in ${val}['data'][0][1] for _j in _i]`
+      break;
+    case 'acc':
+      res = `round(${val}['data'][0][2]*100, 1)`
+      break;
+  }
+  return [res, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['vision_classification'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';

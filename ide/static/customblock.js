@@ -1194,7 +1194,7 @@ Blockly.defineBlocksWithJsonArray(
       "args0": [
         {
           "type": "field_image",
-          "src": "svg/qrcode-solid.svg",
+          "src": "svg/person-solid.svg",
           "width": 33,
           "height": 33
         },
@@ -1213,12 +1213,20 @@ Blockly.defineBlocksWithJsonArray(
       "args0": [
         {
           "type": "field_image",
-          "src": "svg/qrcode-solid.svg",
+          "src": "svg/person-solid.svg",
           "width": 33,
           "height": 33
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "val"}
+        {"type": "input_value", "name": "val"},
+        {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '모션인식', 'motion' ],
+            [ '포즈좌표', 'pose'],
+            [ '사람좌표', 'person' ],
+            [ '정확도', 'acc']
+          ]
+        }
       ],
       output: null,
       inputsInline: true,

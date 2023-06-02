@@ -488,7 +488,7 @@ Blockly.Msg["VISION_CARTOONIZE"] = "%1 %2 이미지 %3 만화 이미지로 바�
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 이미지 %3 사물 찾기";
 Blockly.Msg["VISION_QR"] = "%1 %2 이미지 %3 QR코드 찾기";
 Blockly.Msg["VISION_POSE"] = "%1 %2 이미지 %3 포즈 찾기";
-Blockly.Msg["VISION_ANALYZE_POSE"] = "%1 %2 포즈 결과 %3 분석하기";
+Blockly.Msg["VISION_ANALYZE_POSE"] = "%1 %2 포즈 결과 %3 에서 %4 분석하기";
 
 Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류하기";
 
