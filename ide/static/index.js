@@ -533,7 +533,7 @@ let workspace = Blockly.inject("blocklyDiv", {
     startScale: 0.8,
     maxScale: 3,
     minScale: 0.3,
-    scaleSpeed: 1.2,
+    scaleSpeed: 1.05,
     pinch: true
   },
   move:{
