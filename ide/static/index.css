@@ -162,12 +162,12 @@ body::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0.1);
 }
 body::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 body::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 div {
@@ -316,7 +316,7 @@ main div.wrapper.ide {
   height: calc(100vh - 440px);
   overflow-y: scroll;
   border: 1px solid var(--light-green);
-  border-radius: 2px;
+  border-radius: 5px;
 }
 
 div[name="codetype"] {
@@ -330,7 +330,7 @@ div[name="codetype"] > button {
   background: transparent;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.5);
-  border-radius: 0;
+  border-radius: 5px;
   width: 76px;
 }
 
@@ -403,7 +403,7 @@ label[for=upload]:active {
 img.preview-img {
   width: 320px;
   height: 240px;
-  border-radius: 2px;
+  border-radius: 5px;
   background-color: var(--light-green);
 }
 
@@ -420,7 +420,7 @@ audio.preview-audio {
 
 .result,
 .terminal {
-  border-radius: 2px;
+  border-radius: 5px;
   height:calc(100vh - 120px);
 }
 
@@ -546,7 +546,7 @@ audio.preview-audio {
 .blocklyTreeRow {
   padding: 3px;
   margin-bottom: 0.35em;
-  border-radius: 4px;
+  border-radius: 5px;
   width:70px;
 }
 
