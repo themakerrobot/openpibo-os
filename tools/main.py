@@ -75,7 +75,11 @@ async def f(key="tools", data: dict = Body(...)):
   else:
     tmp = {}
     for k in data:
-      tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
+      if type(data[k]) is dict:
+        tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
+      else:
+        tmp[k] = res[k] + data[k] if k in res else data[k]
+
     with open(f'/home/pi/.{key}.json', 'w') as f:
       json.dump(tmp, f)
   return JSONResponse(content=res, status_code=200)

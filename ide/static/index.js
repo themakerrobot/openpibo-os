@@ -30,6 +30,7 @@ const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
 const result = document.getElementById("result");
 const socket = io();
 
+const init_usedata = {"block":{"click":0, "keydown":0, "execute":0, "staytime":0}, "text":{"click":0, "keydown":0, "execute":0, "staytime":0}};
 let CURRENT_DIR;
 let CODE_PATH = '';
 let BLOCK_PATH = '';
@@ -127,6 +128,8 @@ socket.on("system", (data) => {
   $("#wifi_info").text(`${data[6]}/${data[7].replace("\n", "")}`);
 });
 
+let startTime_item = new Date().getTime();
+
 codeTypeBtns.forEach((btn) => {
   const handler = (e) => {
     let before_codetype = "";
@@ -136,6 +139,10 @@ codeTypeBtns.forEach((btn) => {
     codeTypeBtns.forEach((el) => el.classList.remove("checked"));
     const target = e.currentTarget;
     target.classList.add("checked");
+
+    usedata[target.name == "block"?"block":"text"]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
+    startTime_item = new Date();
+
     if (target.name == "block") {
         if (BLOCK_PATH == "") {
           alert("주의!) 저장할 파일은 먼저 선택해주세요.");
@@ -726,8 +733,6 @@ $("#wifi_bt").on("click", function () {
   }
 });
 
-const init_usedata = {"block":{"click":0, "keydown":0, "execute":0}, "text":{"click":0, "keydown":0, "execute":0}};
-
 $(document).on("click keydown", (evt) => {
   if (["click", "keydown"].includes(evt.type)) {
     let codetype = "";
@@ -753,7 +758,14 @@ $.ajax({
 });
 
 let usedata = init_usedata; // from server
+let startTime = new Date().getTime();
 window.addEventListener('beforeunload', (evt) => {
+  usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
+  let codetype = "";
+  codeTypeBtns.forEach((el) => {
+    if (el.classList.value.includes("checked")) codetype = el.name;
+  });
+  usedata[codetype == "block"?"block":"text"]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
   $.ajax({
     url: `http://${location.hostname}/usedata/ide`,
     type: "post",
