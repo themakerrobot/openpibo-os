@@ -649,6 +649,9 @@ $(document).keydown((evt)=> {
 });
 
 $("#showWifi").on("click", ()=>{
+  document.getElementById("loginPopup").style.display = "none";
+  document.getElementById("usedataPopup").style.display = "none";
+
   $("#wifi_list > tbody").empty();
   $("#wifi_list > tbody").append(
     $("<tr>")
@@ -787,6 +790,8 @@ window.addEventListener('beforeunload', (evt) => {
 
 $("#showLogin").on("click", ()=>{
   document.getElementById("loginPopup").style.display = "block";
+  document.getElementById("wifiPopup").style.display = "none";
+  document.getElementById("usedataPopup").style.display = "none";
 });
 
 $("#hideLogin").on("click", ()=>{
@@ -861,6 +866,9 @@ $("#user_bt").on("click", () => {
 });
 
 $("#usedata_bt").on("click", ()=> {
+  document.getElementById("loginPopup").style.display = "none";
+  document.getElementById("wifiPopup").style.display = "none";
+
   $.ajax({
     url: `http://${location.hostname}/usedata/ide`,
     type: "post",
@@ -869,7 +877,7 @@ $("#usedata_bt").on("click", ()=> {
   }).always((xhr, status) => {
     if (status == "success") {
       //alert(JSON.stringify(xhr, null, 4));
-      $("#usedata_json").JSONView(xhr);
+      $("#usedata_json").JSONView(xhr, {collapsed:true});
       usedata = init_usedata;
     } else {
       alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
