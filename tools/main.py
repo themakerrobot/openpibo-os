@@ -69,19 +69,23 @@ async def f(key="tools", data: dict = Body(...)):
     logger.error(f'[usedata] Error: {ex}')
     pass
 
-  if res == None:
+  try:
+    if res == None:
+      with open(f'/home/pi/.{key}.json', 'w') as f:
+        json.dump(data, f)
+    else:
+      tmp = {}
+      for k in data:
+        if type(data[k]) is dict:
+          tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
+        else:
+          tmp[k] = res[k] + data[k] if k in res else data[k]
+      with open(f'/home/pi/.{key}.json', 'w') as f:
+        json.dump(tmp, f)
+  except Exception as ex:
     with open(f'/home/pi/.{key}.json', 'w') as f:
-      json.dump(data, f)     
-  else:
-    tmp = {}
-    for k in data:
-      if type(data[k]) is dict:
-        tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
-      else:
-        tmp[k] = res[k] + data[k] if k in res else data[k]
+        json.dump(data, f)
 
-    with open(f'/home/pi/.{key}.json', 'w') as f:
-      json.dump(tmp, f)
   return JSONResponse(content=res, status_code=200)
 
 @app.get('/download_img', response_class=FileResponse)

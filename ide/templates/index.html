@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="../static/codemirror.css" />
   <link rel="stylesheet" href="../static/cobalt.css" />
   <link rel="stylesheet" href="../static/duotone-light.css" />
+  <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
   <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
 
   <script src="../static/blockly_compressed.js?ver=230412v1"></script>
@@ -24,6 +25,7 @@
   <script src="../static/customblock_toolbox.js?ver=230517v1"></script>
 
   <script src="../static/jquery-3.1.1.min.js"></script>
+  <script src="../static/jquery.jsonview.min.js"></script>
   <script src="../static/codemirror.min.js"></script>
   <script src="../static/python.js"></script>
   <script src="../static/shell.js"></script>
@@ -51,8 +53,12 @@
   <main>
     <div class="login-popup" id="loginPopup">
       <div class="login-popup-content">
-        <h3>로그인 하기</h3>
-        <i class="fa-solid fa-user"></i>&nbsp;<a id="user_bt" style="font-weight:bold;color:#aaa;cursor:pointer"><u><span id="logined_id"></span></u></a> 님,
+        <h3>
+          <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;로그인 하기</div>
+          <div style="float:right"><a id="hideLogin"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
+        </h3>
+        <h3>&nbsp;</h3>
+        <i class="fa-solid fa-user"></i>&nbsp;<u><span id="logined_id"></span></u> 님,
         <table>
           <tr>
             <td>아이디:</td>
@@ -65,15 +71,19 @@
             </td>
           </tr>
         </table>
-        <button type="button" class="login" id="login">확인</button>
-        <button type="button" class="cancel" id="hideLogin">취소</button>
+        <button type="button" class="login" id="login">로그인</button>
+        <button type="button" class="cancel" id="user_bt">로그아웃</button>
       </div>
     </div>
 
     <div class="wifi-popup" id="wifiPopup" style="display:none">
       <div class="wifi-popup-content">
-        <h3>인터넷 설정하기</h3>
-        <i class="fa-solid fa-wifi"></i>&nbsp;<a id="current_wifi"><span id="wifi_info"></span></a>
+        <h3>
+          <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;인터넷 설정하기</div>
+          <div style="float:right"><a id="hidewifi"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
+        </h3>
+        <h3>&nbsp;</h3>
+        <i class="fa-solid fa-wifi"></i>&nbsp;<span id="wifi_info"></span>
         <table>
           <tr>
             <td>Wifi 이름:</td>
@@ -88,15 +98,26 @@
             </td>
           </tr>
         </table>
-        <button type="button" class="confirm" id="wifi_bt">확인</button>
-        <button type="button" class="cancel" id="hidewifi">취소</button>
+        <button type="button" class="confirm" id="wifi_bt">설정</button>
+        <button type="button" class="cancel" id="current_wifi">초기화</button>
         <br><br>
         <div style="width:378px;height:150px;overflow-y: scroll;">
           <table class="wifi_list" id="wifi_list">
-            <thead><tr><th>사용가능한 네트워크</th><th>Signal</th></tr></thead>
+            <thead><tr><th>사용가능한 Wifi 목록</th><th>Signal</th></tr></thead>
             <tbody></tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <div class="usedata-popup" id="usedataPopup" style="display:none">
+      <div class="usedata-popup-content">
+        <h3>
+          <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;사용성 데이터</div>
+          <div style="float:right"><a id="hideUsedata"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
+        </h3>
+        <h3>&nbsp;</h3>
+        <div style="height:300px;overflow-y:scroll" id="usedata_json"></div>
       </div>
     </div>
 

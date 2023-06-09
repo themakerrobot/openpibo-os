@@ -30,7 +30,12 @@ const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
 const result = document.getElementById("result");
 const socket = io();
 
-const init_usedata = {"block":{"click":0, "keydown":0, "execute":0, "staytime":0}, "text":{"click":0, "keydown":0, "execute":0, "staytime":0}};
+const init_usedata = {
+  staytime:0,
+  block:{click:0, keydown:0, execute:0, staytime:0},
+  python:{click:0, keydown:0, execute:0, staytime:0},
+  shell:{click:0, keydown:0, execute:0, staytime:0}
+};
 let CURRENT_DIR;
 let CODE_PATH = '';
 let BLOCK_PATH = '';
@@ -140,7 +145,7 @@ codeTypeBtns.forEach((btn) => {
     const target = e.currentTarget;
     target.classList.add("checked");
 
-    usedata[target.name == "block"?"block":"text"]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
+    usedata[target.name]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
     startTime_item = new Date();
 
     if (target.name == "block") {
@@ -215,7 +220,7 @@ execute.addEventListener("click", () => {
   stop.disabled = false;
   $("#respath").text($("#codepath").html());
 
-  usedata[codetype=="block"?"block":"text"]["execute"]++;
+  usedata[codetype]["execute"]++;
   localStorage.setItem("usedata", JSON.stringify(usedata));
 });
 
@@ -739,7 +744,7 @@ $(document).on("click keydown", (evt) => {
     codeTypeBtns.forEach((el) => {
       if (el.classList.value.includes("checked")) codetype = el.name;
     });
-    usedata[codetype=="block"?"block":"text"][evt.type]++;
+    usedata[codetype][evt.type]++;
   }
 });
 
@@ -765,7 +770,7 @@ window.addEventListener('beforeunload', (evt) => {
   codeTypeBtns.forEach((el) => {
     if (el.classList.value.includes("checked")) codetype = el.name;
   });
-  usedata[codetype == "block"?"block":"text"]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
+  usedata[codetype]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
   $.ajax({
     url: `http://${location.hostname}/usedata/ide`,
     type: "post",
@@ -863,12 +868,18 @@ $("#usedata_bt").on("click", ()=> {
     contentType: "application/json",
   }).always((xhr, status) => {
     if (status == "success") {
-      alert(JSON.stringify(xhr));
+      //alert(JSON.stringify(xhr, null, 4));
+      $("#usedata_json").JSONView(xhr);
       usedata = init_usedata;
     } else {
       alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
+  document.getElementById("usedataPopup").style.display = "block";
+});
+
+$("#hideUsedata").on("click", ()=>{
+  document.getElementById("usedataPopup").style.display = "none";
 });
 
 $('#password_check').on('click',function(){
