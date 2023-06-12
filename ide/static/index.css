@@ -484,7 +484,7 @@ audio.preview-audio {
 
 .wifi-popup-content input[type="text"],
 .login-popup-content input[type="text"] {
-  width: 280px;
+  width: 278px;
   border: 1px solid #ccc;
   margin: 5px auto;
 }
@@ -496,7 +496,7 @@ audio.preview-audio {
 
 .wifi-popup-content input[type="password"],
 .login-popup-content input[type="password"] {
-  width: 280px;
+  width: 278px;
   border: 1px solid #ccc;
   margin: 5px auto;
 }
