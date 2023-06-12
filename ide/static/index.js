@@ -146,7 +146,7 @@ codeTypeBtns.forEach((btn) => {
     target.classList.add("checked");
 
     usedata[target.name]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
-    startTime_item = new Date();
+    startTime_item = new Date().getTime();
 
     if (target.name == "block") {
         if (BLOCK_PATH == "") {
@@ -723,23 +723,27 @@ $("#current_wifi").on("click", ()=> {
 });
 
 $("#wifi_bt").on("click", function () {
-  let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
-  comment += "\nssid: " + $("#ssid").val().trim();
-  comment += "\npassword: " + $("#psk").val().trim();
-  comment += "\nWIFI 정보를 한번 더 확인하시기 바랍니다.";
+  let comment = "로봇의 Wifi 정보를 변경하시겠습니까?";
+  comment += "\n\nWifi 이름: " + $("#ssid").val().trim();
+  comment += "\n비밀번호: " + $("#psk").val().trim();
+  comment += "\n암호화방식: " + ($("#psk").val().trim()==""?"OPEN":"WPA-PSK");
+  comment += "\n\nWifi 정보를 한번 더 확인하시기 바랍니다.";
   comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
   if (confirm(comment)) {
     $.ajax({
-      url: `http://${location.hostname}/wifi?ssid=${encodeURIComponent($("#ssid").val().trim())}&psk=${encodeURIComponent($("#psk").val().trim())}`,
+      url: `http://${location.hostname}/wifi`,
+      type: "post",
+      data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
+      contentType: "application/json",
     }).always((xhr, status) => {
       if (status == "success") {
-        //
       } else {
-        //
+        alert("WPA-PSK 방식에서는 비밀번호가 8자리 이상이어야 합니다.")
       }
     });
   }
 });
+
 
 $(document).on("click keydown", (evt) => {
   if (["click", "keydown"].includes(evt.type)) {
@@ -767,6 +771,7 @@ $.ajax({
 
 let usedata = init_usedata; // from server
 let startTime = new Date().getTime();
+
 window.addEventListener('beforeunload', (evt) => {
   usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
   let codetype = "";
@@ -876,7 +881,6 @@ $("#usedata_bt").on("click", ()=> {
     contentType: "application/json",
   }).always((xhr, status) => {
     if (status == "success") {
-      //alert(JSON.stringify(xhr, null, 4));
       $("#usedata_json").JSONView(xhr, {collapsed:true});
       usedata = init_usedata;
     } else {

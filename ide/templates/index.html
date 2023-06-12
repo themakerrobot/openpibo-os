@@ -1,282 +1,278 @@
-<html lang='ko'>
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0 user-scalable=no"
-  />
-  <title>Pibo Maker</title>
-  <link rel="stylesheet" href="../static/index.css?ver=230503v1" />
-  <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
-  <link rel="stylesheet" href="../static/codemirror.css" />
-  <link rel="stylesheet" href="../static/cobalt.css" />
-  <link rel="stylesheet" href="../static/duotone-light.css" />
-  <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
-  <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
+<!DOCTYPE html>
+  <head>
+    <title>Pibo Maker</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
 
-  <script src="../static/blockly_compressed.js?ver=230412v1"></script>
-  <script src="../static/python_compressed.js?ver=230412v1"></script>
-  <script src="../static/blocks_compressed.js?ver=230412v1"></script>
-  <script src="../static/ko.js?ver=230517v1"></script>
-  <script src="../static/customblock.js?ver=230517v1"></script>
-  <script src="../static/customblock_callback.js?ver=230517v1"></script>
-  <script src="../static/customblock_toolbox.js?ver=230517v1"></script>
+    <link rel="stylesheet" href="../static/index.css?ver=230503v1" />
+    <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
+    <link rel="stylesheet" href="../static/codemirror.css" />
+    <link rel="stylesheet" href="../static/cobalt.css" />
+    <link rel="stylesheet" href="../static/duotone-light.css" />
+    <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
+    <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
 
-  <script src="../static/jquery-3.1.1.min.js"></script>
-  <script src="../static/jquery.jsonview.min.js"></script>
-  <script src="../static/codemirror.min.js"></script>
-  <script src="../static/python.js"></script>
-  <script src="../static/shell.js"></script>
-  <script src="../static/socket.io.min.js"></script>
-</head>
-
-<body>
-  <header class="title">
-    <div style="float:left">
-      <h2><i class="fa-solid fa-code"> IDE</i></h2>
-    </div>
-    <div style="float:right">
-      <h2 style="display: flex; align-items: center; justify-content: center;">
-        <a id='logo_bt'>
-          <img src="../static/themaker.png" style="height:22px"/>
-        </a>
-        &nbsp;
-        <a id="showLogin">
-          <span id="userinfo"></span>
-        </a>
-      </h2>
-    </div>
-  </header>
-
-  <main>
-    <div class="login-popup" id="loginPopup">
-      <div class="login-popup-content">
-        <h3>
-          <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;로그인 하기</div>
-          <div style="float:right"><a id="hideLogin"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
-        </h3>
-        <h3>&nbsp;</h3>
-        <i class="fa-solid fa-user"></i>&nbsp;<u><span id="logined_id"></span></u> 님,
-        <table>
-          <tr>
-            <td>아이디:</td>
-            <td><input type="text" id="username" name="username" /></td>
-          </tr>
-          <tr>
-            <td>비밀번호:</td>
-            <td>
-              <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
-            </td>
-          </tr>
-        </table>
-        <button type="button" class="login" id="login">로그인</button>
-        <button type="button" class="cancel" id="user_bt">로그아웃</button>
+    <script src="../static/blockly_compressed.js?ver=230412v1"></script>
+    <script src="../static/python_compressed.js?ver=230412v1"></script>
+    <script src="../static/blocks_compressed.js?ver=230412v1"></script>
+    <script src="../static/ko.js?ver=230517v1"></script>
+    <script src="../static/customblock.js?ver=230517v1"></script>
+    <script src="../static/customblock_callback.js?ver=230517v1"></script>
+    <script src="../static/customblock_toolbox.js?ver=230517v1"></script>
+    <script src="../static/jquery-3.1.1.min.js"></script>
+    <script src="../static/jquery.jsonview.min.js"></script>
+    <script src="../static/codemirror.min.js"></script>
+    <script src="../static/python.js"></script>
+    <script src="../static/shell.js"></script>
+    <script src="../static/socket.io.min.js"></script>
+  </head>
+  <body>
+    <header class="title">
+      <div style="float:left">
+        <h2><i class="fa-solid fa-code"> IDE</i></h2>
       </div>
-    </div>
+      <div style="float:right">
+        <h2 style="display: flex; align-items: center; justify-content: center;">
+          <a id='logo_bt'>
+            <img src="../static/themaker.png" style="height:22px"/>
+          </a>
+          &nbsp;
+          <a id="showLogin">
+            <span id="userinfo"></span>
+          </a>
+        </h2>
+      </div>
+    </header>
 
-    <div class="wifi-popup" id="wifiPopup" style="display:none">
-      <div class="wifi-popup-content">
-        <h3>
-          <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;인터넷 설정하기</div>
-          <div style="float:right"><a id="hidewifi"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
-        </h3>
-        <h3>&nbsp;</h3>
-        <i class="fa-solid fa-wifi"></i>&nbsp;<span id="wifi_info"></span>
-        <table>
-          <tr>
-            <td>Wifi 이름:</td>
-            <td>
-              <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" />
-            </td>
-          </tr>
-          <tr>
-            <td>비밀번호:</td>
-            <td>
-              <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
-            </td>
-          </tr>
-        </table>
-        <button type="button" class="confirm" id="wifi_bt">설정</button>
-        <button type="button" class="cancel" id="current_wifi">초기화</button>
-        <br><br>
-        <div style="width:380px;height:150px;overflow-y: scroll;">
-          <table class="wifi_list" id="wifi_list">
-            <thead><tr><th>사용가능한 Wifi 목록</th><th>신호세기</th></tr></thead>
-            <tbody></tbody>
+    <main>
+      <div class="login-popup" id="loginPopup" style="display:none">
+        <div class="login-popup-content">
+          <h3>
+            <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;로그인 하기</div>
+            <div style="float:right"><a id="hideLogin"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
+          </h3>
+          <h3>&nbsp;</h3>
+          <i class="fa-solid fa-user"></i>&nbsp;<u><span id="logined_id"></span></u> 님,
+          <table>
+            <tr>
+              <td>아이디:</td>
+              <td><input type="text" id="username" name="username" /></td>
+            </tr>
+            <tr>
+              <td>비밀번호:</td>
+              <td>
+                <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
+              </td>
+            </tr>
           </table>
+          <button type="button" class="login" id="login">로그인</button>
+          <button type="button" class="cancel" id="user_bt">로그아웃</button>
         </div>
       </div>
-    </div>
 
-    <div class="usedata-popup" id="usedataPopup" style="display:none">
-      <div class="usedata-popup-content">
-        <h3>
-          <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;사용성 데이터</div>
-          <div style="float:right"><a id="hideUsedata"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
-        </h3>
-        <h3>&nbsp;</h3>
-        <div style="height:300px;overflow-y:scroll" id="usedata_json"></div>
+      <div class="wifi-popup" id="wifiPopup" style="display:none">
+        <div class="wifi-popup-content">
+          <h3>
+            <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;인터넷 설정하기</div>
+            <div style="float:right"><a id="hidewifi"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
+          </h3>
+          <h3>&nbsp;</h3>
+          <i class="fa-solid fa-wifi"></i>&nbsp;<span id="wifi_info"></span>
+          <table>
+            <tr>
+              <td>Wifi 이름:</td>
+              <td>
+                <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" />
+              </td>
+            </tr>
+            <tr>
+              <td>비밀번호:</td>
+              <td>
+                <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
+              </td>
+            </tr>
+          </table>
+          <button type="button" class="confirm" id="wifi_bt">설정</button>
+          <button type="button" class="cancel" id="current_wifi">초기화</button>
+          <br><br>
+          <div style="width:380px;height:150px;overflow-y: scroll;">
+            <table class="wifi_list" id="wifi_list">
+              <thead><tr><th>사용가능한 Wifi 목록</th><th>신호세기</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="content">
-      <div class="wrapper ide">
-        <div class="editor-row">
-          <div class="editor-col">
-            <i class="fa-solid fa-computer"></i>
-            <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기" disabled/>
-            <label for="upload" title="업로드">
-              <i class="fa-solid fa-file-upload"></i>
-              업로드
-            </label>
-            <div class="filebox">
-              <form method="post" action="/upload" enctype="multipart/form-data">
-                <input type="file" id="upload">
+      <div class="usedata-popup" id="usedataPopup" style="display:none">
+        <div class="usedata-popup-content">
+          <h3>
+            <div style="float:left"><i class="fa-solid fa-circle-exclamation"></i>&nbsp;사용성 데이터</div>
+            <div style="float:right"><a id="hideUsedata"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
+          </h3>
+          <h3>&nbsp;</h3>
+          <div style="height:300px;overflow-y:scroll" id="usedata_json"></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="wrapper ide">
+          <div class="editor-row">
+            <div class="editor-col">
+              <i class="fa-solid fa-computer"></i>
+              <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기" disabled/>
+              <label for="upload" title="업로드">
+                <i class="fa-solid fa-file-upload"></i>
+                업로드
+              </label>
+              <div class="filebox">
+                <form method="post" action="/upload" enctype="multipart/form-data">
+                  <input type="file" id="upload">
+                </form>
+              </div>
+              <button id="add_directory" title="새폴더" style="background-color:#dcb9b2">
+                <i class="fa-solid fa-folder-plus"></i>
+                새폴더
+              </button>
+              <button id="add_file" title="새파일">
+                <i class="fa-solid fa-file-circle-plus"></i>
+                새파일
+              </button>
+            </div>
+          </div>
+
+          <div class="filepath" style="width:320px">
+            <i class="fa-solid fa-folder-open"></i><span id="path"></span>
+          </div>
+
+          <div class="editor-row">
+            <div class="editor-col">
+              <div class="fm-table-wrap">
+                <table id="fm_table">
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="filepath" style="width:320px">
+            <i class="fa-solid fa-folder-open"></i><span id="mediapath"></span>
+          </div>
+
+          <div class="editor-row">
+            <div class="editor-col">
+              <img id="image" class="preview-img" />
+            </div>
+          </div>
+
+          <div class="editor-row">
+            <div class="editor-col">
+              <audio controls id="audio" class="preview-audio"></audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrapper ide">
+          <div class="editor-row">
+            <div class="editor-col">
+              <i class="fa fa-solid fa-laptop-code"> </i>
+              <div name="codetype">
+                <button name="python">
+                  <i class="fa fa-brands fa-python"></i> 파이썬
+                </button>
+                <button name="block">
+                  <i class="fa-solid fa-cube"></i> 블록
+                </button>
+                <button name="shell">
+                  <i class="fa fa-solid fa-code"></i> 쉘
+                </button>
+              </div>
+              <span id='codecheck'></span>
+            </div>
+
+            <div class="editor-col">
+              <i class="fa-solid fa-text-height">
+                <input type="number" id="fontsize" min="14" max="50" value="14" step="1" pattern="\d*" />
+              </i>
+              <button id="execute" class="btn-teal" style="width:40px" title="실행">
+                <i class="fa fa-solid fa-play"></i>
+              </button>
+              <button id="stop" class="btn-red disabled" style="width:40px" title="정지">
+                <i class="fa fa-solid fa-stop"></i>
+              </button>
+              <button id="save" class="btn" style="width:40px" title="저장">
+                <i class="fa fa-solid fa-save"></i>
+              </button>
+              <i class="fa-solid fa-circle-half-stroke"></i>
+              <input type="checkbox" id="theme_check" name="theme_check" title="테마" checked/>
+              <i class="fa-solid fa-arrows-left-right-to-line"></i>
+              <input type="checkbox" id="result_check" name="result_check" title="결과보기" checked/>
+            </div>
+          </div>
+
+          <div class="filepath" style="width:700px">
+            <i class="fa-solid fa-folder-open"></i><span id="codepath"></span>
+          </div>
+
+          <div class="editor-row">
+            <div id="codeDiv">
+              <form id="code_form">
+                <textarea id="codemirror-code" name="source_code"></textarea>
               </form>
             </div>
-            <button id="add_directory" title="새폴더" style="background-color:#dcb9b2">
-              <i class="fa-solid fa-folder-plus"></i>
-              새폴더
-            </button>
-            <button id="add_file" title="새파일">
-              <i class="fa-solid fa-file-circle-plus"></i>
-              새파일
-            </button>
+            <div id="blocklyDiv" class="blocklyDiv"></div>
           </div>
         </div>
 
-        <div class="filepath" style="width:320px">
-          <i class="fa-solid fa-folder-open"></i><span id="path"></span>
-        </div>
+        <div class="wrapper ide" id="result_en">
+          <div class="editor-row">
+            <div class="editor-col">
+              <i class="fa fa-solid fa-file-lines"><span> 결과</span></i>
+              <button id="eraser" title="초기화">
+                <i class="fa fa-solid fa-eraser"></i>
+              </button>
+              <i class="fa fa-solid fa-link"></i>
+              <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" />
+            </div>
+          </div>
+          <div class="filepath" style="width:400px">
+            <i class="fa-solid fa-folder-open"></i><span id="respath"></span>
+          </div>
 
-        <div class="editor-row">
-          <div class="editor-col">
-            <div class="fm-table-wrap">
-              <table id="fm_table">
-                <tbody></tbody>
-              </table>
+          <div class="editor-row">
+            <div class="editor-col">
+              <textarea id="result" class="result" disabled></textarea>
+              <iframe id="terminal" class="result" loading="lazy" style="display:none"></iframe>
             </div>
           </div>
         </div>
-
-        <div class="filepath" style="width:320px">
-          <i class="fa-solid fa-folder-open"></i><span id="mediapath"></span>
-        </div>
-
-        <div class="editor-row">
-          <div class="editor-col">
-            <img id="image" class="preview-img" />
-          </div>
-        </div>
-
-        <div class="editor-row">
-          <div class="editor-col">
-            <audio controls id="audio" class="preview-audio"></audio>
-          </div>
-        </div>
       </div>
-
-      <div class="wrapper ide">
-        <div class="editor-row">
-          <div class="editor-col">
-            <i class="fa fa-solid fa-laptop-code"> </i>
-            <div name="codetype">
-              <button name="python">
-                <i class="fa fa-brands fa-python"></i> 파이썬
-              </button>
-              <button name="block">
-                <i class="fa-solid fa-cube"></i> 블록
-              </button>
-              <button name="shell">
-                <i class="fa fa-solid fa-code"></i> 쉘
-              </button>
-            </div>
-            <span id='codecheck'></span>
-          </div>
-
-          <div class="editor-col">
-            <i class="fa-solid fa-text-height">
-              <input type="number" id="fontsize" min="14" max="50" value="14" step="1" pattern="\d*" />
-            </i>
-            <button id="execute" class="btn-teal" style="width:40px" title="실행">
-              <i class="fa fa-solid fa-play"></i>
-            </button>
-            <button id="stop" class="btn-red disabled" style="width:40px" title="정지">
-              <i class="fa fa-solid fa-stop"></i>
-            </button>
-            <button id="save" class="btn" style="width:40px" title="저장">
-              <i class="fa fa-solid fa-save"></i>
-            </button>
-            <i class="fa-solid fa-circle-half-stroke"></i>
-            <input type="checkbox" id="theme_check" name="theme_check" title="테마" checked/>
-            <i class="fa-solid fa-arrows-left-right-to-line"></i>
-            <input type="checkbox" id="result_check" name="result_check" title="결과보기" checked/>
-          </div>
-        </div>
-
-        <div class="filepath" style="width:700px">
-          <i class="fa-solid fa-folder-open"></i><span id="codepath"></span>
-        </div>
-
-        <div class="editor-row">
-          <div id="codeDiv">
-            <form id="code_form">
-              <textarea id="codemirror-code" name="source_code"></textarea>
-            </form>
-          </div>
-          <div id="blocklyDiv" class="blocklyDiv"></div>
-        </div>
+    </main>
+    <footer>
+      <div style="float:left;padding:0.7rem 0 0.7rem 0">
+        <a id="home_bt" style="font-weight:bold;color:#1642bd">
+          <i class="fa-solid fa-arrow-up-right-from-square"> Tools로 이동</i>
+        </a>
+        <i class="fa-brands fa-raspberry-pi"></i>
+        <span id="s_os_version"></span>,
+        <i class="fa-solid fa-id-badge"></i>
+        <a id="usedata_bt"><span id="s_serial"></span></a>
       </div>
-
-      <div class="wrapper ide" id="result_en">
-        <div class="editor-row">
-          <div class="editor-col">
-            <i class="fa fa-solid fa-file-lines"><span> 결과</span></i>
-            <button id="eraser" title="초기화">
-              <i class="fa fa-solid fa-eraser"></i>
-            </button>
-            <i class="fa fa-solid fa-link"></i>
-            <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" />
-          </div>
-        </div>
-        <div class="filepath" style="width:400px">
-          <i class="fa-solid fa-folder-open"></i><span id="respath"></span>
-        </div>
-
-        <div class="editor-row">
-          <div class="editor-col">
-            <textarea id="result" class="result" disabled></textarea>
-            <iframe id="terminal" class="result" loading="lazy" style="display:none"></iframe>
-          </div>
-        </div>
+      <div style="float:right;padding:0.7rem 0 0.7rem 0">
+        <a id="showWifi">
+          <i class="fa-solid fa-wifi"></i>
+        </a>
+        <span id="s_network"></span>,
+        <i class="fa-solid fa-temperature-empty"></i>
+        <span id="s_cpu_temp"></span>,
+        <i class="fa-solid fa-memory"></i>
+        <span id="s_memory"></span>,
+        <i class="fa-solid fa-clock"></i>
+        <span id="s_runtime"></span>
       </div>
-    </div>
-  </main>
-  <footer>
-    <div style="float:left;padding:0.7rem 0 0.7rem 0">
-      <a id="home_bt" style="font-weight:bold;color:#1642bd">
-        <i class="fa-solid fa-arrow-up-right-from-square"> Tools로 이동</i>
-      </a>
-      <i class="fa-brands fa-raspberry-pi"></i>
-      <span id="s_os_version"></span>,
-      <i class="fa-solid fa-id-badge"></i>
-      <a id="usedata_bt"><span id="s_serial"></span></a>
-    </div>
-    <div style="float:right;padding:0.7rem 0 0.7rem 0">
-      <a id="showWifi">
-        <i class="fa-solid fa-wifi"></i>
-      </a>
-      <span id="s_network"></span>,
-      <i class="fa-solid fa-temperature-empty"></i>
-      <span id="s_cpu_temp"></span>,
-      <i class="fa-solid fa-memory"></i>
-      <span id="s_memory"></span>,
-      <i class="fa-solid fa-clock"></i>
-      <span id="s_runtime"></span>
-    </div>
-  </footer>
-  <script src="../static/index.js?ver=230503v1"></script>
-</body>
+    </footer>
+    <script src="../static/index.js?ver=230503v1"></script>
+  </body>
 </html>

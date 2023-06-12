@@ -824,7 +824,8 @@ i.fa > span {
 }
 
 .wifi-popup,
-.login-popup {
+.login-popup,
+.usedata-popup {
   display: none;
   position: fixed;
   z-index: 59;
@@ -834,6 +835,19 @@ i.fa > span {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.usedata-popup-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 15px;
+  border: 1px solid #888;
+  width: 410px;
+  height: 400px;
+  border-radius: 10px;
+}
+.usedata-popup-content span {
+  color: var(--dark-red);
 }
 
 .wifi-popup-content{

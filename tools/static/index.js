@@ -2238,10 +2238,35 @@ $(function () {
     path: "/ws/socket.io",
   });
 
+  const init_usedata = {
+    staytime:0,
+    home:{click:0, keydown:0, staytime:0},
+    device:{click:0, keydown:0, staytime:0},
+    motion:{click:0, keydown:0, staytime:0},
+    vision:{click:0, keydown:0, staytime:0},
+    speech:{click:0, keydown:0, staytime:0},
+    simulator:{click:0, keydown:0, staytime:0}
+  };
+  let startTime_item = new Date().getTime();
+  let usedata = init_usedata; // from server
+  let startTime = new Date().getTime();
+
   const handleMenu = (name) => {
+    usedata[name]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
+    startTime_item = new Date().getTime();
+
     if (name === "home") {
       socket.emit("eye_update");
-      socket.emit("wifi");
+      $.ajax({
+        url: `/wifi`,
+      }).always((xhr, status) => {
+        if (status == "success") {
+          $("#ssid").val(xhr["ssid"]);
+          $("#psk").val(xhr["psk"]);
+        } else {
+          //
+        }
+      });
     } else if (name === "speech") {
       $("#s_question_val").val("");
       $("#s_answer_val").val("");
@@ -2425,22 +2450,23 @@ $(function () {
       });
     });
 
-    encodeURIComponent
-
     $("#wifi_bt").on("click", function () {
-      let comment = "로봇의 WIFI 정보를 변경하시겠습니까?";
-      comment += "\nssid: " + $("#ssid").val().trim();
-      comment += "\npassword: " + $("#psk").val().trim();
-      comment += "\nWIFI 정보를 한번 더 확인하시기 바랍니다.";
+      let comment = "로봇의 Wifi 정보를 변경하시겠습니까?";
+      comment += "\n\nWifi 이름: " + $("#ssid").val().trim();
+      comment += "\n비밀번호: " + $("#psk").val().trim();
+      comment += "\n암호화방식: " + ($("#psk").val().trim()==""?"OPEN":"WPA-PSK");
+      comment += "\n\nWifi 정보를 한번 더 확인하시기 바랍니다.";
       comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
       if (confirm(comment)) {
         $.ajax({
-          url: `/wifi?ssid=${encodeURIComponent($("#ssid").val().trim())}&psk=${encodeURIComponent($("#psk").val())}`,
+          url: `/wifi`,
+          type: "post",
+          data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
+          contentType: "application/json",
         }).always((xhr, status) => {
           if (status == "success") {
-            //
           } else {
-            //
+            //alert("WPA-PSK 방식에서는 비밀번호가 8자리 이상이어야 합니다.")
           }
         });
       }
@@ -2485,17 +2511,9 @@ $(function () {
     element.addEventListener("click", () => handleMenu(name));
   });
 
-  const init_usedata = {
-    "home":{"click":0, "keydown":0},
-    "device":{"click":0, "keydown":0},
-    "motion":{"click":0, "keydown":0},
-    "vision":{"click":0, "keydown":0},
-    "speech":{"click":0, "keydown":0},
-    "simulator":{"click":0, "keydown":0}
-  };
-
   $(document).on("click keydown", (evt) => {
     if (["click", "keydown"].includes(evt.type)) {
+      console.log($("nav").find("button.menu-selected").attr("name"))
       usedata[$("nav").find("button.menu-selected").attr("name")][evt.type]++;
     }
   });
@@ -2514,9 +2532,9 @@ $(function () {
     }
   });
 
-  let usedata = init_usedata; // from server
-
   window.addEventListener('beforeunload', (evt) => {
+    usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
+    usedata[$("nav").find("button.menu-selected").attr("name")]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
     $.ajax({
       url: `/usedata/tools`,
       type: "post",
@@ -2533,6 +2551,8 @@ $(function () {
 
   $("#showLogin").on("click", ()=>{
     document.getElementById("loginPopup").style.display = "block";
+    document.getElementById("wifiPopup").style.display = "none";
+    document.getElementById("usedataPopup").style.display = "none";
   });
 
   $("#hideLogin").on("click", ()=>{
@@ -2607,6 +2627,9 @@ $(function () {
   });
 
   $("#usedata_bt").on("click", ()=> {
+    document.getElementById("loginPopup").style.display = "none";
+    document.getElementById("wifiPopup").style.display = "none";
+
     $.ajax({
       url: `/usedata/tools`,
       type: "post",
@@ -2614,44 +2637,30 @@ $(function () {
       contentType: "application/json",
     }).always((xhr, status) => {
       if (status == "success") {
-        alert(JSON.stringify(xhr));
+        $("#usedata_json").JSONView(xhr, {collapsed:true});
         usedata = init_usedata;
       } else {
         alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
-  //   $.ajax({
-  //     url: `/usedata/tools`,
-  //   }).always((xhr, status) => {
-  //     if (status == "success") {
-  //       alert(JSON.stringify(xhr));
-  //     } else {
-  //       alert(`에러.\n >> ${xhr.responseJSON["result"]}`);
-  //     }
-  //   });
+    document.getElementById("usedataPopup").style.display = "block";
   });
-});
 
-$('#password_check').on('click',function(){
-  $('#password_check').toggleClass('active');
-  if($('#password_check').hasClass('active')) {
-    $('#password').prop('type',"text");
-  }
-  else{
-    $('#password').prop('type',"password");
-  }
-});
+  $("#hideUsedata").on("click", ()=>{
+    document.getElementById("usedataPopup").style.display = "none";
+  });
 
-$('#psk_check').on('click',function(){
-  $('#psk_check').toggleClass('active');
-  if($('#psk_check').hasClass('active')) {
-    $('#psk').prop('type',"text");
-  }
-  else{
-    $('#psk').prop('type',"password");
-  }
-});
+  $('#password_check').on('click',function(){
+    $('#password_check').toggleClass('active');
+    $('#password').prop('type', $('#password_check').hasClass('active')?"text":"password");
+  });
 
-$('#ssid_en').on('click', function(){
-  $("#ssid").attr("disabled", $("#ssid_en").is(":checked")?false:true);
+  $('#psk_check').on('click',function(){
+    $('#psk_check').toggleClass('active');
+    $('#psk').prop('type', $('#psk_check').hasClass('active')?"text":"password");
+  });
+
+  $('#ssid_en').on('click', function(){
+    $("#ssid").attr("disabled", $("#ssid_en").is(":checked")?false:true);
+  });
 });
