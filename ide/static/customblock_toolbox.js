@@ -302,7 +302,7 @@ const vision_box = [
   },
   {
     "kind": "block",
-    "type": "vision_cartoonize",
+    "type": "vision_transfer",
     "inputs":{
       "img":{
         "shadow": {
@@ -1352,5 +1352,3 @@ Blockly.registry.register(
     Blockly.registry.Type.TOOLBOX_ITEM,
     Blockly.ToolboxCategory.registrationName,
     CustomCategory, true);
-
-

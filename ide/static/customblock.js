@@ -1132,8 +1132,8 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
-      type: 'vision_cartoonize',
-      message0: '%{BKY_VISION_CARTOONIZE}',
+      type: 'vision_transfer',
+      message0: '%{BKY_VISION_TRANSFER}',
       "args0": [
         {
           "type": "field_image",
@@ -1142,12 +1142,21 @@ Blockly.defineBlocksWithJsonArray(
           "height": 33
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"}
+        {"type": "input_value", "name": "img"},
+        {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '만화(고속)', 'cartoon' ],
+            [ '만화', 'cartoon_n'],
+            [ '상세한 이미지', 'detail' ],
+            [ '스케치(흑백)', 'sketch_g'],
+            [ '스케치(컬러)', 'sketch_c']
+          ]
+        },
       ],
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call camera.cartoonize',
+      tooltip: 'call camera.cartoonize|stylization|detailEnhance|pencilSketch',
       helpUrl: ''
     },
     {

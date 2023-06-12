@@ -290,12 +290,32 @@ Blockly.Python['vision_imshow_to_ide'] = function(block) {
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
   return `camera.imshow_to_ide('${dir}'+${filename}.strip())\n`;
 }
-Blockly.Python['vision_cartoonize'] = function(block) {
+Blockly.Python['vision_transfer'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
 
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  return [`camera.cartoonize(${img})`, Blockly.Python.ORDER_ATOMIC];
+  const type = block.getFieldValue("type");
+  let res = '';
+
+  switch (type) {
+    case 'cartoon':
+      res = `camera.cartoonize(${img})`;
+      break;
+    case 'cartoon_n':
+      res = `camera.stylization(${img})`;
+      break;
+    case 'detail':
+      res = `camera.detailEnhance(${img})`;
+      break;
+    case 'sketch_g':
+      res = `camera.pencilSketch(${img})[0]`;
+      break;
+    case 'sketch_c':
+      res = `camera.pencilSketch(${img})[1]`;
+      break;
+  }
+  return [res, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['vision_object'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';
