@@ -1,4 +1,4 @@
-<html lang="ko">
+<!DOCTYPE html>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -78,7 +78,7 @@
           <table>
             <tr>
               <td>아이디:</td>
-              <td><input type="text" id="username" name="username" /></td>
+              <td><input type="text" id="username" name="username"></td>
             </tr>
             <tr>
               <td>비밀번호:</td>
@@ -856,7 +856,7 @@
                   </button>
                 </div>
                 <div class="motion-path">
-                  <input type="text" value="/home/pi/mymotion.json" disabled />
+                  <input type="text" id="motion-path-disabled" value="/home/pi/mymotion.json" disabled />
                   <textarea
                     name="motor_record"
                     id="motor_record"
@@ -1033,11 +1033,11 @@
                     <input type="file" id="s_upload_csv" accept=".csv" />
                   </form>
                 </div>
-                <a id="s_reset_csv_bt" style="cursor: pointer">
-                  <label for="s_reset_csv_bt" class="upload_label" title="초기화">
-                    <i class="fa-solid fa-eraser">&nbsp;초기화</i>
-                  </label>
-                </a>
+                  <!-- <label for="s_reset_csv" class="upload_label" title="초기화"> -->
+                    <a id="s_reset_csv_bt" class="upload_label" style="cursor:pointer" title="초기화">
+                      <i class="fa-solid fa-eraser">&nbsp;초기화</i>
+                    </a>
+                  <!-- </label> -->
               </div>
               <div class="speech-input-group">
                 <span class="label">질문:</span>
