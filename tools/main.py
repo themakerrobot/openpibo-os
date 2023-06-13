@@ -110,7 +110,6 @@ async def f():
 @app.post('/wifi')
 async def f(data: dict = Body(...)):
   if data['psk'] != "" and len(data['psk']) < 8:
-    print(data)
     return JSONResponse(content={'result':'fail', 'data':'psk must be at least 8 digits.'}, status_code=200)
 
   tmp='country=KR\n'
