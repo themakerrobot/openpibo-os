@@ -153,7 +153,7 @@ async def f():
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--port', help='set port number', default=51000)
+  parser.add_argument('--port', help='set port number', default=50002)
   args = parser.parse_args()
 
   import uvicorn

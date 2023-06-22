@@ -1,4 +1,5 @@
 const MAX_FILENAME_LENGTH = 50;
+const CORE_PORT = 50002;
 const codeMirrorMode = {
   python: "python",
   shell: "shell",
@@ -660,7 +661,7 @@ $("#showWifi").on("click", ()=>{
     )
   )
   $.ajax({
-    url: `http://${location.hostname}:51000/wifi_scan`,
+    url: `http://${location.hostname}:${CORE_PORT}/wifi_scan`,
   }).always((xhr, status) => {
     if (status == "success") {
       data = xhr
@@ -708,7 +709,7 @@ $("#hidewifi").on("click", ()=>{
 });
 
 $.ajax({
-  url: `http://${location.hostname}:51000/wifi`,
+  url: `http://${location.hostname}:${CORE_PORT}/wifi`,
 }).always((xhr, status) => {
   if (status == "success") {
     $("#ssid").val(xhr["ssid"]);
@@ -728,7 +729,7 @@ $.ajax({
 
 $("#current_wifi").on("click", ()=> {
   $.ajax({
-    url: `http://${location.hostname}:51000/wifi`,
+    url: `http://${location.hostname}:${CORE_PORT}/wifi`,
   }).always((xhr, status) => {
     if (status == "success") {
       $("#ssid").val(xhr["ssid"]);
@@ -756,7 +757,7 @@ $("#wifi_bt").on("click", function () {
   comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
   if (confirm(comment)) {
     $.ajax({
-      url: `http://${location.hostname}:51000/wifi`,
+      url: `http://${location.hostname}:${CORE_PORT}/wifi`,
       type: "post",
       data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
       contentType: "application/json",
@@ -780,7 +781,7 @@ $(document).on("click keydown", (evt) => {
 });
 
 $.ajax({
-  url: `http://${location.hostname}:51000/account`,
+  url: `http://${location.hostname}:${CORE_PORT}/account`,
 }).always((xhr, status) => {
   if (status == "success") {
     $("#logined_id").html(xhr['username']);
@@ -804,7 +805,7 @@ window.addEventListener('beforeunload', (evt) => {
   });
   usedata[codetype]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
   $.ajax({
-    url: `http://${location.hostname}:51000/usedata/ide`,
+    url: `http://${location.hostname}:${CORE_PORT}/usedata/ide`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
@@ -839,7 +840,7 @@ $("#login").on("click", ()=>{
   }
 
   $.ajax({
-    url: `http://${location.hostname}:51000/account`,
+    url: `http://${location.hostname}:${CORE_PORT}/account`,
     type: "post",
     data: JSON.stringify({username:username, password:password}),
     contentType: "application/json",
@@ -864,7 +865,7 @@ $("#login").on("click", ()=>{
 $("#user_bt").on("click", () => {
   if(confirm("로그아웃 하시겠습니까?")){
       $.ajax({
-        url: `http://${location.hostname}:51000/account`,
+        url: `http://${location.hostname}:${CORE_PORT}/account`,
         type: "post",
         data: JSON.stringify({username:"", password:""}),
         contentType: "application/json",
@@ -877,7 +878,7 @@ $("#user_bt").on("click", () => {
           $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
           document.getElementById("loginPopup").style.display = "none";
           $.ajax({
-            url: `http://${location.hostname}:51000/usedata/ide`,
+            url: `http://${location.hostname}:${CORE_PORT}/usedata/ide`,
             type: "post",
             data: JSON.stringify(usedata),
             contentType: "application/json",
@@ -900,7 +901,7 @@ $("#usedata_bt").on("click", ()=> {
   document.getElementById("wifiPopup").style.display = "none";
 
   $.ajax({
-    url: `http://${location.hostname}:51000/usedata/ide`,
+    url: `http://${location.hostname}:${CORE_PORT}/usedata/ide`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
