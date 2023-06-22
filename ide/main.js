@@ -72,7 +72,7 @@ let storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf8')
-    let name = file.originalname.replace(/ /g, "_");
+    let name = file.originalname//.replace(/ /g, "_");
     cb(null, name);
   }
 });

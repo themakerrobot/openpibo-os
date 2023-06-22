@@ -1,4 +1,4 @@
-const MAX_FILENAME_LENGTH = 30;
+const MAX_FILENAME_LENGTH = 50;
 const codeMirrorMode = {
   python: "python",
   shell: "shell",
@@ -359,13 +359,13 @@ $("#hiddenfile").on("change", () => {
 });
 
 $("#add_directory").on("click", () => {
-  let name = prompt("새폴더의 이름을 적어주세요.(이름 안의 공백은 '_' 으로 변경됩니다.)");
+  let name = prompt("새폴더의 이름을 적어주세요.");
   if (name != null) {
     if(name == "") {
       alert("새폴더의 이름을 적어주세요.");
       return;
     }
-    name = name.trim().replace(/ /g, "_");
+    name = name.trim()//.replace(/ /g, "_");
     if(name.length > MAX_FILENAME_LENGTH) {
       alert(`폴더 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
       return;
@@ -380,14 +380,14 @@ $("#log").on("click", () => {
 });
 
 $("#add_file").on("click", () => {
-  let name = prompt("새파일의 이름을 적어주세요.(이름 안의 공백은 '_' 으로 변경됩니다.)");
+  let name = prompt("새파일의 이름을 적어주세요.");
   if (name != null ) {
     if(name == "") {
       alert("새파일의 이름을 적어주세요.");
       return;
     }
 
-    name = name.trim().replace(/ /g, "_");
+    name = name.trim()//.replace(/ /g, "_");
     if(name.length > MAX_FILENAME_LENGTH) {
       alert(`파일 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
       return;
