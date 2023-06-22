@@ -80,12 +80,12 @@ socket.on("update", (data) => {
 
   if ("image" in data) {
     $("#mediapath").html(data["filepath"]);
-    $("#image").attr("src", `data:image/jpeg;charset=utf-8;base64,${data["image"]}`);
+    $("#image").prop("src", `data:image/jpeg;charset=utf-8;base64,${data["image"]}`);
   }
 
   if ("audio" in data) {
     $("#mediapath").html(data["filepath"]);
-    $("#audio").attr("src", `data:audio/mpeg;charset=utf-8;base64,${data["audio"]}`);
+    $("#audio").prop("src", `data:audio/mpeg;charset=utf-8;base64,${data["audio"]}`);
   }
 
   if ("record" in data) {
@@ -428,7 +428,7 @@ $("#upload").on("change", (e) => {
 
 $("#eraser").on("click", () => {
   if ($("#terminal_check").is(":checked")) {
-    $("#terminal").attr("src", `http://${location.hostname}:50001`);
+    $("#terminal").prop("src", `http://${location.hostname}:50001`);
   }
   else {
     result.value = "";
@@ -488,7 +488,7 @@ $("#result_check").on("change", ()=> {
   Blockly.svgResize(workspace);
 });
 
-$("#terminal").attr("src", `http://${location.hostname}:50001`);
+$("#terminal").prop("src", `http://${location.hostname}:50001`);
 $("#terminal_check").on("change", ()=> {
   if ($("#terminal_check").is(":checked")) {
     $("#result").hide();
@@ -656,12 +656,11 @@ $("#showWifi").on("click", ()=>{
   $("#wifi_list > tbody").append(
     $("<tr>")
     .append(
-      $("<td>").append("Scanning..."),
-      $("<td>").append(""),
+      $("<td colspan='4'>").append("Scanning...")
     )
   )
   $.ajax({
-    url: `http://${location.hostname}/wifi_scan`,
+    url: `http://${location.hostname}:51000/wifi_scan`,
   }).always((xhr, status) => {
     if (status == "success") {
       data = xhr
@@ -672,6 +671,7 @@ $("#showWifi").on("click", ()=>{
             .append(
               $("<td>").append(data[i].essid),
               $("<td>").append(`${data[i].quality} / ${data[i].dBm}dBm`),
+              $("<td>").append(data[i].encryption)
             )
             .hover(
               function () {
@@ -684,6 +684,15 @@ $("#showWifi").on("click", ()=>{
             .click(function () {
               let lst = $(this).children();
               $("#ssid").val(lst.eq(0).text());
+              $("#psk").val("");
+              if(lst.eq(2).text() == "off") {
+                $("#enctype_open").prop("checked", true);
+                $("#psk").prop("disabled", true);
+              }
+              else {
+                $("#enctype_open").prop("checked", false);
+                $("#psk").prop("disabled", false);
+              }
             })
         );
       }
@@ -699,11 +708,19 @@ $("#hidewifi").on("click", ()=>{
 });
 
 $.ajax({
-  url: `http://${location.hostname}/wifi`,
+  url: `http://${location.hostname}:51000/wifi`,
 }).always((xhr, status) => {
   if (status == "success") {
     $("#ssid").val(xhr["ssid"]);
     $("#psk").val(xhr["psk"]);
+    if(xhr["psk"] == "") {
+      $("#enctype_open").prop("checked", true);
+      $("#psk").prop("disabled", true);
+    }
+    else {
+      $("#enctype_open").prop("checked", false);
+      $("#psk").prop("disabled", false);
+    }
   } else {
     //
   }
@@ -711,11 +728,19 @@ $.ajax({
 
 $("#current_wifi").on("click", ()=> {
   $.ajax({
-    url: `http://${location.hostname}/wifi`,
+    url: `http://${location.hostname}:51000/wifi`,
   }).always((xhr, status) => {
     if (status == "success") {
       $("#ssid").val(xhr["ssid"]);
       $("#psk").val(xhr["psk"]);
+      if(xhr["psk"] == "") {
+        $("#enctype_open").prop("checked", true);
+        $("#psk").prop("disabled", true);
+      }
+      else {
+        $("#enctype_open").prop("checked", false);
+        $("#psk").prop("disabled", false);
+      }
     } else {
       //
     }
@@ -731,7 +756,7 @@ $("#wifi_bt").on("click", function () {
   comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
   if (confirm(comment)) {
     $.ajax({
-      url: `http://${location.hostname}/wifi`,
+      url: `http://${location.hostname}:51000/wifi`,
       type: "post",
       data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
       contentType: "application/json",
@@ -744,7 +769,6 @@ $("#wifi_bt").on("click", function () {
   }
 });
 
-
 $(document).on("click keydown", (evt) => {
   if (["click", "keydown"].includes(evt.type)) {
     let codetype = "";
@@ -756,7 +780,7 @@ $(document).on("click keydown", (evt) => {
 });
 
 $.ajax({
-  url: `http://${location.hostname}/account`,
+  url: `http://${location.hostname}:51000/account`,
 }).always((xhr, status) => {
   if (status == "success") {
     $("#logined_id").html(xhr['username']);
@@ -780,7 +804,7 @@ window.addEventListener('beforeunload', (evt) => {
   });
   usedata[codetype]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
   $.ajax({
-    url: `http://${location.hostname}/usedata/ide`,
+    url: `http://${location.hostname}:51000/usedata/ide`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
@@ -791,6 +815,7 @@ window.addEventListener('beforeunload', (evt) => {
       alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
+  socket.emit("stop");
 });
 
 $("#showLogin").on("click", ()=>{
@@ -814,7 +839,7 @@ $("#login").on("click", ()=>{
   }
 
   $.ajax({
-    url: `http://${location.hostname}/account`,
+    url: `http://${location.hostname}:51000/account`,
     type: "post",
     data: JSON.stringify({username:username, password:password}),
     contentType: "application/json",
@@ -839,7 +864,7 @@ $("#login").on("click", ()=>{
 $("#user_bt").on("click", () => {
   if(confirm("로그아웃 하시겠습니까?")){
       $.ajax({
-        url: `http://${location.hostname}/account`,
+        url: `http://${location.hostname}:51000/account`,
         type: "post",
         data: JSON.stringify({username:"", password:""}),
         contentType: "application/json",
@@ -852,7 +877,7 @@ $("#user_bt").on("click", () => {
           $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
           document.getElementById("loginPopup").style.display = "none";
           $.ajax({
-            url: `http://${location.hostname}/usedata/ide`,
+            url: `http://${location.hostname}:51000/usedata/ide`,
             type: "post",
             data: JSON.stringify(usedata),
             contentType: "application/json",
@@ -875,7 +900,7 @@ $("#usedata_bt").on("click", ()=> {
   document.getElementById("wifiPopup").style.display = "none";
 
   $.ajax({
-    url: `http://${location.hostname}/usedata/ide`,
+    url: `http://${location.hostname}:51000/usedata/ide`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
@@ -905,5 +930,15 @@ $('#psk_check').on('click',function(){
 });
 
 $('#ssid_en').on('click', function(){
-  $("#ssid").attr("disabled", $("#ssid_en").is(":checked")?false:true);
+  $("#ssid").prop("disabled", $("#ssid_en").is(":checked")?false:true);
+});
+
+$("#enctype_open").on('click', function(){
+  if($("#enctype_open").is(":checked")){
+    $("#psk").val("");
+    $("#psk").prop("disabled", true);
+  }
+  else{
+    $("#psk").prop("disabled", false);
+  }
 });

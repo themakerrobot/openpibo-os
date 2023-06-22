@@ -73,6 +73,14 @@ class Pibo:
           img, res = self.pose_detect()
         elif self.vision_type == "cartoon":
           img, res = self.cartoon()
+        elif self.vision_type == "cartoon_h":
+          img, res = self.stylization()
+        elif self.vision_type == "sketch_g":
+          img, res = self.pencilSketch(mode='g')
+        elif self.vision_type == "sketch_rgb":
+          img, res = self.pencilSketch(mode='rgb')
+        elif self.vision_type == "detail":
+          img, res = self.detailEnhance()
         elif self.vision_type == "tm":
           img, res = self.tm_classify()
         else:
@@ -87,6 +95,18 @@ class Pibo:
   def cartoon(self):
     im = self.frame.copy()
     return self.cam.cartoonize(im), ''
+
+  def stylization(self):
+    im = self.frame.copy()
+    return self.cam.stylization(im), ''
+
+  def pencilSketch(self, mode="g"):
+    im = self.frame.copy()
+    return self.cam.pencilSketch(im)[0 if mode == "g" else 1], ''
+
+  def detailEnhance(self):
+    im = self.frame.copy()
+    return self.cam.detailEnhance(im), ''
 
   def face_detect(self):
     im = self.frame.copy()

@@ -11,7 +11,6 @@ import time,os,json,shutil,log
 import network_disp
 from urllib import parse
 import argparse
-import wifi
 
 MODEL_PATH = "/home/pi/models"
 try:
@@ -28,66 +27,6 @@ except Exception as ex:
 async def f(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
 
-@app.get('/account')
-async def f():
-  try:
-    res = {"username":"", "password":""}
-    with open('/home/pi/.account.json', 'rb') as f:
-      res = json.load(f)
-  except Exception as ex:
-    logger.error(f'[login] Error: {ex}')
-    pass
-  return JSONResponse(content=res, status_code=200)
-
-@app.post('/account')
-async def f(data: dict = Body(...)):
-  if 'username' in data and 'password' in data:
-    with open('/home/pi/.account.json', 'w') as f:
-      json.dump(data, f)
-    return JSONResponse(content=data, status_code=200)
-  else:
-    return JSONResponse(content={'result':'account data 오류'}, status_code=500)
-
-@app.get('/usedata/{key}')
-async def f(key="tools"):
-  try:
-    res = {}
-    with open(f'/home/pi/.{key}.json', 'rb') as f:
-      res = json.load(f)
-  except Exception as ex:
-    logger.error(f'[login] Error: {ex}')
-    pass
-  return JSONResponse(content=res, status_code=200)
-
-@app.post('/usedata/{key}')
-async def f(key="tools", data: dict = Body(...)):
-  try:
-    res = None
-    with open(f'/home/pi/.{key}.json', 'rb') as f:
-      res = json.load(f)
-  except Exception as ex:
-    logger.error(f'[usedata] Error: {ex}')
-    pass
-
-  try:
-    if res == None:
-      with open(f'/home/pi/.{key}.json', 'w') as f:
-        json.dump(data, f)
-    else:
-      tmp = {}
-      for k in data:
-        if type(data[k]) is dict:
-          tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
-        else:
-          tmp[k] = res[k] + data[k] if k in res else data[k]
-      with open(f'/home/pi/.{key}.json', 'w') as f:
-        json.dump(tmp, f)
-  except Exception as ex:
-    with open(f'/home/pi/.{key}.json', 'w') as f:
-        json.dump(data, f)
-
-  return JSONResponse(content=res, status_code=200)
-
 @app.get('/download_img', response_class=FileResponse)
 async def f():
   if pibo.onoff == False:
@@ -95,39 +34,6 @@ async def f():
 
   pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
-
-@app.get('/wifi_scan')
-async def f():
-  return JSONResponse(content=wifi.wifi_scan(), status_code=200)
-
-@app.get('/wifi')
-async def f():
-  with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
-    tmp = f.readlines()
-  ipaddress = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')[6]
-  return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1] if 'psk' in tmp[5] else "", 'ipaddress':ipaddress}, status_code=200)
-
-@app.post('/wifi')
-async def f(data: dict = Body(...)):
-  if data['psk'] != "" and len(data['psk']) < 8:
-    return JSONResponse(content={'result':'fail', 'data':'psk must be at least 8 digits.'}, status_code=200)
-
-  tmp='country=KR\n'
-  tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
-  tmp+='update_config=1\n'
-  tmp+='network={\n'
-  tmp+=f'\tssid="{data["ssid"]}"\n'
-  if data['psk'] == "":
-    tmp+='\tkey_mgmt=NONE\n'
-  else:
-    tmp+=f'\tpsk="{data["psk"]}"\n'
-    tmp+='\tkey_mgmt=WPA-PSK\n'
-  tmp+='}\n'
-
-  with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
-    f.write(tmp)
-  #os.system('wpa_cli -i wlan0 reconfigure')
-  os.system("shutdown -r now")
 
 @app.post('/upload_tm')
 async def f(data:UploadFile = File(...)):

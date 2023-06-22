@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
 
-    <link rel="stylesheet" href="../static/index.css?ver=230503v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=230622v1" />
     <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
     <link rel="stylesheet" href="../static/codemirror.css" />
     <link rel="stylesheet" href="../static/cobalt.css" />
@@ -17,10 +17,10 @@
     <script src="../static/blockly_compressed.js?ver=230412v1"></script>
     <script src="../static/python_compressed.js?ver=230412v1"></script>
     <script src="../static/blocks_compressed.js?ver=230412v1"></script>
-    <script src="../static/ko.js?ver=230517v1"></script>
-    <script src="../static/customblock.js?ver=230517v1"></script>
-    <script src="../static/customblock_callback.js?ver=230517v1"></script>
-    <script src="../static/customblock_toolbox.js?ver=230517v1"></script>
+    <script src="../static/ko.js?ver=230622v1"></script>
+    <script src="../static/customblock.js?ver=230622v1"></script>
+    <script src="../static/customblock_callback.js?ver=230622v1"></script>
+    <script src="../static/customblock_toolbox.js?ver=230622v1"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
     <script src="../static/jquery.jsonview.min.js"></script>
     <script src="../static/codemirror.min.js"></script>
@@ -54,24 +54,24 @@
             <div style="float:right"><a id="hideLogin"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
           </h3>
           <h3>&nbsp;</h3>
-          <i class="fa-solid fa-user"></i>&nbsp;<u><span id="logined_id"></span></u> 님,
+          <i class="fa-solid fa-user"></i>&nbsp;<a id="user_bt"><u><span id="logined_id"></span></u></a> 님,
+          <br>
           <table>
             <tr>
-              <td>아이디:</td>
-              <td><input type="text" id="username" name="username" /></td>
+              <td>
+                아이디<br>
+                <input type="text" id="username" name="username" /></td>
             </tr>
             <tr>
-              <td>비밀번호:</td>
               <td>
-                <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check "/>
+                패스워드<br>
+                <input type="password" id="password" name="password"><input type="checkbox" id="password_check" name="password_check" />
               </td>
             </tr>
           </table>
           <button type="button" class="login" id="login">로그인</button>
-          <button type="button" class="cancel" id="user_bt">로그아웃</button>
         </div>
       </div>
-
       <div class="wifi-popup" id="wifiPopup" style="display:none">
         <div class="wifi-popup-content">
           <h3>
@@ -80,32 +80,43 @@
           </h3>
           <h3>&nbsp;</h3>
           <i class="fa-solid fa-wifi"></i>&nbsp;<span id="wifi_info"></span>
-          <table>
+          <br>
+          <table style="width:650px">
             <tr>
-              <td>Wifi 이름:</td>
               <td>
+                Wifi 이름<br>
                 <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" />
+              </td>
+              <td rowspan="4">&nbsp;</td>
+              <td rowspan="4">
+                <div style="width:420px;height:190px;overflow-y:scroll;">
+                  <table class="wifi_list" id="wifi_list">
+                    <thead><tr><th>사용가능한 Wifi</th><th>신호세기</th><th>암호화</th></tr></thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
               </td>
             </tr>
             <tr>
-              <td>비밀번호:</td>
               <td>
+                비밀번호<br>
                 <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
               </td>
             </tr>
+            <tr>
+              <td>
+                encryption-open:<input type="checkbox" id="enctype_open" name="enctype_open" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button type="button" class="confirm" id="wifi_bt">설정</button>
+                <button type="button" class="cancel" id="current_wifi">초기화</button>                
+              </td>
+            </tr>
           </table>
-          <button type="button" class="confirm" id="wifi_bt">설정</button>
-          <button type="button" class="cancel" id="current_wifi">초기화</button>
-          <br><br>
-          <div style="width:380px;height:150px;overflow-y: scroll;">
-            <table class="wifi_list" id="wifi_list">
-              <thead><tr><th>사용가능한 Wifi 목록</th><th>신호세기</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
         </div>
       </div>
-
       <div class="usedata-popup" id="usedataPopup" style="display:none">
         <div class="usedata-popup-content">
           <h3>
@@ -113,7 +124,7 @@
             <div style="float:right"><a id="hideUsedata"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
           </h3>
           <h3>&nbsp;</h3>
-          <div style="height:300px;overflow-y:scroll" id="usedata_json"></div>
+          <div style="height:210px;overflow-y:scroll" id="usedata_json"></div>
         </div>
       </div>
 
@@ -273,6 +284,6 @@
         <span id="s_runtime"></span>
       </div>
     </footer>
-    <script src="../static/index.js?ver=230503v1"></script>
+    <script src="../static/index.js?ver=230622v1"></script>
   </body>
 </html>
