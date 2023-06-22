@@ -10,7 +10,7 @@ def disp(v):
   o.draw_text((0,45), f'AP: {ssid}')
   o.show()
 
-def boot():
+if __name__ == "__main__":
   os.system('echo "#20:200,200,200!" >/dev/ttyS0')
 
   try:
@@ -65,6 +65,3 @@ def boot():
       os.system('echo "#23:{}!" >/dev/ttyS0'.format(tmp['eye']))
   except Exception as ex:
       pass
-
-if __name__ == "__main__":
-  boot()
