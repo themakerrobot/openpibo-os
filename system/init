@@ -33,11 +33,14 @@ sudo gpio write 7 1
 # pir on
 echo "#30:on!" > /dev/ttyS0
 
-sudo amixer -c Headphones sset Headphone 75%
+sudo amixer -c Headphones sset Headphone 80%
 sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
 
 # network init
 sudo python3 /home/pi/openpibo-os/system/booting.py
+
+# run hal
+cd /home/pi/openpibo-os/system;sudo python3 core.py &
 
 # run ide
 cd /home/pi/openpibo-os/ide;sudo node main.js &
