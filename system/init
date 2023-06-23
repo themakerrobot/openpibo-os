@@ -39,9 +39,6 @@ sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
 # network init
 sudo python3 /home/pi/openpibo-os/system/booting.py
 
-# run hal
-cd /home/pi/openpibo-os/system;sudo python3 core.py &
-
 # run ide
 cd /home/pi/openpibo-os/ide;sudo node main.js &
 

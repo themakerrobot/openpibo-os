@@ -1,4 +1,3 @@
-const CORE_PORT = 50002;
 const getVisions = (socket) => {
   socket.on("disp_vision", function (data) {
     $("#v_func_type").val(data);
@@ -2254,7 +2253,7 @@ $(function () {
     if (name === "home") {
       socket.emit("eye_update");
       $.ajax({
-        url: `http://${location.hostname}:${CORE_PORT}/wifi`,
+        url: `/wifi`,
       }).always((xhr, status) => {
         if (status == "success") {
           $("#ssid").val(xhr["ssid"]);
@@ -2366,7 +2365,7 @@ $(function () {
         )
       )
       $.ajax({
-        url: `http://${location.hostname}:${CORE_PORT}/wifi_scan`,
+        url: `/wifi_scan`,
       }).always((xhr, status) => {
         if (status == "success") {
           data = xhr
@@ -2435,7 +2434,7 @@ $(function () {
     });
 
     $.ajax({
-      url: `http://${location.hostname}:${CORE_PORT}/wifi`,
+      url: `/wifi`,
     }).always((xhr, status) => {
       if (status == "success") {
         $("#ssid").val(xhr["ssid"]);
@@ -2455,7 +2454,7 @@ $(function () {
 
     $("#current_wifi").on("click", ()=> {
       $.ajax({
-        url: `http://${location.hostname}:${CORE_PORT}/wifi`,
+        url: `/wifi`,
       }).always((xhr, status) => {
         if (status == "success") {
           $("#ssid").val(xhr["ssid"]);
@@ -2483,7 +2482,7 @@ $(function () {
       comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
       if (confirm(comment)) {
         $.ajax({
-          url: `http://${location.hostname}:${CORE_PORT}/wifi`,
+          url: `/wifi`,
           type: "post",
           data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
           contentType: "application/json",
@@ -2542,7 +2541,7 @@ $(function () {
   });
 
   $.ajax({
-    url: `http://${location.hostname}:${CORE_PORT}/account`,
+    url: `/account`,
   }).always((xhr, status) => {
     if (status == "success") {
       $("#logined_id").html(xhr['username']);
@@ -2559,7 +2558,7 @@ $(function () {
     usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
     usedata[$("nav").find("button.menu-selected").attr("name")]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
     $.ajax({
-      url: `http://${location.hostname}:${CORE_PORT}/usedata/tools`,
+      url: `/usedata/tools`,
       type: "post",
       data: JSON.stringify(usedata),
       contentType: "application/json",
@@ -2593,7 +2592,7 @@ $(function () {
     }
 
     $.ajax({
-      url: `http://${location.hostname}:${CORE_PORT}/account`,
+      url: `/account`,
       type: "post",
       data: JSON.stringify({username:username, password:password}),
       contentType: "application/json",
@@ -2618,7 +2617,7 @@ $(function () {
   $("#user_bt").on("click", () => {
     if(confirm("로그아웃 하시겠습니까?")){
       $.ajax({
-        url: `http://${location.hostname}:${CORE_PORT}/account`,
+        url: `/account`,
         type: "post",
         data: JSON.stringify({username:"", password:""}),
         contentType: "application/json",
@@ -2631,7 +2630,7 @@ $(function () {
           $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
           document.getElementById("loginPopup").style.display = "none";
           $.ajax({
-            url: `http://${location.hostname}:${CORE_PORT}/usedata/tools`,
+            url: `/usedata/tools`,
             type: "post",
             data: JSON.stringify(usedata),
             contentType: "application/json",
@@ -2654,7 +2653,7 @@ $(function () {
     document.getElementById("wifiPopup").style.display = "none";
 
     $.ajax({
-      url: `http://${location.hostname}:${CORE_PORT}/usedata/tools`,
+      url: `/usedata/tools`,
       type: "post",
       data: JSON.stringify(usedata),
       contentType: "application/json",
