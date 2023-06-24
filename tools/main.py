@@ -558,7 +558,20 @@ async def f(sid, d=None):
       os.system(f'rm -rf /home/pi/{item}/*')
     else:
       os.system(f'rm -rf /home/pi/{item}')
-  os.system('shutdown -r now')
+
+  tmp='country=KR\n'
+  tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
+  tmp+='update_config=1\n'
+  tmp+='network={\n'
+  tmp+=f'\tssid="pibo"\n'
+  tmp+=f'\tpsk="!pibo0314"\n'
+  tmp+='\tkey_mgmt=WPA-PSK\n'
+  tmp+='}\n'
+
+  with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
+    f.write(tmp)
+  #os.system('wpa_cli -i wlan0 reconfigure')
+  os.system("shutdown -r now")
 
 @app.on_event('startup')
 async def f():
