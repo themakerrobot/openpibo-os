@@ -99,6 +99,11 @@ label {
   font-weight: bold;
 }
 
+#article_ide > section {
+  width: 96%;
+  margin: 0 auto;
+}
+
 @media (max-width: 699px) {
   #article_device > section {
     width: 96% !important;

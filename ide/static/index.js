@@ -158,6 +158,8 @@ codeTypeBtns.forEach((btn) => {
           CODE_PATH = $("#codepath").html();
           $("#codepath").html(BLOCK_PATH);
         }
+        $("#execute").html('<i class="fa-solid fa-flag"></i>');
+        $("#stop").html('<i class="fa-solid fa-circle"></i>');
     }
     else {
       if (CODE_PATH == "") {
@@ -170,6 +172,8 @@ codeTypeBtns.forEach((btn) => {
         $("#codepath").html(CODE_PATH);
       }
       codeEditor.setOption("mode", codeMirrorMode[target.name]);
+      $("#execute").html('<i class="fa-solid fa-play"></i>');
+      $("#stop").html('<i class="fa-solid fa-stop"></i>');
     }
     Blockly.svgResize(workspace);
   };

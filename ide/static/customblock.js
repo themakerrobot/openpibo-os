@@ -430,6 +430,44 @@ Blockly.defineBlocksWithJsonArray(
     },    
     // motion
     {
+      type: 'motion_get_motion',
+      message0: '%{BKY_MOTION_GET_MOTION}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/list-check-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+        ],
+      output: 'String',
+      inputsInline: true,
+      colour: color_type["motion"],
+      tooltip: 'call motion.get_motion()',
+      helpUrl: ''
+    },
+    {
+      type: 'motion_get_mymotion',
+      message0: '%{BKY_MOTION_GET_MYMOTION}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/list-check-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+        ],
+      output: 'String',
+      inputsInline: true,
+      colour: color_type["motion"],
+      tooltip: 'call motion.get_motion(mymotion)',
+      helpUrl: ''
+    },
+    {
       type: 'motion_set_motion',
       message0: '%{BKY_MOTION_SET_MOTION}',
       args0:
@@ -485,6 +523,26 @@ Blockly.defineBlocksWithJsonArray(
       inputsInline: true,
       colour: color_type["motion"],
       tooltip: 'call motion.set_mymotion',
+      helpUrl: ''
+    },
+    {
+      type: 'motion_init_motion',
+      message0: '%{BKY_MOTION_INIT_MOTION}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/person-solid.svg",
+            "width": 33,
+            "height": 33
+          },
+          {"type":"input_dummy"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["motion"],
+      tooltip: 'call motion.set_motion(init)',
       helpUrl: ''
     },
     {

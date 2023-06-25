@@ -114,6 +114,18 @@ Blockly.Python['device_get_button'] = function(block) {
 }
 
 // motion
+Blockly.Python['motion_get_motion'] = function(block) {
+  Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
+  Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
+
+  return ["motion.get_motion()", Blockly.Python.ORDER_ATOMIC];
+}
+Blockly.Python['motion_get_mymotion'] = function(block) {
+  Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
+  Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
+
+  return ["motion.get_motion(path='/home/pi/mymotion.json')", Blockly.Python.ORDER_ATOMIC];
+}
 Blockly.Python['motion_set_motion'] = function(block) {
   Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
@@ -129,6 +141,12 @@ Blockly.Python['motion_set_mymotion'] = function(block) {
   const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC)._trim();
   const cycle = block.getFieldValue("cycle");
   return `motion.set_mymotion(${name}.strip(), ${cycle})\n`;
+}
+Blockly.Python['motion_init_motion'] = function(block) {
+  Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
+  Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
+
+  return `motion.set_motors([0,0,-80,0,0,0,0,0,80,0], 500)\n`;
 }
 Blockly.Python['motion_set_motor'] = function(block) {
   Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';

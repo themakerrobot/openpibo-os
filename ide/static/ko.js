@@ -456,8 +456,11 @@ Blockly.Msg["DEVICE_GET_PIR"] = "%1 %2 사람 체크하기";
 Blockly.Msg["DEVICE_GET_TOUCH"] = "%1 %2 터치 체크하기";
 Blockly.Msg["DEVICE_GET_BUTTON"] = "%1 %2 버튼 체크하기";
 
+Blockly.Msg["MOTION_GET_MOTION"] = "%1 %2 모션 목록 가져오기";
+Blockly.Msg["MOTION_GET_MYMOTION"] = "%1 %2 내 모션 목록 가져오기";
 Blockly.Msg["MOTION_SET_MOTION"] = "%1 %2 모션 %3 %4 회 실행하기";
 Blockly.Msg["MOTION_SET_MYMOTION"] = "%1 %2 내 모션 %3 %4 회 실행하기";
+Blockly.Msg["MOTION_INIT_MOTION"] = "%1 %2 모션 초기화하기";
 Blockly.Msg["MOTION_SET_MOTOR"] = "%1 %2 %3 모터를 %4도로 이동하기";
 Blockly.Msg["MOTION_SET_SPEED"] = "%1 %2 %3 모터를 %4 속도로 설정하기";
 Blockly.Msg["MOTION_SET_ACCELERATION"] = "%1 %2 %3 모터를 %4 가속도로 설정하기";

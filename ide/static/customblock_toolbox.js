@@ -109,6 +109,14 @@ const device_box = [
 const motion_box = [
   {
     "kind": "block",
+    "type": "motion_get_motion",
+  },
+  {
+    "kind": "block",
+    "type": "motion_get_mymotion",
+  },
+  {
+    "kind": "block",
     "type": "motion_set_motion",
     "inputs":{
       "name":{
@@ -134,6 +142,10 @@ const motion_box = [
         }
       },
     }
+  },
+  {
+    "kind": "block",
+    "type": "motion_init_motion",
   },
   {
     "kind": "block",
