@@ -54,27 +54,38 @@ $("#fontsize").on("change", () => {
 
 socket.on("update", (data) => {
   if ("code" in data) {
+    const oldpath = $("#codepath").html();
     $("#codepath").html(data["filepath"]);
 
-    let codetype = "";
-    codeTypeBtns.forEach((el) => {
-      if (el.classList.value.includes("checked")) codetype = el.name;
-    });
-    if (codetype == "block") {
-      saveBlock = data["code"];
-      try {
-        Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
-        update_block();
+    if(oldpath != "" || data["code"] != "") {
+      let codetype = "";
+      codeTypeBtns.forEach((el) => {
+        if (el.classList.value.includes("checked")) codetype = el.name;
+      });
+      if (codetype == "block") {
+        try {
+          Blockly.serialization.workspaces.load(JSON.parse(data["code"]), workspace);
+          saveBlock = data["code"];
+          update_block();
+        }
+        catch(e) {
+          //alert("블록 데이터를 불러오지 못했습니다.");
+          //saveBlock = "{}";
+          if(data["code"] == "") {
+            saveBlock = "";
+            Blockly.serialization.workspaces.load(JSON.parse("{}"), workspace);
+            update_block();
+          }
+          else {
+            alert("블록 데이터를 불러오지 못했습니다.");
+            $("#codepath").html(oldpath);
+          }
+        }
       }
-      catch(e) {
-        //alert("블록 데이터를 불러오지 못했습니다.");
-        //saveBlock = "{}";
-        Blockly.serialization.workspaces.load(JSON.parse("{}"), workspace);
+      else {
+        saveCode = data["code"];
+        codeEditor.setValue(saveCode);
       }
-    }
-    else {      
-      saveCode = data["code"];
-      codeEditor.setValue(saveCode);
     }
   }
 
@@ -149,9 +160,9 @@ codeTypeBtns.forEach((btn) => {
     startTime_item = new Date().getTime();
 
     if (target.name == "block") {
-        if (BLOCK_PATH == "") {
-          alert("주의!) 저장할 파일은 먼저 선택해주세요.");
-        }
+        // if (BLOCK_PATH == "") {
+        //   alert("주의!) 저장할 파일은 먼저 선택해주세요.");
+        // }
         if (before_codetype != "block") {
           $("#codeDiv").hide();
           $("#blocklyDiv").show();
@@ -162,9 +173,9 @@ codeTypeBtns.forEach((btn) => {
         $("#stop").html('<i class="fa-solid fa-circle"></i>');
     }
     else {
-      if (CODE_PATH == "") {
-        alert("주의!) 저장할 파일은 먼저 선택해주세요.");
-      }
+      // if (CODE_PATH == "") {
+      //   alert("주의!) 저장할 파일은 먼저 선택해주세요.");
+      // }
       if (before_codetype == "block") {
         $("#blocklyDiv").hide();
         $("#codeDiv").show();
@@ -199,10 +210,10 @@ execute.addEventListener("click", () => {
     if (el.classList.value.includes("checked")) codetype = el.name;
   });
   if (codetype == "block") {
-    if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
-      alert("json 파일만 실행 가능합니다.");
-      return;
-    }
+    // if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
+    //   alert("json 파일만 실행 가능합니다.");
+    //   return;
+    // }
     saveBlock = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
     socket.emit("save", { 
       codepath: filepath, 
@@ -295,10 +306,10 @@ socket.on("update_file_manager", (d) => {
                     if (el.classList.value.includes("checked")) codetype = el.name;
                   });
                   if (codetype == "block") {
-                    if(["json"].includes(ext.toLowerCase()) == false) {
-                      alert("json 파일만 로드 가능합니다.");
-                      return;
-                    }
+                    // if(["json"].includes(ext.toLowerCase()) == false) {
+                    //   alert("json 파일만 로드 가능합니다.");
+                    //   return;
+                    // }
                     if (saveBlock != JSON.stringify(Blockly.serialization.workspaces.save(workspace))) {
                       if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
                         socket.emit("save", { codepath: $("#codepath").html(), codetext: JSON.stringify(Blockly.serialization.workspaces.save(workspace)) });
@@ -575,10 +586,10 @@ $("#save").on("click", () => {
     if (el.classList.value.includes("checked")) codetype = el.name;
   });
   if (codetype == "block") {
-    if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
-      alert("json 파일만 저장 가능합니다.");
-      return;
-    }
+    // if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
+    //   alert("json 파일만 저장 가능합니다.");
+    //   return;
+    // }
     saveBlock = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
     socket.emit("save", {
       codepath: "/home/pi/blockly.py",
@@ -624,10 +635,10 @@ $(document).keydown((evt)=> {
         if (el.classList.value.includes("checked")) codetype = el.name;
       });
       if (codetype == "block") {
-        if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
-          alert("json 파일만 저장 가능합니다.");
-          return;
-        }
+        // if (filepath.substring(filepath.lastIndexOf(".") + 1, filepath.length) != "json") {
+        //   alert("json 파일만 저장 가능합니다.");
+        //   return;
+        // }
         saveBlock = JSON.stringify(Blockly.serialization.workspaces.save(workspace))
         socket.emit("save", {
           codepath: "/home/pi/blockly.py",
