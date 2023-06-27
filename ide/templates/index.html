@@ -43,10 +43,10 @@
           <a id='logo_bt'>
             <img src="../static/themaker.png" style="height:22px"/>
           </a>
-          &nbsp;
+          <!-- &nbsp;
           <a id="showLogin">
             <span id="userinfo"></span>
-          </a>
+          </a> -->
         </h2>
       </div>
     </header>
@@ -86,40 +86,39 @@
           <h3>&nbsp;</h3>
           <i class="fa-solid fa-wifi"></i>&nbsp;<span id="wifi_info"></span>
           <br>
-          <table style="width:650px">
+
+          <table style="width:100%">
             <tr>
               <td>
-                Wifi 이름<br>
-                <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" />
+                Wifi 이름
               </td>
-              <td rowspan="4">&nbsp;</td>
-              <td rowspan="4">
-                <div style="width:420px;height:190px;overflow-y:scroll;">
-                  <table class="wifi_list" id="wifi_list">
-                    <thead><tr><th>사용가능한 Wifi</th><th>신호세기</th><th>암호화</th></tr></thead>
-                    <tbody></tbody>
-                  </table>
-                </div>
+              <td>
+                <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" /> / 
+                <i class="fa-solid fa-lock-open"></i>&nbsp;<input type="checkbox" id="enctype_open" name="enctype_open" />
+              </td>
+              <td>
+                <button type="button" class="confirm" id="wifi_bt"><i class="fa-solid fa-check-double"></i>&nbsp;설정</button>
               </td>
             </tr>
             <tr>
               <td>
-                비밀번호<br>
+                비밀번호
+              </td>
+              <td>
                 <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
               </td>
-            </tr>
-            <tr>
               <td>
-                encryption-open:<input type="checkbox" id="enctype_open" name="enctype_open" />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button type="button" class="confirm" id="wifi_bt">설정</button>
-                <button type="button" class="cancel" id="current_wifi">초기화</button>                
+                <button type="button" class="cancel" id="current_wifi"><i class="fa-solid fa-rotate-left"></i>&nbsp;초기화</button>
               </td>
             </tr>
           </table>
+
+          <div style="height:190px;overflow-y:scroll;">
+            <table class="wifi_list" id="wifi_list">
+              <thead><tr><th>사용가능한 Wifi</th><th>신호세기</th><th>암호화</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div class="usedata-popup" id="usedataPopup" style="display:none">
@@ -140,8 +139,7 @@
               <!-- <i class="fa-solid fa-computer"></i>
               <input type="checkbox" id="hiddenfile" name="hiddenfile" title="숨김파일보기" disabled/> -->
               <label for="upload" title="업로드">
-                <i class="fa-solid fa-file-upload"></i>
-                업로드
+                <i class="fa-solid fa-file-upload"></i>&nbsp;업로드
               </label>
               <div class="filebox">
                 <form method="post" action="/upload" enctype="multipart/form-data">
@@ -149,12 +147,10 @@
                 </form>
               </div>
               <button id="add_directory" title="새폴더" style="background-color:#dcb9b2">
-                <i class="fa-solid fa-folder-plus"></i>
-                새폴더
+                <i class="fa-solid fa-folder-plus"></i>&nbsp;새폴더
               </button>
               <button id="add_file" title="새파일">
-                <i class="fa-solid fa-file-circle-plus"></i>
-                새파일
+                <i class="fa-solid fa-file-circle-plus"></i>&nbsp;새파일
               </button>
             </div>
           </div>
@@ -196,13 +192,13 @@
               <!-- <i class="fa fa-solid fa-laptop-code"> </i> -->
               <div name="codetype">
                 <button name="python">
-                  <i class="fa fa-brands fa-python"></i> 파이썬
+                  <i class="fa fa-brands fa-python"></i>&nbsp;파이썬
                 </button>
                 <button name="block">
-                  <i class="fa-solid fa-cube"></i> 블록
+                  <i class="fa-solid fa-cube"></i>&nbsp;블록
                 </button>
                 <button name="shell">
-                  <i class="fa fa-solid fa-code"></i> 쉘
+                  <i class="fa fa-solid fa-code"></i>&nbsp;쉘
                 </button>
               </div>
               <span id='codecheck'></span>
@@ -212,14 +208,14 @@
               <i class="fa-solid fa-text-height">
                 <input type="number" id="fontsize" min="5" max="50" value="14" step="1" pattern="\d*" />
               </i>
-              <button id="execute" class="btn-teal" style="width:40px" title="실행">
-                <i class="fa fa-solid fa-play"></i>
+              <button id="execute" class="btn-teal" style="width:60px;" title="실행">
+                <i class="fa fa-solid fa-play"></i>&nbsp;실행
               </button>
-              <button id="stop" class="btn-red disabled" style="width:40px" title="정지">
-                <i class="fa fa-solid fa-stop"></i>
+              <button id="stop" class="btn-red disabled" style="width:60px;" title="정지">
+                <i class="fa fa-solid fa-stop"></i>&nbsp;정지
               </button>
-              <button id="save" class="btn" style="width:40px" title="저장">
-                <i class="fa fa-solid fa-save"></i>
+              <button id="save" class="btn" style="width:60px;" title="저장">
+                <i class="fa fa-solid fa-save"></i>&nbsp;저장
               </button>
               <i class="fa-solid fa-circle-half-stroke"></i>
               <input type="checkbox" id="theme_check" name="theme_check" title="테마" checked/>
@@ -248,7 +244,7 @@
             <div class="editor-col">
               <!-- <i class="fa fa-solid fa-file-lines"><span> 결과</span></i> -->
               <button id="eraser" title="초기화">
-                <i class="fa fa-solid fa-eraser"></i>
+                <i class="fa fa-solid fa-eraser"></i>&nbsp;초기화
               </button>
               <!-- <i class="fa fa-solid fa-link"></i>
               <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" /> -->

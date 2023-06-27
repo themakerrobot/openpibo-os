@@ -1,3 +1,18 @@
+const init_usedata = {
+  staytime:0,
+  block:{click:0, keydown:0, execute:0, staytime:0},
+  python:{click:0, keydown:0, execute:0, staytime:0},
+  shell:{click:0, keydown:0, execute:0, staytime:0}
+};
+let usedata = init_usedata; // from server
+
+const urlParams = new URLSearchParams(window.location.search);
+let userid = null;
+for(const entry of urlParams.entries()) {
+  if(entry[0] == "userid") userid = entry[1];
+}
+console.log("USER ID:", userid);
+
 const MAX_FILENAME_LENGTH = 50;
 const codeMirrorMode = {
   python: "python",
@@ -30,12 +45,6 @@ const codeTypeBtns = document.querySelectorAll("div[name=codetype] button");
 const result = document.getElementById("result");
 const socket = io();
 
-const init_usedata = {
-  staytime:0,
-  block:{click:0, keydown:0, execute:0, staytime:0},
-  python:{click:0, keydown:0, execute:0, staytime:0},
-  shell:{click:0, keydown:0, execute:0, staytime:0}
-};
 let CURRENT_DIR;
 let CODE_PATH = '';
 let BLOCK_PATH = '';
@@ -44,7 +53,7 @@ let saveBlock = "{}";
 
 $("#logo_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    location.replace(`http://${location.hostname}`);
+    location.replace(`http://${location.hostname}` + userid == null?'':`/?userid=${userid}`);
 });
 
 $("#fontsize").on("change", () => {
@@ -442,13 +451,13 @@ $("#upload").on("change", (e) => {
 });
 
 $("#eraser").on("click", () => {
-  if ($("#terminal_check").is(":checked")) {
-    $("#terminal").prop("src", `http://${location.hostname}:50001`);
-  }
-  else {
+  // if ($("#terminal_check").is(":checked")) {
+  //   $("#terminal").prop("src", `http://${location.hostname}:50001`);
+  // }
+  // else {
     result.value = "";
     $("#respath").text("");
-  }
+  // }
 });
 window.dispatchEvent(new Event('onresize'));
 window.onresize = () => {
@@ -503,21 +512,21 @@ $("#result_check").on("change", ()=> {
   Blockly.svgResize(workspace);
 });
 
-$("#terminal").prop("src", `http://${location.hostname}:50001`);
-$("#terminal_check").on("change", ()=> {
-  if ($("#terminal_check").is(":checked")) {
-    $("#result").hide();
-    $("#terminal").show();
-  }
-  else {
-    $("#result").show();
-    $("#terminal").hide();
-  }
-});
+// $("#terminal").prop("src", `http://${location.hostname}:50001`);
+// $("#terminal_check").on("change", ()=> {
+//   if ($("#terminal_check").is(":checked")) {
+//     $("#result").hide();
+//     $("#terminal").show();
+//   }
+//   else {
+//     $("#result").show();
+//     $("#terminal").hide();
+//   }
+// });
 
 $("#home_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
-    location.href = `http://${location.hostname}`;
+    location.href = `http://${location.hostname}` + userid == null?'':`/?userid=${userid}`;
   }
 });
 
@@ -808,7 +817,6 @@ $.ajax({
   }
 });
 
-let usedata = init_usedata; // from server
 let startTime = new Date().getTime();
 
 window.addEventListener('beforeunload', (evt) => {

@@ -1,3 +1,21 @@
+const init_usedata = {
+  staytime:0,
+  home:{click:0, keydown:0, staytime:0},
+  device:{click:0, keydown:0, staytime:0},
+  motion:{click:0, keydown:0, staytime:0},
+  vision:{click:0, keydown:0, staytime:0},
+  speech:{click:0, keydown:0, staytime:0},
+  simulator:{click:0, keydown:0, staytime:0}
+};
+let usedata = init_usedata; // from server
+
+const urlParams = new URLSearchParams(window.location.search);
+let userid = null;
+for(const entry of urlParams.entries()) {
+  if(entry[0] == "userid") userid = entry[1];
+}
+console.log("USER ID:", userid);
+
 const getVisions = (socket) => {
   socket.on("disp_vision", function (data) {
     $("#v_func_type").val(data);
@@ -2233,17 +2251,7 @@ $(function () {
     path: "/ws/socket.io",
   });
 
-  const init_usedata = {
-    staytime:0,
-    home:{click:0, keydown:0, staytime:0},
-    device:{click:0, keydown:0, staytime:0},
-    motion:{click:0, keydown:0, staytime:0},
-    vision:{click:0, keydown:0, staytime:0},
-    speech:{click:0, keydown:0, staytime:0},
-    simulator:{click:0, keydown:0, staytime:0}
-  };
   let startTime_item = new Date().getTime();
-  let usedata = init_usedata; // from server
   let startTime = new Date().getTime();
 
   const handleMenu = (name) => {
@@ -2307,7 +2315,7 @@ $(function () {
     $("#devtool_bt").on("click", function () {
       if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
         socket.emit("onoff", "off");
-        location.href = `http://${location.hostname}:50000`;
+        location.href = `http://${location.hostname}:50000` + userid == null?'':`/?userid=${userid}`;
       }
     });
     $("#devtool_bt").hover(
@@ -2322,7 +2330,7 @@ $(function () {
     );
 
     $("#logo_bt").on("click", () => {
-      location.href = `http://${location.hostname}`;
+      location.href = `http://${location.hostname}` + userid == null?'':`/?userid=${userid}`;
     });
 
     socket.emit("onoff");

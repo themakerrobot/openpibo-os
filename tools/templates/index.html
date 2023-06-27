@@ -34,10 +34,10 @@
           <a id="logo_bt">
             <img src="../static/themaker.png" style="height: 22px" />
           </a>
-          &nbsp;
+          <!-- &nbsp;
           <a id="showLogin">
             <span id="userinfo"></span>
-          </a>
+          </a> -->
         </h2>
       </div>
     </header>
@@ -100,40 +100,39 @@
           <h3>&nbsp;</h3>
           <i class="fa-solid fa-wifi"></i>&nbsp;<span id="wifi_info"></span>
           <br>
-          <table style="width:650px">
+
+          <table style="width:100%">
             <tr>
               <td>
-                Wifi 이름<br>
-                <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" />
+                Wifi 이름
               </td>
-              <td rowspan="4">&nbsp;</td>
-              <td rowspan="4">
-                <div style="width:420px;height:190px;overflow-y:scroll;">
-                  <table class="wifi_list" id="wifi_list">
-                    <thead><tr><th>사용가능한 Wifi</th><th>신호세기</th><th>암호화</th></tr></thead>
-                    <tbody></tbody>
-                  </table>
-                </div>
+              <td>
+                <input type="text" name="ssid" id="ssid" disabled /><input type="checkbox" id="ssid_en" name="ssid_en" /> / 
+                <i class="fa-solid fa-lock-open"></i>&nbsp;<input type="checkbox" id="enctype_open" name="enctype_open" />
+              </td>
+              <td>
+                <button type="button" class="confirm" id="wifi_bt"><i class="fa-solid fa-check-double"></i>&nbsp;설정</button>
               </td>
             </tr>
             <tr>
               <td>
-                비밀번호<br>
+                비밀번호
+              </td>
+              <td>
                 <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
               </td>
-            </tr>
-            <tr>
               <td>
-                encryption-open:<input type="checkbox" id="enctype_open" name="enctype_open" />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button type="button" class="confirm" id="wifi_bt">설정</button>
-                <button type="button" class="cancel" id="current_wifi">초기화</button>                
+                <button type="button" class="cancel" id="current_wifi"><i class="fa-solid fa-rotate-left"></i>&nbsp;초기화</button>
               </td>
             </tr>
           </table>
+
+          <div style="height:190px;overflow-y:scroll;">
+            <table class="wifi_list" id="wifi_list">
+              <thead><tr><th>사용가능한 Wifi</th><th>신호세기</th><th>암호화</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div class="usedata-popup" id="usedataPopup" style="display:none">
