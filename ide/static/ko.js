@@ -484,6 +484,7 @@ Blockly.Msg["VISION_CARTOONIZE"] = "이미지 %1 만화 이미지로 바꾸기";
 
 Blockly.Msg["VISION_OBJECT"] = "이미지 %1 사물 찾기";
 Blockly.Msg["VISION_QR"] = "이미지 %1 QR코드 찾기";
+Blockly.Msg["VISION_POSE"] = "이미지 %1 포즈 %2 찾기";
 Blockly.Msg["VISION_CLASSIFICATION"] = "이미지 %1 분류 하기";
 
 Blockly.Msg["VISION_LOAD_TM"] = "티처블머신 %1 %2 모델 설정하기";

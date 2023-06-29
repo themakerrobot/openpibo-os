@@ -741,6 +741,25 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_pose',
+      message0: '%{BKY_VISION_POSE}',
+      "args0": [
+        {"type": "input_value", "name": "img"},
+        {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '포즈좌표', 'pose'],
+            [ '사람좌표', 'person' ],
+            [ '정확도', 'acc']
+          ]
+        }
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: 'call detect.detect_pose',
+      helpUrl: ''
+    },
+    {
       type: 'vision_classification',
       message0: '%{BKY_VISION_CLASSIFICATION}',
       "args0": [
