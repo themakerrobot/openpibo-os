@@ -280,17 +280,6 @@ const vision_box = [
   },
   {
     "kind": "block",
-    "type": "vision_pose",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
     "type": "vision_qr",
     "inputs":{
       "img":{
