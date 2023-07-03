@@ -178,8 +178,8 @@ codeTypeBtns.forEach((btn) => {
           CODE_PATH = $("#codepath").html();
           $("#codepath").html(BLOCK_PATH);
         }
-        $("#execute").html('<i class="fa-solid fa-flag"></i>');
-        $("#stop").html('<i class="fa-solid fa-circle"></i>');
+        $("#execute").html('<i class="fa-solid fa-flag"></i>&nbsp;실행');
+        $("#stop").html('<i class="fa-solid fa-circle"></i>&nbsp;정지');
     }
     else {
       // if (CODE_PATH == "") {
@@ -192,8 +192,8 @@ codeTypeBtns.forEach((btn) => {
         $("#codepath").html(CODE_PATH);
       }
       codeEditor.setOption("mode", codeMirrorMode[target.name]);
-      $("#execute").html('<i class="fa-solid fa-play"></i>');
-      $("#stop").html('<i class="fa-solid fa-stop"></i>');
+      $("#execute").html('<i class="fa-solid fa-play"></i>&nbsp;실행');
+      $("#stop").html('<i class="fa-solid fa-stop"></i>&nbsp;정지');
     }
     Blockly.svgResize(workspace);
   };
