@@ -2315,7 +2315,7 @@ $(function () {
     $("#devtool_bt").on("click", function () {
       if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
         socket.emit("onoff", "off");
-        location.href = `http://${location.hostname}:50000` + userid == null?'':`/?userid=${userid}`;
+        location.href = `http://${location.hostname}:50000` + (userid == null?'':`/?userid=${userid}`);
       }
     });
     $("#devtool_bt").hover(
@@ -2330,7 +2330,7 @@ $(function () {
     );
 
     $("#logo_bt").on("click", () => {
-      location.href = `http://${location.hostname}` + userid == null?'':`/?userid=${userid}`;
+      location.href = `http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`);
     });
 
     socket.emit("onoff");

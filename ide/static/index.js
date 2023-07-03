@@ -53,7 +53,7 @@ let saveBlock = "{}";
 
 $("#logo_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    location.replace(`http://${location.hostname}` + userid == null?'':`/?userid=${userid}`);
+    location.replace(`http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`));
 });
 
 $("#fontsize").on("change", () => {
@@ -526,7 +526,7 @@ $("#result_check").on("change", ()=> {
 
 $("#home_bt").on("click", () => {
   if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
-    location.href = `http://${location.hostname}` + userid == null?'':`/?userid=${userid}`;
+    location.href = `http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`);
   }
 });
 
