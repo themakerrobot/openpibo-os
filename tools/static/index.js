@@ -50,7 +50,7 @@ const getVisions = (socket) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
       } else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#v_upload_tm").val("");
       }
     });
@@ -172,7 +172,6 @@ const getMotions = (socket) => {
       for (name in datas["record"]) {
         res.push(name);
       }
-
       $("#motor_record").text(res.join(", "));
     }
 
@@ -288,7 +287,7 @@ const getMotions = (socket) => {
     let motionName = $("#motion_name_val").val().trim();
 
     if (motionName == "") {
-      alert("먼저 모션이름을 적어주세요.");
+      alert("먼저 모션이름을 입력하세요.");
       return;
     }
     if (confirm(motionName + " 모션을 등록하시겠습니까?")) {
@@ -302,7 +301,7 @@ const getMotions = (socket) => {
     let motionName = $("#motion_name_val").val().trim();
 
     if (motionName == "") {
-      alert("먼저 모션이름을 적어주세요.");
+      alert("먼저 모션이름을 입력하세요.");
       return;
     }
 
@@ -349,7 +348,7 @@ const getMotions = (socket) => {
     let motionName = $("#motion_name_val").val().trim();
 
     if (motionName == "") {
-      alert("먼저 모션이름을 적어주세요.");
+      alert("먼저 모션이름을 입력하세요.");
       return;
     }
     if (confirm(motionName + " 모션을 삭제하시겠습니까?")) {
@@ -378,7 +377,7 @@ const getSpeech = (socket) => {
       return;
     }
     if (string.length > max_tts_length) {
-      alert(`문장이 너무 깁니다. (${max_tts_length}자 이내로 작성해주세요.)`);
+      alert(`문장을 (${max_tts_length}자 이내로 작성해주세요.)`);
       return;
     }
     socket.emit("tts", {
@@ -400,7 +399,7 @@ const getSpeech = (socket) => {
         return;
       }
       if (string.length > max_tts_length) {
-        alert(`문장이 너무 깁니다. (${max_tts_length}자 이내로 작성해주세요.)`);
+        alert(`문장을 (${max_tts_length}자 이내로 작성해주세요.)`);
         return;
       }
       socket.emit("tts", {
@@ -425,7 +424,7 @@ const getSpeech = (socket) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
       } else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#s_upload_csv").val("");
       }
     });
@@ -724,7 +723,7 @@ const getDevices = (socket) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
       } else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_oled").val("");
       }
     });
@@ -841,7 +840,7 @@ const getDevices = (socket) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
       } else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_audio").val("");
       }
     });
@@ -861,7 +860,7 @@ const getDevices = (socket) => {
       if (status == "success") {
         alert(`파일 전송이 완료되었습니다.`);
       } else {
-        alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_image").val("");
       }
     });
@@ -2313,7 +2312,7 @@ $(function () {
 
   const getStatus = (socket) => {
     $("#devtool_bt").on("click", function () {
-      if (confirm("IDE로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
+      if (confirm("IDE로 이동하시겠습니까?")) {
         socket.emit("onoff", "off");
         location.href = `http://${location.hostname}:50000` + (userid == null?'':`/?userid=${userid}`);
       }
@@ -2517,7 +2516,7 @@ $(function () {
 
     $("#swupdate_bt").on("click", function () {
       if (
-        confirm("업데이트를 하시겠습니까?(불안정-문제가 발생할 수 있습니다.)")
+        confirm("업데이트를 하시겠습니까?(인터넷 연결 상태에서 진행하세요.)")
       )
         socket.emit("swupdate");
     });
@@ -2574,7 +2573,7 @@ $(function () {
       if (status == "success") {
         usedata = init_usedata;
       } else {
-        alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
   });
@@ -2612,7 +2611,7 @@ $(function () {
         $("#password").val(xhr['password']);
         $("#userinfo").html('<i class="fa-solid fa-user"></i>');
       } else {
-        alert(`로그인 에러.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`로그인 오류.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
 
@@ -2646,11 +2645,11 @@ $(function () {
             if (status == "success") {
               usedata = init_usedata;
             } else {
-              alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+              alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
             }
           });
         } else {
-          alert(`로그아웃 에러.\n >> ${xhr.responseJSON["result"]}`);
+          alert(`로그아웃 오류.\n >> ${xhr.responseJSON["result"]}`);
         }
       });
     }
@@ -2670,7 +2669,7 @@ $(function () {
         $("#usedata_json").JSONView(xhr, {collapsed:true});
         usedata = init_usedata;
       } else {
-        alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
     document.getElementById("usedataPopup").style.display = "block";

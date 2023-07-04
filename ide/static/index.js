@@ -302,7 +302,7 @@ socket.on("update_file_manager", (d) => {
                 ext = ext[ext.length-1];
                 let filepath = CURRENT_DIR.join("/") + "/" + name;
 
-                if(confirm(`${filepath} 파일을 불러오시겠습니까?`) == false) return;
+                if(confirm(`${filepath} 파일을 불러오겠습니까?`) == false) return;
                 if (["jpg", "png", "jpeg"].includes(ext.toLowerCase())) {
                   socket.emit("view", filepath);
                 }
@@ -383,15 +383,15 @@ $("#hiddenfile").on("change", () => {
 });
 
 $("#add_directory").on("click", () => {
-  let name = prompt("새폴더의 이름을 적어주세요.");
+  let name = prompt("새폴더의 이름을 입력하세요.");
   if (name != null) {
     if(name == "") {
-      alert("새폴더의 이름을 적어주세요.");
+      alert("새폴더의 이름을 입력하세요.");
       return;
     }
     name = name.trim()//.replace(/ /g, "_");
     if(name.length > MAX_FILENAME_LENGTH) {
-      alert(`폴더 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
+      alert(`폴더 이름을 (${MAX_FILENAME_LENGTH}자 이내로 입력하세요.)`);
       return;
     }
 
@@ -404,16 +404,16 @@ $("#log").on("click", () => {
 });
 
 $("#add_file").on("click", () => {
-  let name = prompt("새파일의 이름을 적어주세요.");
+  let name = prompt("새파일의 이름을 입력하세요.");
   if (name != null ) {
     if(name == "") {
-      alert("새파일의 이름을 적어주세요.");
+      alert("새파일의 이름을 입력하세요.");
       return;
     }
 
     name = name.trim()//.replace(/ /g, "_");
     if(name.length > MAX_FILENAME_LENGTH) {
-      alert(`파일 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
+      alert(`파일 이름을 (${MAX_FILENAME_LENGTH}자 이내로 입력하세요.)`);
       return;
     }
     if(saveCode != codeEditor.getValue()){
@@ -426,7 +426,7 @@ $("#add_file").on("click", () => {
 
 $("#upload").on("change", (e) => {
   if($("#upload")[0].files[0].name.length > MAX_FILENAME_LENGTH) {
-    alert(`파일 이름이 너무 깁니다. (${MAX_FILENAME_LENGTH}자 이내로 작성해주세요.)`);
+    alert(`파일 이름을 (${MAX_FILENAME_LENGTH}자 이내로 변경하세요.)`);
     return;
   }
 
@@ -442,9 +442,9 @@ $("#upload").on("change", (e) => {
   })
   .always((xhr, status) => {
     if (status == "success") {
-      alert(`파일 전송이 완료되었습니다.`);
+      alert(`파일 전송이 완료했습니다.`);
     } else {
-      alert(`파일 전송 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+      alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
       $("#upload").val("");
     }
   });
@@ -525,7 +525,7 @@ $("#result_check").on("change", ()=> {
 // });
 
 $("#home_bt").on("click", () => {
-  if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)")) {
+  if (confirm("Tools로 이동하시겠습니까?")) {
     location.href = `http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`);
   }
 });
@@ -787,7 +787,7 @@ $("#wifi_bt").on("click", function () {
     }).always((xhr, status) => {
       if (status == "success") {
       } else {
-        alert("WPA-PSK 방식에서는 비밀번호가 8자리 이상이어야 합니다.")
+        //alert("WPA-PSK 방식에서는 비밀번호가 8자리 이상이어야 합니다.")
       }
     });
   }
@@ -835,7 +835,7 @@ window.addEventListener('beforeunload', (evt) => {
     if (status == "success") {
       usedata = init_usedata;
     } else {
-      alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+      alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
   socket.emit("stop");
@@ -874,7 +874,7 @@ $("#login").on("click", ()=>{
       $("#password").val(xhr['password']);
       $("#userinfo").html('<i class="fa-solid fa-user"></i>');
     } else {
-      alert(`로그인 에러.\n >> ${xhr.responseJSON["result"]}`);
+      alert(`로그인 오류입니다..\n >> ${xhr.responseJSON["result"]}`);
     }
   });
 
@@ -908,11 +908,11 @@ $("#user_bt").on("click", () => {
             if (status == "success") {
               usedata = init_usedata;
             } else {
-              alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+              alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
             }
           });
         } else {
-          alert(`로그아웃 에러.\n >> ${xhr.responseJSON["result"]}`);
+          alert(`로그아웃 오류.\n >> ${xhr.responseJSON["result"]}`);
         }
     });
   }
@@ -932,7 +932,7 @@ $("#usedata_bt").on("click", ()=> {
       $("#usedata_json").JSONView(xhr, {collapsed:true});
       usedata = init_usedata;
     } else {
-      alert(`usedata 에러입니다.\n >> ${xhr.responseJSON["result"]}`);
+      alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
   document.getElementById("usedataPopup").style.display = "block";

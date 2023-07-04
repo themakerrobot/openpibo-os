@@ -7,6 +7,7 @@
   font-size: 14px;
   height:calc(100vh - 120px);
   border-radius: 2px;
+  border-radius: 5px;
   /* Added by yjlee - END */
   color: black;
   direction: ltr;

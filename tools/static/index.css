@@ -888,7 +888,7 @@ i.fa > span {
   margin: 10% auto;
   padding: 10px 20px 10px 20px;
   border: 1px solid #888;
-  width: 500px;
+  width: 600px;
   height: 390px;
   border-radius: 10px;
 }
@@ -897,12 +897,12 @@ i.fa > span {
   filter: grayscale(0.5);
 }
 .wifi-popup-content input[type="text"] {
-  /* width: 160px; */
+  width: 320px;
   border: 1px solid #ccc;
   margin: 5px auto;
 }
 .wifi-popup-content input[type="password"] {
-  /* width: 160px; */
+  width: 320px;
   border: 1px solid #ccc;
   margin: 5px auto;
 }
