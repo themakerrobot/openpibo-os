@@ -461,7 +461,7 @@ $("#eraser").on("click", () => {
 });
 window.dispatchEvent(new Event('onresize'));
 window.onresize = () => {
-  if ($("#result_check").is(":checked")) {
+  if ($("#result_check").is(":checked") == false) {
 
     if (window.innerWidth < 1130) {
       document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 35px)';
@@ -494,7 +494,7 @@ window.onresize = () => {
 
 $("#result_check").on("change", ()=> {
   //codeEditor.setSize(700, null);
-  if ($("#result_check").is(":checked")) {
+  if ($("#result_check").is(":checked") == false) {
     $("#result_en").show();
     if(document.body.offsetWidth >= 1530) {
       document.querySelector("div.CodeMirror").style.width = 'calc(60vw - 190px)';
