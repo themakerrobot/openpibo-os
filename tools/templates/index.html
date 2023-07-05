@@ -384,7 +384,7 @@
                 <span class="label">음악재생</span>
                 <div style="margin-top: 10px">
                   <select id="audiopath" name="audiopath">
-                    <option value="-">폴더선택</option>
+                    <option value="-">카테고리</option>
                     <option value="/home/pi/openpibo-files/audio/music">
                       음악
                     </option>
@@ -400,7 +400,7 @@
                     <option value="/home/pi/myaudio">내 오디오</option>
                   </select>
                   <select id="audiofiles" name="audiofiles">
-                    <option value="-">파일선택</option>
+                    <option value="-">파일</option>
                   </select>
                   <button id="play_audio_bt">
                     <i class="fa-solid fa-play"></i>
@@ -497,7 +497,7 @@
                   <span class="label">사진입력하기(로봇)</span>
                   <div style="margin-top: 10px">
                     <select id="oledpath" name="oledpath">
-                      <option value="-">폴더선택</option>
+                      <option value="-">카테고리</option>
                       <option value="/home/pi/openpibo-files/icon/expression">
                         표정
                       </option>
@@ -516,7 +516,7 @@
                       <option value="/home/pi/myimage">내 이미지</option>
                     </select>
                     <select id="oledfiles" name="oledfiles">
-                      <option value="-">파일선택</option>
+                      <option value="-">파일</option>
                     </select>
                   </div>
                 </div>
@@ -546,13 +546,13 @@
               <div class="device-status-group">
                 <h3 class="mark">센서 인식하기</h3>
                 <div>
-                  <span class="label">인체감지</span>
-                  <i class="fa-solid fa-terminal"></i>
+                  <i class="fa-solid fa-person-circle-check">&nbsp;인체감지</i>
+                  <i class="fa-solid fa-terminal fa-beat-fade"></i>
                   <i><span id="d_pir_val"></span></i>
                 </div>
                 <div>
-                  <span class="label">터치감지</span>
-                  <i class="fa-solid fa-terminal"></i>
+                  <i class="fa-solid fa-person-chalkboard">&nbsp;터치감지</i>
+                  <i class="fa-solid fa-terminal fa-beat-fade"></i>
                   <i><span id="d_touch_val"></span></i>
                 </div>
                 <div hidden>

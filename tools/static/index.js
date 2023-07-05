@@ -777,7 +777,7 @@ const getDevices = (socket) => {
       return;
     }
 
-    $("#mic_status").text("녹음 중");
+    $("#mic_status").html("<i class='fa-solid fa-fade'>녹음 중</i>");
     socket.emit("mic", {
       time: val,
       volume: Number($("#volume").val()),
