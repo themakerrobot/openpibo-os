@@ -2342,7 +2342,7 @@ $(function () {
       $("#state").html(
         d == "on"
           ? "<i class='fa-solid fa-person-running'></i>(<span style='color:#fe7070'>on</span>)"
-          : "<i class='fa-solid fa-person'></i>(<span style='color:#fe7070'>off</span>)"
+          : "<i class='fa-solid fa-person'></i><i class='fa-solid fa-fade'>(<span style='color:#fe7070'>off</span>)</i>"
       );
 
       if (d == "on") {
@@ -2368,7 +2368,7 @@ $(function () {
       $("#wifi_list > tbody").append(
         $("<tr>")
         .append(
-          $("<td colspan='4'>").append("Scanning...")
+          $("<td colspan='4'>").append("<i class='fa-solid fa-spinner fa-spin fa-2xl'></i>")
         )
       )
       $.ajax({
@@ -2522,7 +2522,10 @@ $(function () {
     });
 
     $("#restore_bt").on("click", function () {
-      if (confirm("초기화하시겠습니까?")) socket.emit("restore");
+      if (confirm("초기화하시겠습니까?")){
+        usedata = init_usedata;
+        socket.emit("restore");
+      }
     });
   };
 

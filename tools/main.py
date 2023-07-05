@@ -73,6 +73,7 @@ async def f(key="tools", data: dict = Body(...)):
     if res == None:
       with open(f'/home/pi/.{key}.json', 'w') as f:
         json.dump(data, f)
+      shutil.chown(f'/home/pi/.{key}.json', 'pi', 'pi')
     else:
       tmp = {}
       for k in data:
@@ -84,7 +85,8 @@ async def f(key="tools", data: dict = Body(...)):
         json.dump(tmp, f)
   except Exception as ex:
     with open(f'/home/pi/.{key}.json', 'w') as f:
-        json.dump(data, f)
+      json.dump(data, f)
+    shutil.chown(f'/home/pi/.{key}.json', 'pi', 'pi')
 
   return JSONResponse(content=res, status_code=200)
 
@@ -552,6 +554,8 @@ async def f(sid, d=None):
 @app.sio.on('restore')
 async def f(sid, d=None):
   for item in os.listdir('/home/pi/'):
+    if item in ['.tools.json', '.ide.json']:
+      os.system(f'rm -rf /home/pi/{item}')
     if item[0] == '.' or item in ['node_modules', 'package.json', 'package-lock.json', 'openpibo-os', 'openpibo-files']:
       continue
     if item in ['code', 'myimage', 'myaudio']:

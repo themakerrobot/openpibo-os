@@ -622,7 +622,7 @@ $("#save").on("click", () => {
 });
 
 let update_block = () => {
-  $("#codecheck").html(saveBlock==JSON.stringify(Blockly.serialization.workspaces.save(workspace)) ? "" : "<i class='fa-solid fa-circle'></i>");
+  $("#codecheck").html(saveBlock==JSON.stringify(Blockly.serialization.workspaces.save(workspace)) ? "" : "<i class='fa-solid fa-circle fa-fade'></i>");
 }
 workspace.addChangeListener ((event)=>{
   if (event.type = Blockly.Events.BLOCK_CHANGE) {

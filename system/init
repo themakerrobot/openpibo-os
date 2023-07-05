@@ -34,7 +34,7 @@ sudo gpio write 7 1
 echo "#30:on!" > /dev/ttyS0
 
 sudo amixer -c Headphones sset Headphone 80%
-sudo play /home/pi/openpibo-os/system/opening.mp3 reverb &
+sudo play /home/pi/openpibo-os/system/opening.mp3 &
 
 # network init
 sudo python3 /home/pi/openpibo-os/system/booting.py
