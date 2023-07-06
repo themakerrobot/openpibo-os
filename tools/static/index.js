@@ -2341,7 +2341,7 @@ $(function () {
       );
       $("#state").html(
         d == "on"
-          ? "<i class='fa-solid fa-person-running'></i>(<span style='color:#fe7070'>on</span>)"
+          ? "<i class='fa-solid fa-person-running'></i><i class='fa-solid fa-fade'>(<span style='color:#fe7070'>on</span>)</i>"
           : "<i class='fa-solid fa-person'></i><i class='fa-solid fa-fade'>(<span style='color:#fe7070'>off</span>)</i>"
       );
 
