@@ -411,6 +411,20 @@ const vision_box = [
       }
     }
   },
+  {
+    "kind": "block",
+    "type": "vision_call_ai",
+    "inputs":{
+      "filename":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "이미지 파일이름"
+          }
+        }
+      },
+    }
+  },
 ];
 const utils_box = [
   {

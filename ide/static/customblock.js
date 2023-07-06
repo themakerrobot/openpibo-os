@@ -49,7 +49,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["audio"],
-      tooltip: 'call audio.play',
+      tooltip: '오디오 파일을 재생합니다.',
       helpUrl: ''
     },
     {
@@ -68,7 +68,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["audio"],
-      tooltip: 'call audio.stop',
+      tooltip: '오디오 재생을 정지합니다.',
       helpUrl: ''
     },
     {
@@ -105,7 +105,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["audio"],
-      tooltip: 'call audio.record',
+      tooltip: '마이크로 녹음하여 오디오 파일을 생성합니다.',
       helpUrl: ''
     },
     {
@@ -125,7 +125,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
-      tooltip: 'call wikipedia.search',
+      tooltip: '(인터넷 연결 필수) 위키피디아의 검색한 결과를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -162,7 +162,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
-      tooltip: 'call weather.search',
+      tooltip: '(인터넷 연결 필수) 공공 데이터를 사용하여, 날씨를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -201,7 +201,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
-      tooltip: 'call news.search',
+      tooltip: '(인터넷 연결 필수) RSS 를 통해 뉴스를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -269,7 +269,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.eye_on',
+      tooltip: '로봇의 눈 색상을 설정합니다.',
       helpUrl: ''
     },
     {
@@ -291,7 +291,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.eye_on',
+      tooltip: '색상 블록을 이용하여, 로봇의 눈 색상을 설정합니다.',
       helpUrl: ''
     },
     {
@@ -311,7 +311,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.eye_off',
+      tooltip: '로봇의 눈 색상을 초기화합니다.',
       helpUrl: ''
     },
     {
@@ -330,7 +330,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.get_dc',
+      tooltip: '전원 연결 정보를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -349,7 +349,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.get_battery',
+      tooltip: '배터리 잔량을 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -368,7 +368,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.get_system',
+      tooltip: '시스템 정보를 가져옵니다.(인체감지,터치센서,버튼)',
       helpUrl: ''
     },
     {
@@ -387,7 +387,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.get_system',
+      tooltip: '인체감지센서 결과를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -406,7 +406,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.get_system',
+      tooltip: '터치센서 결과를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -425,7 +425,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: 'call device.get_system',
+      tooltip: '버튼 인식 결과를 가져옵니다.',
       helpUrl: ''
     },    
     // motion
@@ -445,7 +445,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.get_motion()',
+      tooltip: '모션 목록을 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -464,7 +464,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.get_motion(mymotion)',
+      tooltip: '내가 만든 모션 목록을 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -493,7 +493,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.set_motion',
+      tooltip: '모션을 실행합니다.',
       helpUrl: ''
     },
     {
@@ -522,7 +522,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.set_mymotion',
+      tooltip: '내가 만든 모션을 실행합니다.',
       helpUrl: ''
     },
     {
@@ -542,7 +542,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.set_motion(init)',
+      tooltip: '초기 동작을 실행합니다.',
       helpUrl: ''
     },
     {
@@ -584,7 +584,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.set_motor',
+      tooltip: '개별 모터를 이동합니다.',
       helpUrl: ''
     },
     {
@@ -626,7 +626,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.set_speed',
+      tooltip: '개별 모터의 속도를 설정합니다.',
       helpUrl: ''
     },
     {
@@ -668,7 +668,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: 'call motion.set_acceleration',
+      tooltip: '개별 모터의 가속도를 설정합니다.',
       helpUrl: ''
     },
 
@@ -699,7 +699,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.set_font',
+      tooltip: 'OLED 의 글씨 크기를 설정합니다.',
       helpUrl: ''
     },
     {
@@ -736,7 +736,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.draw_text',
+      tooltip: 'OLED 에 글씨를 입력합니다.',
       helpUrl: ''
     },
     {
@@ -771,7 +771,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.draw_image',
+      tooltip: 'OLED 에 이미지를 입력합니다.',
       helpUrl: ''
     },
     {
@@ -828,7 +828,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.draw_rectangle',
+      tooltip: 'OLED 에 네모를 입력합니다.',
       helpUrl: ''
     },
     {
@@ -885,7 +885,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.draw_ellipse',
+      tooltip: 'OLED 에 타원을 입력합니다.',
       helpUrl: ''
     },
     {
@@ -937,7 +937,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.draw_line',
+      tooltip: 'OLED 에 선을 입력합니다.',
       helpUrl: ''
     },
     {
@@ -957,7 +957,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.invert',
+      tooltip: 'OLED 화면을 반전합니다.',
       helpUrl: ''
     },
     {
@@ -977,7 +977,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.show',
+      tooltip: 'OLED 에 저장된 내용을 표시합니다.',
       helpUrl: ''
     },
     {
@@ -997,7 +997,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'call oled.clear',
+      tooltip: 'OLED 의 내용을 초기화합니다.',
       helpUrl: ''
     },
     {
@@ -1024,7 +1024,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: 'call speech.stt',
+      tooltip: '(인터넷 연결 필수) 음성인식을 실행합니다.',
       helpUrl: ''
     },
     {
@@ -1060,7 +1060,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: 'call speech.tts',
+      tooltip: '(인터넷 연결 필수) 음성합성을 실행합니다.',
       helpUrl: ''
     },
     {
@@ -1080,7 +1080,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: 'call dialog.get_dialog',
+      tooltip: '음성대화를 실행합니다.',
       helpUrl: ''
     },
     {
@@ -1108,7 +1108,7 @@ Blockly.defineBlocksWithJsonArray(
         previousStatement: true,
         inputsInline: true,
         colour: color_type["speech"],
-        tooltip: 'call dialog.load',
+        tooltip: '음성대화 데이터를 불러옵니다.',
         helpUrl: ''
     },
     {
@@ -1127,7 +1127,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call camera.read',
+      tooltip: '사진을 촬영하여 이미지 데이터로 만듭니다.',
       helpUrl: ''
     },
     {
@@ -1157,7 +1157,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call camera.imwrite',
+      tooltip: '이미지 데이터를 사진 파일로 저장합니다.',
       helpUrl: ''
     },
     {
@@ -1186,7 +1186,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call camera.imshow_to_ide',
+      tooltip: '사진 파일을 이미지 뷰어에 표시합니다.',
       helpUrl: ''
     },
     {
@@ -1214,7 +1214,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call camera.cartoonize|stylization|detailEnhance|pencilSketch',
+      tooltip: '이미지를 다양한 형태로 변환합니다.',
       helpUrl: ''
     },
     {
@@ -1233,7 +1233,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call detect.detect_object',
+      tooltip: '이미지에서 사물을 인식합니다. (80가지 사물)',
       helpUrl: ''
     },
     {
@@ -1252,7 +1252,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call detect.detect_qr',
+      tooltip: '이미지에서 QR코드를 인식합니다.',
       helpUrl: ''
     },
     {
@@ -1271,7 +1271,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call detect.detect_pose',
+      tooltip: '이미지에서 사람 포즈를 계산합니다.',
       helpUrl: ''
     },
     {
@@ -1298,7 +1298,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call detect.analyze_pose',
+      tooltip: '이미지 포즈 데이터를 분석합니다.',
       helpUrl: ''
     },
     {
@@ -1317,7 +1317,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call detect.classify_image',
+      tooltip: '이미지를 분류합니다. (1000가지 분류)',
       helpUrl: ''
     },
     {
@@ -1347,7 +1347,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call tm.load',
+      tooltip: '티쳐블머신 모델을 불러옵니다.',
       helpUrl: ''
     },
     {
@@ -1366,7 +1366,42 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: 'call tm.predict',
+      tooltip: '티쳐블머신을 이용하여 이미지 분류를 실행합니다.',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_call_ai',
+      message0: '%{BKY_VISION_CALL_AI}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/brain-solid.svg",
+          "width": 33,
+          "height": 33
+        },
+        {"type":"input_dummy"},
+        {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '이미지캡션', 'caption/caption' ],
+            [ '이미지태그', 'caption/caption_tag_e' ],
+            [ '장소인식', 'caption/caption_place_e' ],
+            [ '시간인식', 'caption/caption_time_e' ]
+          ]
+        },
+        {"type": "field_dropdown", "name":"dir",
+        "options":[
+          [ 'code/', '/home/pi/code/' ],
+          [ 'myimage/', '/home/pi/myimage/'],
+          [ '/home/pi/', '/home/pi/' ],
+          [ 'none', '']
+        ]
+      },
+      {"type": "input_value", "name": "filename"},
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '(인터넷 연결 필수) 인공지능 이미지 분석을 실행합니다.',
       helpUrl: ''
     },
     {
@@ -1394,7 +1429,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: 'call time.sleep',
+      tooltip: '설정한 시간만큼 동작을 지연시킵니다.',
       helpUrl: ''
     },
     {
@@ -1413,7 +1448,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: 'call time.time',
+      tooltip: '시간 데이터를 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -1432,7 +1467,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: 'call time.strftime',
+      tooltip: '현재 시간을 가져옵니다.',
       helpUrl: ''
     },
     {
@@ -1452,7 +1487,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: 'call include',
+      tooltip: '특정 항목이 목록에 존재하는지 확인합니다.',
       helpUrl: ''
     },
     {
@@ -1473,7 +1508,7 @@ Blockly.defineBlocksWithJsonArray(
         output: null,
         inputsInline: true,
         colour: color_type["utils"],
-        tooltip: 'call Dict[keyname]',
+        tooltip: '딕셔너리의 특정 키에 매핑된 값을 가져옵니다.',
         helpUrl: ''
     },
   ]

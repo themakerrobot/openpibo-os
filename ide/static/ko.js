@@ -497,6 +497,7 @@ Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류하기";
 
 Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";
 Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류하기";
+Blockly.Msg["VISION_CALL_AI"] = "%1 %2 이미지 파일 %4 %5 의 인공지능 %3 가져오기";
 
 Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";

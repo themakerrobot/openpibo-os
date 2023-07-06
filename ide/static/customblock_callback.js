@@ -403,6 +403,15 @@ Blockly.Python['vision_predict_tm'] = function(block) {
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   return [`tm.predict(${img})[0]`, Blockly.Python.ORDER_ATOMIC];
 }
+Blockly.Python['vision_call_ai'] = function(block) {
+  Blockly.Python.definitions_['import_openpibo.vision as vis'] = 'import openpibo.vision as vis';
+
+  const type = block.getFieldValue("type");
+  const dir = block.getFieldValue("dir");
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
+
+  return [`vis.vision_api('${type}', '${dir}'+${filename}.strip())['data']`, Blockly.Python.ORDER_ATOMIC];
+}
 
 // Utils
 Blockly.Python['utils_sleep'] = function(block) {
