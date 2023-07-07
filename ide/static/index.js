@@ -356,18 +356,16 @@ socket.on("update_file_manager", (d) => {
                 if (confirm(`${CURRENT_DIR.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
                   if ((CURRENT_DIR.join("/") + "/" + name) == $("#codepath").html()) {
                     $("#codepath").html("");
-                    let codetype = "";
-                    codeTypeBtns.forEach((el) => {
-                      if (el.classList.value.includes("checked")) codetype = el.name;
-                    });
-                    if (codetype == "block") {
-                      saveBlock = "{}";
-                      Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
-                    }
-                    else {
-                      saveCode = "";
-                      codeEditor.setValue(saveCode);
-                    }
+                  }
+                  if ((CURRENT_DIR.join("/") + "/" + name) == CODE_PATH) {
+                    CODE_PATH = ""
+                    saveCode = "";
+                    codeEditor.setValue(saveCode);
+                  }
+                  if ((CURRENT_DIR.join("/") + "/" + name) == BLOCK_PATH) {
+                    BLOCK_PATH = ""
+                    saveBlock = "{}";
+                    Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
                   }
                   socket.emit('delete', CURRENT_DIR.join("/") + "/" + name);
                 }
