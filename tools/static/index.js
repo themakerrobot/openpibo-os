@@ -1,3 +1,5 @@
+console.log(navigator.onLine)
+
 const init_usedata = {
   staytime:0,
   home:{click:0, keydown:0, staytime:0},
@@ -316,25 +318,35 @@ const getMotions = (socket) => {
     "backward1",
     "left",
     "right",
-    "wave1",
-    "dance1",
     "welcome",
     "foot1",
     "happy2",
     "sad2",
+    "clapping2",
+    "wave1",
+    "wave2",
+    "dance1",
+    "dance2",
   ];
   const sample_motions_name = [
     "forward",
     "backward",
     "left",
     "right",
-    "wave",
-    "dance",
     "welcome",
     "foot",
     "happy",
     "sad",
+    "clapping",
+    "wave1",
+    "wave2",
+    "dance1",
+    "dance2",
   ];
+
+  $('#motion_samples').html(sample_motions_name.map((e)=>{
+    return `<a id="motion_${e}_bt" style="color:#df7e3d;cursor:pointer">${e}</a>`
+  }).join(', '));
 
   for (idx in sample_motions) {
     $(`#motion_${sample_motions_name[idx]}_bt`).on("click", function () {

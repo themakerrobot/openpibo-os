@@ -19,8 +19,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/circle-play-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -59,8 +59,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/stop-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
       ],
@@ -79,8 +79,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/microphone-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -115,9 +115,15 @@ Blockly.defineBlocksWithJsonArray(
         [
           {
             "type": "field_image",
+            "src": "svg/bolt-solid.svg",
+            "width": 15,
+            "height": 20
+          },
+          {
+            "type": "field_image",
             "src": "svg/searchengin.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "topic"}
@@ -134,9 +140,15 @@ Blockly.defineBlocksWithJsonArray(
       args0: [
         {
           "type": "field_image",
+          "src": "svg/bolt-solid.svg",
+          "width": 15,
+          "height": 20
+        },
+        {
+          "type": "field_image",
           "src": "svg/cloud-sun-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "field_dropdown", "name":"topic",
@@ -172,9 +184,15 @@ Blockly.defineBlocksWithJsonArray(
         [
           {
             "type": "field_image",
+            "src": "svg/bolt-solid.svg",
+            "width": 15,
+            "height": 20
+          },
+          {
+            "type": "field_image",
             "src": "svg/newspaper-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"topic",
@@ -212,8 +230,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/eye-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -280,8 +298,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/eye-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "left"},
@@ -302,8 +320,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/eye-slash-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -322,8 +340,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/plug-circle-check-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -341,8 +359,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/battery-full-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -360,8 +378,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/microchip-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -379,8 +397,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/person-circle-check-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -398,8 +416,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/hand-point-up-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -417,8 +435,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/toggle-on-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -437,8 +455,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/list-check-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
         ],
@@ -456,8 +474,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/list-check-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
         ],
@@ -475,8 +493,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/person-walking-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "name"}, 
@@ -504,8 +522,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/person-walking-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "name"}, 
@@ -533,8 +551,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/person-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
         ],
@@ -553,8 +571,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/gears-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
@@ -595,8 +613,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/gears-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
@@ -637,8 +655,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/gears-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
@@ -681,8 +699,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/text-width-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           // {"type": "input_value", "name": "font"}, 
@@ -710,8 +728,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/font-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -747,8 +765,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/image-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -782,8 +800,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/draw-polygon-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -839,8 +857,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/draw-polygon-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -896,8 +914,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/draw-polygon-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -948,8 +966,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/circle-half-stroke-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
         ],
@@ -968,8 +986,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/display-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
         ],
@@ -988,8 +1006,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/eraser-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
         ],
@@ -1007,9 +1025,15 @@ Blockly.defineBlocksWithJsonArray(
         [
           {
             "type": "field_image",
+            "src": "svg/bolt-solid.svg",
+            "width": 15,
+            "height": 20
+          },
+          {
+            "type": "field_image",
             "src": "svg/ear-listen-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -1034,9 +1058,15 @@ Blockly.defineBlocksWithJsonArray(
         [
           {
             "type": "field_image",
+            "src": "svg/bolt-solid.svg",
+            "width": 15,
+            "height": 20
+          },
+          {
+            "type": "field_image",
             "src": "svg/file-audio-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "text"},
@@ -1071,8 +1101,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/comment-dots-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "text"}
@@ -1091,8 +1121,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/database-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -1119,8 +1149,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/camera-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -1138,8 +1168,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/file-image-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -1168,8 +1198,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/display-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -1196,8 +1226,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/wand-magic-sparkles-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "img"},
@@ -1224,8 +1254,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/object-group-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
@@ -1243,8 +1273,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/qrcode-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
@@ -1262,8 +1292,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/person-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
@@ -1281,8 +1311,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/person-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "val"},
@@ -1308,8 +1338,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/object-group-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
@@ -1328,8 +1358,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/database-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
@@ -1357,8 +1387,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/object-group-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "img"}
@@ -1375,9 +1405,15 @@ Blockly.defineBlocksWithJsonArray(
       "args0": [
         {
           "type": "field_image",
+          "src": "svg/bolt-solid.svg",
+          "width": 15,
+          "height": 20
+        },
+        {
+          "type": "field_image",
           "src": "svg/brain-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "field_dropdown", "name":"type",
@@ -1412,8 +1448,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/bed-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {
@@ -1440,8 +1476,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/stopwatch-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -1459,8 +1495,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/clock-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"}
         ],
@@ -1477,8 +1513,8 @@ Blockly.defineBlocksWithJsonArray(
         {
           "type": "field_image",
           "src": "svg/list-check-solid.svg",
-          "width": 33,
-          "height": 33
+          "width": 27,
+          "height": 27
         },
         {"type":"input_dummy"},
         {"type": "input_value", "name": "a"},
@@ -1498,8 +1534,8 @@ Blockly.defineBlocksWithJsonArray(
           {
             "type": "field_image",
             "src": "svg/list-check-solid.svg",
-            "width": 33,
-            "height": 33
+            "width": 27,
+            "height": 27
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "dictionary"},
