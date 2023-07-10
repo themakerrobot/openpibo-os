@@ -471,7 +471,7 @@ const toolbox= {
       "kind": "category",
       "name": "논리",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-bars-staggered"
       },
       "contents": [
         {
@@ -509,7 +509,7 @@ const toolbox= {
       "kind": "category",
       "name": "반복",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-arrows-spin"
       },
       "contents": [
         {
@@ -575,7 +575,7 @@ const toolbox= {
       "kind": "category",
       "name": "수학",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-square-root-variable"
       },
       "contents": [
         {
@@ -778,7 +778,7 @@ const toolbox= {
       "kind": "category",
       "name": "문자",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-t"
       },
       "contents": [
         {
@@ -1007,7 +1007,7 @@ const toolbox= {
       "kind": "category",
       "name": "목록",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-list"
       },
       "contents": [
         {
@@ -1128,7 +1128,7 @@ const toolbox= {
       "kind": "category",
       "name": "색상",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-palette"
       },
       "contents": [
         {
@@ -1212,7 +1212,7 @@ const toolbox= {
       "custom": "VARIABLE",
       "categorystyle": "variable_category",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-v"
       }
     },
     { // Functions
@@ -1222,7 +1222,7 @@ const toolbox= {
       "custom": "PROCEDURE",
       "categorystyle": "procedure_category",
       "cssConfig": {
-        "icon": "customIcon fa fa-gear"
+        "icon": "customIcon fa fa-florin-sign"
       }
     },
     {
