@@ -680,7 +680,7 @@ label.label {
 }
 
 .motion-table-wrap {
-  height: 510px;
+  height: 520px;
   overflow-y: scroll;
   margin: 0.5em 0;
   border: 1px solid var(--light-green);

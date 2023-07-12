@@ -112,7 +112,7 @@
                 <i class="fa-solid fa-lock-open"></i>&nbsp;<input type="checkbox" id="enctype_open" name="enctype_open" />
               </td>
               <td>
-                <button type="button" class="confirm" id="wifi_bt"><i class="fa-solid fa-check-double"></i>&nbsp;설정</button>
+                <button type="button" class="confirm" id="wifi_bt"><i class="fa-solid fa-check-double"></i>&nbsp;확인</button>
               </td>
             </tr>
             <tr>
@@ -234,7 +234,7 @@
                     재시작하기
                   </button>
                   <button id="restore_bt">
-                    <i class="fa-solid fa-window-restore"></i>
+                    <i class="fa-solid fa-eraser"></i>
                     초기화하기
                   </button>
                   <button id="swupdate_bt">
@@ -885,7 +885,7 @@
                   <textarea
                     name="motor_record"
                     id="motor_record"
-                    rows="48"
+                    rows="7"
                     wrap="hard"
                     disabled
                   ></textarea>
@@ -961,9 +961,17 @@
                 </div>
               </div>
               <h3 class="mark">인식결과</h3>
-              <div>
-                <span id="v_result"></span>
-              </div>
+              <!-- <div> -->
+                <!-- <textarea id="v_result"></textarea> -->
+                <textarea
+                name="v_result"
+                id="v_result"
+                rows="5"
+                wrap="hard"
+                style="width:100%"
+                disabled
+              ></textarea>
+              <!-- </div> -->
             </section>
           </article>
           <article id="article_speech">
