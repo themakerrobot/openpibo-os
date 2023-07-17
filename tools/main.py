@@ -185,7 +185,7 @@ async def f(directory="myaudio", data:UploadFile = File(...)):
   if directory not in ["myaudio", "myimage"]:
     return JSONResponse(content={'result':'myaudio, myimage로 업로드만 가능합니다.'}, status_code=500)
 
-  os.system(f"mkdir -p /home/pi/{directory}")
+  os.system(f"mkdir -p '/home/pi/{directory}'")
   filepath = f"/home/pi/{directory}/{data.filename}"
   with open(filepath, 'wb') as f:
     content = await data.read()
@@ -555,13 +555,13 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   for item in os.listdir('/home/pi/'):
     if item in ['.tools.json', '.ide.json']:
-      os.system(f'rm -rf /home/pi/{item}')
+      os.system(f'rm -rf "/home/pi/{item}"')
     if item[0] == '.' or item in ['node_modules', 'package.json', 'package-lock.json', 'openpibo-os', 'openpibo-files']:
       continue
     if item in ['code', 'myimage', 'myaudio']:
-      os.system(f'rm -rf /home/pi/{item}/*')
+      os.system(f'rm -rf "/home/pi/{item}/"*')
     else:
-      os.system(f'rm -rf /home/pi/{item}')
+      os.system(f'rm -rf "/home/pi/{item}"')
 
   tmp='country=KR\n'
   tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
