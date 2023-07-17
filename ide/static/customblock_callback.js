@@ -291,6 +291,16 @@ Blockly.Python['vision_read'] = function(block) {
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
   return ["camera.read()", Blockly.Python.ORDER_ATOMIC];
 }
+
+Blockly.Python['vision_imread'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
+  Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
+
+  const dir = block.getFieldValue("dir");
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
+  return [`camera.imread('${dir}'+${filename}.strip())\n`, Blockly.Python.ORDER_ATOMIC];
+}
+
 Blockly.Python['vision_imwrite'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';

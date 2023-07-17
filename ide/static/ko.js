@@ -484,6 +484,7 @@ Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";
 
 Blockly.Msg["VISION_READ"] = "%1 %2 촬영하기";
+Blockly.Msg["VISION_IMREAD"] = "%1 %2 이미지 파일 %3 %4 를 불러오기";
 Blockly.Msg["VISION_IMWRITE"] = "%1 %2 이미지 %5 를 %3 %4 에 저장하기";
 Blockly.Msg["VISION_IMSHOW_TO_IDE"] = "%1 %2 이미지 파일 %3 %4 를 IDE에 표시하기";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 이미지 %3 %4로 바꾸기";

@@ -27,10 +27,10 @@ Blockly.defineBlocksWithJsonArray(
             "options":[
               [ 'code/', '/home/pi/code/' ],
               [ 'myaudio/', '/home/pi/myaudio/' ],
-              [ '(openpibo-files) animal/', '/home/pi/openpibo-files/audio/animal/'],
-              [ '(openpibo-files) effect/', '/home/pi/openpibo-files/audio/effect/'],
-              [ '(openpibo-files) music/', '/home/pi/openpibo-files/audio/music/'],
-              [ '(openpibo-files) voice/', '/home/pi/openpibo-files/audio/voice/'],
+              [ '(openpibo-files) audio/animal/', '/home/pi/openpibo-files/audio/animal/'],
+              [ '(openpibo-files) audio/effect/', '/home/pi/openpibo-files/audio/effect/'],
+              [ '(openpibo-files) audio/music/', '/home/pi/openpibo-files/audio/music/'],
+              [ '(openpibo-files) audio/voice/', '/home/pi/openpibo-files/audio/voice/'],
               [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]
@@ -773,11 +773,11 @@ Blockly.defineBlocksWithJsonArray(
             "options":[
               [ 'code/', '/home/pi/code/' ],
               [ 'myimage/', '/home/pi/myimage/'],
-              [ '(openpibo-files) etc/', '/home/pi/openpibo-files/icon/etc/'],
-              [ '(openpibo-files) expression/', '/home/pi/openpibo-files/icon/expression/'],
-              [ '(openpibo-files) game/', '/home/pi/openpibo-files/icon/game/'],
-              [ '(openpibo-files) recycle/', '/home/pi/openpibo-files/icon/recycle/'],
-              [ '(openpibo-files) weather/', '/home/pi/openpibo-files/icon/weather/'],
+              [ '(openpibo-files) icon/etc/', '/home/pi/openpibo-files/icon/etc/'],
+              [ '(openpibo-files) icon/expression/', '/home/pi/openpibo-files/icon/expression/'],
+              [ '(openpibo-files) icon/game/', '/home/pi/openpibo-files/icon/game/'],
+              [ '(openpibo-files) icon/recycle/', '/home/pi/openpibo-files/icon/recycle/'],
+              [ '(openpibo-files) icon/weather/', '/home/pi/openpibo-files/icon/weather/'],
               [ '(openpibo-files) image/', '/home/pi/openpibo-files/image/'],
               [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
@@ -1161,6 +1161,40 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_imread',
+      message0: '%{BKY_VISION_IMREAD}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/file-image-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"dir",
+          "options":[
+            [ 'code/', '/home/pi/code/' ],
+            [ 'myimage/', '/home/pi/myimage/'],
+            [ '(openpibo-files) icon/etc/', '/home/pi/openpibo-files/icon/etc/'],
+            [ '(openpibo-files) icon/expression/', '/home/pi/openpibo-files/icon/expression/'],
+            [ '(openpibo-files) icon/game/', '/home/pi/openpibo-files/icon/game/'],
+            [ '(openpibo-files) icon/recycle/', '/home/pi/openpibo-files/icon/recycle/'],
+            [ '(openpibo-files) icon/weather/', '/home/pi/openpibo-files/icon/weather/'],
+            [ '(openpibo-files) image/', '/home/pi/openpibo-files/image/'],
+            [ '/home/pi/', '/home/pi/' ],
+            [ 'none', '']
+          ]
+        },
+        {"type": "input_value", "name": "filename"},
+        ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '사진을 촬영하여 이미지 데이터로 만듭니다.',
+      helpUrl: ''
+    },
+    {
       type: 'vision_imwrite',
       message0: '%{BKY_VISION_IMWRITE}',
       args0:
@@ -1206,6 +1240,12 @@ Blockly.defineBlocksWithJsonArray(
             "options":[
               [ 'code/', '/home/pi/code/' ],
               [ 'myimage/', '/home/pi/myimage/'],
+              [ '(openpibo-files) icon/etc/', '/home/pi/openpibo-files/icon/etc/'],
+              [ '(openpibo-files) icon/expression/', '/home/pi/openpibo-files/icon/expression/'],
+              [ '(openpibo-files) icon/game/', '/home/pi/openpibo-files/icon/game/'],
+              [ '(openpibo-files) icon/recycle/', '/home/pi/openpibo-files/icon/recycle/'],
+              [ '(openpibo-files) icon/weather/', '/home/pi/openpibo-files/icon/weather/'],
+              [ '(openpibo-files) image/', '/home/pi/openpibo-files/image/'],
               [ '/home/pi/', '/home/pi/' ],
               [ 'none', '']
             ]

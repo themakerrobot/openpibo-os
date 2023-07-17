@@ -281,6 +281,20 @@ const vision_box = [
   },
   {
     "kind": "block",
+    "type": "vision_imread",
+    "inputs":{
+      "filename":{
+        "shadow": {
+          "type": "text",
+          "fields": {
+            "TEXT": "이미지 파일이름"
+          }
+        }
+      },
+    }
+  },
+  {
+    "kind": "block",
     "type": "vision_imwrite",
     "inputs":{
       "filename":{
