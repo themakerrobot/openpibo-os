@@ -1,5 +1,3 @@
-console.log(navigator.onLine)
-
 const init_usedata = {
   staytime:0,
   home:{click:0, keydown:0, staytime:0},
