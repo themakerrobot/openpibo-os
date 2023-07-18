@@ -2137,6 +2137,7 @@ const getSimulations = (socket) => {
         { value: "main", label: "파이보" },
         { value: "boy", label: "남자아이" },
         { value: "girl", label: "여자아이" },
+        { value: "gtts", label: "구글음성" },
         // { value: "e_main", label: "파이보(영문)" },
         // { value: "e_boy", label: "소년(영문)" },
         // { value: "e_girl", label: "소녀(영문)" },

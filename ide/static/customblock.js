@@ -1082,7 +1082,7 @@ Blockly.defineBlocksWithJsonArray(
           {"type": "field_dropdown", "name":"voice",
            "options":[
               ['main','main'],['man','man1'],['woman','woman1'],
-              ['boy','boy'],['girl','girl'],['espeak','espeak']
+              ['boy','boy'],['girl','girl'],['espeak','espeak'], ['gtts', 'gtts']
             ]
           },
         ],
