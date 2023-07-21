@@ -178,8 +178,8 @@ codeTypeBtns.forEach((btn) => {
           CODE_PATH = $("#codepath").html();
           $("#codepath").html(BLOCK_PATH);
         }
-        $("#execute").html('<i class="fa-solid fa-flag"></i>&nbsp;실행');
-        $("#stop").html('<i class="fa-solid fa-circle"></i>&nbsp;정지');
+        $("#execute").html('<i class="fa-solid fa-flag"></i>&nbsp;<span data-key="execute"></span>');
+        $("#stop").html('<i class="fa-solid fa-circle"></i>&nbsp;<span data-key="stop"></span>');
     }
     else {
       // if (CODE_PATH == "") {
@@ -192,9 +192,10 @@ codeTypeBtns.forEach((btn) => {
         $("#codepath").html(CODE_PATH);
       }
       codeEditor.setOption("mode", codeMirrorMode[target.name]);
-      $("#execute").html('<i class="fa-solid fa-play"></i>&nbsp;실행');
-      $("#stop").html('<i class="fa-solid fa-stop"></i>&nbsp;정지');
+      $("#execute").html('<i class="fa-solid fa-play"></i>&nbsp;<span data-key="execute"></span>');
+      $("#stop").html('<i class="fa-solid fa-stop"></i>&nbsp;<span data-key="stop"></span>');
     }
+    setLanguage(lang);
     Blockly.svgResize(workspace);
   };
   btn.addEventListener("click", handler);
@@ -540,47 +541,6 @@ $("#theme_check").on("change", () => {
   );
 });
 
-let workspace = Blockly.inject("blocklyDiv", {
-  toolbox: toolbox,
-  collapse: true,
-  comments: true,
-  disable: true,
-  maxBlocks: Infinity,
-  trashcan: true,
-  horizontalLayout: false,
-  toolboxPosition: "start",
-  css: true,
-  media: "../static/",
-  rtl: false,
-  scrollbars: true,
-  sounds: false,
-  oneBasedIndex: true,
-  grid: {
-    spacing: 20,
-    length: 3,
-    colour: '#ccc',
-    snap: true
-  },
-  zoom: {
-    controls: true,
-    wheel: false,
-    startScale: 0.8,
-    maxScale: 3,
-    minScale: 0.3,
-    scaleSpeed: 1.05,
-    pinch: true
-  },
-  move:{
-    scrollbars: {
-      horizontal: true,
-      vertical: true
-    },
-    drag: true,
-    wheel: true,
-  },
-  renderer:"zelos", // "zelos", "minimalist", "thrasos"
-});
-
 $("#save").on("click", () => {
   let filepath = $("#codepath").html();
 
@@ -622,6 +582,47 @@ $("#save").on("click", () => {
 let update_block = () => {
   $("#codecheck").html(saveBlock==JSON.stringify(Blockly.serialization.workspaces.save(workspace)) ? "" : "<i class='fa-solid fa-circle fa-fade'></i>");
 }
+
+const workspace = Blockly.inject("blocklyDiv", {
+  toolbox: lang=="en"?toolbox_en:toolbox_ko,
+  collapse: true,
+  comments: true,
+  disable: true,
+  maxBlocks: Infinity,
+  trashcan: true,
+  horizontalLayout: false,
+  toolboxPosition: "start",
+  css: true,
+  media: "../static/",
+  rtl: false,
+  scrollbars: true,
+  sounds: false,
+  oneBasedIndex: true,
+  grid: {
+    spacing: 20,
+    length: 3,
+    colour: '#ccc',
+    snap: true
+  },
+  zoom: {
+    controls: true,
+    wheel: false,
+    startScale: 0.8,
+    maxScale: 3,
+    minScale: 0.3,
+    scaleSpeed: 1.05,
+    pinch: true
+  },
+  move:{
+    scrollbars: {
+      horizontal: true,
+      vertical: true
+    },
+    drag: true,
+    wheel: true,
+  },
+  renderer:"zelos", // "zelos", "minimalist", "thrasos"
+});
 workspace.addChangeListener ((event)=>{
   if (event.type = Blockly.Events.BLOCK_CHANGE) {
     update_block();
@@ -801,20 +802,6 @@ $(document).on("click keydown", (evt) => {
   }
 });
 
-$.ajax({
-  url: `http://${location.hostname}/account`,
-}).always((xhr, status) => {
-  if (status == "success") {
-    $("#logined_id").html(xhr['username']);
-    $("#username").val(xhr['username']);
-    $("#password").val(xhr['password']);
-    if (xhr['username'] == "" || xhr['password'] == "") $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-    else $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-  } else {
-    $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-  }
-});
-
 let startTime = new Date().getTime();
 
 window.addEventListener('beforeunload', (evt) => {
@@ -837,83 +824,6 @@ window.addEventListener('beforeunload', (evt) => {
     }
   });
   socket.emit("stop");
-});
-
-$("#showLogin").on("click", ()=>{
-  document.getElementById("loginPopup").style.display = "block";
-  document.getElementById("wifiPopup").style.display = "none";
-  document.getElementById("usedataPopup").style.display = "none";
-});
-
-$("#hideLogin").on("click", ()=>{
-  document.getElementById("loginPopup").style.display = "none";
-});
-
-$("#login").on("click", ()=>{
-  const username = $("#username").val().trim();
-  const password = $("#password").val().trim();
-
-  // Check if username and password are not empty
-  if (username === "" || password === "") {
-    alert("Please enter username and password.");
-    return;
-  }
-
-  $.ajax({
-    url: `http://${location.hostname}/account`,
-    type: "post",
-    data: JSON.stringify({username:username, password:password}),
-    contentType: "application/json",
-  }).always((xhr, status) => {
-    if (status == "success") {
-      alert(`로그인 성공.`);
-      $("#logined_id").html(xhr['username']);
-      $("#username").val(xhr['username']);
-      $("#password").val(xhr['password']);
-      $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-    } else {
-      alert(`로그인 오류입니다..\n >> ${xhr.responseJSON["result"]}`);
-    }
-  });
-
-  // Here you can add your own authentication logic
-  // For example, you can send an AJAX request to your server and validate the credentials
-  usedata = init_usedata; // from server
-  document.getElementById("loginPopup").style.display = "none";    
-});
-
-$("#user_bt").on("click", () => {
-  if(confirm("로그아웃 하시겠습니까?")){
-      $.ajax({
-        url: `http://${location.hostname}/account`,
-        type: "post",
-        data: JSON.stringify({username:"", password:""}),
-        contentType: "application/json",
-      }).always((xhr, status) => {
-        if (status == "success") {
-          alert(`로그아웃 성공.`);
-          $("#logined_id").html(xhr['username']);
-          $("#username").val(xhr['username']);
-          $("#password").val(xhr['password']);
-          $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-          document.getElementById("loginPopup").style.display = "none";
-          $.ajax({
-            url: `http://${location.hostname}/usedata/ide`,
-            type: "post",
-            data: JSON.stringify(usedata),
-            contentType: "application/json",
-          }).always((xhr, status) => {
-            if (status == "success") {
-              usedata = init_usedata;
-            } else {
-              alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
-            }
-          });
-        } else {
-          alert(`로그아웃 오류.\n >> ${xhr.responseJSON["result"]}`);
-        }
-    });
-  }
 });
 
 $("#usedata_bt").on("click", ()=> {
@@ -963,3 +873,41 @@ $("#enctype_open").on('click', function(){
     $("#psk").prop("disabled", false);
   }
 });
+
+const setLanguage = (langCode) => {
+  const elements = document.querySelectorAll('[data-key]');
+  elements.forEach(element => {
+      const key = element.getAttribute('data-key');
+      if (translations[key] && translations[key][langCode]) {
+          element.textContent = translations[key][langCode];
+      }
+  });
+
+  const langFile = '../static/' + langCode + '.js?ver=230721v1';
+  const prevKoScript = document.querySelector(`script[src*="../static/ko.js?ver=230721v1"]`);
+  if (prevKoScript) {
+    prevKoScript.remove();
+  }
+  const prevEnScript = document.querySelector(`script[src*="../static/en.js?ver=230721v1"]`);
+  if (prevEnScript) {
+    prevEnScript.remove();
+  }
+  const script = document.createElement('script');
+  script.setAttribute('src', langFile);
+  document.head.appendChild(script);
+  workspace.updateToolbox(langCode=="en"?toolbox_en:toolbox_ko);
+}
+
+const language = document.getElementById("language");
+language.value = lang;
+setLanguage(lang);
+localStorage.setItem("language", lang);
+
+language.addEventListener("change", () => {
+  lang = language.value;
+  setLanguage(lang);
+  localStorage.setItem("language", lang);
+});
+
+
+

@@ -49,7 +49,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["audio"],
-      tooltip: '오디오 파일을 재생합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -68,7 +68,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["audio"],
-      tooltip: '오디오 재생을 정지합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -105,7 +105,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["audio"],
-      tooltip: '마이크로 녹음하여 오디오 파일을 생성합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -131,7 +131,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
-      tooltip: '(인터넷 연결 필수) 위키피디아의 검색한 결과를 가져옵니다.',
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
       helpUrl: ''
     },
     {
@@ -153,28 +153,28 @@ Blockly.defineBlocksWithJsonArray(
         {"type":"input_dummy"},
         {"type": "field_dropdown", "name":"topic",
          "options":[
-          [ '전국', '전국' ], [ '서울', '서울' ],
-          [ '인천', '인천' ], [ '경기', '경기' ],
-          [ '부산', '부산' ], [ '울산', '울산' ],
-          [ '경남', '경남' ], [ '대구', '대구' ],
-          [ '경북', '경북' ], [ '광주', '광주' ],
-          [ '전남', '전남' ], [ '전북', '전북' ],
-          [ '대전', '대전' ], [ '세종', '세종' ],
-          [ '충남', '충남' ], [ '충북', '충북' ],
-          [ '강원', '강원' ], [ '제주', '제주' ]
+          [ '%{BKY_COLLECT_NATION}', '전국' ], [ '%{BKY_COLLECT_SEOUL}', '서울' ],
+          [ '%{BKY_COLLECT_INCHEON}', '인천' ], [ '%{BKY_COLLECT_GYEONGGI}', '경기' ],
+          [ '%{BKY_COLLECT_BUSAN}', '부산' ], [ '%{BKY_COLLECT_ULSAN}', '울산' ],
+          [ '%{BKY_COLLECT_GYEONGNAM}', '경남' ], [ '%{BKY_COLLECT_DAEGU}', '대구' ],
+          [ '%{BKY_COLLECT_GYEONGBUK}', '경북' ], [ '%{BKY_COLLECT_GWANGJU}', '광주' ],
+          [ '%{BKY_COLLECT_JEONNAM}', '전남' ], [ '%{BKY_COLLECT_JEONBUK}', '전북' ],
+          [ '%{BKY_COLLECT_DAEJEON}', '대전' ], [ '%{BKY_COLLECT_SEJONG}', '세종' ],
+          [ '%{BKY_COLLECT_CHUNGNAM}', '충남' ], [ '%{BKY_COLLECT_CHUNGBUK}', '충북' ],
+          [ '%{BKY_COLLECT_GANGWON}', '강원' ], [ '%{BKY_COLLECT_JEJU}', '제주' ]
          ]
        },
        {"type": "field_dropdown", "name":"mode",
        "options":[
-        [ '종합', 'forecast' ], [ '오늘', 'today' ],
-        [ '내일', 'tomorrow' ], [ '모레', 'after_tomorrow' ]
+        [ '%{BKY_COLLECT_FORECAST}', 'forecast' ], [ '%{BKY_COLLECT_TODAY}', 'today' ],
+        [ '%{BKY_COLLECT_TOMORROW}', 'tomorrow' ], [ '%{BKY_COLLECT_AFTER_TOMORROW}', 'after_tomorrow' ]
        ]
       }
       ],
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
-      tooltip: '(인터넷 연결 필수) 공공 데이터를 사용하여, 날씨를 가져옵니다.',
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
       helpUrl: ''
     },
     {
@@ -197,29 +197,29 @@ Blockly.defineBlocksWithJsonArray(
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"topic",
           "options":[
-            [ '속보', '속보' ],
-            [ '정치', '정치' ],
-            [ '경제', '경제' ],
-            [ '사회', '사회' ],
-            [ '국제', '국제' ],
-            [ '문화', '문화' ],
-            [ '연예', '연예' ],
-            [ '스포츠', '스포츠' ],
-            [ '뉴스랭킹', '뉴스랭킹' ],
+            [ '%{BKY_COLLECT_NEWSFLASH}', '속보' ],
+            [ '%{BKY_COLLECT_POLITICS}', '정치' ],
+            [ '%{BKY_COLLECT_ECONOMY}', '경제' ],
+            [ '%{BKY_COLLECT_SOCIETY}', '사회' ],
+            [ '%{BKY_COLLECT_INTERNATIONAL}', '국제' ],
+            [ '%{BKY_COLLECT_CULTURE}', '문화' ],
+            [ '%{BKY_COLLECT_ENTERTAINMENT}', '연예' ],
+            [ '%{BKY_COLLECT_SPORT}', '스포츠' ],
+            [ '%{BKY_COLLECT_NEWSRANK}', '뉴스랭킹' ],
           ]
           },
           {"type": "field_dropdown", "name":"mode",
           "options":[
-            [ '제목', 'title' ],
-            [ '내용', 'description' ],
-            [ '링크', 'link']
+            [ '%{BKY_COLLECT_TOPIC}', 'title' ],
+            [ '%{BKY_COLLECT_CONTENT}', 'description' ],
+            [ '%{BKY_COLLECT_LINK}', 'link']
           ]
           }
         ],
       output: 'String',
       inputsInline: true,
       colour: color_type["collect"],
-      tooltip: '(인터넷 연결 필수) RSS 를 통해 뉴스를 가져옵니다.',
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
       helpUrl: ''
     },
     {
@@ -287,7 +287,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '로봇의 눈 색상을 설정합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -309,7 +309,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '색상 블록을 이용하여, 로봇의 눈 색상을 설정합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -329,7 +329,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '로봇의 눈 색상을 초기화합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -348,7 +348,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '전원 연결 정보를 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -367,7 +367,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '배터리 잔량을 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -386,7 +386,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '시스템 정보를 가져옵니다.(인체감지,터치센서,버튼)',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -405,7 +405,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '인체감지센서 결과를 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -424,7 +424,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '터치센서 결과를 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -443,7 +443,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '버튼 인식 결과를 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },    
     // motion
@@ -463,7 +463,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '모션 목록을 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -482,7 +482,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '내가 만든 모션 목록을 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -511,7 +511,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '모션을 실행합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -540,7 +540,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '내가 만든 모션을 실행합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -560,7 +560,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '초기 동작을 실행합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -577,16 +577,16 @@ Blockly.defineBlocksWithJsonArray(
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
            "options":[
-              ['오른발[0]','0'],
-              ['오른다리[1]','1'],
-              ['오른팔[2]','2'],
-              ['오른손[3]','3'],
-              ['목[4]','4'],
-              ['머리[5]','5'],
-              ['왼발[6]','6'],
-              ['왼다리[7]','7'],
-              ['왼팔[8]','8'],
-              ['왼손[9]','9'],
+            ['%{BKY_MOTION_R_FOOT}','0'],
+            ['%{BKY_MOTION_R_LEG}','1'],
+            ['%{BKY_MOTION_R_ARM}','2'],
+            ['%{BKY_MOTION_R_HAND}','3'],
+            ['%{BKY_MOTION_NECK}','4'],
+            ['%{BKY_MOTION_HEAD}','5'],
+            ['%{BKY_MOTION_L_FOOT}','6'],
+            ['%{BKY_MOTION_L_LEG}','7'],
+            ['%{BKY_MOTION_L_ARM}','8'],
+            ['%{BKY_MOTION_L_HAND}','9'],
             ]
           },
           {
@@ -602,7 +602,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '개별 모터를 이동합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -619,16 +619,16 @@ Blockly.defineBlocksWithJsonArray(
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
            "options":[
-              ['오른발[0]','0'],
-              ['오른다리[1]','1'],
-              ['오른팔[2]','2'],
-              ['오른손[3]','3'],
-              ['목[4]','4'],
-              ['머리[5]','5'],
-              ['왼발[6]','6'],
-              ['왼다리[7]','7'],
-              ['왼팔[8]','8'],
-              ['왼손[9]','9'],
+            ['%{BKY_MOTION_R_FOOT}','0'],
+            ['%{BKY_MOTION_R_LEG}','1'],
+            ['%{BKY_MOTION_R_ARM}','2'],
+            ['%{BKY_MOTION_R_HAND}','3'],
+            ['%{BKY_MOTION_NECK}','4'],
+            ['%{BKY_MOTION_HEAD}','5'],
+            ['%{BKY_MOTION_L_FOOT}','6'],
+            ['%{BKY_MOTION_L_LEG}','7'],
+            ['%{BKY_MOTION_L_ARM}','8'],
+            ['%{BKY_MOTION_L_HAND}','9'],
             ]
           },
           {
@@ -644,7 +644,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '개별 모터의 속도를 설정합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -661,16 +661,16 @@ Blockly.defineBlocksWithJsonArray(
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"no",
            "options":[
-            ['오른발[0]','0'],
-            ['오른다리[1]','1'],
-            ['오른팔[2]','2'],
-            ['오른손[3]','3'],
-            ['목[4]','4'],
-            ['머리[5]','5'],
-            ['왼발[6]','6'],
-            ['왼다리[7]','7'],
-            ['왼팔[8]','8'],
-            ['왼손[9]','9'],
+            ['%{BKY_MOTION_R_FOOT}','0'],
+            ['%{BKY_MOTION_R_LEG}','1'],
+            ['%{BKY_MOTION_R_ARM}','2'],
+            ['%{BKY_MOTION_R_HAND}','3'],
+            ['%{BKY_MOTION_NECK}','4'],
+            ['%{BKY_MOTION_HEAD}','5'],
+            ['%{BKY_MOTION_L_FOOT}','6'],
+            ['%{BKY_MOTION_L_LEG}','7'],
+            ['%{BKY_MOTION_L_ARM}','8'],
+            ['%{BKY_MOTION_L_HAND}','9'],
             ]
           },
           {
@@ -686,7 +686,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["motion"],
-      tooltip: '개별 모터의 가속도를 설정합니다.',
+      tooltip: '',
       helpUrl: ''
     },
 
@@ -717,7 +717,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 의 글씨 크기를 설정합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -754,7 +754,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 에 글씨를 입력합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -789,7 +789,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 에 이미지를 입력합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -838,7 +838,7 @@ Blockly.defineBlocksWithJsonArray(
           },
           {"type": "field_dropdown", "name":"fill",
            "options":[
-              ['채우기','True'],['채우기 없음','False']
+              ['%{BKY_OLED_FILL}','True'],['%{BKY_OLED_UNFILL}','False']
             ]
           },
         ],
@@ -846,7 +846,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 에 네모를 입력합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -895,7 +895,7 @@ Blockly.defineBlocksWithJsonArray(
           },
           {"type": "field_dropdown", "name":"fill",
            "options":[
-              ['채우기','True'],['채우기 없음','False']
+            ['%{BKY_OLED_FILL}','True'],['%{BKY_OLED_UNFILL}','False']
             ]
           },
         ],
@@ -903,7 +903,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 에 타원을 입력합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -955,7 +955,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 에 선을 입력합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -975,7 +975,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 화면을 반전합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -995,7 +995,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 에 저장된 내용을 표시합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1015,7 +1015,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["oled"],
-      tooltip: 'OLED 의 내용을 초기화합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1048,7 +1048,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: '(인터넷 연결 필수) 음성인식을 실행합니다.',
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
       helpUrl: ''
     },
     {
@@ -1090,7 +1090,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: '(인터넷 연결 필수) 음성합성을 실행합니다.',
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
       helpUrl: ''
     },
     {
@@ -1110,7 +1110,7 @@ Blockly.defineBlocksWithJsonArray(
       output: 'String',
       inputsInline: true,
       colour: color_type["speech"],
-      tooltip: '음성대화를 실행합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1138,7 +1138,7 @@ Blockly.defineBlocksWithJsonArray(
         previousStatement: true,
         inputsInline: true,
         colour: color_type["speech"],
-        tooltip: '음성대화 데이터를 불러옵니다.',
+        tooltip: '',
         helpUrl: ''
     },
     {
@@ -1157,7 +1157,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '사진을 촬영하여 이미지 데이터로 만듭니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1191,7 +1191,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '사진을 촬영하여 이미지 데이터로 만듭니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1221,7 +1221,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지 데이터를 사진 파일로 저장합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1256,7 +1256,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '사진 파일을 이미지 뷰어에 표시합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1273,18 +1273,18 @@ Blockly.defineBlocksWithJsonArray(
         {"type": "input_value", "name": "img"},
         {"type": "field_dropdown", "name":"type",
           "options":[
-            [ '만화(고속)', 'cartoon' ],
-            [ '만화', 'cartoon_n'],
-            [ '상세한 이미지', 'detail' ],
-            [ '스케치(흑백)', 'sketch_g'],
-            [ '스케치(컬러)', 'sketch_c']
+            [ '%{BKY_VISION_CARTOON}', 'cartoon' ],
+            [ '%{BKY_VISION_CARTOON_N}', 'cartoon_n'],
+            [ '%{BKY_VISION_DETAIL}', 'detail' ],
+            [ '%{BKY_VISION_SKETCH_G}', 'sketch_g'],
+            [ '%{BKY_VISION_SKETCH_C}', 'sketch_c']
           ]
         },
       ],
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지를 다양한 형태로 변환합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1303,7 +1303,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지에서 사물을 인식합니다. (80가지 사물)',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1322,7 +1322,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지에서 QR코드를 인식합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1341,7 +1341,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지에서 사람 포즈를 계산합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1358,17 +1358,17 @@ Blockly.defineBlocksWithJsonArray(
         {"type": "input_value", "name": "val"},
         {"type": "field_dropdown", "name":"type",
           "options":[
-            [ '모션인식', 'motion' ],
-            [ '포즈좌표', 'pose'],
-            [ '사람좌표', 'person' ],
-            [ '정확도', 'acc']
+            [ '%{BKY_VISION_POSE_MOTION}', 'motion' ],
+            [ '%{BKY_VISION_POSE_POSITION}', 'pose'],
+            [ '%{BKY_VISION_POSE_PERSON}', 'person' ],
+            [ '%{BKY_VISION_POSE_ACC}', 'acc']
           ]
         }
       ],
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지 포즈 데이터를 분석합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1387,7 +1387,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '이미지를 분류합니다. (1000가지 분류)',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1417,7 +1417,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '티쳐블머신 모델을 불러옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1436,7 +1436,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '티쳐블머신을 이용하여 이미지 분류를 실행합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1458,10 +1458,10 @@ Blockly.defineBlocksWithJsonArray(
         {"type":"input_dummy"},
         {"type": "field_dropdown", "name":"type",
           "options":[
-            [ '이미지캡션', 'caption/caption' ],
-            [ '이미지태그', 'caption/caption_tag_e' ],
-            [ '장소인식', 'caption/caption_place_e' ],
-            [ '시간인식', 'caption/caption_time_e' ]
+            [ '%{BKY_VISION_CAPTION}', 'caption/caption' ],
+            [ '%{BKY_VISION_CAPTION_TAG}', 'caption/caption_tag_e' ],
+            [ '%{BKY_VISION_CAPTION_PLACE}', 'caption/caption_place_e' ],
+            [ '%{BKY_VISION_CAPTION_TIME}', 'caption/caption_time_e' ]
           ]
         },
         {"type": "field_dropdown", "name":"dir",
@@ -1477,7 +1477,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
-      tooltip: '(인터넷 연결 필수) 인공지능 이미지 분석을 실행합니다.',
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
       helpUrl: ''
     },
     {
@@ -1505,7 +1505,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: '설정한 시간만큼 동작을 지연시킵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1524,7 +1524,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: '시간 데이터를 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1543,7 +1543,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: '현재 시간을 가져옵니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1563,7 +1563,7 @@ Blockly.defineBlocksWithJsonArray(
       output: null,
       inputsInline: true,
       colour: color_type["utils"],
-      tooltip: '특정 항목이 목록에 존재하는지 확인합니다.',
+      tooltip: '',
       helpUrl: ''
     },
     {
@@ -1584,7 +1584,7 @@ Blockly.defineBlocksWithJsonArray(
         output: null,
         inputsInline: true,
         colour: color_type["utils"],
-        tooltip: '딕셔너리의 특정 키에 매핑된 값을 가져옵니다.',
+        tooltip: '',
         helpUrl: ''
     },
   ]

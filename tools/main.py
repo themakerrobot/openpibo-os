@@ -12,6 +12,7 @@ import network_disp
 from urllib import parse
 import argparse
 from mcu_control import DeviceControl
+import requests
 
 MODEL_PATH = "/home/pi/models"
 try:
@@ -27,7 +28,7 @@ except Exception as ex:
 @app.get('/', response_class=HTMLResponse)
 async def f(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
-
+  
 @app.get('/account')
 async def f():
   try:

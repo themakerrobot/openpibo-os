@@ -1,489 +1,9 @@
-const audio_box = [
-  {
-    "kind": "block",
-    "type": "audio_play",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "오디오 파일이름"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "audio_stop",
-  },
-  {
-    "kind": "block",
-    "type": "audio_record",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "오디오 파일이름"
-          }
-        }
-      },
-    }
-  }
-];
-const collect_box = [
-  {
-    "kind": "block",
-    "type": "wikipedia_search",
-    "inputs":{
-      "topic":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "로봇"
-          }
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "weather_search",
-  },
-  {
-    "kind": "block",
-    "type": "news_search",
-  },
-];
-const device_box = [
-  {
-    "kind": "block",
-    "type": "device_eye_on",
-  },
-  {
-    "kind": "block",
-    "type": "device_eye_colour_on",
-    "inputs":{
-      "left":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      },
-      "right":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "device_eye_off",
-  },
-  {
-    "kind": "block",
-    "type": "device_get_dc",
-  },
-  {
-    "kind": "block",
-    "type": "device_get_battery",
-  },
-  {
-    "kind": "block",
-    "type": "device_get_system",
-  },
-  {
-    "kind": "block",
-    "type": "device_get_pir",
-  },
-  {
-    "kind": "block",
-    "type": "device_get_touch",
-  },
-  {
-    "kind": "block",
-    "type": "device_get_button",
-  },
-];
-const motion_box = [
-  {
-    "kind": "block",
-    "type": "motion_get_motion",
-  },
-  {
-    "kind": "block",
-    "type": "motion_get_mymotion",
-  },
-  {
-    "kind": "block",
-    "type": "motion_set_motion",
-    "inputs":{
-      "name":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "wave1"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "motion_set_mymotion",
-    "inputs":{
-      "name":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "나의 모션"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "motion_init_motion",
-  },
-  {
-    "kind": "block",
-    "type": "motion_set_motor",
-  },
-  {
-    "kind": "block",
-    "type": "motion_set_speed",
-  },
-  {
-    "kind": "block",
-    "type": "motion_set_acceleration",
-  },
-];
-const oled_box = [
-  {
-    "kind": "block",
-    "type": "oled_set_font",
-  },
-  {
-    "kind": "block",
-    "type": "oled_draw_text",
-    "inputs":{
-      "text":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "안녕하세요."
-          }
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "oled_draw_image",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "이미지 파일이름"
-          }
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "oled_draw_rectangle",
-  },
-  {
-    "kind": "block",
-    "type": "oled_draw_ellipse",
-  },
-  {
-    "kind": "block",
-    "type": "oled_draw_line",
-  },
-  {
-    "kind": "block",
-    "type": "oled_invert",
-  },
-  {
-    "kind": "block",
-    "type": "oled_show",
-  },
-  {
-    "kind": "block",
-    "type": "oled_clear",
-  },
-];
-const speech_box = [
-  {
-    "kind": "block",
-    "type": "speech_stt",
-  },
-  {
-    "kind": "block",
-    "type": "speech_tts",
-    "inputs":{
-      "text":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "안녕하세요."
-          }
-        }
-      },
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "오디오 파일이름"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "speech_get_dialog",
-    "inputs":{
-      "text":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "안녕하세요."
-          }
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "speech_load_dialog",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "csv 파일이름"
-          }
-        }
-      }
-    }
-  }
-];
-const vision_box = [
-  {
-    "kind": "block",
-    "type": "vision_read",
-  },
-  {
-    "kind": "block",
-    "type": "vision_imread",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "이미지 파일이름"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_imwrite",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "이미지 파일이름"
-          }
-        }
-      },
-      "img":{
-        "shadow":{
-          "type":"variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_imshow_to_ide",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "이미지 파일이름"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_transfer",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_object",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_qr",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_pose",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_analyze_pose",
-    "inputs":{
-      "val":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_classification",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_load_tm",
-    "inputs":{
-      "modelpath":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "모델 파일이름"
-          }
-        }
-      },
-      "labelpath":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "라벨 파일이름"
-          }
-        }
-      },
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_predict_tm",
-    "inputs":{
-      "img":{
-        "shadow": {
-          "type": "variables_get",
-        }
-      }
-    }
-  },
-  {
-    "kind": "block",
-    "type": "vision_call_ai",
-    "inputs":{
-      "filename":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "이미지 파일이름"
-          }
-        }
-      },
-    }
-  },
-];
-const utils_box = [
-  {
-    "kind": "block",
-    "type": "utils_sleep",
-  },
-  {
-    "kind": "block",
-    "type": "utils_time",
-  },
-  {
-    "kind": "block",
-    "type": "utils_current_time",
-  },
-  {
-    "kind": "block",
-    "type": "utils_include",
-  },
-  {
-    "kind": "block",
-    "type": "utils_dict",
-    "inputs":{
-      "dictionary":{
-        "shadow":{
-          "type":"variables_get",
-        }
-      },
-      "keyname":{
-        "shadow": {
-          "type": "text",
-          "fields": {
-            "TEXT": "키 이름"
-          }
-        }
-      },
-    }
-  },
-];
-
-const toolbox= {
+const toolbox_en = {
   "kind": "categoryToolbox",
   "contents": [
     { // Logic
       "kind": "category",
-      "name": "논리",
+      "name": translations['logic']['en'],
       "cssConfig": {
         "icon": "customIcon fa fa-bars-staggered"
       },
@@ -521,7 +41,7 @@ const toolbox= {
     },
     { // Loops
       "kind": "category",
-      "name": "반복",
+      "name": translations['loops']['en'],
       "cssConfig": {
         "icon": "customIcon fa fa-arrows-spin"
       },
@@ -587,7 +107,7 @@ const toolbox= {
     },
     { // Math
       "kind": "category",
-      "name": "수학",
+      "name": translations['math']['en'],
       "cssConfig": {
         "icon": "customIcon fa fa-square-root-variable"
       },
@@ -790,7 +310,7 @@ const toolbox= {
     },
     { // Text
       "kind": "category",
-      "name": "문자",
+      "name": translations['text']['en'],
       "cssConfig": {
         "icon": "customIcon fa fa-t"
       },
@@ -1019,7 +539,7 @@ const toolbox= {
     },
     { // Lists
       "kind": "category",
-      "name": "목록",
+      "name": translations['lists']['en'],
       "cssConfig": {
         "icon": "customIcon fa fa-list"
       },
@@ -1140,7 +660,7 @@ const toolbox= {
     },
     { // Colour
       "kind": "category",
-      "name": "색상",
+      "name": translations['colour']['en'],
       "cssConfig": {
         "icon": "customIcon fa fa-palette"
       },
@@ -1221,7 +741,7 @@ const toolbox= {
     },
     { // Variables
       "kind": "category",
-      "name": "변수",
+      "name": translations['variables']['en'],
       "contents": [],
       "custom": "VARIABLE",
       "categorystyle": "variable_category",
@@ -1231,7 +751,7 @@ const toolbox= {
     },
     { // Functions
       "kind": "category",
-      "name": "함수",
+      "name": translations['functions']['en'],
       "contents": [],
       "custom": "PROCEDURE",
       "categorystyle": "procedure_category",
@@ -1244,8 +764,41 @@ const toolbox= {
     },
     { // Audio
       "kind": "category",
-      "name": "소리",
-      "contents": audio_box,
+      "name": translations['audio']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "audio_play",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "audio filename"
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "audio_stop",
+        },
+        {
+          "kind": "block",
+          "type": "audio_record",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "audio filename"
+                }
+              }
+            },
+          }
+        }
+      ],
       "colour": color_type["audio"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-music"
@@ -1253,8 +806,31 @@ const toolbox= {
     },
     { // Collect
       "kind": "category",
-      "name": "수집",
-      "contents": collect_box,
+      "name": translations['collect']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "wikipedia_search",
+          "inputs":{
+            "topic":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "robot"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "weather_search",
+        },
+        {
+          "kind": "block",
+          "type": "news_search",
+        },
+      ],
       "colour": color_type["collect"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-magnifying-glass-chart"
@@ -1262,8 +838,57 @@ const toolbox= {
     },
     { // Device
       "kind": "category",
-      "name": "장치",
-      "contents": device_box,
+      "name": translations['device']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "device_eye_on",
+        },
+        {
+          "kind": "block",
+          "type": "device_eye_colour_on",
+          "inputs":{
+            "left":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            },
+            "right":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "device_eye_off",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_dc",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_battery",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_system",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_pir",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_touch",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_button",
+        },
+      ],
       "colour": color_type["device"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-walkie-talkie"
@@ -1271,8 +896,61 @@ const toolbox= {
     },
     { // Motion
       "kind": "category",
-      "name": "동작",
-      "contents": motion_box,
+      "name": translations['motion']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "motion_get_motion",
+        },
+        {
+          "kind": "block",
+          "type": "motion_get_mymotion",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_motion",
+          "inputs":{
+            "name":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "wave1"
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_mymotion",
+          "inputs":{
+            "name":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['mymotion']['en']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "motion_init_motion",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_motor",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_speed",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_acceleration",
+        },
+      ],
       "colour": color_type["motion"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-person-walking"
@@ -1280,8 +958,65 @@ const toolbox= {
     },
     { // Oled
       "kind": "category",
-      "name": "화면",
-      "contents": oled_box,
+      "name": translations['oled']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "oled_set_font",
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_text",
+          "inputs":{
+            "text":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello."
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_image",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['en']
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_rectangle",
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_ellipse",
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_line",
+        },
+        {
+          "kind": "block",
+          "type": "oled_invert",
+        },
+        {
+          "kind": "block",
+          "type": "oled_show",
+        },
+        {
+          "kind": "block",
+          "type": "oled_clear",
+        },
+      ],
       "colour": color_type["oled"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-display"
@@ -1289,8 +1024,63 @@ const toolbox= {
     },
     { // Speech
       "kind": "category",
-      "name": "음성",
-      "contents": speech_box,
+      "name": translations['speech']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "speech_stt",
+        },
+        {
+          "kind": "block",
+          "type": "speech_tts",
+          "inputs":{
+            "text":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello."
+                }
+              }
+            },
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "audio filename"
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "speech_get_dialog",
+          "inputs":{
+            "text":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello."
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "speech_load_dialog",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "csv filename"
+                }
+              }
+            }
+          }
+        }
+      ],
       "colour": color_type["speech"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-comment-dots"
@@ -1298,8 +1088,173 @@ const toolbox= {
     },
     { // Vision
       "kind": "category",
-      "name": "시각",
-      "contents": vision_box,
+      "name": translations['vision']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "vision_read",
+        },
+        {
+          "kind": "block",
+          "type": "vision_imread",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['en']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_imwrite",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['en']
+                }
+              }
+            },
+            "img":{
+              "shadow":{
+                "type":"variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_imshow_to_ide",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['en']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_transfer",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_object",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_qr",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_pose",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_analyze_pose",
+          "inputs":{
+            "val":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_classification",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_load_tm",
+          "inputs":{
+            "modelpath":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "model filename"
+                }
+              }
+            },
+            "labelpath":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "label filename"
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_predict_tm",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_call_ai",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['en']
+                }
+              }
+            },
+          }
+        },
+      ],
       "colour": color_type["vision"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-camera-retro"
@@ -1307,8 +1262,44 @@ const toolbox= {
     },
     { // Utils
       "kind": "category",
-      "name": "도구",
-      "contents": utils_box,
+      "name": translations['utils']['en'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "utils_sleep",
+        },
+        {
+          "kind": "block",
+          "type": "utils_time",
+        },
+        {
+          "kind": "block",
+          "type": "utils_current_time",
+        },
+        {
+          "kind": "block",
+          "type": "utils_include",
+        },
+        {
+          "kind": "block",
+          "type": "utils_dict",
+          "inputs":{
+            "dictionary":{
+              "shadow":{
+                "type":"variables_get",
+              }
+            },
+            "keyname":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "key name"
+                }
+              }
+            },
+          }
+        },
+      ],
       "colour": color_type["utils"],
       "cssConfig": {
         "icon": "customIcon fa-solid fa-toolbox"
@@ -1317,6 +1308,1315 @@ const toolbox= {
   ]
 }
 
+let toolbox_ko = {
+  "kind": "categoryToolbox",
+  "contents": [
+    { // Logic
+      "kind": "category",
+      "name": translations['logic']['ko'],
+      "cssConfig": {
+        "icon": "customIcon fa fa-bars-staggered"
+      },
+      "contents": [
+        {
+          "kind": "block",
+          "type": "controls_if"
+        },
+        {
+          "kind": "block",
+          "type": "logic_compare"
+        },
+        {
+          "kind": "block",
+          "type": "logic_operation"
+        },
+        {
+          "kind": "block",
+          "type": "logic_negate"
+        },
+        {
+          "kind": "block",
+          "type": "logic_boolean"
+        },
+        {
+          "kind": "block",
+          "type": "logic_null"
+        },
+        {
+          "kind": "block",
+          "type": "logic_ternary"
+        }
+      ],
+      "categorystyle": "logic_category"
+    },
+    { // Loops
+      "kind": "category",
+      "name": translations['loops']['ko'],
+      "cssConfig": {
+        "icon": "customIcon fa fa-arrows-spin"
+      },
+      "contents": [
+        {
+          "kind": "block",
+          "type": "controls_repeat_ext",
+          "inputs": {
+            "TIMES": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "10"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "controls_whileUntil"
+        },
+        {
+          "kind": "block",
+          "type": "controls_for",
+          "inputs": {
+            "FROM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            },
+            "TO": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                "NUM": "10"
+                }
+              }
+            },
+            "BY": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "controls_forEach"
+        },
+        {
+          "kind": "block",
+          "type": "controls_flow_statements"
+        }
+      ],
+      "categorystyle": "loop_category"
+    },
+    { // Math
+      "kind": "category",
+      "name": translations['math']['ko'],
+      "cssConfig": {
+        "icon": "customIcon fa fa-square-root-variable"
+      },
+      "contents": [
+        {
+          "kind": "block",
+          "type": "math_number",
+          "fields": {
+            "NUM": "123"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_arithmetic",
+          "inputs": {
+            "A": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            },
+            "B": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_single",
+          "inputs": {
+            "NUM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "9"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_trig",
+          "inputs": {
+            "NUM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "45"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_constant"
+        },
+        {
+          "kind": "block",
+          "type": "math_number_property",
+          "inputs": {
+            "NUMBER_TO_CHECK": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_round",
+          "inputs": {
+            "NUM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "3.1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_on_list"
+        },
+        {
+          "kind": "block",
+          "type": "math_modulo",
+          "inputs": {
+            "DIVIDEND": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "64"
+                }
+              }
+            },
+            "DIVISOR": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "10"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_constrain",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "50"
+                }
+              }
+            },
+            "LOW": {
+              "shadow": {
+              "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            },
+            "HIGH": {
+              "shadow": {
+              "type": "math_number",
+                "fields": {
+                "NUM": "100"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_random_int",
+          "inputs": {
+            "FROM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            },
+            "TO": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "100"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "math_random_float"
+        },
+        {
+          "kind": "block",
+          "type": "math_atan2",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
+          }
+        }      
+      ],
+      "categorystyle": "math_category"
+    },
+    { // Text
+      "kind": "category",
+      "name": translations['text']['ko'],
+      "cssConfig": {
+        "icon": "customIcon fa fa-t"
+      },
+      "contents": [
+        {
+          "kind": "block",
+          "type": "text"
+        },
+        {
+          "kind": "block",
+          "type": "text_join"
+        },
+        {
+          "kind": "block",
+          "type": "text_append",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text"
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_length",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_isEmpty",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": null
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_indexOf",
+          "inputs": {
+            "VALUE": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{textVariable}"
+                }
+              }
+            },
+            "FIND": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_charAt",
+          "inputs": {
+            "VALUE": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{textVariable}"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_getSubstring",
+          "inputs": {
+            "STRING": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{textVariable}"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_changeCase",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_trim",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_count",
+          "inputs": {
+            "SUB": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "a"
+                }
+              }
+            },
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_replace",
+          "inputs": {
+            "FROM": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "m"
+                }
+              }
+            },
+            "TO": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "w"
+                }
+              }
+            },
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_reverse",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_print",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "text_prompt_ext",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "abc"
+                }
+              }
+            }
+          }
+        },
+      ],
+      "categorystyle": "text_category"
+    },
+    { // Lists
+      "kind": "category",
+      "name": translations['lists']['ko'],
+      "cssConfig": {
+        "icon": "customIcon fa fa-list"
+      },
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lists_create_with",
+          "extraState": {
+            "itemCount": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_create_with"
+        },
+        {
+          "kind": "block",
+          "type": "lists_repeat",
+          "inputs": {
+            "NUM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "5"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_length"
+        },
+        {
+          "kind": "block",
+          "type": "lists_isEmpty"
+        },
+        {
+          "kind": "block",
+          "type": "lists_indexOf",
+          "inputs": {
+            "VALUE": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{listVariable}"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_getIndex",
+          "inputs": {
+            "VALUE": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{listVariable}"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_setIndex",
+          "inputs": {
+            "LIST": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{listVariable}"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_getSublist",
+          "inputs": {
+            "LIST": {
+              "block": {
+                "type": "variables_get",
+                "fields": {
+                  "VAR": "{listVariable}"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_split",
+          "inputs": {
+            "DELIM": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": ","
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lists_sort"
+        },
+        {
+          "kind": "block",
+          "type": "lists_reverse"
+        },
+      ],
+      "categorystyle": "list_category"
+    },
+    { // Colour
+      "kind": "category",
+      "name": translations['colour']['ko'],
+      "cssConfig": {
+        "icon": "customIcon fa fa-palette"
+      },
+      "contents": [
+        {
+          "kind": "block",
+          "type": "colour_picker"
+        },
+        {
+          "kind": "block",
+          "type": "colour_random"
+        },
+        {
+          "kind": "block",
+          "type": "colour_rgb",
+          "inputs": {
+            "RED": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "100"
+                }
+              }
+            },
+            "GREEN": {
+              "shadow": {
+                "type": "math_number",
+                  "fields": {
+                "NUM": "50"
+                }
+              }
+            },
+            "BLUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "colour_blend",
+          "inputs": {
+            "COLOUR1": {
+              "shadow": {
+                "type": "colour_picker",
+                "fields": {
+                  "COLOUR": "#ff0000"
+                }
+              }
+            },
+            "COLOUR2": {
+              "shadow": {
+                "type": "colour_picker",
+                "fields": {
+                  "COLOUR": "#3333ff"
+                }
+              }
+            },
+            "RATIO": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0.5"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categorystyle": "colour_category"
+    },
+    {
+      "kind": "sep"
+    },
+    { // Variables
+      "kind": "category",
+      "name": translations['variables']['ko'],
+      "contents": [],
+      "custom": "VARIABLE",
+      "categorystyle": "variable_category",
+      "cssConfig": {
+        "icon": "customIcon fa fa-v"
+      }
+    },
+    { // Functions
+      "kind": "category",
+      "name": translations['functions']['ko'],
+      "contents": [],
+      "custom": "PROCEDURE",
+      "categorystyle": "procedure_category",
+      "cssConfig": {
+        "icon": "customIcon fa fa-florin-sign"
+      }
+    },
+    {
+      "kind": "sep",
+    },
+    { // Audio
+      "kind": "category",
+      "name": translations['audio']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "audio_play",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['audio_filename']['ko']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "audio_stop",
+        },
+        {
+          "kind": "block",
+          "type": "audio_record",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['audio_filename']['ko']
+                }
+              }
+            },
+          }
+        }
+      ],
+      "colour": color_type["audio"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-music"
+      }
+    },
+    { // Collect
+      "kind": "category",
+      "name": translations['collect']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "wikipedia_search",
+          "inputs":{
+            "topic":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "로봇"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "weather_search",
+        },
+        {
+          "kind": "block",
+          "type": "news_search",
+        },
+      ],
+      "colour": color_type["collect"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-magnifying-glass-chart"
+      }
+    },
+    { // Device
+      "kind": "category",
+      "name": translations['device']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "device_eye_on",
+        },
+        {
+          "kind": "block",
+          "type": "device_eye_colour_on",
+          "inputs":{
+            "left":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            },
+            "right":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "device_eye_off",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_dc",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_battery",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_system",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_pir",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_touch",
+        },
+        {
+          "kind": "block",
+          "type": "device_get_button",
+        },
+      ],
+      "colour": color_type["device"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-walkie-talkie"
+      }
+    },
+    { // Motion
+      "kind": "category",
+      "name": translations['motion']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "motion_get_motion",
+        },
+        {
+          "kind": "block",
+          "type": "motion_get_mymotion",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_motion",
+          "inputs":{
+            "name":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "wave1"
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_mymotion",
+          "inputs":{
+            "name":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['mymotion']['ko']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "motion_init_motion",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_motor",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_speed",
+        },
+        {
+          "kind": "block",
+          "type": "motion_set_acceleration",
+        },
+      ],
+      "colour": color_type["motion"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-person-walking"
+      }
+    },
+    { // Oled
+      "kind": "category",
+      "name": translations['oled']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "oled_set_font",
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_text",
+          "inputs":{
+            "text":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "안녕하세요."
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_image",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['ko']
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_rectangle",
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_ellipse",
+        },
+        {
+          "kind": "block",
+          "type": "oled_draw_line",
+        },
+        {
+          "kind": "block",
+          "type": "oled_invert",
+        },
+        {
+          "kind": "block",
+          "type": "oled_show",
+        },
+        {
+          "kind": "block",
+          "type": "oled_clear",
+        },
+      ],
+      "colour": color_type["oled"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-display"
+      }
+    },
+    { // Speech
+      "kind": "category",
+      "name": translations['speech']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "speech_stt",
+        },
+        {
+          "kind": "block",
+          "type": "speech_tts",
+          "inputs":{
+            "text":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "안녕하세요."
+                }
+              }
+            },
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['audio_filename']['ko']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "speech_get_dialog",
+          "inputs":{
+            "text":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "안녕하세요."
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "speech_load_dialog",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "csv 파일이름"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "colour": color_type["speech"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-comment-dots"
+      }
+    },
+    { // Vision
+      "kind": "category",
+      "name": translations['vision']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "vision_read",
+        },
+        {
+          "kind": "block",
+          "type": "vision_imread",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['ko']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_imwrite",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['ko']
+                }
+              }
+            },
+            "img":{
+              "shadow":{
+                "type":"variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_imshow_to_ide",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['ko']
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_transfer",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_object",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_qr",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_pose",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_analyze_pose",
+          "inputs":{
+            "val":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_classification",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_load_tm",
+          "inputs":{
+            "modelpath":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "모델 파일이름"
+                }
+              }
+            },
+            "labelpath":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "라벨 파일이름"
+                }
+              }
+            },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_predict_tm",
+          "inputs":{
+            "img":{
+              "shadow": {
+                "type": "variables_get",
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "vision_call_ai",
+          "inputs":{
+            "filename":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": translations['image_filename']['ko']
+                }
+              }
+            },
+          }
+        },
+      ],
+      "colour": color_type["vision"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-camera-retro"
+      }
+    },
+    { // Utils
+      "kind": "category",
+      "name": translations['utils']['ko'],
+      "contents": [
+        {
+          "kind": "block",
+          "type": "utils_sleep",
+        },
+        {
+          "kind": "block",
+          "type": "utils_time",
+        },
+        {
+          "kind": "block",
+          "type": "utils_current_time",
+        },
+        {
+          "kind": "block",
+          "type": "utils_include",
+        },
+        {
+          "kind": "block",
+          "type": "utils_dict",
+          "inputs":{
+            "dictionary":{
+              "shadow":{
+                "type":"variables_get",
+              }
+            },
+            "keyname":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "키 이름"
+                }
+              }
+            },
+          }
+        },
+      ],
+      "colour": color_type["utils"],
+      "cssConfig": {
+        "icon": "customIcon fa-solid fa-toolbox"
+      }
+    },
+  ]
+};
 /**
  * @license
  * Copyright 2020 Google LLC

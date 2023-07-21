@@ -849,7 +849,6 @@ i.fa > span {
 }
 
 .wifi-popup,
-.login-popup,
 .usedata-popup {
   display: none;
   position: fixed;
@@ -863,7 +862,6 @@ i.fa > span {
 }
 
 .wifi-popup h3 > div,
-.login-popup h3 > div,
 .usedata-popup h3 > div {
   font-style: italic;
   background-color: var(--light-green);
@@ -938,49 +936,23 @@ i.fa > span {
   width: 100%;
 }
 
-.login-popup-content {
-  background-color: white;
-  margin: 10% auto;
-  padding: 10px 20px 10px 20px;
-  border: 1px solid #888;
-  width: 300px;
-  height: 300px;
-  border-radius: 10px;
-  /* align-content: center; */
-}
-.login-popup-content input[type="text"] {
-  width: 240px;
-  border: 1px solid #ccc;
-  margin: 5px auto;
-}
-.login-popup-content input[type="password"] {
-  width: 240px;
-  border: 1px solid #ccc;
-  margin: 5px auto;
-}
-
-.login-popup-content table {
-  width: 270px;
-  padding: 10px 0;
-}
-
-.login-popup-content .login {
-  background-color: var(--dark-teal);
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-
-.wifi-popup-content tr,
-.login-popup-content tr {
+.wifi-popup-content tr {
   background-color: white;
 }
 
 .wifi-popup-content .confirm:hover,
 .wifi-popup-content .confirm:focus,
 .wifi-popup-content .cancel:hover,
-.wifi-popup-content .cancel:focus,
-.login-popup-content .login:hover,
-.login-popup-content .login:focus {
+.wifi-popup-content .cancel:focus {
   opacity:0.8;
+}
+
+header > div > h2 > select {
+  height:20.5px;
+  background: var(--light-yellow);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  padding: auto;
+  font-size: x-small !important;
+  margin-bottom: auto;
 }

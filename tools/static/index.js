@@ -48,9 +48,9 @@ const getVisions = (socket) => {
       processData: false,
     }).always((xhr, status) => {
       if (status == "success") {
-        alert(`파일 전송이 완료되었습니다.`);
+        alert(translations["file_ok"][lang]);
       } else {
-        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`${translations["file_error"][lang]}\n >> ${xhr.responseJSON["result"]}`);
         $("#v_upload_tm").val("");
       }
     });
@@ -111,7 +111,7 @@ const getMotions = (socket) => {
 
         if (isNaN(pos) || pos < min || pos > max) {
           $(this).val($(trange).val());
-          alert(min + " ~ " + max + " 사이를 입력하세요.");
+          alert(translations["range_warn"][lang](min, max));
         } else {
           socket.emit("set_motor", { idx: i, pos: pos });
         }
@@ -136,7 +136,7 @@ const getMotions = (socket) => {
 
       if (isNaN(pos) || pos < min || pos > max) {
         $(this).val(0);
-        alert(min + " ~ " + max + " 사이를 입력하세요.");
+        alert(translations["range_warn"][lang](min, max));
       }
     }
   });
@@ -233,7 +233,7 @@ const getMotions = (socket) => {
             })
             .dblclick(function () {
               let t = $(this).text().split(" 초")[0];
-              if (confirm(t + " 초 항목을 삭제하시겠습니까?")) {
+              if (confirm(translations["confirm_motion_delete"][lang](t))) {
                 socket.emit("delete_frame", Number(t) * 1000);
                 $(this).remove();
               }
@@ -245,7 +245,7 @@ const getMotions = (socket) => {
 
   // 테이블 초기화
   $("#init_frame_bt").on("click", function () {
-    if (confirm("테이블을 모두 지우시겠습니까?")) {
+    if (confirm(translations["confirm_motion_delete_all"][lang])) {
       socket.emit("init_frame");
       $("#motor_table > tbody").empty();
     }
@@ -257,7 +257,7 @@ const getMotions = (socket) => {
       let cycle = $("#play_cycle_val").val();
       socket.emit("play_frame", cycle);
     } else {
-      alert("저장된 동작이 없습니다.\n먼저 동작을 저장해주세요.");
+      alert(translations["motion_empty"][lang]);
     }
   });
 
@@ -271,7 +271,7 @@ const getMotions = (socket) => {
       let max = Number($(this).attr("max"));
 
       if (!Number.isInteger(val) || val < min || val > max) {
-        alert(min + " ~ " + max + " 사이 정수만 입력하세요.");
+        alert(translations["range_warn"][lang](min, max));
         $(this).val(1);
       }
     }
@@ -287,10 +287,10 @@ const getMotions = (socket) => {
     let motionName = $("#motion_name_val").val().trim();
 
     if (motionName == "") {
-      alert("먼저 모션이름을 입력하세요.");
+      alert(translations["motion_name_empty"][lang]);
       return;
     }
-    if (confirm(motionName + " 모션을 등록하시겠습니까?")) {
+    if (confirm(translations["confirm_motion_register"][lang](motionName))) {
       socket.emit("add_motion", motionName);
       $("#motion_name_val").val("");
     }
@@ -301,11 +301,11 @@ const getMotions = (socket) => {
     let motionName = $("#motion_name_val").val().trim();
 
     if (motionName == "") {
-      alert("먼저 모션이름을 입력하세요.");
+      alert(translations["motion_name_empty"][lang]);
       return;
     }
 
-    if (confirm(motionName + " 모션을 불러오시겠습니까?")) {
+    if (confirm(translations["confirm_motion_load"][lang](motionName))) {
       socket.emit("load_motion", motionName);
       $("#motion_name_val").val("");
     }
@@ -358,10 +358,10 @@ const getMotions = (socket) => {
     let motionName = $("#motion_name_val").val().trim();
 
     if (motionName == "") {
-      alert("먼저 모션이름을 입력하세요.");
+      alert(translations["motion_name_empty"][lang]);
       return;
     }
-    if (confirm(motionName + " 모션을 삭제하시겠습니까?")) {
+    if (confirm(translations["confirm_motion_delete"][lang](motionName))) {
       socket.emit("delete_motion", motionName);
       $("#motion_name_val").val("");
     }
@@ -369,7 +369,7 @@ const getMotions = (socket) => {
 
   // 모션 삭제
   $("#reset_motion_bt").on("click", function () {
-    if (confirm("모든 모션을 삭제하시겠습니까?")) socket.emit("reset_motion");
+    if (confirm(translations["confirm_motion_delete_all"][lang])) socket.emit("reset_motion");
   });
 };
 
@@ -377,17 +377,17 @@ const getSpeech = (socket) => {
   const max_tts_length = 30;
   $("#s_tts_bt").on("click", function () {
     if ($("input[name=s_voice_en]:checked").val() == "off") {
-      alert("음성을 활성화해주세요.");
+      alert(translations["voice_enable"][lang]);
       return;
     }
 
     let string = $("#s_tts_val").val().trim();
     if (string == "") {
-      alert("문장을 입력하세요.");
+      alert(translations["text_empty"][lang]);
       return;
     }
     if (string.length > max_tts_length) {
-      alert(`문장을 (${max_tts_length}자 이내로 작성해주세요.)`);
+      alert(translations["text_empty"][lang](max_tts_length));
       return;
     }
     socket.emit("tts", {
@@ -400,16 +400,16 @@ const getSpeech = (socket) => {
   $("#s_tts_val").on("keypress", function (evt) {
     if (evt.keyCode == 13) {
       if ($("input[name=s_voice_en]:checked").val() == "off") {
-        alert("음성을 활성화해주세요.");
+        alert(translations["voice_enable"][lang]);
         return;
       }
       let string = $("#s_tts_val").val().trim();
       if (string == "") {
-        alert("문장을 입력하세요.");
+        alert(translations["text_empty"][lang]);
         return;
       }
       if (string.length > max_tts_length) {
-        alert(`문장을 (${max_tts_length}자 이내로 작성해주세요.)`);
+        alert(translations["text_empty"][lang](max_tts_length));
         return;
       }
       socket.emit("tts", {
@@ -432,9 +432,9 @@ const getSpeech = (socket) => {
       processData: false,
     }).always((xhr, status) => {
       if (status == "success") {
-        alert(`파일 전송이 완료되었습니다.`);
+        alert(translations["file_ok"][lang]);
       } else {
-        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`${translations["file_error"][lang]}\n >> ${xhr.responseJSON["result"]}`);
         $("#s_upload_csv").val("");
       }
     });
@@ -443,7 +443,7 @@ const getSpeech = (socket) => {
   $("#s_reset_csv_bt").on("click", function () {
     socket.emit("reset_csv");
     $("#s_upload_csv").val("");
-    alert("초기화 완료되었습니다.")
+    alert(translations["reset_ok"][lang]);
   });
 
   $("#s_question_val").on("keyup", function () {
@@ -459,7 +459,7 @@ const getSpeech = (socket) => {
       // enter
       q = $("#s_question_val").val().trim();
       if (q == "") {
-        alert("문장을 입력하세요.");
+        alert(translations["text_empty"][lang]);
         return;
       }
 
@@ -492,7 +492,7 @@ const getSpeech = (socket) => {
     q = $("#s_question_val").val().trim();
 
     if (q == "") {
-      alert("문장을 입력하세요.");
+      alert(translations["text_empty"][lang]);
       return;
     }
 
@@ -608,7 +608,7 @@ const getDevices = (socket) => {
         let max = Number($(this).attr("max"));
 
         if (isNaN(val) || val < min || val > max) {
-          alert(min + " ~ " + max + " 사이를 입력하세요.");
+          alert(translations["range_warn"][lang](min, max));
 	        $(this).val(0);
         } else {
           socket.emit("set_neopixel", { idx: i, value: val });
@@ -631,13 +631,13 @@ const getDevices = (socket) => {
       let max = Number($(tneopixel).attr("max"));
 
       if (isNaN(val) || val < min || val > max) {
-        alert(min + " ~ " + max + " 사이를 입력하세요.");
+        alert(translations["range_warn"][lang](min, max));
         return;
       }
       eyeval = i == 5 ? eyeval + val : eyeval + val + ",";
     }
 
-    if (confirm("눈 색상을 저장하시겠습니까?")) {
+    if (confirm(translations["confirm_eyecolor_save"][lang])) {
       socket.emit("eye_update", eyeval);
     }
   });
@@ -653,7 +653,7 @@ const getDevices = (socket) => {
       if (checkOled(x, y, size))
         socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
-        alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+      alert(translations["oled_input_error"][lang]);
     }
   });
 
@@ -669,7 +669,7 @@ const getDevices = (socket) => {
       if (checkOled(x, y, size))
         socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
-        alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+      alert(translations["oled_input_error"][lang]);
     }
   });
 
@@ -685,7 +685,7 @@ const getDevices = (socket) => {
       if (checkOled(x, y, size))
         socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
-        alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+      alert(translations["oled_input_error"][lang]);
     }
   });
 
@@ -701,7 +701,7 @@ const getDevices = (socket) => {
       if (checkOled(x, y, size))
         socket.emit("set_oled", { x: x, y: y, size: size, text: text });
       else
-        alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+        alert(translations["oled_input_error"][lang]);
     }
   });
 
@@ -716,7 +716,7 @@ const getDevices = (socket) => {
     if (checkOled(x, y, size))
       socket.emit("set_oled", { x: x, y: y, size: size, text: text });
     else
-      alert("입력 값이 잘못되었습니다.\nX: 0 ~ 128\nY: 0 ~ 64\nSize: 1 ~ 50");
+    alert(translations["oled_input_error"][lang]);
   });
 
   $("#upload_oled").on("change", (e) => {
@@ -731,9 +731,9 @@ const getDevices = (socket) => {
       processData: false,
     }).always((xhr, status) => {
       if (status == "success") {
-        alert(`파일 전송이 완료되었습니다.`);
+        alert(translations["file_ok"][lang]);
       } else {
-        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`${translations["file_error"][lang]}\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_oled").val("");
       }
     });
@@ -783,7 +783,7 @@ const getDevices = (socket) => {
     let max = Number($(tmictime).attr("max"));
 
     if (isNaN(val) || val < min || val > max) {
-      alert("입력 값이 잘못되었습니다.\n녹음시간: 1 ~ 30초");
+      alert(translations["audio_input_error"][lang]);
       return;
     }
 
@@ -823,7 +823,7 @@ const getDevices = (socket) => {
     let filename = $("#audiofiles").val();
 
     if (filename == "-") {
-      alert("음악을 선택하세요.");
+      alert(translations["music_name_empty"][lang]);
       return;
     }
     socket.emit("play_audio", {
@@ -848,9 +848,9 @@ const getDevices = (socket) => {
       processData: false,
     }).always((xhr, status) => {
       if (status == "success") {
-        alert(`파일 전송이 완료되었습니다.`);
+        alert(translations["file_ok"][lang]);
       } else {
-        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`${translations["file_error"][lang]}\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_audio").val("");
       }
     });
@@ -868,9 +868,9 @@ const getDevices = (socket) => {
       processData: false,
     }).always((xhr, status) => {
       if (status == "success") {
-        alert(`파일 전송이 완료되었습니다.`);
+        alert(translations["file_ok"][lang]);
       } else {
-        alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`${translations["file_error"][lang]}\n >> ${xhr.responseJSON["result"]}`);
         $("#upload_image").val("");
       }
     });
@@ -889,7 +889,7 @@ const getSimulations = (socket) => {
   $("#timeline_bottom_wrap").hide();
   $("section.timeline").css("align-self", "baseline");
   $("#sequence_contents").show("slide");
-
+  
   const playing = {
     value: false,
     get status() {
@@ -1063,8 +1063,8 @@ const getSimulations = (socket) => {
           btnGroup.addClass("horizontal");
           btnGroup.css("gap", "0.5em");
           btnGroup.css("flex-grow", 0);
-          let openBtn = $(`<button name="open_file_${i}">불러오기</button>`);
-          let removeBtn = $(`<button name="remove_file_${i}">지우기</button>`);
+          let openBtn = $(`<button name="open_file_${i}"><span data-key="load">${lang=="ko"?"불러오기":"Load"}</span></button>`);
+          let removeBtn = $(`<button name="remove_file_${i}"><span data-key="remove">${lang=="ko"?"지우기":"Remove"}</span></button>`);
           removeBtn.addClass("btn-red");
           openBtn.on("click", (e) => {
             openSequence(name);
@@ -1072,12 +1072,12 @@ const getSimulations = (socket) => {
           removeBtn.off("click").on("click", (e) => {
             const index = e.target.name.split("_")[2];
             if (fileList[index] === selectFile) {
-              if (confirm("현재 편집 중인 시퀀스입니다. 삭제하시겠습니까?")) {
+              if (confirm(translations["confirm_current_sequence_delete"][lang])) {
                 simSocket("sim_remove_items", fileList[index]);
                 openSequence(null);
               }
             } else if (
-              confirm(`${fileList[index]} 시퀀스를 삭제하시겠습니까?`)
+              confirm(translations["confirm_sequence_delete"][lang](fileList[index]))
             ) {
               simSocket("sim_remove_items", fileList[index]);
               openSequence(null);
@@ -1184,10 +1184,10 @@ const getSimulations = (socket) => {
           onFileList();
           openSequence(title);
         } else {
-          alert("이미 존재하는 시퀀스입니다.");
+          alert(translations["sequence_exist"][lang]);
         }
       } else {
-        alert("제목이 입력되지 않았습니다.");
+        alert(translations["title_empty"][lang]);
       }
     });
   // 저장된 시퀀스 모두 지우기 이벤트
@@ -1196,7 +1196,7 @@ const getSimulations = (socket) => {
     .on("click", function (e) {
       if (
         $("#sequence_list").children().length &&
-        confirm("저장된 시퀀스를 모두 삭제하시겠습니까?")
+        confirm(translations["confirm_sequence_delete_all"][lang])
       ) {
         simSocket("sim_remove_items");
         openSequence(null);
@@ -1412,8 +1412,8 @@ const getSimulations = (socket) => {
         ".timeline.row"
       );
       if (!rows.length) {
-        alert("삭제할 타임라인을 선택하세요.");
-      } else if (confirm("선택된 시간에 설정된 내용을 삭제하시겠습니까?")) {
+        alert(translations["remove_timeline_empty"][lang]);
+      } else if (confirm(translations["confirm_sequence_timeline"][lang])) {
         const allCheck = allCheckbox.is(":checked");
         if (allCheck) {
           setTimelineSection([]);
@@ -1444,7 +1444,7 @@ const getSimulations = (socket) => {
         "#timeline_body .timeline.row:not(.hide) input[type=checkbox]:checked"
       ).parents(".timeline.row");
       if (!checkedRows.length) {
-        alert("실행할 타임라인을 선택하세요.");
+        alert(translations["execute_timeline_empty"][lang]);
       } else {
         const icon = selPlayBtn.children("i");
         if (icon.hasClass("fa-play")) {
@@ -1784,7 +1784,7 @@ const getSimulations = (socket) => {
             setEyeColor(["l", null, null, null]);
           }
         });
-        return [radioInput, $(`<label for="eye_${name}">${value}</label>`)];
+        return [radioInput, $(`<label for="eye_${name}" data-key="${name}">${translations[name][lang]}</label>`)];
       });
       eyeRadioGroup.append(...inputRadios.flat());
 
@@ -1797,15 +1797,16 @@ const getSimulations = (socket) => {
 
       const setMotionList = (list, name, cycle) => {
         const motionList = [
-          { value: "", label: "모션을 선택하세요." },
+          // { value: "", label: "select_motion" },
           ...list.map((li) => ({ value: li, label: li })),
         ];
         const motionSelect = $("#motion_select");
         motionSelect.children().remove();
+        motionSelect.append($(`<option value="" ${name===""?"selected":""} data-key="select_motion">${translations["select_motion"][lang]}</option>`));
         const motionSelectOptions = motionList.map(
           ({ value, label }) =>
             $(
-              `<option value=${value} ${
+              `<option value="${value}" ${
                 name === value ? "selected" : ""
               }>${label}</option>`
             ) // 선택된 값 세팅 될 경우 selected
@@ -1835,7 +1836,7 @@ const getSimulations = (socket) => {
 
       const motionRadioList = [
         { name: "default", value: "기본" },
-        { name: "mymotion", value: "사용자" },
+        { name: "mymotion", value: "내 모션" },
       ];
       const motionRadioGroup = $("#motion_radio_group");
       motionRadioGroup.children().remove();
@@ -1857,7 +1858,7 @@ const getSimulations = (socket) => {
             setMotionList(list);
           });
         });
-        return [radioInput, $(`<label for="motion_${name}">${value}</label>`)];
+        return [radioInput, $(`<label for="motion_${name}" data-key="${name}">${translations[name][lang]}</label>`)];
       });
       motionRadioGroup.append(...inputRadios.flat());
       simSocket(
@@ -1877,7 +1878,7 @@ const getSimulations = (socket) => {
       const setAudioList = (list, type, sData) => {
         const content = sData && sData.type === type ? sData.content : null;
         const audioFileList = [
-          { value: "", label: "오디오 파일을 선택하세요." },
+          // { value: "", label: "select_audio" },
           ...list.map((li) => ({
             value: li,
             label: li.replace(/^\/.+(\/)/gim, ""),
@@ -1885,9 +1886,11 @@ const getSimulations = (socket) => {
         ];
         const audioFileSelect = $("#audio_select");
         audioFileSelect.children().remove();
+        audioFileSelect.append($(`<option value="" ${content === '' ? "selected" : ""} data-key="select_audio">${translations["select_audio"][lang]}</option>`));
+        
         const audioSelectOptions = audioFileList.map(({ value, label }) =>
           $(
-            `<option value=${value} ${
+            `<option value="${value}" ${
               value === content ? "selected" : ""
             }>${label}</option>`
           )
@@ -1929,7 +1932,7 @@ const getSimulations = (socket) => {
             setAudioList(list, e.target.value);
           });
         });
-        return [radioInput, $(`<label for="audio_${name}">${label}</label>`)];
+        return [radioInput, $(`<label for="audio_${name}" data-key="${name}">${translations[name][lang]}</label>`)];
       });
       audioRadioGroup.append(...inputRadios.flat());
       const type = data && data.type ? data.type : audioRadioList[0].value;
@@ -1954,7 +1957,7 @@ const getSimulations = (socket) => {
 
       const setOledImageList = (list, imgPath, name) => {
         const imageList = [
-          { value: "", label: "이미지를 선택하세요." },
+          // { value: "", label: "select_image" },
           ...list.map((li) => ({
             value: `${imgPath}/${li}`,
             label: li.replace(/[\.]+[a-z]+$/gim, ""),
@@ -1962,10 +1965,11 @@ const getSimulations = (socket) => {
         ];
         const imgSelect = $("#oled_img_select");
         imgSelect.children().remove();
+        imgSelect.append($(`<option value="" data-key="select_image">${translations["select_image"][lang]}</option>`));
         const imgSelectOptions = imageList.map(
           ({ value, label }) =>
             $(
-              `<option value=${value} ${
+              `<option value="${value}" ${
                 value === `${imgPath}/${name}` ? "selected" : ""
               }>${label}</option>`
             ) // 선택된 값 세팅 될 경우 selected
@@ -1981,13 +1985,13 @@ const getSimulations = (socket) => {
 
       const setOledImagePathList = (path, img) => {
         const oledImgOptionsList = [
-          { value: "", label: "이미지 종류를 선택하세요." },
-          { value: "/home/pi/openpibo-files/icon/expression", label: "표정" },
-          { value: "/home/pi/openpibo-files/icon/game", label: "가위바위보" },
-          { value: "/home/pi/openpibo-files/icon/recycle", label: "재활용" },
-          // { value: "/home/pi/openpibo-files/icon/story", label: "이야기" },
-          { value: "/home/pi/openpibo-files/icon/weather", label: "날씨" },
-          { value: "/home/pi/myimage", label: "내 이미지" },
+          { value: "", label: "select_image_type" },
+          { value: "/home/pi/openpibo-files/icon/expression", label: "expression" },
+          { value: "/home/pi/openpibo-files/icon/game", label: "game" },
+          { value: "/home/pi/openpibo-files/icon/recycle", label: "recycle" },
+          // { value: "/home/pi/openpibo-files/icon/story", label: "story" },
+          { value: "/home/pi/openpibo-files/icon/weather", label: "weather" },
+          { value: "/home/pi/myimage", label: "myimage" },
         ];
         const oledPathSelect = $("#oled_path_select");
         oledPathSelect.children().remove();
@@ -2001,14 +2005,14 @@ const getSimulations = (socket) => {
             setOledImageList([], path, img)
           }
           if (path === value) {
-	    simSocket("sim_update_oled", value, (list) =>
+	          simSocket("sim_update_oled", value, (list) =>
               setOledImageList(list, path, img)
             );
-	  }
+	        }
           return $(
-            `<option value=${value} ${
+            `<option value="${value}" ${
               path === value ? "selected" : ""
-            }>${label}</option>`
+            } data-key="${label}">${translations[label][lang]}</option>`
           );
         });
         oledPathSelect.off("change").on("change", (e) => {
@@ -2115,7 +2119,7 @@ const getSimulations = (socket) => {
           };
           setOledContent(e.target.name.indexOf("image") > 0 ? "image" : "text");
         });
-        return [radioInput, $(`<label for="oled_${name}">${value}</label>`)];
+        return [radioInput, $(`<label for="oled_${name}" data-key="${name}">${translations[name][lang]}</label>`)];
       });
       oledRadioGroup.append(...oledInputRadios.flat());
       if (data) {
@@ -2133,11 +2137,11 @@ const getSimulations = (socket) => {
       configData.val = { key: "tts", value: data, bInit: true };
 
       const ttsOptionsList = [
-        { value: "espeak", label: "기본" },
-        { value: "main", label: "파이보" },
-        { value: "boy", label: "남자아이" },
-        { value: "girl", label: "여자아이" },
-        { value: "gtts", label: "구글음성" },
+        { value: "espeak", label: "default" },
+        { value: "main", label: "pibo" },
+        { value: "boy", label: "boy" },
+        { value: "girl", label: "girl" },
+        { value: "gtts", label: "gtts" },
         // { value: "e_main", label: "파이보(영문)" },
         // { value: "e_boy", label: "소년(영문)" },
         // { value: "e_girl", label: "소녀(영문)" },
@@ -2146,9 +2150,9 @@ const getSimulations = (socket) => {
       ttsSelect.children().remove();
       const ttsOptions = ttsOptionsList.map(({ label, value }) =>
         $(
-          `<option value=${value} ${
+          `<option value="${value}" ${
             data.type === value ? "selected" : ""
-          }>${label}</option>`
+          } data-key="${label}">${translations[label][lang]}</option>`
         )
       );
       ttsSelect.append(...ttsOptions);
@@ -2229,10 +2233,10 @@ const getSimulations = (socket) => {
             .index($(`div[name=${itemName}]`));
           setSimFile({ name: selectFile, data: selectFileContents, index });
         } else {
-          alert("설정을 완료하세요.");
+          alert(translations["not_complete_setting"][lang]);
         }
       } else {
-        alert("0.1초 단위로 입력하세요.");
+        alert(translations["unit_warn"][lang](0.1));
       }
     });
   };
@@ -2314,16 +2318,18 @@ $(function () {
           .css({ opacity: 0 })
           .animate({ opacity: 1 })
           .addClass("modal");
+        document.querySelector('main > div.content.modal').setAttribute('data-content', translations["simulator_activate_warn"][lang]);
       }
     } else {
       $(`main>div.content`).removeClass("modal");
     }
+
     $(`#article_${name}`).show("slide");
   };
 
   const getStatus = (socket) => {
     $("#devtool_bt").on("click", function () {
-      if (confirm("IDE로 이동하시겠습니까?")) {
+      if (confirm(translations["move_to_ide"][lang])) {
         socket.emit("onoff", "off");
         location.href = `http://${location.hostname}:50000` + (userid == null?'':`/?userid=${userid}`);
       }
@@ -2372,7 +2378,6 @@ $(function () {
     });
 
     $("#showWifi").on("click", ()=>{
-      document.getElementById("loginPopup").style.display = "none";
       document.getElementById("usedataPopup").style.display = "none";
 
       $("#wifi_list > tbody").empty();
@@ -2492,12 +2497,10 @@ $(function () {
     });
 
     $("#wifi_bt").on("click", function () {
-      let comment = "로봇의 Wifi 정보를 변경하시겠습니까?";
-      comment += "\n\nWifi 이름: " + $("#ssid").val().trim();
-      comment += "\n비밀번호: " + $("#psk").val().trim();
-      comment += "\n암호화방식: " + ($("#psk").val().trim()==""?"OPEN":"WPA-PSK");
-      comment += "\n\nWifi 정보를 한번 더 확인하시기 바랍니다.";
-      comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
+      let comment = "Wifi: " + $("#ssid").val().trim();
+      comment += "\nPSK: " + $("#psk").val().trim();
+      comment += "\nEncryption: " + ($("#psk").val().trim()==""?"OPEN":"WPA-PSK");
+      comment += translations["confirm_wifi"][lang];
       if (confirm(comment)) {
         $.ajax({
           url: `/wifi`,
@@ -2518,22 +2521,22 @@ $(function () {
     });
 
     $("#poweroff_bt").on("click", function () {
-      if (confirm("정말 종료하시겠습니까?")) socket.emit("poweroff");
+      if (confirm(translations["confirm_poweroff"][lang])) socket.emit("poweroff");
     });
 
     $("#restart_bt").on("click", function () {
-      if (confirm("재시작하시겠습니까?")) socket.emit("restart");
+      if (confirm(translations["confirm_restart"][lang])) socket.emit("restart");
     });
 
     $("#swupdate_bt").on("click", function () {
       if (
-        confirm("업데이트를 하시겠습니까?(인터넷 연결 상태에서 진행하세요.)")
+        confirm(translations["confirm_swupdate"][lang])
       )
         socket.emit("swupdate");
     });
 
     $("#restore_bt").on("click", function () {
-      if (confirm("초기화하시겠습니까?")){
+      if (confirm(translations["confirm_restore"][lang])){
         usedata = init_usedata;
         socket.emit("restore");
       }
@@ -2561,20 +2564,6 @@ $(function () {
     }
   });
 
-  $.ajax({
-    url: `/account`,
-  }).always((xhr, status) => {
-    if (status == "success") {
-      $("#logined_id").html(xhr['username']);
-      $("#username").val(xhr['username']);
-      $("#password").val(xhr['password']);
-      if (xhr['username'] == "" || xhr['password'] == "") $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-      else $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-    } else {
-      $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-    }
-  });
-
   window.addEventListener('beforeunload', (evt) => {
     usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
     usedata[$("nav").find("button.menu-selected").attr("name")]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
@@ -2587,90 +2576,12 @@ $(function () {
       if (status == "success") {
         usedata = init_usedata;
       } else {
-        alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`usedata error.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
-  });
-
-  $("#showLogin").on("click", ()=>{
-    document.getElementById("loginPopup").style.display = "block";
-    document.getElementById("wifiPopup").style.display = "none";
-    document.getElementById("usedataPopup").style.display = "none";
-  });
-
-  $("#hideLogin").on("click", ()=>{
-    document.getElementById("loginPopup").style.display = "none";
-  });
-
-  $("#login").on("click", ()=>{
-    const username = $("#username").val().trim();
-    const password = $("#password").val().trim();
-
-  // Check if username and password are not empty
-    if (username === "" || password === "") {
-      alert("Please enter username and password.");
-      return;
-    }
-
-    $.ajax({
-      url: `/account`,
-      type: "post",
-      data: JSON.stringify({username:username, password:password}),
-      contentType: "application/json",
-    }).always((xhr, status) => {
-      if (status == "success") {
-        alert(`로그인 성공.`);
-        $("#logined_id").html(xhr['username']);
-        $("#username").val(xhr['username']);
-        $("#password").val(xhr['password']);
-        $("#userinfo").html('<i class="fa-solid fa-user"></i>');
-      } else {
-        alert(`로그인 오류.\n >> ${xhr.responseJSON["result"]}`);
-      }
-    });
-
-    // Here you can add your own authentication logic
-    // For example, you can send an AJAX request to your server and validate the credentials
-    usedata = init_usedata; // from server
-    document.getElementById("loginPopup").style.display = "none";    
-  });
-
-  $("#user_bt").on("click", () => {
-    if(confirm("로그아웃 하시겠습니까?")){
-      $.ajax({
-        url: `/account`,
-        type: "post",
-        data: JSON.stringify({username:"", password:""}),
-        contentType: "application/json",
-      }).always((xhr, status) => {
-        if (status == "success") {
-          alert(`로그아웃 성공.`);
-          $("#logined_id").html(xhr['username']);
-          $("#username").val(xhr['username']);
-          $("#password").val(xhr['password']);
-          $("#userinfo").html('<i class="fa-solid fa-user-xmark"></i>');
-          document.getElementById("loginPopup").style.display = "none";
-          $.ajax({
-            url: `/usedata/tools`,
-            type: "post",
-            data: JSON.stringify(usedata),
-            contentType: "application/json",
-          }).always((xhr, status) => {
-            if (status == "success") {
-              usedata = init_usedata;
-            } else {
-              alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
-            }
-          });
-        } else {
-          alert(`로그아웃 오류.\n >> ${xhr.responseJSON["result"]}`);
-        }
-      });
-    }
   });
 
   $("#usedata_bt").on("click", ()=> {
-    document.getElementById("loginPopup").style.display = "none";
     document.getElementById("wifiPopup").style.display = "none";
 
     $.ajax({
@@ -2683,7 +2594,7 @@ $(function () {
         $("#usedata_json").JSONView(xhr, {collapsed:true});
         usedata = init_usedata;
       } else {
-        alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+        alert(`usedata error.\n >> ${xhr.responseJSON["result"]}`);
       }
     });
     document.getElementById("usedataPopup").style.display = "block";
@@ -2716,4 +2627,25 @@ $(function () {
       $("#psk").prop("disabled", false);
     }
   });
+
+  const setLanguage = (lang) => {
+    const elements = document.querySelectorAll('[data-key]');
+    elements.forEach(element => {
+        const key = element.getAttribute('data-key');
+        if (translations[key] && translations[key][lang]) {
+            element.textContent = translations[key][lang];
+        }
+    });
+  }
+
+  const language = document.getElementById("language");
+  language.value = lang;
+  setLanguage(lang);
+  localStorage.setItem("language", lang);
+
+  language.addEventListener("change", () => {
+    lang = language.value;
+    setLanguage(lang);
+    localStorage.setItem("language", lang);
+  })
 });
