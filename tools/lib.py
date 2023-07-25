@@ -356,15 +356,18 @@ class Pibo:
     self.dialog.load(d)
     return True
 
-  def reset_csv(self):
-    del self.dialog
-    self.dialog = Dialog()
+  def reset_csv(self, d):
+    if d['lang'] == 'en':
+      self.dialog.load(openpibo_models.filepath('dialog_en.csv'))
+    else:
+      self.dialog.load(openpibo_models.filepath('dialog.csv'))
 
   def question(self, d):
     q = d['question']
     voice_type = d['voice_type']
     volume = d['volume']
-    ans = self.dialog.get_dialog(q)
+    n = d['n']
+    ans = self.dialog.get_dialog(q, n)
     self.chat_list.append([str(datetime.datetime.now()).split('.')[0], q, ans])
     #self.emit('answer', {'answer':ans, 'chat_list':list(reversed(self.chat_list))})
     if len(self.chat_list) > 10:

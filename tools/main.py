@@ -291,7 +291,7 @@ async def f(data:UploadFile = File(...)):
 @app.sio.on('reset_csv')
 async def f(sid, d=None):
   if pibo.onoff:
-    pibo.reset_csv()
+    pibo.reset_csv(d)
 
 # motion
 @app.sio.on('disp_motion')

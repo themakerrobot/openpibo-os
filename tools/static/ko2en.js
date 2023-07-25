@@ -373,25 +373,29 @@ const translations = {
     ko: "음성종류",
     en: "Voice type"
   },
-  s_default: {
+  espeak: {
     ko: "기본음성",
-    en: "Default"
+    en: "Espeak"
   },
   pibo: {
-    ko: "파이보",
-    en: "Pibo"
+    ko: "파이보(ko)",
+    en: "Pibo(ko)"
   },
   boy: {
-    ko: "소년",
-    en: "Boy"
+    ko: "소년(ko)",
+    en: "Boy(ko)"
   },
   girl: {
-    ko: "소녀",
-    en: "Girl"
+    ko: "소녀(ko)",
+    en: "Girl(ko)"
+  },
+  e_gtts: {
+    ko: "구글음성(en)",
+    en: "Google TTS(en)"
   },
   gtts: {
-    ko: "구글음성",
-    en: "Google TTS"
+    ko: "구글음성(ko)",
+    en: "Google TTS(ko)"
   },
   tts: {
     ko: "음성합성",

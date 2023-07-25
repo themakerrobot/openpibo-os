@@ -441,7 +441,7 @@ const getSpeech = (socket) => {
   });
 
   $("#s_reset_csv_bt").on("click", function () {
-    socket.emit("reset_csv");
+    socket.emit("reset_csv", {lang: lang});
     $("#s_upload_csv").val("");
     alert(translations["reset_ok"][lang]);
   });
@@ -450,7 +450,7 @@ const getSpeech = (socket) => {
     $(this).val(
       $(this)
         .val()
-        .replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
+        // .replace(/[^ㄱ-ㅣ가-힣 | 0-9 |?|.|,|'|"|!]/g, "")
     );
   });
 
@@ -477,7 +477,8 @@ const getSpeech = (socket) => {
 
       setTimeout(function () {
         socket.emit("question", {
-          question: q,
+          question: q.toLowerCase(),
+          n: lang=="ko"?2:4,
           voice_en: $("input[name=s_voice_en]:checked").val(),
           voice_type: $("select[name=s_voice_type]").val(),
           volume: Number($("#volume").val()),
@@ -509,7 +510,8 @@ const getSpeech = (socket) => {
 
     setTimeout(function () {
       socket.emit("question", {
-        question: q,
+        question: q.toLowerCase(),
+        n: lang=="ko"?2:4,
         voice_en: $("input[name=s_voice_en]:checked").val(),
         voice_type: $("select[name=s_voice_type]").val(),
         volume: Number($("#volume").val()),
@@ -2137,7 +2139,7 @@ const getSimulations = (socket) => {
       configData.val = { key: "tts", value: data, bInit: true };
 
       const ttsOptionsList = [
-        { value: "espeak", label: "default" },
+        { value: "espeak", label: "espeak" },
         { value: "main", label: "pibo" },
         { value: "boy", label: "boy" },
         { value: "girl", label: "girl" },
