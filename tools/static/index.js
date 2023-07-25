@@ -8,14 +8,6 @@ const init_usedata = {
   simulator:{click:0, keydown:0, staytime:0}
 };
 let usedata = init_usedata; // from server
-
-const urlParams = new URLSearchParams(window.location.search);
-let userid = null;
-for(const entry of urlParams.entries()) {
-  if(entry[0] == "userid") userid = entry[1];
-}
-console.log("USER ID:", userid);
-
 const getVisions = (socket) => {
   socket.on("disp_vision", function (data) {
     $("#v_func_type").val(data);
@@ -2333,7 +2325,7 @@ $(function () {
     $("#devtool_bt").on("click", function () {
       if (confirm(translations["move_to_ide"][lang])) {
         socket.emit("onoff", "off");
-        location.href = `http://${location.hostname}:50000` + (userid == null?'':`/?userid=${userid}`);
+        location.href = `http://${location.hostname}:50000`;
       }
     });
     $("#devtool_bt").hover(
@@ -2348,7 +2340,7 @@ $(function () {
     );
 
     $("#logo_bt").on("click", () => {
-      location.href = `http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`);
+      location.href = `http://${location.hostname}`;
     });
 
     socket.emit("onoff");

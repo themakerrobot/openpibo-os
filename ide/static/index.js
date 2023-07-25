@@ -5,14 +5,6 @@ const init_usedata = {
   shell:{click:0, keydown:0, execute:0, staytime:0}
 };
 let usedata = init_usedata; // from server
-
-const urlParams = new URLSearchParams(window.location.search);
-let userid = null;
-for(const entry of urlParams.entries()) {
-  if(entry[0] == "userid") userid = entry[1];
-}
-console.log("USER ID:", userid);
-
 const MAX_FILENAME_LENGTH = 50;
 const codeMirrorMode = {
   python: "python",
@@ -28,7 +20,7 @@ const codeEditor = CodeMirror.fromTextArea(
     extraKeys: {
       "Ctrl-S": function (instance) {
         if ($("#codepath").html() == "") {
-          alert("파일이 없습니다.");
+          alert(translations['nofile'][lang]);
           return;
         }
         saveCode = codeEditor.getValue();
@@ -52,8 +44,7 @@ let saveCode = "";
 let saveBlock = "{}";
 
 $("#logo_bt").on("click", () => {
-  if (confirm("Tools로 이동하시겠습니까?(저장하지 않은 정보는 손실됩니다.)"))
-    location.replace(`http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`));
+  location.href = `http://${location.hostname}`;
 });
 
 $("#fontsize").on("change", () => {
@@ -78,15 +69,13 @@ socket.on("update", (data) => {
           update_block();
         }
         catch(e) {
-          //alert("블록 데이터를 불러오지 못했습니다.");
-          //saveBlock = "{}";
           if(data["code"] == "") {
             saveBlock = "";
             Blockly.serialization.workspaces.load(JSON.parse("{}"), workspace);
             update_block();
           }
           else {
-            alert("블록 데이터를 불러오지 못했습니다.");
+            alert(translations['not_load_block'][lang]);
             $("#codepath").html(oldpath);
           }
         }
@@ -208,7 +197,7 @@ codeEditor.on("change", () => {
 execute.addEventListener("click", () => {
   let filepath = $("#codepath").html();
   if (filepath == "") {
-    alert("파일이 없습니다.");
+    alert(translations['nofile'][lang]);
     return;
   }
 
@@ -288,7 +277,7 @@ socket.on("update_file_manager", (d) => {
 
               if (name == "..") {
                 if (CURRENT_DIR.length < 4) {
-                  alert("더이상 상위 폴더로 이동할 수 없습니다.");
+                  alert(translations['not_move_parent'][lang]);
                   return;
                 }
                 CURRENT_DIR.pop();
@@ -303,7 +292,7 @@ socket.on("update_file_manager", (d) => {
                 ext = ext[ext.length-1];
                 let filepath = CURRENT_DIR.join("/") + "/" + name;
 
-                if(confirm(`${filepath} 파일을 불러오겠습니까?`) == false) return;
+                if(confirm(translations['confirm_load_file'][lang](filepath)) == false) return;
                 if (["jpg", "png", "jpeg"].includes(ext.toLowerCase())) {
                   socket.emit("view", filepath);
                 }
@@ -321,13 +310,13 @@ socket.on("update_file_manager", (d) => {
                     //   return;
                     // }
                     if (saveBlock != JSON.stringify(Blockly.serialization.workspaces.save(workspace))) {
-                      if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
+                      if(confirm(translations['confirm_save_file'][lang]($("#codepath").html())))
                         socket.emit("save", { codepath: $("#codepath").html(), codetext: JSON.stringify(Blockly.serialization.workspaces.save(workspace)) });
                     }
                   }
                   else {
                     if(saveCode != codeEditor.getValue()){
-                      if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
+                      if(confirm(translations['confirm_save_file'][lang]($("#codepath").html())))
                         socket.emit("save", { codepath: $("#codepath").html(), codetext: codeEditor.getValue() });
                     }
                   }
@@ -354,7 +343,7 @@ socket.on("update_file_manager", (d) => {
                 //let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html();
                 let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
 
-                if (confirm(`${CURRENT_DIR.join("/")}/${name} 파일 또는 폴더를 삭제하시겠습니까?`)) {
+                if (confirm(translations['confirm_delete_file'][lang](`${CURRENT_DIR.join("/")}/${name}`))) {
                   if ((CURRENT_DIR.join("/") + "/" + name) == $("#codepath").html()) {
                     $("#codepath").html("");
                   }
@@ -382,15 +371,15 @@ $("#hiddenfile").on("change", () => {
 });
 
 $("#add_directory").on("click", () => {
-  let name = prompt("새폴더의 이름을 입력하세요.");
+  let name = prompt(translations['check_newfolder_name'][lang]);
   if (name != null) {
     if(name == "") {
-      alert("새폴더의 이름을 입력하세요.");
+      alert(translations['check_newfolder_name'][lang]);
       return;
     }
     name = name.trim()//.replace(/ /g, "_");
     if(name.length > MAX_FILENAME_LENGTH) {
-      alert(`폴더 이름을 (${MAX_FILENAME_LENGTH}자 이내로 입력하세요.)`);
+      alert(translations['name_size_limit'][lang](MAX_FILENAME_LENGTH));
       return;
     }
 
@@ -403,20 +392,20 @@ $("#log").on("click", () => {
 });
 
 $("#add_file").on("click", () => {
-  let name = prompt("새파일의 이름을 입력하세요.");
+  let name = prompt(translations['check_newfile_name'][lang]);
   if (name != null ) {
     if(name == "") {
-      alert("새파일의 이름을 입력하세요.");
+      alert(translations['check_newfile_name'][lang]);
       return;
     }
 
     name = name.trim()//.replace(/ /g, "_");
     if(name.length > MAX_FILENAME_LENGTH) {
-      alert(`파일 이름을 (${MAX_FILENAME_LENGTH}자 이내로 입력하세요.)`);
+      alert(translations['name_size_limit'][lang](MAX_FILENAME_LENGTH));
       return;
     }
     if(saveCode != codeEditor.getValue()){
-      if(confirm(`${$("#codepath").html()} 파일의 내용을 저장하지 않았습니다. 저장하시겠습니까?`))
+      if(confirm(translations['confirm_save_file'][lang]($("#codepath").html())))
         socket.emit("save", { codepath: $("#codepath").html(), codetext: codeEditor.getValue() });
     }
     socket.emit('add_file', CURRENT_DIR.join("/") + "/"+ name);
@@ -425,7 +414,7 @@ $("#add_file").on("click", () => {
 
 $("#upload").on("change", (e) => {
   if($("#upload")[0].files[0].name.length > MAX_FILENAME_LENGTH) {
-    alert(`파일 이름을 (${MAX_FILENAME_LENGTH}자 이내로 변경하세요.)`);
+    alert(translations['name_size_limit'][lang](MAX_FILENAME_LENGTH));
     return;
   }
 
@@ -441,9 +430,9 @@ $("#upload").on("change", (e) => {
   })
   .always((xhr, status) => {
     if (status == "success") {
-      alert(`파일 전송이 완료했습니다.`);
+      alert(translations['file_ok'][lang]);
     } else {
-      alert(`파일 전송 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+      alert(`${translations['file_error'][lang]}\n >> ${xhr.responseJSON["result"]}`);
       $("#upload").val("");
     }
   });
@@ -524,8 +513,8 @@ $("#result_check").on("change", ()=> {
 // });
 
 $("#home_bt").on("click", () => {
-  if (confirm("Tools로 이동하시겠습니까?")) {
-    location.href = `http://${location.hostname}` + (userid == null?'':`/?userid=${userid}`);
+  if (confirm(translations["move_to_tool"][lang])) {
+    location.href = `http://${location.hostname}`;
   }
 });
 
@@ -545,7 +534,7 @@ $("#save").on("click", () => {
   let filepath = $("#codepath").html();
 
   if (filepath == "") {
-    alert("파일이 없습니다.");
+    alert(translations['nofile'][lang]);
     return;
   }
   let codetype = "";
@@ -635,7 +624,7 @@ $(document).keydown((evt)=> {
       let filepath = $("#codepath").html();
 
       if (filepath == "") {
-        alert("파일이 없습니다.");
+        alert(translations['nofile'][lang]);
         return;
       }
       let codetype = "";
@@ -771,12 +760,10 @@ $("#current_wifi").on("click", ()=> {
 });
 
 $("#wifi_bt").on("click", function () {
-  let comment = "로봇의 Wifi 정보를 변경하시겠습니까?";
-  comment += "\n\nWifi 이름: " + $("#ssid").val().trim();
-  comment += "\n비밀번호: " + $("#psk").val().trim();
-  comment += "\n암호화방식: " + ($("#psk").val().trim()==""?"OPEN":"WPA-PSK");
-  comment += "\n\nWifi 정보를 한번 더 확인하시기 바랍니다.";
-  comment += "\n(잘못된 정보 입력 시, 심각한 오류가 발생할 수 있습니다.)";
+  let comment = "Wifi: " + $("#ssid").val().trim();
+  comment += "\nPSK: " + $("#psk").val().trim();
+  comment += "\nEncryption: " + ($("#psk").val().trim()==""?"OPEN":"WPA-PSK");
+  comment += translations["confirm_wifi"][lang];
   if (confirm(comment)) {
     $.ajax({
       url: `http://${location.hostname}/wifi`,
@@ -820,7 +807,7 @@ window.addEventListener('beforeunload', (evt) => {
     if (status == "success") {
       usedata = init_usedata;
     } else {
-      alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+      //alert(`usedata error.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
   socket.emit("stop");
@@ -839,7 +826,7 @@ $("#usedata_bt").on("click", ()=> {
       $("#usedata_json").JSONView(xhr, {collapsed:true});
       usedata = init_usedata;
     } else {
-      alert(`usedata 오류입니다.\n >> ${xhr.responseJSON["result"]}`);
+      //alert(`usedata error.\n >> ${xhr.responseJSON["result"]}`);
     }
   });
   document.getElementById("usedataPopup").style.display = "block";
@@ -908,5 +895,5 @@ language.addEventListener("change", () => {
   localStorage.setItem("language", lang);
 });
 
-
-
+// warning
+document.querySelector("div.CodeMirror textarea").setAttribute("name", "ctx");
