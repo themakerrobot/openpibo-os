@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
     <link rel="stylesheet" href="../static/all.min.css?ver=20230106" type="text/css" />
     <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
-    <link rel="stylesheet" href="../static/index.css?ver=230717v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=230724v1" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230717v2" />
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
 
@@ -85,7 +85,7 @@
                 <i class="fa-solid fa-lock-open"></i>&nbsp;<input type="checkbox" id="enctype_open" name="enctype_open" />
               </td>
               <td>
-                <button type="button" class="confirm" id="wifi_bt"><i class="fa-solid fa-check-double"></i>&nbsp;<span data-key="confirm"></span></button>
+                <button type="button" class="confirm" id="wifi_bt" style="width:120px;"><i class="fa-solid fa-check-double"></i>&nbsp;<span data-key="confirm"></span></button>
               </td>
             </tr>
             <tr>
@@ -96,14 +96,14 @@
                 <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
               </td>
               <td>
-                <button type="button" class="cancel" id="current_wifi"><i class="fa-solid fa-rotate-left"></i>&nbsp;<span data-key="reset"></span></button>
+                <button type="button" class="cancel" id="current_wifi" style="width:120px;"><i class="fa-solid fa-rotate-left"></i>&nbsp;<span data-key="reset"></span></button>
               </td>
             </tr>
           </table>
 
           <div style="height:190px;overflow-y:scroll;">
             <table class="wifi_list" id="wifi_list">
-              <thead><tr><th><span data-key="wifi_name"></span></th><th><span data-key="wifi_signal"></span></th><th><span data-key="wifi_psk"></span></th></tr></thead>
+              <thead><tr><th style="width:450px;"><span data-key="wifi_name"></span></th><th><span data-key="wifi_signal"></span></th><th><span data-key="wifi_psk"></span></th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -1450,6 +1450,6 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/ko2en.js?ver=230724v1"></script>
-  <script src="../static/index.js?ver=230724v1"></script>
+  <script src="../static/ko2en.js?ver=230724v2"></script>
+  <script src="../static/index.js?ver=230724v2"></script>
 </html>

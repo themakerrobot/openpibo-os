@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
 
-    <link rel="stylesheet" href="../static/index.css?ver=230707v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=230724v2" />
     <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
     <link rel="stylesheet" href="../static/codemirror.css" />
     <link rel="stylesheet" href="../static/cobalt.css" />
@@ -14,13 +14,13 @@
     <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
     <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
 
-    <script src="../static/ko2en.js?ver=230717v11"></script>
-    <script src="../static/blockly_compressed.js?ver=230412v1"></script>
-    <script src="../static/python_compressed.js?ver=230412v1"></script>
-    <script src="../static/blocks_compressed.js?ver=230412v1"></script>
-    <script src="../static/customblock.js?ver=230707v1"></script>
-    <script src="../static/customblock_callback.js?ver=230707v1"></script>
-    <script src="../static/customblock_toolbox.js?ver=230707v4"></script>
+    <script src="../static/ko2en.js?ver=230724v2"></script>
+    <script src="../static/blockly_compressed.js?ver=230724v2"></script>
+    <script src="../static/python_compressed.js?ver=230724v2"></script>
+    <script src="../static/blocks_compressed.js?ver=230724v2"></script>
+    <script src="../static/customblock.js?ver=230724v2"></script>
+    <script src="../static/customblock_callback.js?ver=230724v2"></script>
+    <script src="../static/customblock_toolbox.js?ver=230724v2"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
     <script src="../static/jquery.jsonview.min.js"></script>
     <script src="../static/codemirror.min.js"></script>
@@ -74,7 +74,7 @@
                 <i class="fa-solid fa-lock-open"></i>&nbsp;<input type="checkbox" id="enctype_open" name="enctype_open" />
               </td>
               <td>
-                <button type="button" class="confirm" id="wifi_bt"><i class="fa-solid fa-check-double"></i>&nbsp;<span data-key="confirm"></span></button>
+                <button type="button" class="confirm" id="wifi_bt" style="width:120px;"><i class="fa-solid fa-check-double"></i>&nbsp;<span data-key="confirm"></span></button>
               </td>
             </tr>
             <tr>
@@ -85,14 +85,14 @@
                 <input type="password" id="psk" name="psk" /><input type="checkbox" id="psk_check" name="psk_check" />
               </td>
               <td>
-                <button type="button" class="cancel" id="current_wifi"><i class="fa-solid fa-rotate-left"></i>&nbsp;<span data-key="reset"></span></button>
+                <button type="button" class="cancel" id="current_wifi" style="width:120px;"><i class="fa-solid fa-rotate-left"></i>&nbsp;<span data-key="reset"></span></button>
               </td>
             </tr>
           </table>
 
           <div style="height:190px;overflow-y:scroll;">
             <table class="wifi_list" id="wifi_list">
-              <thead><tr><th><span data-key="wifi_name"></span></th><th><span data-key="wifi_signal"></span></th><th><span data-key="wifi_psk"></span></th></tr></thead>
+              <thead><tr><th style="width:450px;"><span data-key="wifi_name"></span></th><th><span data-key="wifi_signal"></span></th><th><span data-key="wifi_psk"></span></th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -270,6 +270,6 @@
         <span id="s_runtime"></span>
       </div>
     </footer>
-    <script src="../static/index.js?ver=230717v21"></script>
+    <script src="../static/index.js?ver=230724v2"></script>
   </body>
 </html>

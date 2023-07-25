@@ -2396,6 +2396,7 @@ $(function () {
           data = xhr
           $("#wifi_list > tbody").empty();
           for (let i = 0; i < data.length; i++) {
+            if (data[i].essid.length > 50 || data[i].essid.includes('\x00')) continue;
             $("#wifi_list > tbody").append(
               $("<tr>")
                 .append(
