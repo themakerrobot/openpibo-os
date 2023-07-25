@@ -672,7 +672,6 @@ $(document).keydown((evt)=> {
 });
 
 $("#showWifi").on("click", ()=>{
-  document.getElementById("loginPopup").style.display = "none";
   document.getElementById("usedataPopup").style.display = "none";
 
   $("#wifi_list > tbody").empty();
@@ -827,7 +826,6 @@ window.addEventListener('beforeunload', (evt) => {
 });
 
 $("#usedata_bt").on("click", ()=> {
-  document.getElementById("loginPopup").style.display = "none";
   document.getElementById("wifiPopup").style.display = "none";
 
   $.ajax({
