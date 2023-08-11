@@ -521,6 +521,7 @@ Blockly.Msg["OLED_DRAW_LINE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 선 저장
 Blockly.Msg["OLED_DRAW_IMAGE"] = "%1 %2 OLED %3 %4 이미지 저장하기";
 Blockly.Msg["OLED_INVERT"] = "%1 %2 OLED 반전하기";
 Blockly.Msg["OLED_SHOW"] = "%1 %2 OLED 표시하기";
+Blockly.Msg["OLED_CLEAR"] = "%1 %2 OLED 지우기";
 
 Blockly.Msg["OLED_FILL"] = "채우기";
 Blockly.Msg["OLED_UNFILL"] = "채우기 없음";
