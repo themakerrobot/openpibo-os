@@ -35,15 +35,8 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"}, 
-          {
-            "type": "field_number",
-            "name": "volume",
-            "value": 80,
-            "min": 0,
-            "max": 100,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "filename", "check":"String"},
+          {"type": "input_value", "name": "volume", "check":"Number"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -91,15 +84,8 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"},
-          {
-            "type": "field_number",
-            "name": "timeout",
-            "value": 5,
-            "min": 0,
-            "max": 100,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "filename", "check":"String"},
+          {"type": "input_value", "name": "timeout", "check":"Number"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -126,7 +112,7 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {"type": "input_value", "name": "topic"}
+          {"type": "input_value", "name": "topic", "check":"String"}
         ],
       output: 'String',
       inputsInline: true,
@@ -234,54 +220,12 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "val0",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "val1",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "val2",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "val3",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "val4",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "val5",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          },
+          {"type": "input_value", "name": "val0", "check":"Number"},
+          {"type": "input_value", "name": "val1", "check":"Number"},
+          {"type": "input_value", "name": "val2", "check":"Number"},
+          {"type": "input_value", "name": "val3", "check":"Number"},
+          {"type": "input_value", "name": "val4", "check":"Number"},
+          {"type": "input_value", "name": "val5", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -302,8 +246,8 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {"type": "input_value", "name": "left"},
-          {"type": "input_value", "name": "right"}
+          {"type": "input_value", "name": "left", "check":"Colour"},
+          {"type": "input_value", "name": "right", "check":"Colour"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -497,15 +441,8 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {"type": "input_value", "name": "name"}, 
-          {
-            "type": "field_number",
-            "name": "cycle",
-            "value": 1,
-            "min": 1,
-            "max": 10,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "name", "check":"String"},
+          {"type": "input_value", "name": "cycle", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -526,15 +463,8 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {"type": "input_value", "name": "name"}, 
-          {
-            "type": "field_number",
-            "name": "cycle",
-            "value": 1,
-            "min": 1,
-            "max": 10,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "name", "check":"String"},
+          {"type": "input_value", "name": "cycle", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -589,14 +519,7 @@ Blockly.defineBlocksWithJsonArray(
             ['%{BKY_MOTION_L_HAND}','9'],
             ]
           },
-          {
-            "type": "field_number",
-            "name": "pos",
-            "value": 0,
-            "min": -80,
-            "max": 80,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "pos", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -631,14 +554,7 @@ Blockly.defineBlocksWithJsonArray(
             ['%{BKY_MOTION_L_HAND}','9'],
             ]
           },
-          {
-            "type": "field_number",
-            "name": "val",
-            "value": 40,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "val", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -673,14 +589,7 @@ Blockly.defineBlocksWithJsonArray(
             ['%{BKY_MOTION_L_HAND}','9'],
             ]
           },
-          {
-            "type": "field_number",
-            "name": "val",
-            "value": 0,
-            "min": 0,
-            "max": 255,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "val", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -703,15 +612,7 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          // {"type": "input_value", "name": "font"}, 
-          {
-            "type": "field_number",
-            "name": "size",
-            "value": 10,
-            "min": 5,
-            "max": 50,
-            "precision": 1
-          },
+          {"type": "input_value", "name": "size", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -732,23 +633,9 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "x",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
-          {"type": "input_value", "name": "text"}
+          {"type": "input_value", "name": "x", "check":"Number"},
+          {"type": "input_value", "name": "y", "check":"Number"},
+          {"type": "input_value", "name": "text", "check":"String"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -783,7 +670,7 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"}
+          {"type": "input_value", "name": "filename", "check":"String"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -804,38 +691,10 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "x1",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y1",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "x2",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y2",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
+          {"type": "input_value", "name": "x1", "check":"Number"},
+          {"type": "input_value", "name": "y1", "check":"Number"},
+          {"type": "input_value", "name": "x2", "check":"Number"},
+          {"type": "input_value", "name": "y2", "check":"Number"},
           {"type": "field_dropdown", "name":"fill",
            "options":[
               ['%{BKY_OLED_FILL}','True'],['%{BKY_OLED_UNFILL}','False']
@@ -861,38 +720,10 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "x1",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y1",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "x2",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y2",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
+          {"type": "input_value", "name": "x1", "check":"Number"},
+          {"type": "input_value", "name": "y1", "check":"Number"},
+          {"type": "input_value", "name": "x2", "check":"Number"},
+          {"type": "input_value", "name": "y2", "check":"Number"},
           {"type": "field_dropdown", "name":"fill",
            "options":[
             ['%{BKY_OLED_FILL}','True'],['%{BKY_OLED_UNFILL}','False']
@@ -918,38 +749,10 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "x1",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y1",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "x2",
-            "value": 0,
-            "min": 0,
-            "max": 128,
-            "precision": 1
-          },
-          {
-            "type": "field_number",
-            "name": "y2",
-            "value": 0,
-            "min": 0,
-            "max": 64,
-            "precision": 1
-          },
+          {"type": "input_value", "name": "x1", "check":"Number"},
+          {"type": "input_value", "name": "y1", "check":"Number"},
+          {"type": "input_value", "name": "x2", "check":"Number"},
+          {"type": "input_value", "name": "y2", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -1036,14 +839,7 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "timeout",
-            "value": 5,
-            "min": 1,
-            "max": 30,
-            "precision": 1
-          }
+          {"type": "input_value", "name": "timeout", "check":"Number"},
         ],
       output: 'String',
       inputsInline: true,
@@ -1069,7 +865,7 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {"type": "input_value", "name": "text"},
+          {"type": "input_value", "name": "text", "check":"String"},
           {"type": "field_dropdown", "name":"dir",
             "options":[
               [ 'code/', '/home/pi/code/' ],
@@ -1078,7 +874,7 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"},
+          {"type": "input_value", "name": "filename", "check":"String"},
           {"type": "field_dropdown", "name":"voice",
            "options":[
               ['main','main'],['man','man1'],['woman','woman1'],
@@ -1105,7 +901,7 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {"type": "input_value", "name": "text"}
+          {"type": "input_value", "name": "text", "check":"String"}
         ],
       output: 'String',
       inputsInline: true,
@@ -1132,7 +928,7 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"}
+          {"type": "input_value", "name": "filename", "check":"String"}
         ],
         nextStatement: true,
         previousStatement: true,
@@ -1173,20 +969,20 @@ Blockly.defineBlocksWithJsonArray(
           },
           {"type":"input_dummy"},
           {"type": "field_dropdown", "name":"dir",
-          "options":[
-            [ 'code/', '/home/pi/code/' ],
-            [ 'myimage/', '/home/pi/myimage/'],
-            [ '(openpibo-files) icon/etc/', '/home/pi/openpibo-files/icon/etc/'],
-            [ '(openpibo-files) icon/expression/', '/home/pi/openpibo-files/icon/expression/'],
-            [ '(openpibo-files) icon/game/', '/home/pi/openpibo-files/icon/game/'],
-            [ '(openpibo-files) icon/recycle/', '/home/pi/openpibo-files/icon/recycle/'],
-            [ '(openpibo-files) icon/weather/', '/home/pi/openpibo-files/icon/weather/'],
-            [ '(openpibo-files) image/', '/home/pi/openpibo-files/image/'],
-            [ '/home/pi/', '/home/pi/' ],
-            [ 'none', '']
-          ]
-        },
-        {"type": "input_value", "name": "filename"},
+            "options":[
+              [ 'code/', '/home/pi/code/' ],
+              [ 'myimage/', '/home/pi/myimage/'],
+              [ '(openpibo-files) icon/etc/', '/home/pi/openpibo-files/icon/etc/'],
+              [ '(openpibo-files) icon/expression/', '/home/pi/openpibo-files/icon/expression/'],
+              [ '(openpibo-files) icon/game/', '/home/pi/openpibo-files/icon/game/'],
+              [ '(openpibo-files) icon/recycle/', '/home/pi/openpibo-files/icon/recycle/'],
+              [ '(openpibo-files) icon/weather/', '/home/pi/openpibo-files/icon/weather/'],
+              [ '(openpibo-files) image/', '/home/pi/openpibo-files/image/'],
+              [ '/home/pi/', '/home/pi/' ],
+              [ 'none', '']
+            ]
+          },
+          {"type": "input_value", "name": "filename", "check":"String"},
         ],
       output: null,
       inputsInline: true,
@@ -1214,8 +1010,8 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"},
-          {"type": "input_value", "name": "img"}
+          {"type": "input_value", "name": "filename", "check":"String"},
+          {"type": "input_value", "name": "img", "check":"Array"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -1250,7 +1046,7 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "filename"},
+          {"type": "input_value", "name": "filename", "check":"String"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -1270,7 +1066,7 @@ Blockly.defineBlocksWithJsonArray(
           "height": 27
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"},
+        {"type": "input_value", "name": "img", "check":"Array"},
         {"type": "field_dropdown", "name":"type",
           "options":[
             [ '%{BKY_VISION_CARTOON}', 'cartoon' ],
@@ -1298,7 +1094,7 @@ Blockly.defineBlocksWithJsonArray(
           "height": 27
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"}
+        {"type": "input_value", "name": "img", "check":"Array"}
       ],
       output: null,
       inputsInline: true,
@@ -1317,7 +1113,7 @@ Blockly.defineBlocksWithJsonArray(
           "height": 27
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"}
+        {"type": "input_value", "name": "img", "check":"Array"}
       ],
       output: null,
       inputsInline: true,
@@ -1336,7 +1132,7 @@ Blockly.defineBlocksWithJsonArray(
           "height": 27
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"}
+        {"type": "input_value", "name": "img", "check":"Array"}
       ],
       output: null,
       inputsInline: true,
@@ -1382,7 +1178,7 @@ Blockly.defineBlocksWithJsonArray(
           "height": 27
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"}
+        {"type": "input_value", "name": "img", "check":"Array"}
       ],
       output: null,
       inputsInline: true,
@@ -1410,8 +1206,8 @@ Blockly.defineBlocksWithJsonArray(
               [ 'none', '']
             ]
           },
-          {"type": "input_value", "name": "modelpath"},
-          {"type": "input_value", "name": "labelpath"}
+          {"type": "input_value", "name": "modelpath", "check":"String"},
+          {"type": "input_value", "name": "labelpath", "check":"String"}
         ],
       nextStatement: true,
       previousStatement: true,
@@ -1431,7 +1227,7 @@ Blockly.defineBlocksWithJsonArray(
           "height": 27
         },
         {"type":"input_dummy"},
-        {"type": "input_value", "name": "img"}
+        {"type": "input_value", "name": "img", "check":"Array"}
       ],
       output: null,
       inputsInline: true,
@@ -1472,7 +1268,7 @@ Blockly.defineBlocksWithJsonArray(
           [ 'none', '']
         ]
       },
-      {"type": "input_value", "name": "filename"},
+      {"type": "input_value", "name": "filename", "check":"String"},
       ],
       output: null,
       inputsInline: true,
@@ -1492,14 +1288,7 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
-          {
-            "type": "field_number",
-            "name": "time",
-            "value": 1,
-            "min": 0.1,
-            "max": 100,
-            "precision": 0.1
-          }
+          {"type": "input_value", "name": "time", "check":"Number"},
         ],
       nextStatement: true,
       previousStatement: true,
@@ -1579,7 +1368,7 @@ Blockly.defineBlocksWithJsonArray(
           },
           {"type":"input_dummy"},
           {"type": "input_value", "name": "dictionary"},
-          {"type": "input_value", "name": "keyname"}
+          {"type": "input_value", "name": "keyname", "check":"String"}
         ],
         output: null,
         inputsInline: true,

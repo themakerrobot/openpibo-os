@@ -11,7 +11,8 @@ Blockly.Python['audio_play'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
-  const volume = block.getFieldValue("volume");
+  const volume = Blockly.Python.valueToCode(block, 'volume', Blockly.Python.ORDER_ATOMIC)._trim();
+  // const volume = block.getFieldValue("volume");
   return `audio.play('${dir}'+${filename}.strip(), ${volume})\n`;
 }
 Blockly.Python['audio_stop'] = function(block) {
@@ -25,7 +26,8 @@ Blockly.Python['audio_record'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC)._trim();
-  const timeout = block.getFieldValue("timeout");
+  //const timeout = block.getFieldValue("timeout");
+  const timeout = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC)._trim();
   return `os.system("arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d ${timeout} -t wav -q stream.raw;sox stream.raw -c 1 -b 16 " + '${dir}'+${filename}.strip() + ";rm stream.raw")\n`;
 }
 
@@ -58,13 +60,13 @@ Blockly.Python['news_search'] = function(block) {
 Blockly.Python['device_eye_on'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
-
-  const val0 = block.getFieldValue("val0");
-  const val1 = block.getFieldValue("val1");
-  const val2 = block.getFieldValue("val2");
-  const val3 = block.getFieldValue("val3");
-  const val4 = block.getFieldValue("val4");
-  const val5 = block.getFieldValue("val5");
+  
+  const val0 = Blockly.Python.valueToCode(block, 'val0', Blockly.Python.ORDER_ATOMIC)._trim();
+  const val1 = Blockly.Python.valueToCode(block, 'val1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const val2 = Blockly.Python.valueToCode(block, 'val2', Blockly.Python.ORDER_ATOMIC)._trim();
+  const val3 = Blockly.Python.valueToCode(block, 'val3', Blockly.Python.ORDER_ATOMIC)._trim();
+  const val4 = Blockly.Python.valueToCode(block, 'val4', Blockly.Python.ORDER_ATOMIC)._trim();
+  const val5 = Blockly.Python.valueToCode(block, 'val5', Blockly.Python.ORDER_ATOMIC)._trim();
 
   return `device.eye_on(${val0}, ${val1}, ${val2}, ${val3}, ${val4}, ${val5})\n`
 }
@@ -131,7 +133,7 @@ Blockly.Python['motion_set_motion'] = function(block) {
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
   const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC)._trim();
-  const cycle = block.getFieldValue("cycle");
+  const cycle = Blockly.Python.valueToCode(block, 'cycle', Blockly.Python.ORDER_ATOMIC)._trim();
   return `motion.set_motion(${name}.strip(), ${cycle})\n`;
 }
 Blockly.Python['motion_set_mymotion'] = function(block) {
@@ -139,7 +141,7 @@ Blockly.Python['motion_set_mymotion'] = function(block) {
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
   const name = Blockly.Python.valueToCode(block, 'name', Blockly.Python.ORDER_ATOMIC)._trim();
-  const cycle = block.getFieldValue("cycle");
+  const cycle = Blockly.Python.valueToCode(block, 'cycle', Blockly.Python.ORDER_ATOMIC)._trim();
   return `motion.set_mymotion(${name}.strip(), ${cycle})\n`;
 }
 Blockly.Python['motion_init_motion'] = function(block) {
@@ -153,7 +155,7 @@ Blockly.Python['motion_set_motor'] = function(block) {
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
   const no = block.getFieldValue("no");
-  const pos = block.getFieldValue("pos");
+  const pos = Blockly.Python.valueToCode(block, 'pos', Blockly.Python.ORDER_ATOMIC)._trim();
   return `motion.set_motor(${no}, ${pos})\n`;
 }
 Blockly.Python['motion_set_speed'] = function(block) {
@@ -161,7 +163,7 @@ Blockly.Python['motion_set_speed'] = function(block) {
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
   const no = block.getFieldValue("no");
-  const val = block.getFieldValue("val");
+  const val = Blockly.Python.valueToCode(block, 'val', Blockly.Python.ORDER_ATOMIC)._trim();
   return `motion.set_speed(${no}, ${val})\n`;
 }
 Blockly.Python['motion_set_acceleration'] = function(block) {
@@ -169,7 +171,7 @@ Blockly.Python['motion_set_acceleration'] = function(block) {
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
   const no = block.getFieldValue("no");
-  const val = block.getFieldValue("val");
+  const val = Blockly.Python.valueToCode(block, 'val', Blockly.Python.ORDER_ATOMIC)._trim();
   return `motion.set_acceleration(${no}, ${val})\n`;
 }
 
@@ -178,16 +180,15 @@ Blockly.Python['oled_set_font'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
 
-  //const font = Blockly.Python.valueToCode(block, 'font', Blockly.Python.ORDER_ATOMIC)
-  const size = block.getFieldValue("size");
+  const size = Blockly.Python.valueToCode(block, 'size', Blockly.Python.ORDER_ATOMIC)._trim();
   return `oled.set_font(size=${size})\n`;
 }
 Blockly.Python['oled_draw_text'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
 
-  const x = block.getFieldValue("x");
-  const y = block.getFieldValue("y");
+  const x = Blockly.Python.valueToCode(block, 'x', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC)._trim();
 
   const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC)._trim();
   return `oled.draw_text((${x}, ${y}), ${text}.strip())\n`;
@@ -204,10 +205,10 @@ Blockly.Python['oled_draw_rectangle'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
 
-  const x1 = block.getFieldValue("x1");
-  const y1 = block.getFieldValue("y1");
-  const x2 = block.getFieldValue("x2");
-  const y2 = block.getFieldValue("y2");
+  const x1 = Blockly.Python.valueToCode(block, 'x1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y1 = Blockly.Python.valueToCode(block, 'y1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const x2 = Blockly.Python.valueToCode(block, 'x2', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y2 = Blockly.Python.valueToCode(block, 'y2', Blockly.Python.ORDER_ATOMIC)._trim();
   const fill = block.getFieldValue("fill");
 
   return `oled.draw_rectangle((${x1}, ${y1}, ${x2}, ${y2}), ${fill})\n`;
@@ -216,10 +217,10 @@ Blockly.Python['oled_draw_ellipse'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
 
-  const x1 = block.getFieldValue("x1");
-  const y1 = block.getFieldValue("y1");
-  const x2 = block.getFieldValue("x2");
-  const y2 = block.getFieldValue("y2");
+  const x1 = Blockly.Python.valueToCode(block, 'x1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y1 = Blockly.Python.valueToCode(block, 'y1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const x2 = Blockly.Python.valueToCode(block, 'x2', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y2 = Blockly.Python.valueToCode(block, 'y2', Blockly.Python.ORDER_ATOMIC)._trim();
   const fill = block.getFieldValue("fill");
 
   return `oled.draw_ellipse((${x1}, ${y1}, ${x2}, ${y2}), ${fill})\n`;
@@ -228,11 +229,10 @@ Blockly.Python['oled_draw_line'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
 
-  const x1 = block.getFieldValue("x1");
-  const y1 = block.getFieldValue("y1");
-  const x2 = block.getFieldValue("x2");
-  const y2 = block.getFieldValue("y2");
-
+  const x1 = Blockly.Python.valueToCode(block, 'x1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y1 = Blockly.Python.valueToCode(block, 'y1', Blockly.Python.ORDER_ATOMIC)._trim();
+  const x2 = Blockly.Python.valueToCode(block, 'x2', Blockly.Python.ORDER_ATOMIC)._trim();
+  const y2 = Blockly.Python.valueToCode(block, 'y2', Blockly.Python.ORDER_ATOMIC)._trim();
   return `oled.draw_line((${x1}, ${y1}, ${x2}, ${y2}))\n`;
 }
 Blockly.Python['oled_invert'] = function(block) {
