@@ -778,6 +778,14 @@ const toolbox_en = {
                 }
               }
             },
+            "volume": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "80"
+                }
+              }
+            }
           }
         },
         {
@@ -796,6 +804,14 @@ const toolbox_en = {
                 }
               }
             },
+            "timeout": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "5"
+                }
+              }
+            }
           }
         }
       ],
@@ -843,6 +859,56 @@ const toolbox_en = {
         {
           "kind": "block",
           "type": "device_eye_on",
+          "inputs":{
+            "val0": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "val1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "val2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "val3": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "val4": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "val5": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
         },
         {
           "kind": "block",
@@ -918,6 +984,14 @@ const toolbox_en = {
                 }
               }
             },
+            "cycle": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
           }
         },
         {
@@ -932,6 +1006,14 @@ const toolbox_en = {
                 }
               }
             },
+            "cycle": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
           }
         },
         {
@@ -941,14 +1023,44 @@ const toolbox_en = {
         {
           "kind": "block",
           "type": "motion_set_motor",
+          "inputs":{
+            "pos": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
         },
         {
           "kind": "block",
           "type": "motion_set_speed",
+          "inputs":{
+            "val": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "40"
+                }
+              }
+            }
+          }
         },
         {
           "kind": "block",
           "type": "motion_set_acceleration",
+          "inputs":{
+            "val": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
         },
       ],
       "colour": color_type["motion"],
@@ -963,11 +1075,37 @@ const toolbox_en = {
         {
           "kind": "block",
           "type": "oled_set_font",
+          "inputs":{
+            "size": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "10"
+                }
+              }
+            }
+          }
         },
         {
           "kind": "block",
           "type": "oled_draw_text",
           "inputs":{
+            "x": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
             "text":{
               "shadow": {
                 "type": "text",
@@ -995,14 +1133,116 @@ const toolbox_en = {
         {
           "kind": "block",
           "type": "oled_draw_rectangle",
+          "inputs":{
+            "x1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "x2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+          }
         },
         {
           "kind": "block",
           "type": "oled_draw_ellipse",
+          "inputs":{
+            "x1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "x2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+          }
         },
         {
           "kind": "block",
           "type": "oled_draw_line",
+          "inputs":{
+            "x1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "x2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "y2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+          }
         },
         {
           "kind": "block",
@@ -1029,6 +1269,16 @@ const toolbox_en = {
         {
           "kind": "block",
           "type": "speech_stt",
+          "inputs":{
+            "timeout": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "5"
+                }
+              }
+            }
+          }
         },
         {
           "kind": "block",
@@ -1267,6 +1517,16 @@ const toolbox_en = {
         {
           "kind": "block",
           "type": "utils_sleep",
+          "inputs":{
+            "time": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
+          }
         },
         {
           "kind": "block",
@@ -1308,7 +1568,7 @@ const toolbox_en = {
   ]
 }
 
-let toolbox_ko = {
+const toolbox_ko = {
   "kind": "categoryToolbox",
   "contents": [
     { // Logic
