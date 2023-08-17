@@ -684,20 +684,6 @@ const translations = {
     ko: "모션을 선택하세요.",
     en: "Choose an motion."
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 const setLanguage = (lang) => {
