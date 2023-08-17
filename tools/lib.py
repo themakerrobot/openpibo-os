@@ -503,7 +503,12 @@ class Pibo:
 
   def async_sim_motion(self, name, cycle=1, path=None, log=True):
     self.mot.stop()
-    Thread(name='sim_audio', target=self.sim_motion, args=(name, cycle, path, log), daemon=True).start()
+    try:
+      self.mot.simT.join()
+    except Exception as ex:
+      pass
+    self.mot.simT = Thread(name='sim_motion', target=self.sim_motion, args=(name, cycle, path, log), daemon=True)
+    self.mot.simT.start()
 
   def sim_audio(self, filename, volume, log=True):
     self.stop_audio()
@@ -523,7 +528,6 @@ class Pibo:
     if 'motion' in item:
       d = item['motion']
       content = d['content']
-      self.stop_frame()
       if d['type'] == 'default':
         self.async_sim_motion(content, d['cycle'], log=False)
       if d['type'] == 'mymotion':
@@ -531,7 +535,6 @@ class Pibo:
     if 'audio' in item:
       d = item['audio']
       content = d['content']
-      self.stop_audio()
       self.async_sim_audio(d["type"]+content, d["volume"], log=False)
     if 'oled' in item:
       d = item['oled']
