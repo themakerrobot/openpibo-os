@@ -1376,5 +1376,75 @@ Blockly.defineBlocksWithJsonArray(
         tooltip: '',
         helpUrl: ''
     },
+    {
+      type: 'utils_check_path',
+      message0: '%{BKY_UTILS_CHECK_PATH}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/square-check-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '%{BKY_UTILS_FILE}', 'os.path.isfile' ],
+            [ '%{BKY_UTILS_DIRECTORY}', 'os.path.isdir']
+          ]},
+          {"type": "input_value", "name": "path", "check":"String"}
+        ],
+        output: null,
+        inputsInline: true,
+        colour: color_type["utils"],
+        tooltip: '',
+        helpUrl: ''
+    },
+    {
+      type: 'utils_typecast_string',
+      message0: '%{BKY_UTILS_TYPECAST_STRING}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/right-left-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "value", "check":"Number"}
+        ],
+        output: null,
+        inputsInline: true,
+        colour: color_type["utils"],
+        tooltip: '',
+        helpUrl: ''
+    },
+    {
+      type: 'utils_typecast_number',
+      message0: '%{BKY_UTILS_TYPECAST_NUMBER}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/right-left-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '%{BKY_UTILS_INT}', 'int'],
+            [ '%{BKY_UTILS_FLOAT}', 'float']
+          ]},
+          {"type": "input_value", "name": "value", "check":"String"}
+        ],
+        output: null,
+        inputsInline: true,
+        colour: color_type["utils"],
+        tooltip: '',
+        helpUrl: ''
+    },
   ]
 );

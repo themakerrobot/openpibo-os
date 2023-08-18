@@ -575,6 +575,15 @@ Blockly.Msg["UTILS_TIME"] = "%1 %2 Get time value";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 Get current time";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 Check if %3 is included in %4";
 Blockly.Msg["UTILS_DICT"] = "%1 %2 Get value of key %4 from dictionary %3";
+Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 Check if %3 %4 exists";
+Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 Replace %3 with String type";
+Blockly.Msg["UTILS_TYPECAST_NUMBER"] = "%1 %2 Replace %4 with type %3";
+
+Blockly.Msg["UTILS_FILE"] = "File";
+Blockly.Msg["UTILS_DIRECTORY"] = "Directory";
+Blockly.Msg["UTILS_STR"] = "String";
+Blockly.Msg["UTILS_INT"] = "Integer";
+Blockly.Msg["UTILS_FLOAT"] = "Float";
 
 Blockly.Msg["CATLOGIC"] = "Logic";
 Blockly.Msg["CATLOOPS"] = "Loops";

@@ -427,7 +427,7 @@ Blockly.Python['vision_call_ai'] = function(block) {
 Blockly.Python['utils_sleep'] = function(block) {
   Blockly.Python.definitions_['import_time'] = 'import time';
 
-  const t = block.getFieldValue('time');
+  const t = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC)._trim();
   return `time.sleep(${t})\n`;
 }
 Blockly.Python['utils_time'] = function(block) {
@@ -451,4 +451,27 @@ Blockly.Python['utils_dict'] = function(block) {
   const keyname = Blockly.Python.valueToCode(block, 'keyname', Blockly.Python.ORDER_ATOMIC)._trim();
 
   return [`${dictionary}[${keyname}.strip()]`, Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['utils_check_path'] = function(block) {
+  Blockly.Python.definitions_['import_os'] = 'import os';
+  const type = block.getFieldValue('type');
+  const path = Blockly.Python.valueToCode(block, 'path', Blockly.Python.ORDER_ATOMIC)._trim();
+
+  return [`${type}(${path}.strip())`, Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['utils_typecast_string'] = function(block) {
+  Blockly.Python.definitions_['import_os'] = 'import os';
+  const value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC)._trim();
+
+  return [`str(${value})`, Blockly.Python.ORDER_ATOMIC];
+}
+
+Blockly.Python['utils_typecast_number'] = function(block) {
+  Blockly.Python.definitions_['import_os'] = 'import os';
+  const type = block.getFieldValue('type');
+  const value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC)._trim();
+
+  return [`${type}(${value}.strip())`, Blockly.Python.ORDER_ATOMIC];
 }

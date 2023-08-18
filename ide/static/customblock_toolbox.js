@@ -1559,6 +1559,48 @@ const toolbox_en = {
             },
           }
         },
+        {
+          "kind": "block",
+          "type": "utils_check_path",
+          "inputs":{
+            "path":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Path"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "utils_typecast_string",
+          "inputs":{
+            "value":{
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "utils_typecast_number",
+          "inputs":{
+            "value":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "1"
+                }
+              }
+            }
+          }
+        }
       ],
       "colour": color_type["utils"],
       "cssConfig": {
@@ -3127,6 +3169,48 @@ const toolbox_ko = {
                 }
               }
             },
+          }
+        },
+        {
+          "kind": "block",
+          "type": "utils_check_path",
+          "inputs":{
+            "path":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "경로"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "utils_typecast_string",
+          "inputs":{
+            "value":{
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "utils_typecast_number",
+          "inputs":{
+            "value":{
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "1"
+                }
+              }
+            }
           }
         },
       ],
