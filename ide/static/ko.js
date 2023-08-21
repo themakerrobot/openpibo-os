@@ -528,7 +528,7 @@ Blockly.Msg["OLED_UNFILL"] = "채우기 없음";
 
 Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 %4 초 녹음하여 음성인식하기";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 %4 를 %7 목소리로 %5 %6 에 저장하기";
-Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기";
+Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기 (한국어만 가능)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";
 
 Blockly.Msg["VISION_READ"] = "%1 %2 촬영하기";
@@ -568,7 +568,10 @@ Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 현재 시간 확인하기";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 %3 가 %4 에 포함되는지 확인하기";
-Blockly.Msg["UTILS_DICT"] = "%1 %2 딕셔너리 %3 의 키 %4 값 가져오기";
+Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 딕셔너리 %3 의 키 %4 값 가져오기";
+Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 딕셔너리 %3 의 키 %4 에 %5 저장하기";
+Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 딕셔너리 만들기";
+
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 %3 %4 존재하는지 확인하기";
 Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 %3 문자형 타입으로 바꾸기";
 Blockly.Msg["UTILS_TYPECAST_NUMBER"] = "%1 %2 %4 %3 타입으로 바꾸기";
@@ -577,7 +580,6 @@ Blockly.Msg["UTILS_DIRECTORY"] = "디렉토리";
 Blockly.Msg["UTILS_STR"] = "문자형";
 Blockly.Msg["UTILS_INT"] = "정수형";
 Blockly.Msg["UTILS_FLOAT"] = "실수형";
-
 
 Blockly.Msg["CATLOGIC"] = "논리";
 Blockly.Msg["CATLOOPS"] = "반복";

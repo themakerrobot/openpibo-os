@@ -193,14 +193,62 @@ const translations = {
   },
   mymotion: {
     ko: "나의 모션",
-    en: "my motion"
+    en: "My motion"
+  },
+  filename: {
+    ko: "파일 이름",
+    en: "Filename"
   },
   image_filename: {
-    ko: "이미지 파일이름",
-    en: "image filename"
+    ko: "이미지 파일 이름",
+    en: "Image filename"
   },
   audio_filename: {
-    ko: "오디오 파일이름",
-    en: "audio filename"
+    ko: "오디오 파일 이름",
+    en: "Audio filename"
+  },
+  model_filename: {
+    ko: "모델 파일 이름",
+    en: "Model filename"
+  },
+  label_filename: {
+    ko: "라벨 파일 이름",
+    en: "Label filename"
+  },
+  csv_filename: {
+    ko: "csv 파일 이름",
+    en: "csv filename"
+  },
+  keyname: {
+    ko: "키 이름",
+    en: "Key name"
+  },
+  path: {
+    ko: "경로",
+    en: "Path"
+  },
+  robot: {
+    ko: "로봇",
+    en: "Robot"
+  },
+  sample_text: {
+    ko: "안녕하세요",
+    en: "Hello"
+  },
+  abc: {
+    ko: "가나다",
+    en: "abc"
+  },
+  a: {
+    ko: "가",
+    en: "a"
+  },
+  b: {
+    ko: "나",
+    en: "b"
+  },
+  c: {
+    ko: "다",
+    en: "c"
   }
 };

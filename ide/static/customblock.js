@@ -1356,8 +1356,8 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
-      type: 'utils_dict',
-      message0: '%{BKY_UTILS_DICT}',
+      type: 'utils_dict_get',
+      message0: '%{BKY_UTILS_DICT_GET}',
       args0:
         [
           {
@@ -1369,6 +1369,48 @@ Blockly.defineBlocksWithJsonArray(
           {"type":"input_dummy"},
           {"type": "input_value", "name": "dictionary"},
           {"type": "input_value", "name": "keyname", "check":"String"}
+        ],
+        output: null,
+        inputsInline: true,
+        colour: color_type["utils"],
+        tooltip: '',
+        helpUrl: ''
+    },
+    {
+      type: 'utils_dict_set',
+      message0: '%{BKY_UTILS_DICT_SET}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/list-check-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "dictionary"},
+          {"type": "input_value", "name": "keyname", "check":"String"},
+          {"type": "input_value", "name": "value"}
+        ],
+        nextStatement: true,
+        previousStatement: true,
+        inputsInline: true,
+        colour: color_type["utils"],
+        tooltip: '',
+        helpUrl: ''
+    },
+    {
+      type: 'utils_dict_create',
+      message0: '%{BKY_UTILS_DICT_CREATE}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/list-check-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
         ],
         output: null,
         inputsInline: true,

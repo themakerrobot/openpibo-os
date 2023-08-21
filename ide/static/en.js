@@ -537,7 +537,7 @@ Blockly.Msg["OLED_UNFILL"] = "Un fill";
 
 Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 Record for %4 seconds and perform speech recognition";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 Save %4 as %7 voice speech to %5 %6";
-Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 Respond to %3";
+Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 Respond to %3 (Korean only)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 Set conversation file %3 %4";
 
 Blockly.Msg["VISION_READ"] = "%1 %2 Take a picture";
@@ -574,7 +574,10 @@ Blockly.Msg["UTILS_SLEEP"] = "%1 %2 Delay for %3 seconds";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 Get time value";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 Get current time";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 Check if %3 is included in %4";
-Blockly.Msg["UTILS_DICT"] = "%1 %2 Get value of key %4 from dictionary %3";
+Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 Get value of key %4 from dictionary %3";
+Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 Set %5 to key %4 of dictionary %3";
+Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 Create dictionary";
+
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 Check if %3 %4 exists";
 Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 Replace %3 with String type";
 Blockly.Msg["UTILS_TYPECAST_NUMBER"] = "%1 %2 Replace %4 with type %3";
