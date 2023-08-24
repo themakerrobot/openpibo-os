@@ -739,7 +739,7 @@ const getDevices = (socket) => {
 
   socket.on("oled_path", (data) => {
     $("#oledfiles").empty();
-    $("#oledfiles").append("<option value='-'>선택</option>");
+    $("#oledfiles").append(`<option value='-'>${translations["select"][lang]}</option>`);
     for (let i = 0; i < data.length; i++) {
       let filename = data[i];
       let extension = filename.split(".")[1].toLowerCase();
@@ -794,7 +794,7 @@ const getDevices = (socket) => {
 
   socket.on("audio_path", (data) => {
     $("#audiofiles").empty();
-    $("#audiofiles").append("<option value='-'>선택</option>");
+    $("#audiofiles").append(`<option value='-'>${translations["select"][lang]}</option>`);
     for (let i = 0; i < data.length; i++) {
       let filename = data[i];
       let extension = filename.split(".")[1];
