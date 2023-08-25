@@ -570,7 +570,7 @@ Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 현재 시간 확인하기";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 %3 가 %4 에 포함되는지 확인하기";
 Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 딕셔너리 %3 의 키 %4 값 가져오기";
 Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 딕셔너리 %3 의 키 %4 에 %5 저장하기";
-Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 딕셔너리 만들기";
+Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 빈 딕셔너리 생성";
 
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 %3 %4 존재하는지 확인하기";
 Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 %3 문자형 타입으로 바꾸기";
