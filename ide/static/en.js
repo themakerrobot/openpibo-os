@@ -576,7 +576,7 @@ Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 Get current time";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 Check if %3 is included in %4";
 Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 Get value of key %4 from dictionary %3";
 Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 Set %5 to key %4 of dictionary %3";
-Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 Create dictionary";
+Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 Create empty dictionary";
 
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 Check if %3 %4 exists";
 Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 Replace %3 with String type";
