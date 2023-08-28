@@ -105,6 +105,7 @@ const getMotions = (socket) => {
           $(this).val($(trange).val());
           alert(translations["range_warn"][lang](min, max));
         } else {
+	  $(trange).val(pos);
           socket.emit("set_motor", { idx: i, pos: pos });
         }
       }
