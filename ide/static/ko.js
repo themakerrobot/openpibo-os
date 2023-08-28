@@ -537,13 +537,12 @@ Blockly.Msg["VISION_IMWRITE"] = "%1 %2 이미지 %5 를 %3 %4 에 저장하기";
 Blockly.Msg["VISION_IMSHOW_TO_IDE"] = "%1 %2 이미지 파일 %3 %4 를 IDE에 표시하기";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 이미지 %3 %4로 바꾸기";
 
+Blockly.Msg["VISION_FACE"] = "%1 %2 이미지 %3 얼굴 찾기";
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 이미지 %3 사물 찾기";
 Blockly.Msg["VISION_QR"] = "%1 %2 이미지 %3 QR코드 찾기";
 Blockly.Msg["VISION_POSE"] = "%1 %2 이미지 %3 포즈 찾기";
 Blockly.Msg["VISION_ANALYZE_POSE"] = "%1 %2 포즈 결과 %3 에서 %4 분석하기";
-
 Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류하기";
-
 Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";
 Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류하기";
 Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 이미지 파일 %5 %6 의 인공지능 %4 가져오기";
@@ -569,7 +568,7 @@ Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 현재 시간 확인하기";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 %3 가 %4 에 포함되는지 확인하기";
 Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 딕셔너리 %3 의 키 %4 값 가져오기";
-Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 딕셔너리 %3 의 키 %4 에 %5 저장하기";
+Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 딕셔너리 %3 에 { %4 : %5 } 추가하기";
 Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 빈 딕셔너리 생성";
 
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 %3 %4 존재하는지 확인하기";

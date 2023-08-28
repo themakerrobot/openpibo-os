@@ -339,6 +339,13 @@ Blockly.Python['vision_transfer'] = function(block) {
   }
   return [res, Blockly.Python.ORDER_ATOMIC];
 }
+Blockly.Python['vision_face'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Face'] = 'from openpibo.vision import Face';
+  Blockly.Python.definitions_['assign_face'] = '_face = Face()';
+
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  return [`_face.detect(${img})`, Blockly.Python.ORDER_ATOMIC];
+}
 Blockly.Python['vision_object'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';
   Blockly.Python.definitions_['assign_detect'] = 'detect = Detect()';

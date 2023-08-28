@@ -1084,6 +1084,25 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_face',
+      message0: '%{BKY_VISION_FACE}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/face-smile-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '',
+      helpUrl: ''
+    },
+    {
       type: 'vision_object',
       message0: '%{BKY_VISION_OBJECT}',
       "args0": [
@@ -1406,7 +1425,7 @@ Blockly.defineBlocksWithJsonArray(
         [
           {
             "type": "field_image",
-            "src": "svg/list-check-solid.svg",
+            "src": "svg/database-solid.svg",
             "width": 27,
             "height": 27
           },

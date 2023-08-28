@@ -545,6 +545,8 @@ Blockly.Msg["VISION_IMREAD"] = "%1 %2 Load image file %3 %4";
 Blockly.Msg["VISION_IMWRITE"] = "%1 %2 Save image %5 as %3 %4";
 Blockly.Msg["VISION_IMSHOW_TO_IDE"] = "%1 %2 Display image file %3 %4 on IDE";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 Convert image %3 to %4";
+
+Blockly.Msg["VISION_FACE"] = "%1 %2 Find image %3 faces";
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 Detect objects in %3 image";
 Blockly.Msg["VISION_QR"] = "%1 %2 Detect QR codes in %3 image";
 Blockly.Msg["VISION_POSE"] = "%1 %2 Detect poses in %3 image";
@@ -575,7 +577,7 @@ Blockly.Msg["UTILS_TIME"] = "%1 %2 Get time value";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 Get current time";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 Check if %3 is included in %4";
 Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 Get value of key %4 from dictionary %3";
-Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 Set %5 to key %4 of dictionary %3";
+Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 Append { %4 : %5 } to dictionary %3";
 Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 Create empty dictionary";
 
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 Check if %3 %4 exists";
