@@ -5,7 +5,7 @@ from openpibo.motion import Motion
 def disp(v):
   wip, ssid, sn = v[2] if v[0] == "" else v[0], v[3] if v[1] == "" else v[1], v[4]
   o.set_font(size=12)
-  o.draw_text((0, 5), f'SN: {sn}')
+  o.draw_text((0, 5), f'SN: {sn} - [N]')
   o.draw_text((0,25), f'I P: {wip.strip()}')
   o.draw_text((0,45), f'AP: {ssid}')
   o.show()
