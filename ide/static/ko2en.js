@@ -250,5 +250,9 @@ const translations = {
   c: {
     ko: "다",
     en: "c"
+  },
+  confirm_block_file: {
+    ko: "파일을 선택하거나, 새파일을 생성하세요.",
+    en: "Select a file or create a new one."
   }
 };

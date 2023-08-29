@@ -613,9 +613,9 @@ const workspace = Blockly.inject("blocklyDiv", {
   renderer:"zelos", // "zelos", "minimalist", "thrasos"
 });
 workspace.addChangeListener ((event)=>{
-  if (event.type = Blockly.Events.BLOCK_CHANGE) {
-    update_block();
-  }
+  update_block();
+  if (event.type == Blockly.Events.CREATE && $("#codepath").html() == '')
+   setTimeout(()=>{alert(translations["confirm_block_file"][lang])},500);
 });
 
 $(document).keydown((evt)=> {
