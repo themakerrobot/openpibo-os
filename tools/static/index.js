@@ -380,7 +380,7 @@ const getSpeech = (socket) => {
       return;
     }
     if (string.length > max_tts_length) {
-      alert(translations["text_empty"][lang](max_tts_length));
+      alert(translations["text_size_limit"][lang](max_tts_length));
       return;
     }
     socket.emit("tts", {
@@ -402,7 +402,7 @@ const getSpeech = (socket) => {
         return;
       }
       if (string.length > max_tts_length) {
-        alert(translations["text_empty"][lang](max_tts_length));
+        alert(translations["text_size_limit"][lang](max_tts_length));
         return;
       }
       socket.emit("tts", {
