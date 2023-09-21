@@ -6,6 +6,7 @@ const init_usedata = {
 };
 let usedata = init_usedata; // from server
 const MAX_FILENAME_LENGTH = 50;
+const MAX_FILE_NUMBER = 10;
 const codeMirrorMode = {
   python: "python",
   shell: "shell",
@@ -413,13 +414,25 @@ $("#add_file").on("click", () => {
 });
 
 $("#upload").on("change", (e) => {
-  if($("#upload")[0].files[0].name.length > MAX_FILENAME_LENGTH) {
-    alert(translations['name_size_limit'][lang](MAX_FILENAME_LENGTH));
+
+  let upload_files = $("#upload")[0].files;
+
+
+  if (upload_files.length > MAX_FILE_NUMBER) {
+    alert(translations['file_number_limit'][lang](MAX_FILE_NUMBER));
     return;
+  }
+  for (item of upload_files) {
+    if(item.name.length > MAX_FILENAME_LENGTH) {
+      alert(translations['name_size_limit'][lang](MAX_FILENAME_LENGTH));
+      return;
+    }
   }
 
   let formData = new FormData();
-  formData.append('data', $("#upload")[0].files[0]);
+  for (item of upload_files) {
+    formData.append('data', item);
+  }
   $("#upload").val("");
   $.ajax({
     url: `/upload`,

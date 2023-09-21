@@ -153,7 +153,8 @@ app.get('/download', (req, res) => {
   }
   res.download(PATH + "/" + req.query.filename); 
 });
-app.post('/upload', upload.single('data'), (req, res) => {
+//app.post('/upload', upload.single('data'), (req, res) => {
+app.post('/upload', upload.array('data', 10), (req, res) => {
   if (isProtect(PATH)) {
     io.emit('update', {dialog:'파일 업로드 오류: 보호 디렉토리입니다.'});
     return;

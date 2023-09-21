@@ -254,5 +254,9 @@ const translations = {
   confirm_block_file: {
     ko: "파일을 선택하거나, 새파일을 생성하세요.",
     en: "Select a file or create a new one."
+  },
+  file_number_limit: {
+    ko: (max_limit) => { return `파일은 ${max_limit}개 이하로 업로드해주세요.`},
+    en: (max_limit) => { return `Upload within ${max_limit} files or less.`}
   }
 };
