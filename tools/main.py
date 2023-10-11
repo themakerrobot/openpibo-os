@@ -362,6 +362,11 @@ async def f(sid, d=None):
     res = pibo.reset_motion()
     await emit('disp_motion', {'record':res})
 
+@app.sio.on('vision_sleep')
+async def f(sid, d='off'):
+  pibo.vision_sleep = True if d == 'on' else False
+  return await emit('vision_sleep', 'on' if pibo.vision_sleep else 'off')
+
 @app.sio.on('onoff')
 async def f(sid, d=None):
   if d != None:

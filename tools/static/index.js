@@ -2294,6 +2294,7 @@ $(function () {
       socket.emit("disp_motion");
     }
 
+    socket.emit("vision_sleep", name=="vision"?"off":"on");
     if (name != "motion") {
       socket.emit("set_motor", { idx: 0, pos: 0});
       socket.emit("set_motor", { idx: 6, pos: 0});

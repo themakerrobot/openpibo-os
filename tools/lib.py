@@ -28,6 +28,7 @@ class Pibo:
     self.emit = emit_func
     self.onoff = False
     self.logger = logger
+    self.vision_sleep = True
     Timer(0, self.async_system_report).start()
 
   ## system
@@ -49,6 +50,7 @@ class Pibo:
 
     self.vision_type = "camera"
     self.vision_flag = True
+    self.vision_sleep = True
     Thread(name='vision_loop', target=self.vision_loop, args=(), daemon=True).start()
 
   def vision_stop(self):
@@ -58,9 +60,12 @@ class Pibo:
   def vision_loop(self):
     self.cam.cap.set(cv2.CAP_PROP_FPS, 5)
     while self.vision_flag == True:
-      self.frame = self.cam.read()  # read the camera frame
+      if self.vision_sleep == True:
+        time.sleep(1)
+        continue
 
       try:
+        self.frame = self.cam.read()  # read the camera frame
         if self.vision_type == "qr":
           img, res = self.qr_detect()
         elif self.vision_type == "face":
