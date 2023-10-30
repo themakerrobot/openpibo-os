@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
     <link rel="stylesheet" href="../static/all.min.css?ver=20230726v1" type="text/css" />
     <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
-    <link rel="stylesheet" href="../static/index.css?ver=20230726v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=20231023v3" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230726v1" />
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
 
@@ -846,11 +846,54 @@
           </article>
           <article id="article_vision">
             <section>
-              <h3 class="mark" data-key="camera"></h3>
+              <div>
+                <div style="float:left">
+                  <h3 class="mark" data-key="camera"></h3>
+                </div>
+                <div style="float:right">
+                  <button id="v_capture">
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <span data-key="save_image"></span>
+                  </button>
+                </div>
+              </div>
               <img id="v_img" />
+              <!-- <div>
+                <header data-key="camera"></header>
+                <button id="v_capture">
+                  <i class="fa-solid fa-camera-retro"></i>
+                  <span data-key="save_image"></span>
+                </button>
+              </div> -->
+              <div>
+                <header><span data-key="camera_position"></span> <i class="fa-solid fa-location-crosshairs">&nbsp;<span id="v_location"></span></i></header>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                  <a id="v_pan_reset"><i class="fa-solid fa-arrows-left-right"></i></a>
+                  <input
+                    type="range"
+                    name="v_pan_range"
+                    id="v_pan_range"
+                    min="-50"
+                    max="50"
+                    style="width:50%;"
+                  />
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a id="v_tilt_reset"><i class="fa-solid fa-arrows-up-down"></i></a>
+                  <input
+                    type="range"
+                    name="v_tilt_range"
+                    id="v_tilt_range"
+                    min="-25"
+                    max="25"
+                    style="width:50%;"
+                  />
+                </div>
+              </div>
             </section>
             <section>
-              <h3 class="mark" data-key="vision_use"></h3>
+              <div>
+                <h3 class="mark" data-key="vision_use"></h3>
+              </div>
               <div>
                 <header data-key="function_setting"></header>
                 <select id="v_func_type">
@@ -878,7 +921,7 @@
                   </form>
                 </div>
               </div>
-              <div>
+              <!-- <div>
                 <header data-key="camera"></header>
                 <button id="v_capture">
                   <i class="fa-solid fa-camera-retro"></i>
@@ -908,7 +951,7 @@
                     style="width:50%;"
                   />
                 </div>
-              </div>
+              </div> -->
               <h3 class="mark" data-key="v_result"></h3>
               <!-- <div> -->
                 <!-- <textarea id="v_result"></textarea> -->
@@ -925,7 +968,9 @@
           </article>
           <article id="article_speech">
             <section>
-              <h3 class="mark" data-key="speak"></h3>
+              <div>
+                <h3 class="mark" data-key="speak"></h3>
+              </div>
               <div class="speech-input-group">
                 <span class="label" data-key="voice"></span>:
                 <input type="radio" name="s_voice_en" value="on" checked />On
@@ -956,7 +1001,9 @@
               </div>
             </section>
             <section>
-              <h3 class="mark" data-key="talk"></h3>
+              <div>
+                <h3 class="mark" data-key="talk"></h3>
+              </div>
               <div class="speech-input-group">
                 <span class="label" data-key="conversation_dataset"></span>:
                 &nbsp;
@@ -1451,5 +1498,5 @@
     </div>
   </footer>
   <script src="../static/ko2en.js?ver=20230825v1"></script>
-  <script src="../static/index.js?ver=20231012v1"></script>
+  <script src="../static/index.js?ver=20231023v2"></script>
 </html>

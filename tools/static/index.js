@@ -9,6 +9,16 @@ const init_usedata = {
 };
 let usedata = init_usedata; // from server
 const getVisions = (socket) => {
+  $("#v_img").on("click", (evt) => {
+    let rect = evt.target.getBoundingClientRect();
+    x = Math.floor(evt.clientX - rect.left);
+    y = Math.floor(evt.clientY - rect.top);
+    rectW = Math.floor(rect.right - rect.left);
+    rectH = Math.floor(rect.bottom - rect.top);
+    // convertX = (320 * x) / rectW;
+    // convertY = (240 * y) / rectH;
+    console.log(x,y ,rectW, rectH);
+  });
   socket.on("disp_vision", function (data) {
     $("#v_func_type").val(data);
   });

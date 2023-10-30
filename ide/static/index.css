@@ -100,7 +100,7 @@ select,
 input {
   background: rgb(248, 242, 172, 0.85);
   border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 4px;
+  border-radius: 15px;
   padding: 4px;
   font-size: 16px !important;
 }
@@ -187,10 +187,11 @@ button {
   outline: none;
   background-color: var(--yellow);
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 4px var(--mid-gray);
 }
 button:hover {
+  font-weight: bold;
   background-color: var(--dark-yellow);
 }
 button:active {
@@ -206,10 +207,11 @@ button.btn-teal {
   outline: none;
   background-color: var(--teal);
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 4px #074c55;
 }
 button.btn-teal:hover {
+  font-weight: bold;
   background-color: var(--dark-teal);
 }
 button.btn-teal:active {
@@ -229,10 +231,11 @@ button.btn-red {
   outline: none;
   background-color: var(--red);
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 4px #903c2b;
 }
 button.btn-red:hover {
+  font-weight: bold;
   background-color: var(--dark-red);
 }
 button.btn-red:active {
@@ -316,13 +319,13 @@ main div.wrapper.ide {
   height: calc(100vh - 440px);
   overflow-y: scroll;
   border: 1px solid var(--light-green);
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 div[name="codetype"] {
   display: flex;
   border: 1px solid var(--yellow);
-  border-radius: 5px;
+  border-radius: 15px;
   overflow: hidden;
 }
 
@@ -330,15 +333,15 @@ div[name="codetype"] > button {
   background: transparent;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
+  border-radius: 15px;
   width: 80px;
 }
 
 i.fa > span {
   font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif;
-  font-weight: 600;
-  padding-left: 0.25em;
+  /* font-weight: 600; */
+  /* padding-left: 0.25em; */
 }
 
 div[name="codetype"] > button.checked {
@@ -375,7 +378,7 @@ label[for=upload] {
   outline: none;
   background-color: var(--teal);
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 4px var(--mid-gray);
 }
 
@@ -489,7 +492,7 @@ audio.preview-audio {
   border: 1px solid #888;
   width: 400px;
   height: 300px;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 .wifi-popup-content{
@@ -499,7 +502,7 @@ audio.preview-audio {
   border: 1px solid #888;
   width: 700px;
   height: 390px;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 .wifi-popup-content input:disabled {
   opacity: 0.5;
@@ -562,7 +565,7 @@ header > div > h2 > select {
   height:20.5px;
   background: var(--light-yellow);
   border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+  border-radius: 15px;
   padding: auto;
   font-size: x-small !important;
   margin-bottom: auto;

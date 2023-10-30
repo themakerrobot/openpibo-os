@@ -612,7 +612,7 @@ const workspace = Blockly.inject("blocklyDiv", {
     startScale: 0.8,
     maxScale: 3,
     minScale: 0.3,
-    scaleSpeed: 1.05,
+    scaleSpeed: 0.95,
     pinch: true
   },
   move:{
@@ -882,12 +882,13 @@ const setLanguage = (langCode) => {
       }
   });
 
-  const langFile = '../static/' + langCode + '.js?ver=230721v1';
-  const prevKoScript = document.querySelector(`script[src*="../static/ko.js?ver=230721v1"]`);
+  const langFileVersion = '230721v1';
+  const langFile = `../static/${langCode}.js?ver=${langFileVersion}`;
+  const prevKoScript = document.querySelector(`script[src*="../static/ko.js?ver=${langFileVersion}"]`);
   if (prevKoScript) {
     prevKoScript.remove();
   }
-  const prevEnScript = document.querySelector(`script[src*="../static/en.js?ver=230721v1"]`);
+  const prevEnScript = document.querySelector(`script[src*="../static/en.js?ver=${langFileVersion}"]`);
   if (prevEnScript) {
     prevEnScript.remove();
   }
