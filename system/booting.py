@@ -46,6 +46,7 @@ if __name__ == "__main__":
     for i in range(1,15):
       data = subprocess.check_output(['/home/pi/openpibo-os/system/get_network.sh']).decode('utf-8').strip('\n').split(',')
       if data[0] != '' or data[2] != '':
+        os.system('systemctl stop hostapd;ip link set ap0 down')
         break
 
       o.draw_text((15,20), 'Ready... ({})'.format(i))
