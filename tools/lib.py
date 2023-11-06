@@ -126,16 +126,15 @@ class Pibo:
       emotion_val, emotion_data = self.fac.get_emotion(im[y:y+h,x:x+w])
 
       colors = (200,100,0) if gender_val == 'Male' else (100,200,0)
-      self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
+      self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 3)
       self.cam.putText(im, f'{age_val} {gender_val} {emotion_val}', (x-10, y-10),0.6,colors,2)
       res += '[{} / {} / {}'.format(age_val, gender_val, emotion_val)
       '''
       face = self.fac.get_ageGender(im, items[0])
       colors = (200,100,0) if face['gender'] == 'Male' else (100,200,0)
-      self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 1)
-      self.cam.putText(im, face['gender']+face['age'], (x-10, y-10),0.6,colors,2)
+      self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 3)
+      self.cam.putText(im, face['gender']+face['age'], (x+10, y+20),0.6,colors,2)
       res += '[{}/{}-({},{})] '.format(face['gender'], face['age'], x, y)
-
     return im, res
 
   def object_detect(self):
@@ -146,10 +145,9 @@ class Pibo:
     for obj in items:
       x1,y1,x2,y2 = obj['position']
       colors = (100,100,200)
-      self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
-      self.cam.putText(im, obj['name'], (x1-10, y1-10),0.6,colors,2)
+      self.cam.rectangle(im, (x1,y1), (x2, y2),colors,3)
+      self.cam.putText(im, obj['name'], (x1+10, y1+20),0.6,colors,2)
       res += '[{}-({},{})] '.format(obj['name'], x1, y1)
-
     return im, res
 
   def classify_image(self):
@@ -177,8 +175,8 @@ class Pibo:
     if item['type'] != '':
       x1,y1,x2,y2 = item['position']
       colors = (100,0,200)
-      self.cam.rectangle(im, (x1,y1), (x2, y2),colors,1)
-      self.cam.putText(im, 'QR', (x1-10, y1-10),0.6,colors,2)
+      self.cam.rectangle(im, (x1,y1), (x2, y2),colors,3)
+      self.cam.putText(im, 'QR', (x1+10, y1+20),0.6,colors,2)
       res += '[{}-{} / ({},{})] '.format(item['data'], item['type'], x1, y1)
 
     return im, res
