@@ -66,7 +66,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 command=${1:-}
-valid_commands=("configure" "run" "pause" "start" "stop" "status" "enable" "disable")
+valid_commands=("configure" "run" "start" "stop" "status" "enable" "disable")
 if [[ -z "${command}" ]] || [[ ! "${valid_commands[*]}" =~ ${command} ]]; then
 	# shellcheck disable=SC2145
 	echo "Invalid argument: accepted values are: ${valid_commands[@]}."
@@ -91,8 +91,6 @@ main() {
 # Added by yjlee - Start
 	elif [[ "${command}" == "run" ]]; then
 		do_run
-	elif [[ "${command}" == "pause" ]]; then
-		do_pause
 # Added by yjlee - End
 	elif [[ "${command}" == "start" ]]; then
 		do_start
@@ -139,12 +137,6 @@ do_run() {
 	_start_ap_mode
 	_restart_networking_services
 	_wait_for_virtual_interface_ip_addr
-}
-do_pause() {
-	_stop_ap_mode_if_active
-	_restart_networking_services
-	_start_wifi_managed_mode
-	ip link set ${AP_IFACE} down
 }
 # Added by yjlee - End
 
