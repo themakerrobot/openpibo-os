@@ -74,6 +74,10 @@ const translations = {
     ko: ( filepath ) => { return `${filepath} 파일 또는 폴더를 삭제하시겠습니까?` },
     en: ( filepath ) => { return `Are you sure you want to delete the file or folder ${filepath}?` }
   },
+  confirm_rename: {
+    ko: ( oldname, newname ) => { return `${oldname} 파일 또는 폴더의 이름을 ${newname}으로 변경하시겠습니까?` },
+    en: ( oldname, newname ) => { return `Are you sure you want to rename the file or folder ${oldname} to ${newname}?` },
+  },
   check_newfolder_name: {
     ko: "새폴더의 이름을 입력하세요.",
     en: "Enter a name for the new folder."

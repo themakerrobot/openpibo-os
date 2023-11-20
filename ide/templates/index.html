@@ -18,7 +18,7 @@
     <script src="../static/blockly_compressed.js?ver=230726v1"></script>
     <script src="../static/python_compressed.js?ver=230726v1"></script>
     <script src="../static/blocks_compressed.js?ver=230726v1"></script>
-    <script src="../static/customblock.js?ver=230726v1"></script>
+    <script src="../static/customblock.js?ver=230726v4"></script>
     <script src="../static/customblock_callback.js?ver=230726v1"></script>
     <script src="../static/customblock_toolbox.js?ver=230726v1"></script>
     <script src="../static/jquery-3.1.1.min.js"></script>
@@ -171,13 +171,13 @@
             <div class="editor-col">
               <!-- <i class="fa fa-solid fa-laptop-code"> </i> -->
               <div name="codetype">
-                <button name="python">
-                  <i class="fa-brands fa-python"></i>&nbsp;
-                  <span data-key="python"></span>
-                </button>
                 <button name="block">
                   <i class="fa-solid fa-cube"></i>&nbsp;
                   <span data-key="block"></span>
+                </button>
+                <button name="python">
+                  <i class="fa-brands fa-python"></i>&nbsp;
+                  <span data-key="python"></span>
                 </button>
                 <button name="shell">
                   <i class="fa-solid fa-terminal"></i>&nbsp;
@@ -192,12 +192,10 @@
                 <input type="number" id="fontsize" min="5" max="50" value="14" step="1" pattern="\d*" />
               </i>
               <button id="execute" class="btn-teal" style="width:86px;">
-                <i class="fa-solid fa-play"></i>&nbsp;
-                <span data-key="execute"></span>
+                <i class="fa-solid fa-flag"></i>&nbsp;<span data-key="execute"></span>
               </button>
               <button id="stop" class="btn-red disabled" style="width:86px;">
-                <i class="fa-solid fa-stop"></i>&nbsp;
-                <span data-key="stop"></span>
+                <i class="fa-solid fa-circle"></i>&nbsp;<span data-key="stop"></span>
               </button>
               <button id="save" class="btn" style="width:86px;">
                 <i class="fa-solid fa-save"></i>&nbsp;
@@ -216,12 +214,12 @@
           </div>
 
           <div class="editor-row">
+            <div id="blocklyDiv" class="blocklyDiv"></div>
             <div id="codeDiv">
               <form id="code_form">
                 <textarea id="codemirror-code" name="source_code"></textarea>
               </form>
             </div>
-            <div id="blocklyDiv" class="blocklyDiv"></div>
           </div>
         </div>
 
@@ -233,6 +231,8 @@
                 <i class="fa-solid fa-eraser"></i>&nbsp;
                 <span data-key="reset"></span>
               </button>
+              <i class="fas fa-keyboard"></i>
+              <input type="text" id="prompt" name="prompt" style="border-radius: 5px;width:300px"/>
               <!-- <i class="fa fa-solid fa-link"></i>
               <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" /> -->
             </div>
@@ -270,6 +270,6 @@
         <span id="s_runtime"></span>
       </div>
     </footer>
-    <script src="../static/index.js?ver=230829v2"></script>
+    <script src="../static/index.js?ver=230829v5"></script>
   </body>
 </html>

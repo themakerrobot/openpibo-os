@@ -429,7 +429,7 @@ audio.preview-audio {
 
 .blocklyDiv {
   height:calc(100vh - 120px);
-  display: none; /*hide the element by default*/
+  /* display: none; hide the element by default */
   border-radius: 5px;
 }
 
@@ -443,10 +443,10 @@ audio.preview-audio {
 } */
 /* Adds space between the categories, rounds the corners and adds space around the label. */
 .blocklyTreeRow {
-  padding: 3px;
-  margin-bottom: 0.35em;
-  border-radius: 5px;
-  width:80px;
+  padding: 2px;
+  margin: 0.1em;
+  border-radius: 15px;
+  width:85px;
 }
 
 /* Changes color of the icon to white. */

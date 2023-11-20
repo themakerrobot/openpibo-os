@@ -769,13 +769,28 @@ let toolbox = (lang) => {
         "contents": [
           {
             "kind": "block",
+            "type": "audio_play_dynamic",
+            "inputs":{
+              "volume": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "80"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
             "type": "audio_play",
             "inputs":{
               "filename":{
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations['audio_filename'][lang]
+                    "TEXT": "sample.mp3"
+                    // "TEXT": translations['audio_filename'][lang]
                   }
                 }
               },
@@ -801,7 +816,8 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations['audio_filename'][lang]
+                    "TEXT": "sample.wav"
+                    // "TEXT": translations['audio_filename'][lang]
                   }
                 }
               },
@@ -927,6 +943,93 @@ let toolbox = (lang) => {
               }
             }
           },
+
+          {
+            "kind": "block",
+            "type": "device_eye_dissolve",
+            "inputs":{
+              "val0": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val1": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val2": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val3": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val4": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val5": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "time": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "5"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
+            "type": "device_eye_colour_dissolve",
+            "inputs":{
+              "left":{
+                "shadow": {
+                  "type": "variables_get",
+                }
+              },
+              "right":{
+                "shadow": {
+                  "type": "variables_get",
+                }
+              },
+              "time": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "5"
+                  }
+                }
+              }
+            }
+          },
           {
             "kind": "block",
             "type": "device_eye_off",
@@ -972,6 +1075,20 @@ let toolbox = (lang) => {
           {
             "kind": "block",
             "type": "motion_get_mymotion",
+          },
+          {
+            "kind": "block",
+            "type": "motion_set_motion_dropdown",
+            "inputs":{
+              "cycle": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "1"
+                  }
+                }
+              }
+            }
           },
           {
             "kind": "block",
@@ -1119,13 +1236,18 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "oled_draw_image_dynamic",
+          },
+          {
+            "kind": "block",
             "type": "oled_draw_image",
             "inputs":{
               "filename":{
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations['image_filename'][lang]
+                    "TEXT": "sample.jpg"
+                    // "TEXT": translations['image_filename'][lang]
                   }
                 }
               }
@@ -1297,7 +1419,8 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations['audio_filename'][lang]
+                    "TEXT": "sample.mp3"
+                    // "TEXT": translations['audio_filename'][lang]
                   }
                 }
               },
@@ -1325,7 +1448,8 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["csv_filename"][lang]
+                    "TEXT": "sample.csv"
+                    // "TEXT": translations["csv_filename"][lang]
                   }
                 }
               }
@@ -1347,13 +1471,18 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "vision_imread_dynamic",
+          },
+          {
+            "kind": "block",
             "type": "vision_imread",
             "inputs":{
               "filename":{
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["image_filename"][lang]
+                    "TEXT": "sample.jpg"
+                    // "TEXT": translations["image_filename"][lang]
                   }
                 }
               },
@@ -1367,7 +1496,8 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["image_filename"][lang]
+                    "TEXT": "sample.jpg"
+                    // "TEXT": translations["image_filename"][lang]
                   }
                 }
               },
@@ -1386,7 +1516,8 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["image_filename"][lang]
+                    "TEXT": "sample.jpg"
+                    // "TEXT": translations["image_filename"][lang]
                   }
                 }
               },
@@ -1477,7 +1608,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["model_filename"][lang]
+                    "TEXT": "model_unquant.tflite"
                   }
                 }
               },
@@ -1485,7 +1616,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["label_filename"][lang]
+                    "TEXT": "labels.txt"
                   }
                 }
               },
@@ -1510,7 +1641,8 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": translations["image_filename"][lang]
+                    "TEXT": "sample.jpg"
+                    // "TEXT": translations["image_filename"][lang]
                   }
                 }
               },

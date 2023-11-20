@@ -1,4 +1,15 @@
 // audio
+Blockly.Python['audio_play_dynamic'] = function(block) {
+  Blockly.Python.definitions_['from_audio_import_Audio'] = 'from openpibo.audio import Audio';
+  Blockly.Python.definitions_['assign_audio'] = 'audio = Audio()';
+
+  const dir = block.getFieldValue("dir");
+  //const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const filename = block.getFieldValue("filename");
+  const volume = Blockly.Python.valueToCode(block, 'volume', Blockly.Python.ORDER_ATOMIC);
+  // const volume = block.getFieldValue("volume");
+  return `audio.play('${dir}'+'${filename}', ${volume})\n`;
+}
 Blockly.Python['audio_play'] = function(block) {
   Blockly.Python.definitions_['from_audio_import_Audio'] = 'from openpibo.audio import Audio';
   Blockly.Python.definitions_['assign_audio'] = 'audio = Audio()';
@@ -22,7 +33,7 @@ Blockly.Python['audio_record'] = function(block) {
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   //const timeout = block.getFieldValue("timeout");
   const timeout = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC);
-  return `os.system("arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d ${timeout} -t wav -q stream.raw;sox stream.raw -c 1 -b 16 " + '${dir}'+${filename} + ";rm stream.raw")\n`;
+  return `os.system("arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d ${timeout} -t wav -q stream.raw;sox stream.raw -c 1 -b 16 " + '${dir}'+${filename}+ ";rm stream.raw")\n`;
 }
 
 // collect
@@ -73,6 +84,32 @@ Blockly.Python['device_eye_colour_on'] = function(block) {
 
   return `device.eye_on(*([int(${l}[${l}.index('#'):${l}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]+[int(${r}[${r}.index('#'):${r}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]))\n`
 }
+Blockly.Python['device_eye_dissolve'] = function(block) {
+  Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
+  Blockly.Python.definitions_['assign_device'] = 'device = Device()';
+  
+  const val0 = Blockly.Python.valueToCode(block, 'val0', Blockly.Python.ORDER_ATOMIC);
+  const val1 = Blockly.Python.valueToCode(block, 'val1', Blockly.Python.ORDER_ATOMIC);
+  const val2 = Blockly.Python.valueToCode(block, 'val2', Blockly.Python.ORDER_ATOMIC);
+  const val3 = Blockly.Python.valueToCode(block, 'val3', Blockly.Python.ORDER_ATOMIC);
+  const val4 = Blockly.Python.valueToCode(block, 'val4', Blockly.Python.ORDER_ATOMIC);
+  const val5 = Blockly.Python.valueToCode(block, 'val5', Blockly.Python.ORDER_ATOMIC);
+
+  const time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+  
+  return `device.send_cmd(24, '${val0},${val1},${val2},${val3},${val4},${val5},${time}')\n`
+}
+Blockly.Python['device_eye_colour_dissolve'] = function(block) {
+  Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
+  Blockly.Python.definitions_['assign_device'] = 'device = Device()';
+
+  const l = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
+  const r = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
+
+  const time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
+
+  return `device.send_cmd(24, '*([int(${l}[${l}.index('#'):${l}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]+[int(${r}[${r}.index('#'):${r}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]),${time}')\n`
+}
 Blockly.Python['device_eye_off'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
@@ -121,6 +158,14 @@ Blockly.Python['motion_get_mymotion'] = function(block) {
   Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
 
   return ["motion.get_motion(path='/home/pi/mymotion.json')", Blockly.Python.ORDER_ATOMIC];
+}
+Blockly.Python['motion_set_motion_dropdown'] = function(block) {
+  Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
+  Blockly.Python.definitions_['assgin_motion'] = 'motion = Motion()';
+
+  const name = block.getFieldValue("name");
+  const cycle = Blockly.Python.valueToCode(block, 'cycle', Blockly.Python.ORDER_ATOMIC);
+  return `motion.set_motion('${name}', ${cycle})\n`;
 }
 Blockly.Python['motion_set_motion'] = function(block) {
   Blockly.Python.definitions_['from_motion_import_Motion'] = 'from openpibo.motion import Motion';
@@ -186,6 +231,14 @@ Blockly.Python['oled_draw_text'] = function(block) {
 
   const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   return `oled.draw_text((${x}, ${y}), ${text})\n`;
+}
+Blockly.Python['oled_draw_image_dynamic'] = function(block) {
+  Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
+  Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
+
+  const dir = block.getFieldValue("dir");
+  const filename = block.getFieldValue("filename");
+  return `oled.draw_image('${dir}'+'${filename}')\n`;
 }
 Blockly.Python['oled_draw_image'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
@@ -287,13 +340,22 @@ Blockly.Python['vision_read'] = function(block) {
   return ["camera.read()", Blockly.Python.ORDER_ATOMIC];
 }
 
+Blockly.Python['vision_imread_dynamic'] = function(block) {
+    Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
+    Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
+  
+    const dir = block.getFieldValue("dir");
+    const filename = block.getFieldValue("filename");
+    return [`camera.imread('${dir}'+'${filename}')\n`, Blockly.Python.ORDER_ATOMIC];
+  }
+
 Blockly.Python['vision_imread'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
 
   const dir = block.getFieldValue("dir");
-  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  return [`camera.imread('${dir}'+${filename})\n`, Blockly.Python.ORDER_ATOMIC];
+  const filename = block.getFieldValue("filename");
+  return [`camera.imread('${dir}'+'${filename}')\n`, Blockly.Python.ORDER_ATOMIC];
 }
 
 Blockly.Python['vision_imwrite'] = function(block) {

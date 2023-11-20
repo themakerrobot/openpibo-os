@@ -14,9 +14,7 @@
 // This file was automatically generated.  Do not modify.
 
 'use strict';
-
 var Blockly = Blockly || { Msg: Object.create(null) };
-
 Blockly.Msg["ADD_COMMENT"] = "주석 추가";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "'%2' 함수 정의의 일부이기 때문에 '%1' 변수를 삭제할 수 없습니다";
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "값 바꾸기:";
@@ -438,13 +436,44 @@ Blockly.Msg["COLOUR_HUE"] = "20";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 
 // openpibo
+Blockly.Msg["FOLDER_SELECT"] = "폴더 선택";
+Blockly.Msg["FILE_SELECT"] = "파일 선택";
+Blockly.Msg["MOTION_SELECT"] = "모션 선택";
+Blockly.Msg['CODE_PATH'] = "코드";
+Blockly.Msg['HOMEPI_PATH'] = "파이"
+
+Blockly.Msg['MYAUDIO_PATH'] = "내오디오";
+Blockly.Msg['A_ANIMAL_PATH'] = "동물소리";
+Blockly.Msg['A_EFFECT_PATH'] = "효과음";
+Blockly.Msg['A_MUSIC_PATH'] = "음악";
+Blockly.Msg['A_VOICE_PATH'] = "목소리";
+Blockly.Msg['A_PIANO_PATH'] = "피아노";
+
+Blockly.Msg['MYIMAGE_PATH'] = "내이미지";
+Blockly.Msg['I_ICON_PATH'] = "아이콘";
+Blockly.Msg['I_EXPRESSION_PATH'] = "표정";
+Blockly.Msg['I_GAME_PATH'] = "가위바위보";
+Blockly.Msg['I_RECYCLE_PATH'] = "재활용";
+Blockly.Msg['I_WEATHER_PATH'] = "날씨";
+Blockly.Msg['I_IMAGE_PATH'] = "기타이미지";
+
+Blockly.Msg['MYMODEL_PATH'] = "내모델";
+
+Blockly.Msg["AUDIO_PLAY_DYNAMIC"] = "%1 %2 %3 %4 오디오 %5 음량으로 재생하기";
+Blockly.Msg["AUDIO_PLAY_DYNAMIC_TOOLTIP"] = "음악 파일 선택 후 설정한 볼륨으로 재생합니다.";
 Blockly.Msg["AUDIO_PLAY"] = "%1 %2 %3 %4 오디오 %5 음량으로 재생하기";
+Blockly.Msg["AUDIO_PLAY_TOOLTIP"] = "음악 파일 이름을 입력해 재생합니다.";
 Blockly.Msg["AUDIO_STOP"] = "%1 %2 오디오 정지하기";
+Blockly.Msg["AUDIO_STOP_TOOLTIP"] = "재생 중인 오디오 정지합니다.";
 Blockly.Msg["AUDIO_RECORD"] = "%1 %2 %5 초 동안 녹음해서 %3 %4 에 저장하기";
+Blockly.Msg["AUDIO_RECORD_TOOLTIP"] = "설정한 시간 동안 녹음 후 파일로 저장합니다.";
 
 Blockly.Msg["COLLECT_WIKIPEDIA"] = "%1 %2 %3 위키피디아에서 %4 검색하기";
+Blockly.Msg["COLLECT_WIKIPEDIA_TOOLTIP"] = "(인터넷!) 위키피디아에서 주어진 키워드 검색합니다.";
 Blockly.Msg["COLLECT_WEATHER"] = "%1 %2 %3 %4 날씨의 %5 검색하기";
+Blockly.Msg["COLLECT_WEATHER_TOOLTIP"] = "(인터넷!) 특정 지역 날씨 정보 검색합니다.";
 Blockly.Msg["COLLECT_NEWS"] = "%1 %2 %3 %4 뉴스의 %5 검색하기";
+Blockly.Msg["COLLECT_NEWS_TOOLTIP"] = "(인터넷!) 뉴스 키워드로 검색 결과를 검색합니다.";
 
 Blockly.Msg["COLLECT_NATION"] = "전국";
 Blockly.Msg["COLLECT_SEOUL"] = "서울";
@@ -484,23 +513,46 @@ Blockly.Msg["COLLECT_CONTENT"] = "내용";
 Blockly.Msg["COLLECT_LINK"] = "링크";
 
 Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 눈 LED %3 %4 %5 %6 %7 %8 켜기";
+Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "눈 LED 색상 값을 설정하여 켭니다";
 Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "%1 %2 색상 변수로 눈 LED %3 %4 켜기";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 설정하여 켭니다";
+Blockly.Msg["DEVICE_EYE_DISSOLVE"] = "%1 %2 눈 LED %3 %4 %5 %6 %7 %8 인터벌 %9 로 켜기";
+Blockly.Msg["DEVICE_EYE_DISSOLVE_TOOLTIP"] = "눈 LED 색상 값을 서서히 변경합니다";
+Blockly.Msg["DEVICE_EYE_COLOUR_DISSOLVE"] = "%1 %2 색상 변수로 눈 LED %3 %4 인터벌 %5 로 켜기";
+Blockly.Msg["DEVICE_EYE_COLOUR_DISSOLVE_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 서서히 변경합니다";
 Blockly.Msg["DEVICE_EYE_OFF"] = "%1 %2 눈 LED 끄기";
+Blockly.Msg["DEVICE_EYE_OFF_TOOLTIP"] = "눈 LED 를 끕니다";
 Blockly.Msg["DEVICE_GET_DC"] = "%1 %2 아답터 체크하기";
+Blockly.Msg["DEVICE_GET_DC_TOOLTIP"] = "아답터 연결 상태를 확인합니다";
 Blockly.Msg["DEVICE_GET_BATTERY"] = "%1 %2 배터리 체크하기";
+Blockly.Msg["DEVICE_GET_BATTERY_TOOLTIP"] = "배터리 상태를 확인합니다";
 Blockly.Msg["DEVICE_GET_SYSTEM"] = "%1 %2 시스템 메시지 체크하기";
+Blockly.Msg["DEVICE_GET_SYSTEM_TOOLTIP"] = "시스템 메시지를 확인합니다";
 Blockly.Msg["DEVICE_GET_PIR"] = "%1 %2 사람 체크하기";
+Blockly.Msg["DEVICE_GET_PIR_TOOLTIP"] = "사람 감지 여부를 확인합니다";
 Blockly.Msg["DEVICE_GET_TOUCH"] = "%1 %2 터치 체크하기";
+Blockly.Msg["DEVICE_GET_TOUCH_TOOLTIP"] = "터치 감지 여부를 확인합니다";
 Blockly.Msg["DEVICE_GET_BUTTON"] = "%1 %2 버튼 체크하기";
+Blockly.Msg["DEVICE_GET_BUTTON_TOOLTIP"] = "버튼 상태를 확인합니다";
 
 Blockly.Msg["MOTION_GET_MOTION"] = "%1 %2 모션 목록 가져오기";
+Blockly.Msg["MOTION_GET_MOTION_TOOLTIP"] = "사용 가능한 모션 목록을 가져옵니다";
 Blockly.Msg["MOTION_GET_MYMOTION"] = "%1 %2 내 모션 목록 가져오기";
+Blockly.Msg["MOTION_GET_MYMOTION_TOOLTIP"] = "내모션(사용자 정의 모션) 목록을 가져옵니다";
+Blockly.Msg["MOTION_SET_MOTION_DROPDOWN"] = "%1 %2 모션 %3 %4 회 실행하기";
+Blockly.Msg["MOTION_SET_MOTION_DROPDOWN_TOOLTIP"] = "선택한 모션을 지정한 횟수만큼 실행합니다";
 Blockly.Msg["MOTION_SET_MOTION"] = "%1 %2 모션 %3 %4 회 실행하기";
+Blockly.Msg["MOTION_SET_MOTION_TOOLTIP"] = "입력한 모션을 지정한 횟수만큼 실행합니다";
 Blockly.Msg["MOTION_SET_MYMOTION"] = "%1 %2 내 모션 %3 %4 회 실행하기";
+Blockly.Msg["MOTION_SET_MYMOTION_TOOLTIP"] = "사용자 정의 모션을 지정한 횟수만큼 실행합니다";
 Blockly.Msg["MOTION_INIT_MOTION"] = "%1 %2 모션 초기화하기";
+Blockly.Msg["MOTION_INIT_MOTION_TOOLTIP"] = "전체 모터를 초기화합니다";
 Blockly.Msg["MOTION_SET_MOTOR"] = "%1 %2 %3 모터를 %4도로 이동하기";
+Blockly.Msg["MOTION_SET_MOTOR_TOOLTIP"] = "지정된 모터를 특정 각도로 이동합니다";
 Blockly.Msg["MOTION_SET_SPEED"] = "%1 %2 %3 모터를 %4 속도로 설정하기";
+Blockly.Msg["MOTION_SET_SPEED_TOOLTIP"] = "지정된 모터의 속도를 설정합니다";
 Blockly.Msg["MOTION_SET_ACCELERATION"] = "%1 %2 %3 모터를 %4 가속도로 설정하기";
+Blockly.Msg["MOTION_SET_ACCELERATION_TOOLTIP"] = "지정된 모터의 가속도를 설정합니다";
 
 Blockly.Msg["MOTION_R_FOOT"] = '오른발[0]';
 Blockly.Msg["MOTION_R_LEG"] = '오른다리[1]';
@@ -514,38 +566,70 @@ Blockly.Msg["MOTION_L_ARM"] = '왼팔[8]';
 Blockly.Msg["MOTION_L_HAND"] = '왼손[9]';
 
 Blockly.Msg["OLED_SET_FONT"] = "%1 %2 OLED 글자 사이즈 %3 설정하기";
+Blockly.Msg["OLED_SET_FONT_TOOLTIP"] = "OLED 디스플레이의 글자 크기를 설정합니다.";
 Blockly.Msg["OLED_DRAW_TEXT"] = "%1 %2 OLED의 X %3 Y %4 에 %5 저장하기";
+Blockly.Msg["OLED_DRAW_TEXT_TOOLTIP"] = "OLED 디스플레이에 텍스트를 저장합니다.";
 Blockly.Msg["OLED_DRAW_RECTANGLE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 %7 네모 저장하기";
+Blockly.Msg["OLED_DRAW_RECTANGLE_TOOLTIP"] = "OLED 디스플레이에 사각형을 저장합니다.";
 Blockly.Msg["OLED_DRAW_ELLIPSE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 %7 원 저장하기";
+Blockly.Msg["OLED_DRAW_ELLIPSE_TOOLTIP"] = "OLED 디스플레이에 원을 저장합니다.";
 Blockly.Msg["OLED_DRAW_LINE"] = "%1 %2 OLED의 %3 %4, %5 %6 좌표에 선 저장하기";
+Blockly.Msg["OLED_DRAW_LINE_TOOLTIP"] = "OLED 디스플레이에 선을 저장합니다.";
+Blockly.Msg["OLED_DRAW_IMAGE_DYNAMIC"] = "%1 %2 OLED %3 %4 이미지 저장하기";
+Blockly.Msg["OLED_DRAW_IMAGE_DYNAMIC_TOOLTIP"] = "OLED 디스플레이에 선택한 외부 이미지를 저장합니다.";
 Blockly.Msg["OLED_DRAW_IMAGE"] = "%1 %2 OLED %3 %4 이미지 저장하기";
+Blockly.Msg["OLED_DRAW_IMAGE_TOOLTIP"] = "OLED 디스플레이에 입력한 외부 이미지를 저장합니다.";
 Blockly.Msg["OLED_INVERT"] = "%1 %2 OLED 반전하기";
+Blockly.Msg["OLED_INVERT_TOOLTIP"] = "OLED 디스플레이를 반전합니다.";
 Blockly.Msg["OLED_SHOW"] = "%1 %2 OLED 표시하기";
+Blockly.Msg["OLED_SHOW_TOOLTIP"] = "OLED 디스플레이에 저장된 데이터를 표시합니다.";
 Blockly.Msg["OLED_CLEAR"] = "%1 %2 OLED 지우기";
+Blockly.Msg["OLED_CLEAR_TOOLTIP"] = "OLED 디스플레이를 초기화합니다.";
 
 Blockly.Msg["OLED_FILL"] = "채우기";
 Blockly.Msg["OLED_UNFILL"] = "채우기 없음";
 
 Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 %4 초 녹음하여 음성인식하기";
+Blockly.Msg["SPEECH_STT_TOOLTIP"] = "(인터넷!) 설정한 시간 동안 녹음 후 음성 인식합니다.";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 %4 를 %7 목소리로 %5 %6 에 저장하기";
-Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기 (한국어만 가능)";
+Blockly.Msg["SPEECH_TTS_TOOLTIP"] = "(인터넷!) 텍스트를 음성 파일로 변환 및 저장합니다.";
+Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기 (한국어만 지원)";
+Blockly.Msg["SPEECH_GET_DIALOG_TOOLTIP"] = "입력된 대화에 대한 응답 생성합니다. (한국어만 지원)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";
+Blockly.Msg["SPEECH_LOAD_DIALOG_TOOLTIP"] = "대화 파일 설정합니다. (csv 형식의 대화 파일)";
 
 Blockly.Msg["VISION_READ"] = "%1 %2 촬영하기";
+Blockly.Msg["VISION_READ_TOOLTIP"] = "카메라로 촬영합니다.";
+
+Blockly.Msg["VISION_IMREAD_DYNAMIC"] = "%1 %2 이미지 파일 %3 %4 를 불러오기";
+Blockly.Msg["VISION_IMREAD_DYNAMIC_TOOLTIP"] = "선택된 이미지 파일을 데이터로 불러옵니다.";
 Blockly.Msg["VISION_IMREAD"] = "%1 %2 이미지 파일 %3 %4 를 불러오기";
+Blockly.Msg["VISION_IMREAD_TOOLTIP"] = "입력한 이미지 파일을 데이터로 불러옵니다.";
 Blockly.Msg["VISION_IMWRITE"] = "%1 %2 이미지 %5 를 %3 %4 에 저장하기";
-Blockly.Msg["VISION_IMSHOW_TO_IDE"] = "%1 %2 이미지 파일 %3 %4 를 IDE에 표시하기";
+Blockly.Msg["VISION_IMWRITE_TOOLTIP"] = "이미지 데이터를 파일로 저장합니다.";
+Blockly.Msg["VISION_IMSHOW_TO_IDE"] = "%1 %2 이미지 파일 %3 %4 를 IDE 에 표시하기";
+Blockly.Msg["VISION_IMSHOW_TO_IDE_TOOLTIP"] = "이미지 파일을 IDE 이미지 뷰어에 표시합니다.";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 이미지 %3 %4로 바꾸기";
+Blockly.Msg["VISION_TRANSFER_TOOLTIP"] = "이미지의 스타일을 변환합니다.";
 
 Blockly.Msg["VISION_FACE"] = "%1 %2 이미지 %3 얼굴 찾기";
+Blockly.Msg["VISION_FACE_TOOLTIP"] = "이미지에서 얼굴을 찾습니다.";
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 이미지 %3 사물 찾기";
+Blockly.Msg["VISION_OBJECT_TOOLTIP"] = "이미지에서 사물을 인식합니다. (80개 사물)";
 Blockly.Msg["VISION_QR"] = "%1 %2 이미지 %3 QR코드 찾기";
+Blockly.Msg["VISION_QR_TOOLTIP"] = "이미지에서 QR 코드를 인식합니다.";
 Blockly.Msg["VISION_POSE"] = "%1 %2 이미지 %3 포즈 찾기";
+Blockly.Msg["VISION_POSE_TOOLTIP"] = "이미지에서 포즈 데이터를 가져옵니다. (17개 포인트 좌표)";
 Blockly.Msg["VISION_ANALYZE_POSE"] = "%1 %2 포즈 결과 %3 에서 %4 분석하기";
+Blockly.Msg["VISION_ANALYZE_POSE_TOOLTIP"] = "포즈 데이터를 분석하여, 지정된 포즈를 인식합니다.";
 Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류하기";
+Blockly.Msg["VISION_CLASSIFICATION_TOOLTIP"] = "이미지를 분류합니다. (imagenet 1k)";
 Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";
+Blockly.Msg["VISION_LOAD_TM_TOOLTIP"] = "티처블머신 모델을 설정합니다.";
 Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류하기";
+Blockly.Msg["VISION_PREDICT_TM_TOOLTIP"] = "설정된 티처블머신 모델로 이미지를 분류합니다.";
 Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 이미지 파일 %5 %6 의 인공지능 %4 가져오기";
+Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(인터넷!) 인공지능 서버를 활용하여 이미지 파일을 분석합니다. (캡션 관련 기능)";
 
 Blockly.Msg["VISION_CARTOON"] = '만화(고속)';
 Blockly.Msg["VISION_CARTOON_N"] =  '만화';
@@ -562,18 +646,30 @@ Blockly.Msg["VISION_CAPTION"] = '이미지캡션';
 Blockly.Msg["VISION_CAPTION_TAG"] = '이미지태그';
 Blockly.Msg["VISION_CAPTION_PLACE"] = '장소인식';
 Blockly.Msg["VISION_CAPTION_TIME"] = '시간인식';
+Blockly.Msg["VISION_CAPTION_WEATHER"] = '날씨인식';
+
 
 Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
+Blockly.Msg["UTILS_SLEEP_TOOLTIP"] = "일정시간 동안 멈춥니다.";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
+Blockly.Msg["UTILS_TIME_TOOLTIP"] = "현재 타임스탬프 값을 가져옵니다.";
 Blockly.Msg["UTILS_CURRENT_TIME"] = "%1 %2 현재 시간 확인하기";
+Blockly.Msg["UTILS_CURRENT_TIME_TOOLTIP"] = "현재 시간을 가져옵니다.";
 Blockly.Msg["UTILS_INCLUDE"] = "%1 %2 %3 가 %4 에 포함되는지 확인하기";
+Blockly.Msg["UTILS_INCLUDE_TOOLTIP"] = "항목이 리스트에 포함되는지 여부를 확인합니다.";
 Blockly.Msg["UTILS_DICT_GET"] = "%1 %2 딕셔너리 %3 의 키 %4 값 가져오기";
+Blockly.Msg["UTILS_DICT_GET_TOOLTIP"] = "딕셔너리의 해당하는 키의 값을 가져옵니다.";
 Blockly.Msg["UTILS_DICT_SET"] = "%1 %2 딕셔너리 %3 에 { %4 : %5 } 추가하기";
+Blockly.Msg["UTILS_DICT_SET_TOOLTIP"] = "딕셔너리의 해당하는 키의 값을 설정합니다.";
 Blockly.Msg["UTILS_DICT_CREATE"] = "%1 %2 빈 딕셔너리 생성";
+Blockly.Msg["UTILS_DICT_CREATE_TOOLTIP"] = "빈 딕셔너리를 생성합니다.";
 
 Blockly.Msg["UTILS_CHECK_PATH"] = "%1 %2 %3 %4 존재하는지 확인하기";
+Blockly.Msg["UTILS_CHECK_PATH_TOOLTIP"] = "파일 또는 폴더가 존재하는지 확인합니다.";
 Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 %3 문자형 타입으로 바꾸기";
+Blockly.Msg["UTILS_TYPECAST_STRING_TOOLTIP"] = "변수의 타입을 문자형으로 바꿉니다.";
 Blockly.Msg["UTILS_TYPECAST_NUMBER"] = "%1 %2 %4 %3 타입으로 바꾸기";
+Blockly.Msg["UTILS_TYPECAST_NUMBER_TOOLTIP"] = "변수의 타입을 정수형 또는 실수형으로 바꿉니다.";
 Blockly.Msg["UTILS_FILE"] = "파일";
 Blockly.Msg["UTILS_DIRECTORY"] = "디렉토리";
 Blockly.Msg["UTILS_STR"] = "문자형";
@@ -597,6 +693,6 @@ Blockly.Msg["CATSPEECH"] = "음성";
 Blockly.Msg["CATVISION"] = "시각";
 Blockly.Msg["CATUTILS"] = "도구";
 
-Blockly.Msg["INTERNET_CHECK_TOOLTIP"] = "(인터넷 연결 필수)";
+Blockly.Msg["INTERNET_CHECK_TOOLTIP"] = "(인터넷 연결)";
 return Blockly.Msg;
 }));

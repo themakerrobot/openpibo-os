@@ -13,6 +13,7 @@ import time,datetime
 import base64
 import cv2
 import os,json,shutil,csv
+import network_disp
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 from queue import Queue
@@ -29,11 +30,16 @@ class Pibo:
     self.onoff = False
     self.logger = logger
     self.vision_sleep = True
+    self.wifi_info = None
+    self.mymodel_path = "/home/pi/mymodel"
     Timer(0, self.async_system_report).start()
 
   ## system
   def async_system_report(self):
     self.system_status = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
+    if self.wifi_info != self.system_status[6:8]:
+      network_disp.run()
+    self.wifi_info = self.system_status[6:8]
     asyncio.run(self.emit('system', self.system_status, callback=None))
     _ = Timer(10, self.async_system_report)
     _.daemon = True
@@ -45,6 +51,12 @@ class Pibo:
     self.fac = Face()
     self.det = Detect()
     self.tm = TeachableMachine()
+    try:
+      self.tm.load(f"{self.mymodel_path}/model_unquant.tflite", f"{self.mymodel_path}/labels.txt")
+    except Exception as ex:
+      os.system(f"rm -rf {self.mymodel_path}/*")
+      pass
+
     self.pil_fontpath = openpibo_models.filepath("KDL.ttf")
     self.pil_font = ImageFont.truetype(self.pil_fontpath, 20)
 

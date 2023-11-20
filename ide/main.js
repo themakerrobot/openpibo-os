@@ -143,9 +143,34 @@ app.use('/static', express.static(__dirname + '/static'));
 app.use('/svg', express.static(__dirname + '/svg'));
 app.use('/webfonts', express.static(__dirname + '/webfonts'));
 
+let fileExtensionCheck = (filename) => {
+  let fileln = filename.length;
+  let fileDot = filename.lastIndexOf(".");
+  return filename.substring(fileDot+1, fileln).toLowerCase();
+}
+
+app.get('/dir', (req, res) => {
+  const directoryPath = req.query.folderName;
+  //const fileType = req.query.filetype.split(",");
+
+  let files = [];
+  try {
+    fs.readdirSync(directoryPath, {withFileTypes:true}).forEach(p => {
+      if(!p.isDirectory() && p.name[0] != '.' /* && fileType.includes(fileExtensionCheck(p.name))*/) {
+        files.push(p.name)
+      }
+    });
+  }
+  catch (err) {
+    files = [];
+  }
+  res.json(files);
+});
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/templates/index.html')
 });
+
 app.get('/download', (req, res) => {
   if (isProtect(PATH + "/" + req.query.filename)) {
     io.emit('update', {dialog:'파일 다운로드 오류: 보호 디렉토리입니다.'});
@@ -263,6 +288,32 @@ io.on('connection', (socket) => {
     io.emit('update_file_manager', {data: readDirectory(PATH)});
   });
 
+  socket.on('rename', (d) => {
+    if (isProtect(d['oldpath']) || isProtect(d['newpath'])) {
+      io.emit('update', {dialog:'파일 이름 변경 오류: 보호 파일 입니다.'});
+      return;
+    }
+
+    try {
+      fs.renameSync(d['oldpath'], d['newpath']);
+    } catch (err) {
+      io.emit('update', {dialog:'파일 이름 변경 오류: 파일명 파싱 에러입니다.'});
+      return;
+    }
+    io.emit('update_file_manager', {data: readDirectory(PATH)});
+
+    if (d['oldpath'] == codePath) {
+      fs.readFile(d['newpath'], (err, data) => {
+        if(!err) {
+          codePath = d['newpath'];
+          codeText = data.toString();
+          io.emit('update', {code: codeText, filepath: codePath});
+        }
+        else io.emit('update', {dialog:'파일 불러오기 오류: ' + err.toString()});
+      });
+    }
+  });
+
   socket.on('add_file', (p) => {
     if (isProtect(PATH)) {
       io.emit('update', {dialog:'파일 생성 오류: 보호 디렉토리입니다.'});
@@ -342,6 +393,25 @@ io.on('connection', (socket) => {
     } catch (err) {
       io.emit('update', {dialog:'실행 오류: ' + err.toString(), exit:true});
     }
+  });
+
+  // for block
+  socket.on('executeb', async (d) => {
+    try {
+      // codepath = '/home/pi/blockly.py'
+      if(ps) ps.kill('SIGKILL');
+      execSync(`mkdir -p "${path.dirname(d['codepath'])}"`);
+      fs.writeFileSync(d['codepath'], d['codetext']);
+      execSync(`chown -R pi:pi "${path.dirname(d['codepath'])}"`);
+      await execute(codeExec[d["codetype"]], d['codepath']);
+    } catch (err) {
+      io.emit('update', {dialog:'실행 오류: ' + err.toString(), exit:true});
+    }
+  });
+
+  socket.on('prompt', (s) => {
+    if(ps)
+      ps.stdin.write(s+"\n");
   });
 });
 

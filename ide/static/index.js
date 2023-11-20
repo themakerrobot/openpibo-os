@@ -66,12 +66,19 @@ socket.on("update", (data) => {
       if (codetype == "block") {
         try {
           Blockly.serialization.workspaces.load(JSON.parse(data["code"]), workspace);
+          if(data["code"] != "{}") {
+            for(jdata of JSON.parse(data["code"])["blocks"]["blocks"]) {
+              if(jdata['type'].includes('_dynamic')) {
+                updateSecondDropdown.call(workspace.getBlockById(jdata['id']), jdata['fields']['dir'], jdata['fields']['filename'])
+              }
+            }
+          }
           saveBlock = data["code"];
           update_block();
         }
         catch(e) {
           if(data["code"] == "") {
-            saveBlock = "";
+            saveBlock = "{}";
             Blockly.serialization.workspaces.load(JSON.parse("{}"), workspace);
             update_block();
           }
@@ -120,15 +127,61 @@ socket.on("update", (data) => {
 
 socket.emit("init");
 socket.on("init", (d) => {
-  saveCode = d["codetext"];
-  codeEditor.setValue(saveCode);
+  let filepath = d["codepath"];
+  let file_extension = filepath.substring(filepath.lastIndexOf(".")+1, filepath.length).toLowerCase();
 
-  codeTypeBtns.forEach((el) => {
-    if (el.name == "python") el.classList.add("checked");
-    else el.classList.remove("checked");
-  });
+  if(file_extension == "py") {
+    saveCode = d["codetext"];
+    codeEditor.setValue(saveCode);
 
-  $("#codepath").text(d["codepath"]);
+    codeTypeBtns.forEach((el) => {
+      if (el.name == "python") el.classList.add("checked");
+      else el.classList.remove("checked");
+    });
+    $("#codepath").text(d["codepath"]);
+    $("#codeDiv").show();
+    $("#blocklyDiv").hide();
+    setLanguage(lang);
+  }
+  else {
+    try {
+      codeTypeBtns.forEach((el) => {
+        if (el.name == "block") el.classList.add("checked");
+        else el.classList.remove("checked");
+      });
+
+      Blockly.serialization.workspaces.load(JSON.parse(d["codetext"]), workspace);
+      if(d["codetext"] != "{}") {
+        for(jdata of JSON.parse(d["codetext"])["blocks"]["blocks"]) {
+          if(jdata['type'].includes('_dynamic')) {
+            updateSecondDropdown.call(workspace.getBlockById(jdata['id']), jdata['fields']['dir'], jdata['fields']['filename'])
+          }
+        }
+      }
+
+      saveBlock = d["codetext"];
+      update_block();
+      $("#codepath").text(d["codepath"]);
+    }
+    catch(e) {
+      if(d["codetext"] == "") {
+        saveBlock = "{}";
+        Blockly.serialization.workspaces.load(JSON.parse("{}"), workspace);
+        update_block();
+        $("#codepath").text(d["codepath"]);
+      }
+      else {
+        $("#codepath").html("");
+      }
+    }
+    finally {
+      $("#codeDiv").hide();
+      $("#blocklyDiv").show();
+      setLanguage(lang);
+      Blockly.svgResize(workspace);
+    }
+  }
+
   CURRENT_DIR = d["path"].split("/");
   socket.emit("load_directory", CURRENT_DIR.join("/"));
 });
@@ -159,9 +212,6 @@ codeTypeBtns.forEach((btn) => {
     startTime_item = new Date().getTime();
 
     if (target.name == "block") {
-        // if (BLOCK_PATH == "") {
-        //   alert("주의!) 저장할 파일은 먼저 선택해주세요.");
-        // }
         if (before_codetype != "block") {
           $("#codeDiv").hide();
           $("#blocklyDiv").show();
@@ -172,9 +222,6 @@ codeTypeBtns.forEach((btn) => {
         $("#stop").html('<i class="fa-solid fa-circle"></i>&nbsp;<span data-key="stop"></span>');
     }
     else {
-      // if (CODE_PATH == "") {
-      //   alert("주의!) 저장할 파일은 먼저 선택해주세요.");
-      // }
       if (before_codetype == "block") {
         $("#blocklyDiv").hide();
         $("#codeDiv").show();
@@ -220,7 +267,8 @@ execute.addEventListener("click", () => {
       codetext: saveBlock 
     });
     update_block();
-    socket.emit("execute", { codetype: "python", codepath: "/home/pi/blockly.py", codetext: Blockly.Python.workspaceToCode(workspace) });
+    // for block
+    socket.emit("executeb", { codetype: "python", codepath: "/home/pi/blockly.py", codetext: Blockly.Python.workspaceToCode(workspace) });
   }
   else {
     saveCode = codeEditor.getValue();
@@ -326,13 +374,44 @@ socket.on("update_file_manager", (d) => {
               }
             })
             ,
-            $("<td style='width:30px;text-align:center'>").append(["", "folder"].includes(data[i].type) || data[i].protect==true?"":`<a href='/download?filename=${data[i].name}'><i class='fa-solid fa-circle-down'></i></a>`)
+            $("<td style='width:15px;text-align:center'>").append(["", "folder"].includes(data[i].type) || data[i].protect==true?"":`<a href='/download?filename=${data[i].name}'><i class='fa-solid fa-circle-down'></i></a>`)
               .hover(
                 function () { $(this).animate({ opacity: "0.3" }, 100); },
                 function () { $(this).animate({ opacity: "1" }, 100); }
               )
             ,
-            $("<td style='width:30px;text-align:center'>").append([""].includes(data[i].type) || data[i].protect==true?"":"<i class='fa-solid fa-trash-can'></i>")
+            $("<td style='width:15px;text-align:center'>").append([""].includes(data[i].type) || data[i].protect==true?"":"<i class='fa-solid fa-pencil-alt'></i>")
+            .hover(
+              function () { $(this).animate({ opacity: "0.3" }, 100); },
+              function () { $(this).animate({ opacity: "1" }, 100); }
+            )
+            .click(function () {
+              if ($(this).html() == "") return;
+
+              let idx = $(this).closest('tr').index();
+              //let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html();
+              let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
+              let newname = prompt(translations['check_newfile_name'][lang]);
+
+              if (!confirm(translations['confirm_rename'][lang](name, newname))) return;
+
+              if ($("#codepath").html().includes(CURRENT_DIR.join("/") + "/" + name)) {
+                $("#codepath").html("");
+              }
+              if (CODE_PATH.includes(CURRENT_DIR.join("/") + "/" + name)) {
+                CODE_PATH = "";
+                saveCode = "";
+                codeEditor.setValue(saveCode);
+              }
+              if (BLOCK_PATH.includes(CURRENT_DIR.join("/") + "/" + name)) {
+                BLOCK_PATH = "";
+                saveBlock = "{}";
+                Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
+              }
+              socket.emit('rename', {oldpath:CURRENT_DIR.join("/") + "/" + name, newpath: CURRENT_DIR.join("/") + "/" + newname});
+            })
+            ,
+            $("<td style='width:15px;text-align:center'>").append([""].includes(data[i].type) || data[i].protect==true?"":"<i class='fa-solid fa-trash-can'></i>")
               .hover(
                 function () { $(this).animate({ opacity: "0.3" }, 100); $(this).css("cursor", "pointer"); },
                 function () { $(this).animate({ opacity: "1" }, 100); $(this).css("cursor", "default");}
@@ -345,16 +424,16 @@ socket.on("update_file_manager", (d) => {
                 let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
 
                 if (confirm(translations['confirm_delete_file'][lang](`${CURRENT_DIR.join("/")}/${name}`))) {
-                  if ((CURRENT_DIR.join("/") + "/" + name) == $("#codepath").html()) {
+                  if ($("#codepath").html().includes(CURRENT_DIR.join("/") + "/" + name)) {
                     $("#codepath").html("");
                   }
-                  if ((CURRENT_DIR.join("/") + "/" + name) == CODE_PATH) {
-                    CODE_PATH = ""
+                  if (CODE_PATH.includes(CURRENT_DIR.join("/") + "/" + name)) {
+                    CODE_PATH = "";
                     saveCode = "";
                     codeEditor.setValue(saveCode);
                   }
-                  if ((CURRENT_DIR.join("/") + "/" + name) == BLOCK_PATH) {
-                    BLOCK_PATH = ""
+                  if (BLOCK_PATH.includes(CURRENT_DIR.join("/") + "/" + name)) {
+                    BLOCK_PATH = "";
                     saveBlock = "{}";
                     Blockly.serialization.workspaces.load(JSON.parse(saveBlock), workspace);
                   }
@@ -414,9 +493,7 @@ $("#add_file").on("click", () => {
 });
 
 $("#upload").on("change", (e) => {
-
   let upload_files = $("#upload")[0].files;
-
 
   if (upload_files.length > MAX_FILE_NUMBER) {
     alert(translations['file_number_limit'][lang](MAX_FILE_NUMBER));
@@ -458,6 +535,7 @@ $("#eraser").on("click", () => {
   // else {
     result.value = "";
     $("#respath").text("");
+    $("#prompt").val("");
   // }
 });
 window.dispatchEvent(new Event('onresize'));
@@ -612,7 +690,7 @@ const workspace = Blockly.inject("blocklyDiv", {
     startScale: 0.8,
     maxScale: 3,
     minScale: 0.3,
-    scaleSpeed: 0.95,
+    scaleSpeed: 1.05,
     pinch: true
   },
   move:{
@@ -627,8 +705,16 @@ const workspace = Blockly.inject("blocklyDiv", {
 });
 workspace.addChangeListener ((event)=>{
   update_block();
-  if (event.type == Blockly.Events.CREATE && $("#codepath").html() == '')
-   setTimeout(()=>{alert(translations["confirm_block_file"][lang])},500);
+  if (event.type == Blockly.Events.CREATE) {
+    if($("#codepath").html() == '') setTimeout(()=>{alert(translations["confirm_block_file"][lang])},500);
+  }
+
+  if (event.type == Blockly.Events.BLOCK_CHANGE) {
+    if (event.element == 'field' && event.name == 'dir') {
+      folderValue = workspace.getBlockById(event.blockId).getFieldValue('dir');
+      updateSecondDropdown.call(workspace.getBlockById(event.blockId), folderValue);
+    }
+  }
 });
 
 $(document).keydown((evt)=> {
@@ -873,6 +959,13 @@ $("#enctype_open").on('click', function(){
   }
 });
 
+$("#prompt").on("keypress", function (evt) {
+  if (evt.keyCode == 13) {
+    socket.emit("prompt", $("#prompt").val().trim());
+    //$("#prompt").val("");
+  }
+});
+
 const setLanguage = (langCode) => {
   const elements = document.querySelectorAll('[data-key]');
   elements.forEach(element => {
@@ -882,7 +975,7 @@ const setLanguage = (langCode) => {
       }
   });
 
-  const langFileVersion = '230721v1';
+  const langFileVersion = '231108v1';
   const langFile = `../static/${langCode}.js?ver=${langFileVersion}`;
   const prevKoScript = document.querySelector(`script[src*="../static/ko.js?ver=${langFileVersion}"]`);
   if (prevKoScript) {

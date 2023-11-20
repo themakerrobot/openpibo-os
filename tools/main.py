@@ -14,7 +14,6 @@ import argparse
 from mcu_control import DeviceControl
 import requests
 
-MODEL_PATH = "/home/pi/models"
 try:
   app = FastAPI()
   app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -150,22 +149,22 @@ async def f(data:UploadFile = File(...)):
     return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
 
   data.filename = "models.zip"
-  os.system(f"mkdir -p {MODEL_PATH}")
-  os.system(f"rm -rf {MODEL_PATH}/*")
+  os.system(f"mkdir -p {pibo.mymodel_path}")
+  os.system(f"rm -rf {pibo.mymodel_path}/*")
 
-  with open(f"{MODEL_PATH}/{data.filename}", 'wb') as f:
+  with open(f"{pibo.mymodel_path}/{data.filename}", 'wb') as f:
     content = await data.read()
     f.write(content)
 
-  os.system(f"unzip {MODEL_PATH}/{data.filename} -d {MODEL_PATH}")
-  os.remove(f"{MODEL_PATH}/{data.filename}")
-  model_names = [s for s in os.listdir(f"{MODEL_PATH}") if s.split(".")[1] in ["h5", "tflite"]]
-  if len(model_names) != 1:
-    os.system(f"rm -rf {MODEL_PATH}/*")
-    return JSONResponse(content={'result':'Model에 문제가 있습니다.'}, status_code=500)
+  os.system(f"unzip {pibo.mymodel_path}/{data.filename} -d {pibo.mymodel_path}")
+  os.remove(f"{pibo.mymodel_path}/{data.filename}")
 
-  pibo.tm.load(f"{MODEL_PATH}/{model_names[0]}", f"{MODEL_PATH}/labels.txt")
-  return JSONResponse(content={"filename":data.filename}, status_code=200)
+  try:
+    pibo.tm.load(f"{pibo.mymodel_path}/model_unquant.tflite", f"{pibo.mymodel_path}/labels.txt")
+    return JSONResponse(content={"filename":data.filename}, status_code=200)
+  except Exception as ex:
+    os.system(f"rm -rf {pibo.mymodel_path}/*")
+    return JSONResponse(content={'result':'Model에 문제가 있습니다.'}, status_code=500)
 
 @app.post('/upload_oled')
 async def f(data:UploadFile = File(...)):
@@ -587,7 +586,7 @@ async def f(sid, d=None):
 async def f():
   global logger, pibo, devcon
   logger = log.configure_logger(level='info')
-  logger.info(f'Network Display: {network_disp.run()}')
+  #logger.info(f'Network Display: {network_disp.run()}')
   devcon = DeviceControl()
   pibo = Pibo(emit, logger)
 
