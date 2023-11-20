@@ -250,7 +250,8 @@ Blockly.Python['speech_stt'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Speech'] = 'from openpibo.speech import Speech';
   Blockly.Python.definitions_['assign_speech'] = 'speech = Speech()';
 
-  const timeout = block.getFieldValue("timeout");
+  //const timeout = block.getFieldValue("timeout");
+  const timeout = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC);
   return [`speech.stt(timeout=${timeout}, verbose=False)`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['speech_tts'] = function(block) {
