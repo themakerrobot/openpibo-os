@@ -54,8 +54,8 @@ class Pibo:
     try:
       self.tm.load(f"{self.mymodel_path}/model_unquant.tflite", f"{self.mymodel_path}/labels.txt")
     except Exception as ex:
+      self.logger.error(f'[vision_start] Error: {ex}')
       os.system(f"rm -rf {self.mymodel_path}/*")
-      pass
 
     self.pil_fontpath = openpibo_models.filepath("KDL.ttf")
     self.pil_font = ImageFont.truetype(self.pil_fontpath, 20)

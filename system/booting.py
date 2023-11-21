@@ -45,7 +45,7 @@ if __name__ == "__main__":
     m.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 2500)
     for i in range(1,15):
       data = subprocess.check_output(['/home/pi/openpibo-os/system/get_network.sh']).decode('utf-8').strip('\n').split(',')
-      if data[0] != '' or data[2] != '':
+      if (data[0] != '' and data[0][0:3] != '169') or (data[2] != '' and data[2][0:3] != '169'):
         os.system('systemctl stop hostapd;ip link set ap0 down')
         break
 
