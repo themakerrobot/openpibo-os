@@ -459,6 +459,9 @@ Blockly.Msg['I_IMAGE_PATH'] = "image";
 
 Blockly.Msg['MYMODEL_PATH'] = "model";
 
+Blockly.Msg['LANG_KO'] = "korean";
+Blockly.Msg['LANG_EN'] = "english";
+
 Blockly.Msg["AUDIO_PLAY_DYNAMIC"] = "%1 %2 Play %3 %4 audio with %5 volume";
 Blockly.Msg["AUDIO_PLAY_DYNAMIC_TOOLTIP"] = "Select and play audio at set volume.";
 Blockly.Msg["AUDIO_PLAY"] = "%1 %2 Play %3 %4 audio with %5 volume";
@@ -593,6 +596,8 @@ Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 Record for %4 seconds and perform speech r
 Blockly.Msg["SPEECH_STT_TOOLTIP"] = "(Internet!) Record and recognize speech for a set time.";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 Save %4 as %7 voice speech to %5 %6";
 Blockly.Msg["SPEECH_TTS_TOOLTIP"] = "(Internet!) Convert text to a voice file and save.";
+Blockly.Msg["SPEECH_TRANSLATE"] = "%1 %2 %3 Translate sentence %4 into language %5";
+Blockly.Msg["SPEECH_TRANSLATE_TOOLTIP"] = "(Internet!) Translates the entered sentence.";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 Respond to %3 (Korean only)";
 Blockly.Msg["SPEECH_GET_DIALOG_TOOLTIP"] = "Generate a response to entered dialogue. (supports Korean)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 Set conversation file %3 %4";

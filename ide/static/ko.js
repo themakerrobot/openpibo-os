@@ -459,6 +459,9 @@ Blockly.Msg['I_IMAGE_PATH'] = "기타이미지";
 
 Blockly.Msg['MYMODEL_PATH'] = "내모델";
 
+Blockly.Msg['LANG_KO'] = "한글";
+Blockly.Msg['LANG_EN'] = "영어";
+
 Blockly.Msg["AUDIO_PLAY_DYNAMIC"] = "%1 %2 %3 %4 오디오 %5 음량으로 재생하기";
 Blockly.Msg["AUDIO_PLAY_DYNAMIC_TOOLTIP"] = "음악 파일 선택 후 설정한 볼륨으로 재생합니다.";
 Blockly.Msg["AUDIO_PLAY"] = "%1 %2 %3 %4 오디오 %5 음량으로 재생하기";
@@ -593,6 +596,8 @@ Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 %4 초 녹음하여 음성인식하기";
 Blockly.Msg["SPEECH_STT_TOOLTIP"] = "(인터넷!) 설정한 시간 동안 녹음 후 음성 인식합니다.";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 %4 를 %7 목소리로 %5 %6 에 저장하기";
 Blockly.Msg["SPEECH_TTS_TOOLTIP"] = "(인터넷!) 텍스트를 음성 파일로 변환 및 저장합니다.";
+Blockly.Msg["SPEECH_TRANSLATE"] = "%1 %2 %3 %4 %5 로 번역하기";
+Blockly.Msg["SPEECH_TRANSLATE_TOOLTIP"] = "(인터넷!) 입력한 문장을 번역합니다.";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기 (한국어만 지원)";
 Blockly.Msg["SPEECH_GET_DIALOG_TOOLTIP"] = "입력된 대화에 대한 응답 생성합니다. (한국어만 지원)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";

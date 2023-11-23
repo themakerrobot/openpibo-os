@@ -1428,6 +1428,20 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "speech_translate",
+            "inputs":{
+              "text":{
+                "shadow": {
+                  "type": "text",
+                  "fields": {
+                    "TEXT": translations['sample_text'][lang]
+                  }
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
             "type": "speech_get_dialog",
             "inputs":{
               "text":{

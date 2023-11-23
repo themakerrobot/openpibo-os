@@ -317,6 +317,14 @@ Blockly.Python['speech_tts'] = function(block) {
   const voice = block.getFieldValue("voice");
   return `speech.tts(string=${text}, filename='${dir}'+${filename}, voice='${voice}')\n`;
 }
+Blockly.Python['speech_translate'] = function(block) {
+  Blockly.Python.definitions_['from_speech_import_Dialog'] = 'from openpibo.speech import Dialog';
+  Blockly.Python.definitions_['assign_dialog'] = 'dialog = Dialog()';
+
+  const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
+  const lang = block.getFieldValue("lang");
+  return [`dialog.translate(${text}, '${lang}')`, Blockly.Python.ORDER_ATOMIC];
+}
 Blockly.Python['speech_get_dialog'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Dialog'] = 'from openpibo.speech import Dialog';
   Blockly.Python.definitions_['assign_dialog'] = 'dialog = Dialog()';
