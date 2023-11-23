@@ -438,6 +438,9 @@ Blockly.Msg["COLOUR_HUE"] = "20";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 
 // openpibo
+Blockly.Msg['LANG_KO'] = "한글";
+Blockly.Msg['LANG_EN'] = "영어";
+
 Blockly.Msg["AUDIO_PLAY"] = "%1 %2 %3 %4 오디오 %5 음량으로 재생하기";
 Blockly.Msg["AUDIO_STOP"] = "%1 %2 오디오 정지하기";
 Blockly.Msg["AUDIO_RECORD"] = "%1 %2 %5 초 동안 녹음해서 %3 %4 에 저장하기";
@@ -528,6 +531,7 @@ Blockly.Msg["OLED_UNFILL"] = "채우기 없음";
 
 Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 %4 초 녹음하여 음성인식하기";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 %4 를 %7 목소리로 %5 %6 에 저장하기";
+Blockly.Msg["SPEECH_TRANSLATE"] = "%1 %2 %3 %4 %5 로 번역하기";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 %3 의 대답하기 (한국어만 가능)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 %3 %4 대화 파일 설정하기";
 

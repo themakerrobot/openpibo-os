@@ -447,6 +447,9 @@ Blockly.Msg["COLOUR_HUE"] = "20";
 Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 
 // openpibo
+Blockly.Msg['LANG_KO'] = "korean";
+Blockly.Msg['LANG_EN'] = "english";
+
 Blockly.Msg["AUDIO_PLAY"] = "%1 %2 Play %3 %4 audio with %5 volume";
 Blockly.Msg["AUDIO_STOP"] = "%1 %2 Stop audio";
 Blockly.Msg["AUDIO_RECORD"] = "%1 %2 Record for %5 seconds and save to %3 %4";
@@ -537,6 +540,7 @@ Blockly.Msg["OLED_UNFILL"] = "Un fill";
 
 Blockly.Msg["SPEECH_STT"] = "%1 %2 %3 Record for %4 seconds and perform speech recognition";
 Blockly.Msg["SPEECH_TTS"] = "%1 %2 %3 Save %4 as %7 voice speech to %5 %6";
+Blockly.Msg["SPEECH_TRANSLATE"] = "%1 %2 %3 Translate sentence %4 into language %5";
 Blockly.Msg["SPEECH_GET_DIALOG"] = "%1 %2 Respond to %3 (Korean only)";
 Blockly.Msg["SPEECH_LOAD_DIALOG"] = "%1 %2 Set conversation file %3 %4";
 

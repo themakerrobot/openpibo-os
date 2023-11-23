@@ -890,6 +890,38 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'speech_translate',
+      message0: '%{BKY_SPEECH_TRANSLATE}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/bolt-solid.svg",
+            "width": 15,
+            "height": 20
+          },
+          {
+            "type": "field_image",
+            "src": "svg/font-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "text", "check":"String"},
+          {"type": "field_dropdown", "name":"lang",
+            "options":[
+              ['%{BKY_LANG_KO}','ko'],
+              ['%{BKY_LANG_EN}','en']
+            ]
+         },
+        ],
+      output: 'String',
+      inputsInline: true,
+      colour: color_type["speech"],
+      tooltip: '%{BKY_INTERNET_CHECK_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
       type: 'speech_get_dialog',
       message0: '%{BKY_SPEECH_GET_DIALOG}',
       args0:
