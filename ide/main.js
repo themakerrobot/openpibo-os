@@ -55,7 +55,7 @@ const readDirectory = (d) => {
 
   try {
     fs.readdirSync(d, {withFileTypes:true}).forEach(p => {
-      if(p.isDirectory()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
+      if(p.isDirectory() || p.isSymbolicLink()) dlst.push({name:p.name, type:"folder", protect:isProtect(`${d}/${p.name}`)});
       else flst.push({name:p.name, type:"file", protect:(isProtect(d) || isProtect(`${d}/${p.name}`))});
     });
   }
@@ -156,7 +156,7 @@ app.get('/dir', (req, res) => {
   let files = [];
   try {
     fs.readdirSync(directoryPath, {withFileTypes:true}).forEach(p => {
-      if(!p.isDirectory() && p.name[0] != '.' /* && fileType.includes(fileExtensionCheck(p.name))*/) {
+      if(!p.isDirectory() && !p.isSymbolicLink() && p.name[0] != '.' /* && fileType.includes(fileExtensionCheck(p.name))*/) {
         files.push(p.name)
       }
     });
