@@ -322,7 +322,8 @@ class Pibo:
 
   def mic(self, d):
     record_time = d['time']
-    cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 /home/pi/stream.wav;rm stream.raw'
+    filename = "/home/pi/myaudio/mic.wav"
+    cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 {filename};rm stream.raw'
     os.system(cmd)
 
   def play_audio(self, filename, volume, background):
@@ -334,14 +335,15 @@ class Pibo:
   def tts(self, d):
     voice_type = d['voice_type']
     volume = d['volume']
+    filename = "/home/pi/myaudio/tts.mp3"
 
     try:
       if voice_type == "espeak":
-        os.system(f'espeak "{d["text"]}" -w /home/pi/speech.mp3')
+        os.system(f'espeak "{d["text"]}" -w {filename}')
       else:
         lang = "en" if "e_" in voice_type else "ko"
-        self.speech.tts(string=d['text'], filename='/home/pi/speech.mp3', voice=voice_type, lang=lang)
-      self.play_audio('/home/pi/speech.mp3', volume, True)
+        self.speech.tts(string=d['text'], filename=filename, voice=voice_type, lang=lang)
+      self.play_audio(filename, volume, True)
     except Exception as ex:
       self.logger.error(f'[tts] Error: {ex}')
       pass

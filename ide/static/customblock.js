@@ -169,6 +169,44 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'weather_forecast',
+      message0: '%{BKY_COLLECT_WEATHER_FORECAST}',
+      args0: [
+        {
+          "type": "field_image",
+          "src": "svg/bolt-solid.svg",
+          "width": 15,
+          "height": 20
+        },
+        {
+          "type": "field_image",
+          "src": "svg/cloud-sun-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "field_dropdown", "name":"topic",
+         "options":[
+          // [ '%{BKY_COLLECT_NATION}', '전국' ],
+          [ '%{BKY_COLLECT_SEOUL}', '서울' ],
+          [ '%{BKY_COLLECT_INCHEON}', '인천' ], [ '%{BKY_COLLECT_GYEONGGI}', '경기' ],
+          [ '%{BKY_COLLECT_BUSAN}', '부산' ], [ '%{BKY_COLLECT_ULSAN}', '울산' ],
+          [ '%{BKY_COLLECT_GYEONGNAM}', '경남' ], [ '%{BKY_COLLECT_DAEGU}', '대구' ],
+          [ '%{BKY_COLLECT_GYEONGBUK}', '경북' ], [ '%{BKY_COLLECT_GWANGJU}', '광주' ],
+          [ '%{BKY_COLLECT_JEONNAM}', '전남' ], [ '%{BKY_COLLECT_JEONBUK}', '전북' ],
+          [ '%{BKY_COLLECT_DAEJEON}', '대전' ], [ '%{BKY_COLLECT_SEJONG}', '세종' ],
+          [ '%{BKY_COLLECT_CHUNGNAM}', '충남' ], [ '%{BKY_COLLECT_CHUNGBUK}', '충북' ],
+          [ '%{BKY_COLLECT_GANGWON}', '강원' ], [ '%{BKY_COLLECT_JEJU}', '제주' ]
+         ]
+       },
+      ],
+      output: 'String',
+      inputsInline: true,
+      colour: color_type["collect"],
+      tooltip: '%{BKY_COLLECT_WEATHER_FORECAST_TOOLTIP}',
+      helpUrl: ''
+    },    
+    {
       type: 'weather_search',
       message0: '%{BKY_COLLECT_WEATHER}',
       args0: [
@@ -187,7 +225,8 @@ Blockly.defineBlocksWithJsonArray(
         {"type":"input_dummy"},
         {"type": "field_dropdown", "name":"topic",
          "options":[
-          [ '%{BKY_COLLECT_NATION}', '전국' ], [ '%{BKY_COLLECT_SEOUL}', '서울' ],
+          // [ '%{BKY_COLLECT_NATION}', '전국' ], 
+          [ '%{BKY_COLLECT_SEOUL}', '서울' ],
           [ '%{BKY_COLLECT_INCHEON}', '인천' ], [ '%{BKY_COLLECT_GYEONGGI}', '경기' ],
           [ '%{BKY_COLLECT_BUSAN}', '부산' ], [ '%{BKY_COLLECT_ULSAN}', '울산' ],
           [ '%{BKY_COLLECT_GYEONGNAM}', '경남' ], [ '%{BKY_COLLECT_DAEGU}', '대구' ],
@@ -197,13 +236,21 @@ Blockly.defineBlocksWithJsonArray(
           [ '%{BKY_COLLECT_CHUNGNAM}', '충남' ], [ '%{BKY_COLLECT_CHUNGBUK}', '충북' ],
           [ '%{BKY_COLLECT_GANGWON}', '강원' ], [ '%{BKY_COLLECT_JEJU}', '제주' ]
          ]
-       },
+        },
        {"type": "field_dropdown", "name":"mode",
-       "options":[
-        [ '%{BKY_COLLECT_FORECAST}', 'forecast' ], [ '%{BKY_COLLECT_TODAY}', 'today' ],
-        [ '%{BKY_COLLECT_TOMORROW}', 'tomorrow' ], [ '%{BKY_COLLECT_AFTER_TOMORROW}', 'after_tomorrow' ]
-       ]
-      }
+        "options":[
+          [ '%{BKY_COLLECT_TODAY}', 'today' ],
+          [ '%{BKY_COLLECT_TOMORROW}', 'tomorrow' ],
+          [ '%{BKY_COLLECT_AFTER_TOMORROW}', 'after_tomorrow' ]
+         ]
+        },
+        {"type": "field_dropdown", "name":"type",
+         "options":[
+          [ '%{BKY_COLLECT_COMMENT}', '0' ],
+          [ '%{BKY_COLLECT_LOWTEMP}', '1' ],
+          [ '%{BKY_COLLECT_HIGHTEMP}', '2' ]
+         ]
+        }
       ],
       output: 'String',
       inputsInline: true,
@@ -259,32 +306,6 @@ Blockly.defineBlocksWithJsonArray(
     {
       type: 'device_eye_on',
       message0: '%{BKY_DEVICE_EYE_ON}',
-      args0: 
-        [
-          {
-            "type": "field_image",
-            "src": "svg/eye-solid.svg",
-            "width": 27,
-            "height": 27
-          },
-          {"type":"input_dummy"},
-          {"type": "input_value", "name": "val0", "check":"Number"},
-          {"type": "input_value", "name": "val1", "check":"Number"},
-          {"type": "input_value", "name": "val2", "check":"Number"},
-          {"type": "input_value", "name": "val3", "check":"Number"},
-          {"type": "input_value", "name": "val4", "check":"Number"},
-          {"type": "input_value", "name": "val5", "check":"Number"},
-        ],
-      nextStatement: true,
-      previousStatement: true,
-      inputsInline: true,
-      colour: color_type["device"],
-      tooltip: '%{BKY_DEVICE_EYE_ON_TOOLTIP}',
-      helpUrl: ''
-    },
-    {
-      type: 'device_eye_colour_on',
-      message0: '%{BKY_DEVICE_EYE_COLOUR_ON}',
       args0:
         [
           {
@@ -301,40 +322,12 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '%{BKY_DEVICE_EYE_COLOUR_ON_TOOLTIP}',
-      helpUrl: ''
-    },
-
-    {
-      type: 'device_eye_dissolve',
-      message0: '%{BKY_DEVICE_EYE_DISSOLVE}',
-      args0:
-        [
-          {
-            "type": "field_image",
-            "src": "svg/eye-solid.svg",
-            "width": 27,
-            "height": 27
-          },
-          {"type":"input_dummy"},
-          {"type": "input_value", "name": "val0", "check":"Number"},
-          {"type": "input_value", "name": "val1", "check":"Number"},
-          {"type": "input_value", "name": "val2", "check":"Number"},
-          {"type": "input_value", "name": "val3", "check":"Number"},
-          {"type": "input_value", "name": "val4", "check":"Number"},
-          {"type": "input_value", "name": "val5", "check":"Number"},
-          {"type": "input_value", "name": "time", "check":"Number"},
-        ],
-      nextStatement: true,
-      previousStatement: true,
-      inputsInline: true,
-      colour: color_type["device"],
       tooltip: '%{BKY_DEVICE_EYE_ON_TOOLTIP}',
       helpUrl: ''
     },
     {
-      type: 'device_eye_colour_dissolve',
-      message0: '%{BKY_DEVICE_EYE_COLOUR_DISSOLVE}',
+      type: 'device_eye_fade',
+      message0: '%{BKY_DEVICE_EYE_FADE}',
       args0:
         [
           {
@@ -352,7 +345,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '%{BKY_DEVICE_EYE_COLOUR_ON_TOOLTIP}',
+      tooltip: '%{BKY_DEVICE_EYE_FADE_TOOLTIP}',
       helpUrl: ''
     },
     {

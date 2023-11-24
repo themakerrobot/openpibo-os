@@ -857,6 +857,10 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "weather_forecast",
+          },
+          {
+            "kind": "block",
             "type": "weather_search",
           },
           {
@@ -877,60 +881,6 @@ let toolbox = (lang) => {
             "kind": "block",
             "type": "device_eye_on",
             "inputs":{
-              "val0": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val1": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val2": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val3": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val4": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val5": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "kind": "block",
-            "type": "device_eye_colour_on",
-            "inputs":{
               "left":{
                 "shadow": {
                   "type": "variables_get",
@@ -943,72 +893,9 @@ let toolbox = (lang) => {
               }
             }
           },
-
           {
             "kind": "block",
-            "type": "device_eye_dissolve",
-            "inputs":{
-              "val0": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val1": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val2": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val3": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val4": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "val5": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "0"
-                  }
-                }
-              },
-              "time": {
-                "shadow": {
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "5"
-                  }
-                }
-              }
-            }
-          },
-          {
-            "kind": "block",
-            "type": "device_eye_colour_dissolve",
+            "type": "device_eye_fade",
             "inputs":{
               "left":{
                 "shadow": {

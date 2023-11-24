@@ -23,37 +23,27 @@ if __name__ == "__main__":
   try:
     o = Oled()
     o.clear()
-    o.set_font(size=23)
-    o.draw_text((0,10), 'THE MAKER')
+    o.draw_image("/home/pi/openpibo-os/system/themaker.jpg")
     o.set_font(size=15)
     o.draw_text((5,40), os_version)
     o.show()
 
     m = Motion()
     m.set_motion("wake_up2", 1)
-
-    text = 'PIBO ROBOT'
-    for i in range(1,12):
-      o.clear()
-      o.set_font(size=i*2-2)
-      o.draw_text((7,i*2), text[11-i:])
-      o.show()
-      time.sleep(0.2)
-    time.sleep(2)
+    m.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 3000)
     o.clear()
 
-    m.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 2500)
-    for i in range(1,15):
+    for i in range(1,10):
       data = subprocess.check_output(['/home/pi/openpibo-os/system/get_network.sh']).decode('utf-8').strip('\n').split(',')
       if (data[0] != '' and data[0][0:3] != '169') or (data[2] != '' and data[2][0:3] != '169'):
-        os.system('systemctl stop hostapd;ip link set ap0 down')
-        break
+       os.system('systemctl stop hostapd;ip link set ap0 down')
+       break
 
-      o.draw_text((15,20), 'Ready... ({})'.format(i))
+      o.draw_image("/home/pi/openpibo-os/system/pibo.jpg")
+      o.draw_text((5,5), "˚".join(["" for _ in range(i+1)]))
       o.show()
-      time.sleep(1.7)
-      o.clear()
-      time.sleep(0.3)
+      time.sleep(2.5)
+    o.clear()
     disp(data)
 
   except Exception as ex:

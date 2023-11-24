@@ -1911,11 +1911,12 @@ const getSimulations = (socket) => {
 
       const path = "/home/pi/openpibo-files/audio/";
       const audioRadioList = [
-        { name: "music", value: `${path}music/`, label: "음악" },
-        { name: "voice", value: `${path}voice/`, label: "목소리" },
-        { name: "effect", value: `${path}effect/`, label: "효과음" },
-        { name: "animal", value: `${path}animal/`, label: "동물소리" },
-        { name: "myaudio", value: "/home/pi/myaudio/", label: "내 오디오" },
+        { name: "music", value: `${path}music/`, label: "music" },
+        { name: "voice", value: `${path}voice/`, label: "voice" },
+        { name: "effect", value: `${path}effect/`, label: "effect" },
+        { name: "piano", value: `${path}piano/`, label: "piano"},
+        { name: "animal", value: `${path}animal/`, label: "animal_audio" },
+        { name: "myaudio", value: "/home/pi/myaudio/", label: "myaudio" },
       ];
       const audioRadioGroup = $("#audio_radio_group");
       audioRadioGroup.children().remove();
@@ -1937,7 +1938,7 @@ const getSimulations = (socket) => {
             setAudioList(list, e.target.value);
           });
         });
-        return [radioInput, $(`<label for="audio_${name}" data-key="${name}">${translations[name][lang]}</label>`)];
+        return [radioInput, $(`<label for="audio_${name}" data-key="${label}">${translations[label][lang]}</label>`)];
       });
       audioRadioGroup.append(...inputRadios.flat());
       const type = data && data.type ? data.type : audioRadioList[0].value;
@@ -1991,11 +1992,21 @@ const getSimulations = (socket) => {
       const setOledImagePathList = (path, img) => {
         const oledImgOptionsList = [
           { value: "", label: "select_image_type" },
-          { value: "/home/pi/openpibo-files/icon/expression", label: "expression" },
-          { value: "/home/pi/openpibo-files/icon/game", label: "game" },
-          { value: "/home/pi/openpibo-files/icon/recycle", label: "recycle" },
-          // { value: "/home/pi/openpibo-files/icon/story", label: "story" },
-          { value: "/home/pi/openpibo-files/icon/weather", label: "weather" },
+          { value: "/home/pi/openpibo-files/image/animal", label: "animal_image" },
+          { value: "/home/pi/openpibo-files/image/expression", label: "expression" },
+          { value: "/home/pi/openpibo-files/image/family", label: "family" },
+          { value: "/home/pi/openpibo-files/image/food", label: "food" },
+          { value: "/home/pi/openpibo-files/image/furniture", label: "furniture" },
+          { value: "/home/pi/openpibo-files/image/game", label: "game" },
+          { value: "/home/pi/openpibo-files/image/goods", label: "goods" },
+          { value: "/home/pi/openpibo-files/image/kitchen", label: "kitchen" },
+          { value: "/home/pi/openpibo-files/image/machine", label: "machine" },
+          { value: "/home/pi/openpibo-files/image/recycle", label: "recycle" },
+          { value: "/home/pi/openpibo-files/image/sport", label: "sport" },
+          { value: "/home/pi/openpibo-files/image/transport", label: "transport" },
+          { value: "/home/pi/openpibo-files/image/weather", label: "weather" },
+          { value: "/home/pi/openpibo-files/image/etc", label: "etc" },
+          { value: "/home/pi/openpibo-files/image/sample", label: "sample" },
           { value: "/home/pi/myimage", label: "myimage" },
         ];
         const oledPathSelect = $("#oled_path_select");
@@ -2143,13 +2154,13 @@ const getSimulations = (socket) => {
 
       const ttsOptionsList = [
         { value: "espeak", label: "espeak" },
-        { value: "main", label: "pibo" },
+        { value: "main", label: "main" },
+        { value: "man1", label: "man" },
+        { value: "woman1", label: "woman"},
         { value: "boy", label: "boy" },
         { value: "girl", label: "girl" },
-        { value: "gtts", label: "gtts" },
-        // { value: "e_main", label: "파이보(영문)" },
-        // { value: "e_boy", label: "소년(영문)" },
-        // { value: "e_girl", label: "소녀(영문)" },
+        { value: "gtts", label: "gtts" },        
+        { value: "e_gtts", label: "e_gtts" }
       ];
       const ttsSelect = $("#tts_select");
       ttsSelect.children().remove();

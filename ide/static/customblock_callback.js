@@ -44,14 +44,24 @@ Blockly.Python['wikipedia_search'] = function(block) {
   const topic = Blockly.Python.valueToCode(block, 'topic', Blockly.Python.ORDER_ATOMIC);
   return [`wikipedia.search_for_block(${topic})`, Blockly.Python.ORDER_ATOMIC];
 }
+Blockly.Python['weather_forecast'] = function(block) {
+  Blockly.Python.definitions_['from_collect_import_Weather'] = 'from openpibo.collect import Weather';
+  Blockly.Python.definitions_['assign_weather'] = 'weather = Weather()';
+
+  const topic = block.getFieldValue("topic");
+
+  return [`weather.search_for_block('${topic}', 'forecast')`, Blockly.Python.ORDER_ATOMIC];
+}
 Blockly.Python['weather_search'] = function(block) {
   Blockly.Python.definitions_['from_collect_import_Weather'] = 'from openpibo.collect import Weather';
   Blockly.Python.definitions_['assign_weather'] = 'weather = Weather()';
 
   const topic = block.getFieldValue("topic");
   const mode = block.getFieldValue("mode");
-  return [`weather.search_for_block('${topic}', '${mode}')`, Blockly.Python.ORDER_ATOMIC];
+  const type = block.getFieldValue("type");
+  return [`weather.search_for_block('${topic}', '${mode}')[${type}]`, Blockly.Python.ORDER_ATOMIC];
 }
+
 Blockly.Python['news_search'] = function(block) {
   Blockly.Python.definitions_['from_collect_import_News'] = 'from openpibo.collect import News';
   Blockly.Python.definitions_['assign_news'] = 'news = News()';
@@ -65,50 +75,21 @@ Blockly.Python['news_search'] = function(block) {
 Blockly.Python['device_eye_on'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
-  
-  const val0 = Blockly.Python.valueToCode(block, 'val0', Blockly.Python.ORDER_ATOMIC);
-  const val1 = Blockly.Python.valueToCode(block, 'val1', Blockly.Python.ORDER_ATOMIC);
-  const val2 = Blockly.Python.valueToCode(block, 'val2', Blockly.Python.ORDER_ATOMIC);
-  const val3 = Blockly.Python.valueToCode(block, 'val3', Blockly.Python.ORDER_ATOMIC);
-  const val4 = Blockly.Python.valueToCode(block, 'val4', Blockly.Python.ORDER_ATOMIC);
-  const val5 = Blockly.Python.valueToCode(block, 'val5', Blockly.Python.ORDER_ATOMIC);
-
-  return `device.eye_on(${val0}, ${val1}, ${val2}, ${val3}, ${val4}, ${val5})\n`
-}
-Blockly.Python['device_eye_colour_on'] = function(block) {
-  Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
-  Blockly.Python.definitions_['assign_device'] = 'device = Device()';
 
   const l = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
   const r = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
 
   return `device.eye_on(*([int(${l}[${l}.index('#'):${l}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]+[int(${r}[${r}.index('#'):${r}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]))\n`
 }
-Blockly.Python['device_eye_dissolve'] = function(block) {
-  Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
-  Blockly.Python.definitions_['assign_device'] = 'device = Device()';
-  
-  const val0 = Blockly.Python.valueToCode(block, 'val0', Blockly.Python.ORDER_ATOMIC);
-  const val1 = Blockly.Python.valueToCode(block, 'val1', Blockly.Python.ORDER_ATOMIC);
-  const val2 = Blockly.Python.valueToCode(block, 'val2', Blockly.Python.ORDER_ATOMIC);
-  const val3 = Blockly.Python.valueToCode(block, 'val3', Blockly.Python.ORDER_ATOMIC);
-  const val4 = Blockly.Python.valueToCode(block, 'val4', Blockly.Python.ORDER_ATOMIC);
-  const val5 = Blockly.Python.valueToCode(block, 'val5', Blockly.Python.ORDER_ATOMIC);
-
-  const time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
-  
-  return `device.send_cmd(24, '${val0},${val1},${val2},${val3},${val4},${val5},${time}')\n`
-}
-Blockly.Python['device_eye_colour_dissolve'] = function(block) {
+Blockly.Python['device_eye_fade'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
 
   const l = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
   const r = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);
-
   const time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDER_ATOMIC);
 
-  return `device.send_cmd(24, '*([int(${l}[${l}.index('#'):${l}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]+[int(${r}[${r}.index('#'):${r}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]),${time}')\n`
+  return `device.send_cmd(24, ",".join([str(s) for s in [int(${l}[${l}.index('#'):${l}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)]+[int(${r}[${r}.index('#'):${r}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)] + [${time}]]))\n`
 }
 Blockly.Python['device_eye_off'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';

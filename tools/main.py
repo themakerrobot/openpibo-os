@@ -234,12 +234,12 @@ async def f(sid, d=None):
   if pibo.onoff:
     pibo.mic(d)
     await emit('mic', '')
-    pibo.play_audio('/home/pi/stream.wav', d['volume'], True)
+    pibo.play_audio("/home/pi/myaudio/mic.wav", d['volume'], True)
 
 @app.sio.on('mic_replay')
 async def f(sid, d=None):
   if pibo.onoff:
-    pibo.play_audio('/home/pi/stream.wav', d['volume'], True)
+    pibo.play_audio("/home/pi/myaudio/mic.wav", d['volume'], True)
 
 @app.sio.on('tts')
 async def f(sid, d=None):

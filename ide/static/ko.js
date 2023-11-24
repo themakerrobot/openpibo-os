@@ -473,7 +473,9 @@ Blockly.Msg["AUDIO_RECORD_TOOLTIP"] = "설정한 시간 동안 녹음 후 파일
 
 Blockly.Msg["COLLECT_WIKIPEDIA"] = "%1 %2 %3 위키피디아에서 %4 검색하기";
 Blockly.Msg["COLLECT_WIKIPEDIA_TOOLTIP"] = "(인터넷!) 위키피디아에서 주어진 키워드 검색합니다.";
-Blockly.Msg["COLLECT_WEATHER"] = "%1 %2 %3 %4 날씨의 %5 검색하기";
+Blockly.Msg["COLLECT_WEATHER_FORECAST"] = "%1 %2 %3 %4 날씨 종합 예보 가져오기";
+Blockly.Msg["COLLECT_WEATHER_FORECAST_TOOLTIP"] = "(인터넷!) 특정 지역 날씨 종합 예보를 가져옵니다.";
+Blockly.Msg["COLLECT_WEATHER"] = "%1 %2 %3 %4 날씨의 %5 %6 검색하기";
 Blockly.Msg["COLLECT_WEATHER_TOOLTIP"] = "(인터넷!) 특정 지역 날씨 정보 검색합니다.";
 Blockly.Msg["COLLECT_NEWS"] = "%1 %2 %3 %4 뉴스의 %5 검색하기";
 Blockly.Msg["COLLECT_NEWS_TOOLTIP"] = "(인터넷!) 뉴스 키워드로 검색 결과를 검색합니다.";
@@ -497,10 +499,12 @@ Blockly.Msg["COLLECT_CHUNGBUK"] = "충북";
 Blockly.Msg["COLLECT_GANGWON"] = "강원";
 Blockly.Msg["COLLECT_JEJU"] = "제주";
 
-Blockly.Msg["COLLECT_FORECAST"] = "종합";
 Blockly.Msg["COLLECT_TODAY"] = "오늘";
 Blockly.Msg["COLLECT_TOMORROW"] = "내일";
 Blockly.Msg["COLLECT_AFTER_TOMORROW"] = "모레";
+Blockly.Msg["COLLECT_COMMENT"] = "예보";
+Blockly.Msg["COLLECT_LOWTEMP"] = "최저기온";
+Blockly.Msg["COLLECT_HIGHTEMP"] = "최고기온";
 
 Blockly.Msg["COLLECT_NEWSFLASH"] = "속보";
 Blockly.Msg["COLLECT_POLITICS"] = "정치";
@@ -515,14 +519,10 @@ Blockly.Msg["COLLECT_TOPIC"] = "제목";
 Blockly.Msg["COLLECT_CONTENT"] = "내용";
 Blockly.Msg["COLLECT_LINK"] = "링크";
 
-Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 눈 LED %3 %4 %5 %6 %7 %8 켜기";
-Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "눈 LED 색상 값을 설정하여 켭니다";
-Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "%1 %2 색상 변수로 눈 LED %3 %4 켜기";
-Blockly.Msg["DEVICE_EYE_COLOUR_ON_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 설정하여 켭니다";
-Blockly.Msg["DEVICE_EYE_DISSOLVE"] = "%1 %2 눈 LED %3 %4 %5 %6 %7 %8 인터벌 %9 로 켜기";
-Blockly.Msg["DEVICE_EYE_DISSOLVE_TOOLTIP"] = "눈 LED 색상 값을 서서히 변경합니다";
-Blockly.Msg["DEVICE_EYE_COLOUR_DISSOLVE"] = "%1 %2 색상 변수로 눈 LED %3 %4 인터벌 %5 로 켜기";
-Blockly.Msg["DEVICE_EYE_COLOUR_DISSOLVE_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 서서히 변경합니다";
+Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 색상 변수로 눈 LED %3 %4 켜기";
+Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 설정하여 켭니다";
+Blockly.Msg["DEVICE_EYE_FADE"] = "%1 %2 색상 변수로 눈 LED %3 %4 인터벌 %5 로 서서히 켜기";
+Blockly.Msg["DEVICE_EYE_FADE_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 서서히 변경합니다";
 Blockly.Msg["DEVICE_EYE_OFF"] = "%1 %2 눈 LED 끄기";
 Blockly.Msg["DEVICE_EYE_OFF_TOOLTIP"] = "눈 LED 를 끕니다";
 Blockly.Msg["DEVICE_GET_DC"] = "%1 %2 아답터 체크하기";

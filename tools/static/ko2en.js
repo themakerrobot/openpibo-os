@@ -150,21 +150,25 @@ const translations = {
     ko: "카테고리",
     en: "Category"
   },
-  music : {
-    ko: "음악",
-    en: "Music"
-  },
-  voice: {
-    ko: "목소리",
-    en: "Voice"
+  animal_audio : {
+    ko: "동물",
+    en: "Animal"
   },
   effect : {
     ko: "효과음",
     en: "Effect"
   },
-  animal : {
-    ko: "동물소리",
-    en: "Animal"
+  music : {
+    ko: "음악",
+    en: "Music"
+  },
+  piano : {
+    ko: "피아노",
+    en: "Piano"
+  },
+  voice: {
+    ko: "목소리",
+    en: "Voice"
   },
   myaudio: {
     ko: "내 오디오",
@@ -202,17 +206,54 @@ const translations = {
     ko: "출력하기",
     en: "Display"
   },
+
+  animal_image: {
+    ko: "동물",
+    en: "Animal"
+  },
   expression: {
     ko: "표정",
     en: "Expression"
+  },
+  family: {
+    ko: "가족",
+    en: "Family"
+  },
+  food: {
+    ko: "음식",
+    en: "Food"
+  },
+  furniture: {
+    ko: "가구",
+    en: "Furniture"
   },
   game: {
     ko: "가위바위보",
     en: "Game"
   },
+  goods: {
+    ko: "잡화",
+    en: "Goods"
+  },
+  kitchen: {
+    ko: "주방",
+    en: "Kitchen"
+  },
+  machine: {
+    ko: "도구",
+    en: "Machine"
+  },
   recycle: {
     ko: "재활용",
     en: "Recycle"
+  },
+  sport: {
+    ko: "운동",
+    en: "Sport"
+  },
+  transport: {
+    ko: "교통",
+    en: "Transport"
   },
   weather: {
     ko: "날씨",
@@ -221,6 +262,10 @@ const translations = {
   etc: {
     ko: "기타 이미지",
     en: "Etc"
+  },
+  sample: {
+    ko: "샘플 이미지",
+    en: "Sample"
   },
   myimage: {
     ko: "내 이미지",
@@ -263,8 +308,8 @@ const translations = {
     en: "Add"
   },
   play_cycle: {
-    ko: "재생횟수",
-    en: "Play cycle"
+    ko: "반복",
+    en: "Cycle"
   },
   execute: {
     ko: "실행하기",
@@ -378,9 +423,17 @@ const translations = {
     ko: "기본음성",
     en: "Espeak"
   },
-  pibo: {
+  main: {
     ko: "파이보(ko)",
     en: "Pibo(ko)"
+  },
+  man: {
+    ko: "남성(ko)",
+    en: "Man(ko)"
+  },
+  woman: {
+    ko: "여성(ko)",
+    en: "Woman(ko)"
   },
   boy: {
     ko: "소년(ko)",

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
     <link rel="stylesheet" href="../static/all.min.css?ver=20230726v1" type="text/css" />
     <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
-    <link rel="stylesheet" href="../static/index.css?ver=20231023v3" />
+    <link rel="stylesheet" href="../static/index.css?ver=20231124v1" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230726v1" />
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
 
@@ -328,7 +328,7 @@
                 <span class="label"><span data-key="mic"></span></span>
                 <div style="margin-top: 10px">
                   <span data-key="file"></span>:
-                  <i class="fa-solid fa-folder-open"></i> /home/pi/stream.wav
+                  <i class="fa-solid fa-folder-open"></i> /home/pi/myaudio/mic.wav
                 </div>
                 <div style="margin-top: 10px">
                   <input
@@ -359,10 +359,11 @@
                 <div style="margin-top: 10px">
                   <select id="audiopath" name="audiopath">
                     <option value="-" data-key="category"></option>
+                    <option value="/home/pi/openpibo-files/audio/animal"data-key="animal_audio"></option>
+                    <option value="/home/pi/openpibo-files/audio/effect" data-key="effect"></option>                   
                     <option value="/home/pi/openpibo-files/audio/music" data-key="music"></option>
+                    <option value="/home/pi/openpibo-files/audio/piano"data-key="piano"></option>
                     <option value="/home/pi/openpibo-files/audio/voice" data-key="voice"></option>
-                    <option value="/home/pi/openpibo-files/audio/effect" data-key="effect"></option>
-                    <option value="/home/pi/openpibo-files/audio/animal"data-key="animal"></option>
                     <option value="/home/pi/myaudio" data-key="myaudio"></option>
                   </select>
                   <select id="audiofiles" name="audiofiles">
@@ -463,11 +464,21 @@
                   <div style="margin-top: 10px">
                     <select id="oledpath" name="oledpath">
                       <option value="-" data-key="category"></option>
-                      <option value="/home/pi/openpibo-files/icon/expression" data-key="expression"></option>
-                      <option value="/home/pi/openpibo-files/icon/game" data-key="game"></option>
-                      <option value="/home/pi/openpibo-files/icon/recycle" data-key="recycle"></option>
-                      <option value="/home/pi/openpibo-files/icon/weather" data-key="weather"></option>
-                      <option value="/home/pi/openpibo-files/icon/etc" data-key="etc"></option>
+                      <option value="/home/pi/openpibo-files/image/animal" data-key="animal_image"></option>
+                      <option value="/home/pi/openpibo-files/image/expression" data-key="expression"></option>
+                      <option value="/home/pi/openpibo-files/image/family" data-key="family"></option>
+                      <option value="/home/pi/openpibo-files/image/food" data-key="food"></option>
+                      <option value="/home/pi/openpibo-files/image/furniture" data-key="furniture"></option>
+                      <option value="/home/pi/openpibo-files/image/game" data-key="game"></option>
+                      <option value="/home/pi/openpibo-files/image/goods" data-key="goods"></option>
+                      <option value="/home/pi/openpibo-files/image/kitchen" data-key="kitchen"></option>
+                      <option value="/home/pi/openpibo-files/image/machine" data-key="machine"></option>
+                      <option value="/home/pi/openpibo-files/image/recycle" data-key="recycle"></option>
+                      <option value="/home/pi/openpibo-files/image/sport" data-key="sport"></option>
+                      <option value="/home/pi/openpibo-files/image/transport" data-key="transport"></option>
+                      <option value="/home/pi/openpibo-files/image/weather" data-key="weather"></option>
+                      <option value="/home/pi/openpibo-files/image/etc" data-key="etc"></option>
+                      <option value="/home/pi/openpibo-files/imabe/sample" data-key="sample"></option>
                       <option value="/home/pi/myimage" data-key="myimage"></option>
                     </select>
                     <select id="oledfiles" name="oledfiles">
@@ -805,6 +816,19 @@
                   </table>
                 </div>
                 <div class="motion-name-wrap">
+                  <select>
+                    <option>모션파일선택</option>
+                  </select>
+                  <select>
+                    <option>모션선택</option>
+                  </select>
+                  <input type="text" placeholder="모션이름"/ >
+                  <button>추가/수정</button>
+                  <button>삭제</button>
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                  <button>모션파일삭제</button>
+                </div>
+                <!-- <div class="motion-name-wrap">
                   <span data-key="motion_name"></span>:
                   <input
                     type="text"
@@ -840,7 +864,7 @@
                   ></textarea>
                   <span data-key="example"></span>:
                   <b><span id="motion_samples"></span></b>
-                </div>
+                </div> -->
               </div>
             </section>
           </article>
@@ -978,17 +1002,19 @@
               </div>
               <div class="speech-input-group">
                 <span class="label" data-key="file"></span>:
-                <i class="fa-solid fa-folder-open"></i>/home/pi/speech.mp3
+                <i class="fa-solid fa-folder-open"></i>/home/pi/myaudio/tts.mp3
               </div>
               <div class="speech-input-group">
                 <span class="label" data-key="voice_type"></span>:
                 <select name="s_voice_type">
                   <option value="espeak" data-key="espeak"></option>
-                  <option value="main" data-key="pibo"></option>
+                  <option value="main" data-key="main"></option>
+                  <option value="man1" data-key="man"></option>
+                  <option value="woman1" data-key="woman"></option>
                   <option value="boy" data-key="boy"></option>
                   <option value="girl" data-key="girl"></option>
-                  <option value="e_gtts" data-key="e_gtts"></option>
                   <option value="gtts" data-key="gtts"></option>
+                  <option value="e_gtts" data-key="e_gtts"></option>
                 </select>
               </div>
               <div class="speech-input-group">
@@ -1497,6 +1523,6 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/ko2en.js?ver=20230825v1"></script>
-  <script src="../static/index.js?ver=20231023v2"></script>
+  <script src="../static/ko2en.js?ver=20231124v1"></script>
+  <script src="../static/index.js?ver=20231123v1"></script>
 </html>
