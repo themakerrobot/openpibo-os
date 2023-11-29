@@ -11,18 +11,25 @@ class DeviceControl:
 
   def send_raw(self, raw):
     self.lock.acquire()
-    self.ser.write(raw.encode('utf-8'))
 
     data = ""
-    while True:
-      ch = self.ser.read().decode()
-      if ch == '#' or ch == '\r' or ch == '\n':
-        continue
-      if ch == '!':
-        break
-      data += ch
+    try:
+      self.ser.write(raw.encode('utf-8'))
 
-    time.sleep(0.01)
+      data = ""
+      while True:
+        ch = self.ser.read().decode()
+        if ch == '#' or ch == '\r' or ch == '\n':
+          continue
+        if ch == '!':
+          break
+        data += ch
+
+      time.sleep(0.01)
+    except Exception as ex:
+      del self.ser
+      self.ser = serial.Serial(port="/dev/ttyS0", baudrate=9600)
+
     self.lock.release()
     return data
 

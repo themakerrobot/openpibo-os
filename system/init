@@ -36,14 +36,14 @@ echo "#30:on!" > /dev/ttyS0
 sudo amixer -c Headphones sset Headphone 80%
 sudo play /home/pi/openpibo-os/system/opening.mp3 &
 
-# network init
-sudo python3 /home/pi/openpibo-os/system/booting.py
+# run openpibo-tools
+cd /home/pi/openpibo-os/tools;sudo python3 main.py &
 
 # run ide
 cd /home/pi/openpibo-os/ide;sudo node main.js &
 
-# run openpibo-tools
-cd /home/pi/openpibo-os/tools;sudo python3 main.py &
+# network init
+sudo python3 /home/pi/openpibo-os/system/booting.py
 
 sudo iw wlan0 set power_save off
 sudo iw ap0 set power_save off

@@ -587,7 +587,7 @@ async def f(sid, d=None):
 async def f():
   global logger, pibo, devcon
   logger = log.configure_logger(level='info')
-  logger.info(f'Network Display: {network_disp.run()}')
+  #logger.info(f'Network Display: {network_disp.run()}')
   devcon = DeviceControl()
   pibo = Pibo(emit, logger)
 

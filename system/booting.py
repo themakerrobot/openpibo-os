@@ -5,7 +5,7 @@ from openpibo.motion import Motion
 def disp(v):
   wip, ssid, sn = v[2] if v[0] == "" else v[0], v[3] if v[1] == "" else v[1], v[4]
   o.set_font(size=13)
-  o.draw_text((0, 5), f'SN: {sn} - @')
+  o.draw_text((0, 5), f'SN: {sn}')
   o.draw_text((0,25), f'I P: {wip.strip()}')
   o.draw_text((0,45), f'AP: {ssid}')
   o.show()
@@ -45,7 +45,8 @@ if __name__ == "__main__":
     m.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 2500)
     for i in range(1,15):
       data = subprocess.check_output(['/home/pi/openpibo-os/system/get_network.sh']).decode('utf-8').strip('\n').split(',')
-      if data[0] != '' or data[2] != '':
+      if (data[0] != '' and data[0][0:3] != '169') or (data[2] != '' and data[2][0:3] != '169'):
+        os.system('systemctl stop hostapd;wpa_cli -i wlan0 reconfigure')
         break
 
       o.draw_text((15,20), 'Ready... ({})'.format(i))

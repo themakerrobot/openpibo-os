@@ -12,7 +12,7 @@ import numpy as np
 import time,datetime
 import base64
 import cv2
-import os,json,shutil,csv
+import os,json,shutil,csv,network_disp
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 
 from queue import Queue
@@ -29,12 +29,19 @@ class Pibo:
     self.onoff = False
     self.logger = logger
     self.vision_sleep = True
-    Timer(0, self.async_system_report).start()
+    self.wifi_info = None
+    self.system_status = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
+    Timer(10, self.async_system_report).start()
 
   ## system
   def async_system_report(self):
     self.system_status = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
     asyncio.run(self.emit('system', self.system_status, callback=None))
+
+    if self.wifi_info != self.system_status[6:8]:
+      network_disp.run()
+    self.wifi_info = self.system_status[6:8]
+
     _ = Timer(10, self.async_system_report)
     _.daemon = True
     _.start()
