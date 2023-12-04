@@ -192,8 +192,8 @@ socket.on("system", (data) => {
   $("#s_runtime").text(`${Math.floor(data[2] / 3600)} hours`);
   $("#s_cpu_temp").text(data[3]);
   $("#s_memory").text(`${Math.floor(data[5]/data[4]/4*100)} %`);
-  $("#s_network").text(`${data[6]}/${data[7].replace("\n", "")}`);
-  $("#wifi_info").text(`${data[6]}/${data[7].replace("\n", "")}`);
+  $("#s_network").html(`<i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}, <i class="fas fa-network-wired"></i> ${data[8]}`);
+  $("#network_info").html(`<i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}, <i class="fas fa-network-wired"></i> ${data[8]}`);
 });
 
 let startTime_item = new Date().getTime();
@@ -759,7 +759,7 @@ $(document).keydown((evt)=> {
   return true;
 });
 
-$("#showWifi").on("click", ()=>{
+$("#showNetwork").on("click", ()=>{
   document.getElementById("usedataPopup").style.display = "none";
 
   $("#wifi_list > tbody").empty();
@@ -964,6 +964,25 @@ $("#prompt").on("keypress", function (evt) {
     socket.emit("prompt", $("#prompt").val().trim());
     //$("#prompt").val("");
   }
+});
+
+
+socket.on("update_battery", function (data) {
+  let bat = Number(data.split("%")[0]);
+  $("#d_battery_val").html(
+    "<i class='fa fa-battery-" +
+      Math.floor(bat / 25) +
+      "' aria-hidden='true'></i> " +
+      data
+  );
+});
+
+socket.on("update_dc", function (data) {
+  $("#d_dc_val").html(
+    data.toUpperCase() == "ON"
+      ? "<i class='fa fa-plug' aria-hidden='true'></i>"
+      : ""
+  );
 });
 
 const setLanguage = (langCode) => {

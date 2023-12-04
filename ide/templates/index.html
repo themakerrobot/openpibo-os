@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
+    <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
     <link rel="stylesheet" href="../static/index.css?ver=231023v1" />
     <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
     <link rel="stylesheet" href="../static/codemirror.css" />
@@ -61,7 +63,7 @@
             <div style="float:right"><a id="hidewifi"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
           </h3>
           <h3>&nbsp;</h3>
-          <i class="fa-solid fa-house-signal"></i>&nbsp;<span id="wifi_info"></span>
+          <span id="network_info"></span>
           <br>
 
           <table style="width:100%">
@@ -258,8 +260,7 @@
         <a id="usedata_bt"><span id="s_serial"></span></a>
       </div>
       <div style="float:right;padding:0.7rem 0 0.7rem 0">
-        <a id="showWifi">
-          <i class="fa-solid fa-wifi"></i>
+        <a id="showNetwork">
           <span id="s_network"></span>
         </a>,
         <i class="fa-solid fa-temperature-empty"></i>
@@ -267,9 +268,10 @@
         <i class="fa-solid fa-memory"></i>
         <span id="s_memory"></span>,
         <i class="fa-solid fa-clock"></i>
-        <span id="s_runtime"></span>
+        <span id="s_runtime"></span>, <span id="d_battery_val"></span>
+        <span id="d_dc_val"></span>
       </div>
     </footer>
-    <script src="../static/index.js?ver=230829v5"></script>
+    <script src="../static/index.js?ver=230829v6"></script>
   </body>
 </html>

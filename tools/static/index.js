@@ -13,12 +13,43 @@ const getVisions = (socket) => {
     let rect = evt.target.getBoundingClientRect();
     x = Math.floor(evt.clientX - rect.left);
     y = Math.floor(evt.clientY - rect.top);
-    rectW = Math.floor(rect.right - rect.left);
-    rectH = Math.floor(rect.bottom - rect.top);
-    // convertX = (320 * x) / rectW;
-    // convertY = (240 * y) / rectH;
-    console.log(x,y ,rectW, rectH);
+    w = Math.floor(rect.right - rect.left);
+    h = Math.floor(rect.bottom - rect.top);
+    cx = Math.floor((640 * x) / w);
+    cy = Math.floor((480 * y) / h);
+
+    x1 = cx<100?0:cx-100;
+    y1 = cy<100?0:cy-100;
+    x2 = x1+200>640?640:x1+200;
+    y2 = y1+200>480?480:y1+200;
+
+    socket.emit("object_track_init", {x1:x1,y1:y1, x2:x2, y2:y2});
   });
+
+  let img_x = 0;
+  let img_y = 0;
+  $("#v_img").on("mousemove", (evt) => {
+    let rect = evt.target.getBoundingClientRect();
+
+    x = Math.floor(evt.clientX - rect.left);
+    y = Math.floor(evt.clientY - rect.top);
+    w = Math.floor(rect.right - rect.left);
+    h = Math.floor(rect.bottom - rect.top);
+    cx = Math.floor((640 * x) / w);
+    cy = Math.floor((480 * y) / h);
+
+    cx = cx<0?0:cx;
+    cx = cx>640?640:cx;
+    cy = cy<0?0:cy;
+    cy = cy>480?480:cy;
+
+    if (Math.abs(img_x - cx) > 10 || Math.abs(img_y - cy) > 10 ) {
+      socket.emit('update_img_pointer', {x:cx, y:cy})
+      img_x = cx;
+      img_y = cy;
+    }
+  });
+
   socket.on("disp_vision", function (data) {
     $("#v_func_type").val(data);
   });
@@ -172,10 +203,10 @@ const getMotions = (socket) => {
     // json 로드
     if ("record" in datas) {
       let res = [];
-      for (name in datas["record"]) {
+      for(name in datas["record"]) {
         res.push(name);
       }
-      $("#motor_record").text(res.join(", "));
+      $('#motor_record').text(res.join(', '));
     }
 
     // 테이블 로드
@@ -244,6 +275,33 @@ const getMotions = (socket) => {
         );
       }
     }
+  });
+
+  $("#export_motion_bt").on("click", function() {
+    let motion_a = document.createElement("a")    
+    if($("#motion_name_val").val() == "") motion_a.setAttribute("href", `/export_motion/all`);
+    else motion_a.setAttribute("href", `/export_motion/${$("#motion_name_val").val()}`);
+    motion_a.click()
+  });
+
+  $("#v_import_motion").on("change", (e) => {
+    let formData = new FormData();
+    formData.append("data", $("#v_import_motion")[0].files[0]);
+    $("#v_import_motion").val("");
+    $.ajax({
+      url: `/import_motion`,
+      type: "post",
+      data: formData,
+      contentType: false,
+      processData: false,
+    }).always((xhr, status) => {
+      if (status == "success") {
+        alert(translations["file_ok"][lang]);
+      } else {
+        alert(`${translations["file_error"][lang]}\n >> ${xhr.responseJSON["result"]}`);
+        $("#v_import_motion").val("");
+      }
+    });
   });
 
   // 테이블 초기화
@@ -1383,7 +1441,7 @@ const getSimulations = (socket) => {
       simSocket("sim_stop_items");
     });
     playBtn.off("click").on("click", () => {
-      simSocket("sim_play_items", selectFileContents);
+      simSocket("sim_play_items",selectFileContents);
       /* const icon = playBtn.children("i");
       if (icon.hasClass("fa-play")) {
         playBtn.text(" 정지");
@@ -2394,7 +2452,7 @@ $(function () {
       socket.emit("onoff", sel);
     });
 
-    $("#showWifi").on("click", ()=>{
+    $("#showNetwork").on("click", ()=>{
       document.getElementById("usedataPopup").style.display = "none";
 
       $("#wifi_list > tbody").empty();
@@ -2470,8 +2528,8 @@ $(function () {
       $("#s_runtime").text(`${Math.floor(data[2] / 3600)} hours`);
       $("#s_cpu_temp").text(data[3]);
       $("#s_memory").text(`${Math.floor(data[5]/data[4]/4*100)} %`);
-      $("#s_network").text(`${data[6]}/${data[7].replace("\n", "")}`);
-      $("#wifi_info").text(`${data[6]}/${data[7].replace("\n", "")}`);
+      $("#s_network").html(`<i class="fas fa-network-wired"></i> ${data[8]}, <i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}`);
+      $("#network_info").html(`<i class="fas fa-network-wired"></i> ${data[8]}, <i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}`);
     });
 
     $.ajax({

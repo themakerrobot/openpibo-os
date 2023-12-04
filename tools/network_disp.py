@@ -1,11 +1,17 @@
 def run():
   try:
-    import subprocess
+    import os
     from openpibo.oled import Oled
 
-    v = subprocess.check_output(["/home/pi/openpibo-os/system/get_network.sh"]).decode('utf-8').strip('\n').split(',')
+    v = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
     o = Oled()
-    wip, ssid, sn = v[2] if v[0] == "" else v[0], v[3] if v[1] == "" else v[1], v[4]
+    if v[8] != "" and v[8][0:3] != "169":
+      wip, ssid, sn = v[8], "", v[0][-8:]
+    elif v[6] != "" and v[6][0:3] != "169":
+      wip, ssid, sn = v[6], v[7], v[0][-8:]
+    else:
+      wip, ssid, sn = "", "", v[0][-8:]
+
     o.set_font(size=13)
     o.draw_text((0, 5), f'SN: {sn}')
     o.draw_text((0,25), f'I P: {wip.strip()}')

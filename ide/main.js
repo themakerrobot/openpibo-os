@@ -8,6 +8,7 @@ const execSync = require('child_process').execSync;
 const spawn = require('child_process').spawn;
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
 const port = process.argc > 2 ? Number(process.argv[2]):50000;
 const codeExec = {
   python: 'python3',
@@ -211,7 +212,7 @@ app.post('/show', upload_for_home.single('data'), (req, res) => {
 io.on('connection', (socket) => {
   socket.on('init', () => {
     try {
-      io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+      io.emit('system', execSync('/home/pi/openpibo-os/system/system.sh').toString().replaceAll('\n','').split(','));
     }
     catch (err) {
       console.log(err);
@@ -417,10 +418,26 @@ io.on('connection', (socket) => {
 
 setInterval(() => {
   try {
-    io.emit('system', execSync('/home/pi/openpibo-os/ide/system.sh').toString().split(','));
+    io.emit('system', execSync('/home/pi/openpibo-os/system/system.sh').toString().replaceAll('\n','').split(','));
   }
   catch (err) {
     console.log(err);
     io.emit('update', {dialog:'초기화: 시스템 파일 오류입니다.'});
+  }
+
+  try {
+    io.emit('update_battery', execSync('curl -s "http://0.0.0.0/device/%2315%3A%21"').toString().replaceAll('"', '').split(':')[1]);
+  }
+  catch (err) {
+    console.log(err);
+    io.emit('update', {dialog:'초기화: 배터리체크 오류입니다.'});
+  }
+
+  try {
+    io.emit('update_dc', execSync('curl -s "http://0.0.0.0/device/%2314%3A%21"').toString().replaceAll('"', '').split(':')[1]);
+  }
+  catch (err) {
+    console.log(err);
+    io.emit('update', {dialog:'초기화: DC 체크 오류입니다.'});
   }
 }, 10000);

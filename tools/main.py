@@ -24,6 +24,7 @@ try:
 except Exception as ex:
   logger.error(f'Server Error:{ex}')
 
+# REST API
 @app.get('/', response_class=HTMLResponse)
 async def f(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
@@ -97,9 +98,8 @@ async def f():
 @app.get('/wifi')
 async def f():
   with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
-      tmp = f.readlines()
-  ipaddress = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')[6]
-  return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1] if 'psk' in tmp[5] else "", 'ipaddress':ipaddress}, status_code=200)
+    tmp = f.readlines()
+  return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1] if 'psk' in tmp[5] else "", 'ipaddress':pibo.system_status[6], 'eth1': pibo.system_status[8]}, status_code=200)
 
 @app.post('/wifi')
 async def f(data: dict = Body(...)):
@@ -120,8 +120,8 @@ async def f(data: dict = Body(...)):
 
   with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
     f.write(tmp)
-  #os.system('wpa_cli -i wlan0 reconfigure')
-  os.system("shutdown -r now")
+  os.system('wpa_cli -i wlan0 reconfigure')
+  #os.system("shutdown -r now")
 
 @app.get('/device/{pkt}')
 async def f(pkt="#40:!"):
@@ -134,6 +134,57 @@ async def f(pkt="#40:!"):
         return JSONResponse(content=devcon.send_raw(pkt), status_code=200)
   except Exception as ex:
     return JSONResponse(content=f"Error: {str(ex)}", status_code=500)
+
+@app.post('/import_motion')
+async def f(data:UploadFile = File(...)):
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
+
+  data.filename = "custom_motion.json"
+
+  with open(f"/home/pi/{data.filename}", 'wb') as f:
+    content = await data.read()
+    f.write(content)
+
+  try:
+    with open(f'/home/pi/{data.filename}', 'rb') as f:
+      content = json.load(f)
+  except Exception as ex:
+    logger.error(f'[import_motion] Error: {ex}')
+    pass
+
+  pibo.motion_j.update(content)
+  with open('/home/pi/mymotion.json', 'w') as f:
+    json.dump(pibo.motion_j, f)
+  shutil.chown('/home/pi/mymotion.json', 'pi', 'pi')
+
+  try:
+    await emit('disp_motion', {'record':pibo.motion_j})
+    return JSONResponse(content={"filename":data.filename}, status_code=200)
+  except Exception as ex:
+    return JSONResponse(content={'result':'파일에 문제가 있습니다.'}, status_code=500)
+
+@app.get('/export_motion/{name}', response_class=FileResponse)
+async def f(name="all"):
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
+
+  try:
+    with open('/home/pi/mymotion.json', 'rb') as f:
+      tmp = json.load(f)
+  except Exception as ex:
+    logger.error(f'[motion_start] Error: {ex}')
+    pass
+
+  if name == "all":
+    j = tmp  
+  else:
+    j = dict()
+    j[name] = tmp[name]
+  with open('/home/pi/a.json', 'w') as f:
+    json.dump(j, f)
+  shutil.chown('/home/pi/a.json', 'pi', 'pi')
+  return FileResponse(path="/home/pi/a.json", media_type="application/json", filename=f"{name}.json")
 
 @app.get('/download_img', response_class=FileResponse)
 async def f():
@@ -192,6 +243,24 @@ async def f(directory="myaudio", data:UploadFile = File(...)):
     f.write(content)
   return JSONResponse(content={"filename":data.filename}, status_code=200)
 
+@app.post('/upload_csv')
+async def f(data:UploadFile = File(...)):
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
+
+  data.filename = "mychat.csv"
+  filepath = f"/home/pi/{data.filename}"
+  with open(filepath, 'wb') as f:
+    content = await data.read()
+    f.write(content)
+
+  res = pibo.load_csv(filepath)
+  os.remove(filepath)
+  if res:
+    return JSONResponse(content={}, status_code=200)
+  else:
+    return JSONResponse(content={'result':'csv 파일 에러'}, status_code=500)
+
 ## socktio
 # vision
 @app.sio.on('disp_vision')
@@ -203,6 +272,17 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   if pibo.onoff:
     pibo.vision_type=d
+
+@app.sio.on('object_track_init')
+async def f(sid, d=None):
+  if pibo.onoff:
+    if pibo.vision_type == "track":
+      pibo.object_track_init(d)
+
+@app.sio.on('update_img_pointer')
+async def f(sid, d=None):
+  if pibo.onoff:
+    pibo.imgX, pibo.imgY = d['x'], d['y']
 
 # device
 @app.sio.on('set_neopixel')
@@ -268,24 +348,6 @@ async def f(sid, d=None):
 async def f(sid, d=None):
   if pibo.onoff:
     await emit('disp_speech', {'chat_list':list(reversed(pibo.chat_list))})
-
-@app.post('/upload_csv')
-async def f(data:UploadFile = File(...)):
-  if pibo.onoff == False:
-    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
-
-  data.filename = "mychat.csv"
-  filepath = f"/home/pi/{data.filename}"
-  with open(filepath, 'wb') as f:
-    content = await data.read()
-    f.write(content)
-
-  res = pibo.load_csv(filepath)
-  os.remove(filepath)
-  if res:
-    return JSONResponse(content={}, status_code=200)
-  else:
-    return JSONResponse(content={'result':'csv 파일 에러'}, status_code=500)
 
 @app.sio.on('reset_csv')
 async def f(sid, d=None):
@@ -563,7 +625,7 @@ async def f(sid, d=None):
       os.system(f'rm -rf "/home/pi/{item}"')
     if item[0] == '.' or item in ['node_modules', 'package.json', 'package-lock.json', 'openpibo-os', 'openpibo-files']:
       continue
-    if item in ['code', 'myimage', 'myaudio']:
+    if item in ['code', 'myimage', 'myaudio', 'mymodel', 'mymotion']:
       os.system(f'rm -rf "/home/pi/{item}/"*')
     else:
       os.system(f'rm -rf "/home/pi/{item}"')

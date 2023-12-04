@@ -8,10 +8,9 @@
     <meta name="mobile-web-app-capable" content="yes" />
 
     <!-- <link rel="manifest" href="../static/manifest.json" /> -->
-    <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
     <link rel="stylesheet" href="../static/all.min.css?ver=20230726v1" type="text/css" />
     <link rel="stylesheet" href="../static/jquery.jsonview.min.css" />
-    <link rel="stylesheet" href="../static/index.css?ver=20231124v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=20231128v2" />
     <link rel="stylesheet" href="../static/simulator.css?ver=20230726v1" />
     <link rel="shortcut icon" href="../static/icon.png" type="image/x-icon" />
 
@@ -72,7 +71,7 @@
             <div style="float:right"><a id="hidewifi"><i class="fa-solid fa-rectangle-xmark"></i></a></div>
           </h3>
           <h3>&nbsp;</h3>
-          <i class="fa-solid fa-house-signal"></i>&nbsp;<span id="wifi_info"></span>
+          <span id="network_info"></span>
           <br>
 
           <table style="width:100%">
@@ -478,7 +477,7 @@
                       <option value="/home/pi/openpibo-files/image/transport" data-key="transport"></option>
                       <option value="/home/pi/openpibo-files/image/weather" data-key="weather"></option>
                       <option value="/home/pi/openpibo-files/image/etc" data-key="etc"></option>
-                      <option value="/home/pi/openpibo-files/imabe/sample" data-key="sample"></option>
+                      <option value="/home/pi/openpibo-files/image/sample" data-key="sample"></option>
                       <option value="/home/pi/myimage" data-key="myimage"></option>
                     </select>
                     <select id="oledfiles" name="oledfiles">
@@ -816,24 +815,12 @@
                   </table>
                 </div>
                 <div class="motion-name-wrap">
-                  <select>
-                    <option>모션파일선택</option>
-                  </select>
-                  <select>
-                    <option>모션선택</option>
-                  </select>
-                  <input type="text" placeholder="모션이름"/ >
-                  <button>추가/수정</button>
-                  <button>삭제</button>
-                  <i class="fa-solid fa-ellipsis-vertical"></i>
-                  <button>모션파일삭제</button>
-                </div>
-                <!-- <div class="motion-name-wrap">
                   <span data-key="motion_name"></span>:
                   <input
                     type="text"
                     name="motion_name_val"
                     id="motion_name_val"
+                    style="width:178px"
                   />
                   <button id="add_motion_bt" class="btn-red">
                     <i class="fa-solid fa-check-double"></i>
@@ -852,6 +839,18 @@
                     <i class="fa-solid fa-trash-can"></i>
                     <span data-key="remove_all"></span>
                   </button>
+                  <i class="fa-solid fa-ellipsis-vertical"></i>
+                  <button id="export_motion_bt">
+                    <i class="fas fa-file-export"></i>
+                    <span data-key="export"></span>
+                  </button>
+                  <label for="v_import_motion"><i class="fas fa-file-import"></i>&nbsp;</i><span data-key="import"></span></label>      
+                  <div class="filebox">
+                    <form>
+                      <input type="file" id="v_import_motion" accept=".json" />
+                    </form>
+                  </div>
+
                 </div>
                 <div class="motion-path">
                   <input type="text" id="motion-path-disabled" value="/home/pi/mymotion.json" disabled />
@@ -864,7 +863,7 @@
                   ></textarea>
                   <span data-key="example"></span>:
                   <b><span id="motion_samples"></span></b>
-                </div> -->
+                </div>
               </div>
             </section>
           </article>
@@ -882,13 +881,6 @@
                 </div>
               </div>
               <img id="v_img" />
-              <!-- <div>
-                <header data-key="camera"></header>
-                <button id="v_capture">
-                  <i class="fa-solid fa-camera-retro"></i>
-                  <span data-key="save_image"></span>
-                </button>
-              </div> -->
               <div>
                 <header><span data-key="camera_position"></span> <i class="fa-solid fa-location-crosshairs">&nbsp;<span id="v_location"></span></i></header>
                 <div style="display: flex; align-items: center; justify-content: center;">
@@ -933,6 +925,7 @@
                   <option value="classify" data-key="v_classify"></option>
                   <option value="pose" data-key="v_pose"></option>
                   <option value="tm" data-key="v_tm"></option>
+                  <option value="track" data-key="v_track"></option>
                 </select>
               </div>
               <div>
@@ -945,40 +938,7 @@
                   </form>
                 </div>
               </div>
-              <!-- <div>
-                <header data-key="camera"></header>
-                <button id="v_capture">
-                  <i class="fa-solid fa-camera-retro"></i>
-                  <span data-key="save_image"></span>
-                </button>
-              </div>
-              <div>
-                <header><span data-key="camera_position"></span> <i class="fa-solid fa-location-crosshairs">&nbsp;<span id="v_location"></span></i></header>
-                <div style="display: flex; align-items: center; justify-content: center;">
-                  <a id="v_pan_reset"><i class="fa-solid fa-arrows-left-right"></i></a>
-                  <input
-                    type="range"
-                    name="v_pan_range"
-                    id="v_pan_range"
-                    min="-50"
-                    max="50"
-                    style="width:50%;"
-                  />
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <a id="v_tilt_reset"><i class="fa-solid fa-arrows-up-down"></i></a>
-                  <input
-                    type="range"
-                    name="v_tilt_range"
-                    id="v_tilt_range"
-                    min="-25"
-                    max="25"
-                    style="width:50%;"
-                  />
-                </div>
-              </div> -->
               <h3 class="mark" data-key="v_result"></h3>
-              <!-- <div> -->
-                <!-- <textarea id="v_result"></textarea> -->
                 <textarea
                 name="v_result"
                 id="v_result"
@@ -987,7 +947,6 @@
                 style="width:100%"
                 disabled
               ></textarea>
-              <!-- </div> -->
             </section>
           </article>
           <article id="article_speech">
@@ -1510,8 +1469,7 @@
       <a id="usedata_bt"><i class="fa-solid fa-tags"></i><span id="s_serial"></span></a>
     </div>
     <div style="float: right; padding: 0.7rem 0 0.7rem 0">
-      <a id="showWifi">
-        <i class="fa-solid fa-wifi"></i>
+      <a id="showNetwork">
         <span id="s_network"></span>
       </a>,
       <i class="fa-solid fa-temperature-empty"></i>
@@ -1523,6 +1481,6 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/ko2en.js?ver=20231124v1"></script>
-  <script src="../static/index.js?ver=20231123v1"></script>
+  <script src="../static/ko2en.js?ver=20231128v2"></script>
+  <script src="../static/index.js?ver=20231128v7"></script>
 </html>

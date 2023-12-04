@@ -11,7 +11,7 @@ import numpy as np
 
 import time,datetime
 import base64
-import cv2
+import cv2,dlib
 import os,json,shutil,csv
 import network_disp
 from PIL import Image,ImageDraw,ImageFont,ImageOps
@@ -26,20 +26,46 @@ def to_base64(im):
 
 class Pibo:
   def __init__(self, emit_func=None, logger=None):
+    self.logger = logger
+    self.logger.info(f'[__init__]: Class INIT')
     self.emit = emit_func
     self.onoff = False
     self.logger = logger
     self.vision_sleep = True
     self.wifi_info = None
     self.mymodel_path = "/home/pi/mymodel"
-    Timer(0, self.async_system_report).start()
+    self.trackX, self.trackY = 0,0
+    self.tracker = None
+    self.imgX, self.imgY = 0,0
+    self.ole = Oled()
+    self.aud = Audio()
+    self.mot = Motion()
+    self.speech = Speech()
+    self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
+    self.boot()
+
+  ## boot
+  def boot(self):
+    self.logger.info(f'[boot]: Boot INIT')
+    self.ole.draw_image("/home/pi/openpibo-os/system/pibo.jpg")
+    self.ole.show()
+    for i in range(1,10):
+      if (self.system_status[6] != '' and self.system_status[6][0:3] != '169') or (self.system_status[8] != '' and self.system_status[8][0:3] != '169'):
+        os.system("systemctl stop hostapd;wpa_cli -i wlan0 reconfigure")
+        break
+      self.ole.draw_image("/home/pi/openpibo-os/system/pibo.jpg")
+      self.ole.draw_text((5,5), "˚".join(["" for _ in range(i+1)]))
+      self.ole.show()
+      time.sleep(2.5)
+    Timer(10, self.async_system_report).start()
 
   ## system
   def async_system_report(self):
-    self.system_status = os.popen('/home/pi/openpibo-os/tools/system.sh').read().split(',')
-    if self.wifi_info != self.system_status[6:8]:
+    self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
+    if self.wifi_info != self.system_status[6:9]:
+      self.logger.info(f'[async_system_report]: Network Change')
       network_disp.run()
-    self.wifi_info = self.system_status[6:8]
+    self.wifi_info = self.system_status[6:9]
     asyncio.run(self.emit('system', self.system_status, callback=None))
     _ = Timer(10, self.async_system_report)
     _.daemon = True
@@ -70,7 +96,7 @@ class Pibo:
     del self.cam, self.fac, self.det
 
   def vision_loop(self):
-    self.cam.cap.set(cv2.CAP_PROP_FPS, 5)
+    self.cam.cap.set(cv2.CAP_PROP_FPS, 10)
     while self.vision_flag == True:
       if self.vision_sleep == True:
         time.sleep(1)
@@ -100,13 +126,18 @@ class Pibo:
           img, res = self.detailEnhance()
         elif self.vision_type == "tm":
           img, res = self.tm_classify()
+        elif self.vision_type == "track":
+          img, res = self.object_track()
         else:
           img, res = self.frame, ""
+        
+        
       except Exception as ex:
         self.logger.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
 
       self.res_img = img.copy()
+      self.cam.rectangle(img, (self.imgX,self.imgY), (self.imgX,self.imgY),(0,0,0),10)
       asyncio.run(self.emit('stream', {'img':to_base64(img), 'data':res}, callback=None))
 
   def cartoon(self):
@@ -218,16 +249,38 @@ class Pibo:
     im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     return im, ", ".join(r)
 
+  def object_track_init(self, d):
+    im = self.frame.copy()
+    if self.tracker is not None:
+      del self.tracker
+
+    self.tracker = dlib.correlation_tracker()
+    rect = dlib.rectangle(d['x1'], d['y1'], d['x2'], d['y2'])
+    self.tracker.start_track(cv2.cvtColor(im, cv2.COLOR_BGR2RGB), rect)
+
+  def object_track(self):
+    im = self.frame.copy()
+    colors = (100,0,200)
+
+    if self.tracker is not None:
+      self.tracker.update(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
+      pos = self.tracker.get_position()
+      
+      x1 = int(pos.left())
+      y1 = int(pos.top())
+      x2 = int(pos.right())
+      y2 = int(pos.bottom())
+      self.cam.rectangle(im, (x1,y1), (x2,y2),colors,3)
+    return im, ""
+
   def imwrite(self, name):
     self.cam.imwrite(name, self.res_img.copy())
 
   ## device
   def device_start(self):
+    self.dev = Device()
     self.devque = Queue()
     self.device_flag = True
-    self.dev = Device()
-    self.ole = Oled()
-    self.aud = Audio()
     self.system_value = ['','','','','','']
     self.battery = '0%'
     
@@ -246,7 +299,7 @@ class Pibo:
     self.device_flag = False
     self.system_value = ['','','','','','']
     self.battery = '0%'
-    del self.dev, self.ole
+    del self.dev
 
   def send_message(self, code, data=""):
     self.devque.put(f'#{code}:{data}!')
@@ -353,11 +406,10 @@ class Pibo:
   def chatbot_start(self):
     self.chat_list = []
     self.dialog = Dialog()
-    self.speech = Speech()
 
   def chatbot_stop(self):
     self.chat_list = []
-    del self.dialog, self.speech
+    del self.dialog
 
   def load_csv(self, d):
     with open(d, 'r', encoding='utf-8') as f:
@@ -405,7 +457,6 @@ class Pibo:
     self.motion_d = [0, 0, -80, 0, 0, 0, 0, 0, 80, 0] # current d value
     self.motion_p = [] # current pos list value
     self.motion_j = {} # current json value
-    self.mot = Motion()
     self.mot.set_motors(self.motion_d, movetime=1000)
 
     try:
@@ -421,7 +472,6 @@ class Pibo:
     self.motion_p = [] # current pos list value
     self.motion_j = {} # current json value
     self.mot.set_motors(self.motion_d, movetime=1000)
-    del self.mot
 
   def make_raw(self):
     if len(self.motion_p) == 0:

@@ -685,8 +685,8 @@ label.label {
 }
 
 .motion-table-wrap {
-  /* height: 520px; */
-  height: 680px;
+  height: 500px;
+  /* height: 680px; */
   overflow-y: scroll;
   margin: 0.5em 0;
   border: 1px solid var(--light-green);
@@ -856,6 +856,50 @@ i.fa > span {
   border: 0;
   position:absolute;
 }
+
+label[for=v_import_motion] {
+  font-family: "Noto Sans Regular", sans-serif;
+  font-size:1.2rem;
+  font-weight: 100;
+  padding: 0.5rem 1rem;
+  outline: none;
+  background-color: var(--yellow);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px var(--mid-gray);
+}
+
+label[for=v_import_motion]:hover {
+  font-weight: bold;
+  background-color: var(--dark-yellow);
+}
+
+label[for=v_import_motion]:active {
+  background-color: var(--dark-yellow);
+  box-shadow: 0 2px var(--mid-gray);
+  position: relative;
+  top:2px;
+}
+.filebox input[type="file"] {
+  width: 0px;
+  height: 0px;
+  padding: 0;
+  overflow: hidden;
+  margin: -1px;
+  border: 0;
+  position:absolute;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .wifi-popup,
 .usedata-popup {

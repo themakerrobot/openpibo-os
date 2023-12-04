@@ -399,6 +399,10 @@ const translations = {
     ko: "티쳐블머신 모델",
     en: "Teachable machine Model"
   },
+  v_track: {
+    ko: "사물 트래킹",
+    en: "Object tracking"
+  },
   save_image: {
     ko: "사진저장하기",
     en: "Save image"
@@ -741,6 +745,14 @@ const translations = {
     ko: "모션을 선택하세요.",
     en: "Choose an motion."
   },
+  import: {
+    ko: "가져오기",
+    en: "Import the motion."
+  },
+  export: {
+    ko: "내보내기",
+    en: "Export the motion."
+  }
 };
 
 const setLanguage = (lang) => {
