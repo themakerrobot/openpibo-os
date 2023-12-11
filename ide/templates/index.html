@@ -8,7 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
 
     <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
-    <link rel="stylesheet" href="../static/index.css?ver=231023v1" />
+    <link rel="stylesheet" href="../static/index.css?ver=231023v3" />
     <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
     <link rel="stylesheet" href="../static/codemirror.css" />
     <link rel="stylesheet" href="../static/cobalt.css" />
@@ -17,9 +17,9 @@
     <link rel="shortcut icon" href="../static/icon.png?ver=221218" type="image/x-icon" />
 
     <script src="../static/ko2en.js?ver=230726v1"></script>
-    <script src="../static/blockly_compressed.js?ver=230726v1"></script>
-    <script src="../static/python_compressed.js?ver=230726v1"></script>
-    <script src="../static/blocks_compressed.js?ver=230726v1"></script>
+    <script src="../static/blockly_compressed.js?ver=230726v2"></script>
+    <script src="../static/blocks_compressed.js?ver=230726v2"></script>
+    <script src="../static/python_compressed.js?ver=230726v2"></script>
     <script src="../static/customblock.js?ver=231124v1"></script>
     <script src="../static/customblock_callback.js?ver=231124v1"></script>
     <script src="../static/customblock_toolbox.js?ver=231124v1"></script>
@@ -126,11 +126,11 @@
                   <input type="file" id="upload" multiple>
                 </form>
               </div>
-              <button id="add_directory" style="background-color:#dcb9b2">
+              <button id="add_directory" style="background-color:#dcb9b2;width:80px;">
                 <i class="fa-solid fa-folder-plus"></i>&nbsp;
                 <span data-key="add_directory"></span>
               </button>
-              <button id="add_file">
+              <button id="add_file" style="width:80px;">
                 <i class="fa-solid fa-file-circle-plus"></i>&nbsp;
                 <span data-key="add_file"></span>
               </button>
@@ -174,15 +174,15 @@
               <!-- <i class="fa fa-solid fa-laptop-code"> </i> -->
               <div name="codetype">
                 <button name="block">
-                  <i class="fa-solid fa-cube"></i>&nbsp;
+                  <i class="fa-solid fa-cube"></i>
                   <span data-key="block"></span>
                 </button>
                 <button name="python">
-                  <i class="fa-brands fa-python"></i>&nbsp;
+                  <i class="fa-brands fa-python"></i>
                   <span data-key="python"></span>
                 </button>
                 <button name="shell">
-                  <i class="fa-solid fa-terminal"></i>&nbsp;
+                  <i class="fa-solid fa-terminal"></i>
                   <span data-key="shell"></span>
                 </button>
               </div>
@@ -193,25 +193,24 @@
               <i class="fa-solid fa-text-height">
                 <input type="number" id="fontsize" min="5" max="50" value="14" step="1" pattern="\d*" />
               </i>
-              <button id="execute" class="btn-teal" style="width:86px;">
-                <i class="fa-solid fa-flag"></i>&nbsp;<span data-key="execute"></span>
+              <button id="execute" class="btn-teal">
+                <i class="fa-solid fa-flag"></i><span data-key="execute"></span>
               </button>
-              <button id="stop" class="btn-red disabled" style="width:86px;">
-                <i class="fa-solid fa-circle"></i>&nbsp;<span data-key="stop"></span>
+              <button id="stop" class="btn-red disabled">
+                <i class="fa-solid fa-circle"></i><span data-key="stop"></span>
               </button>
-              <button id="save" class="btn" style="width:86px;">
-                <i class="fa-solid fa-save"></i>&nbsp;
+              <button id="save" class="btn">
+                <i class="fa-solid fa-save"></i>
                 <span data-key="save"></span>
               </button>
               <i class="fa-solid fa-circle-half-stroke"></i>
               <input type="checkbox" id="theme_check" name="theme_check" checked />
-              <!-- <i class="fa-solid fa-arrows-left-right-to-line"></i> -->
               <i class="fa-solid fa-arrows-left-right-to-line"></i>
               <input type="checkbox" id="result_check" name="result_check" />
             </div>
           </div>
 
-          <div class="filepath" style="width:700px">
+          <div class="filepath">
             <i class="fa-solid fa-folder-open"></i><span id="codepath"></span>
           </div>
 
@@ -239,7 +238,7 @@
               <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" /> -->
             </div>
           </div>
-          <div class="filepath" style="width:400px">
+          <div class="filepath">
             <i class="fa-solid fa-folder-open"></i><span id="respath"></span>
           </div>
 
@@ -272,6 +271,6 @@
         <span id="d_dc_val"></span>
       </div>
     </footer>
-    <script src="../static/index.js?ver=230829v6"></script>
+    <script src="../static/index.js?ver=230829v15"></script>
   </body>
 </html>

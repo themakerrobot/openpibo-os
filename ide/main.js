@@ -26,7 +26,7 @@ const protectList = [
 
 let record = '';
 let ps = undefined;
-let PATH = '/home/pi';
+let PATH = '/home/pi/code';
 let codeText = '';
 let codePath = '';
 

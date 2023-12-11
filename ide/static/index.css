@@ -54,8 +54,8 @@ header {
     width: calc(100vw - 35px);
   }
   .CodeMirror, .blocklyDiv {
-    min-width: 700px;
-    width: calc(100vw - 35px);
+    /* min-width: 700px; */
+    width: calc(100vw - 370px);
   }
 }
 @media (min-width: 1130px) {
@@ -183,6 +183,7 @@ main {
 button {
   font-family: "Noto Sans Regular", sans-serif;
   font-size:1.2rem;
+  width:80px;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--yellow);
@@ -334,7 +335,7 @@ div[name="codetype"] > button {
   box-shadow: none;
   color: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
-  width: 80px;
+  width: 77px;
 }
 
 i.fa > span {
@@ -470,7 +471,7 @@ audio.preview-audio {
 .usedata-popup {
   display: none;
   position: fixed;
-  z-index: 59;
+  z-index: 10010;
   left: 0;
   top: 0;
   width: 100%;

@@ -625,7 +625,7 @@ async def f(sid, d=None):
       os.system(f'rm -rf "/home/pi/{item}"')
     if item[0] == '.' or item in ['node_modules', 'package.json', 'package-lock.json', 'openpibo-os', 'openpibo-files']:
       continue
-    if item in ['code', 'myimage', 'myaudio', 'mymodel', 'mymotion']:
+    if item in ['code', 'myimage', 'myaudio', 'mymodel']:
       os.system(f'rm -rf "/home/pi/{item}/"*')
     else:
       os.system(f'rm -rf "/home/pi/{item}"')

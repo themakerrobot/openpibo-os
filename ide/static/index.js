@@ -541,10 +541,9 @@ $("#eraser").on("click", () => {
 window.dispatchEvent(new Event('onresize'));
 window.onresize = () => {
   if ($("#result_check").is(":checked") == false) {
-
     if (window.innerWidth < 1130) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 35px)';
-      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 35px)';
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 370px)';
     }
     else if (window.innerWidth >= 1130 && window.innerWidth < 1530) {
       document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
@@ -557,8 +556,8 @@ window.onresize = () => {
   }
   else {
     if (window.innerWidth < 1130) {
-      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 35px)';
-      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 35px)';
+      document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';
+      document.querySelector("#blocklyDiv").style.width = 'calc(100vw - 370px)';
     }
     else if (window.innerWidth >= 1130 && window.innerWidth < 1530) {
       document.querySelector("div.CodeMirror").style.width = 'calc(100vw - 370px)';

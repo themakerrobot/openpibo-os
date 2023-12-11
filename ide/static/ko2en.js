@@ -117,7 +117,7 @@ const translations = {
 
   execute: {
     ko: "실행",
-    en: "Execute"
+    en: "Run"
   },
   stop: {
     ko: "정지",
