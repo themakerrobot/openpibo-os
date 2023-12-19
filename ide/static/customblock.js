@@ -1450,8 +1450,7 @@ Blockly.defineBlocksWithJsonArray(
         {"type": "input_value", "name": "img", "check":"Array"},
         {"type": "field_dropdown", "name":"type",
           "options":[
-            [ '%{BKY_VISION_CARTOON}', 'cartoon' ],
-            [ '%{BKY_VISION_CARTOON_N}', 'cartoon_n'],
+            [ '%{BKY_VISION_CARTOON}', 'cartoon'],
             [ '%{BKY_VISION_DETAIL}', 'detail' ],
             [ '%{BKY_VISION_SKETCH_G}', 'sketch_g'],
             [ '%{BKY_VISION_SKETCH_C}', 'sketch_c']
@@ -1701,18 +1700,52 @@ Blockly.defineBlocksWithJsonArray(
           ]
         },
         {"type": "field_dropdown", "name":"dir",
-        "options":[
-          [ '%{BKY_FOLDER_SELECT}', ''],
-          [ 'code', '/home/pi/code/' ],
-          [ 'myimage', '/home/pi/myimage/' ],
-        ]
-      },
-      {"type": "input_value", "name": "filename", "check":"String"},
+          "options":[
+            [ '%{BKY_FOLDER_SELECT}', ''],
+            [ 'code', '/home/pi/code/' ],
+            [ 'myimage', '/home/pi/myimage/' ],
+          ]
+        },
+        {"type": "input_value", "name": "filename", "check":"String"},
       ],
       output: null,
       inputsInline: true,
       colour: color_type["vision"],
       tooltip: '%{BKY_VISION_CALL_AI_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_call_ai_img',
+      message0: '%{BKY_VISION_CALL_AI_IMG}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/bolt-solid.svg",
+          "width": 15,
+          "height": 20
+        },
+        {
+          "type": "field_image",
+          "src": "svg/brain-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "field_dropdown", "name":"type",
+          "options":[
+            [ '%{BKY_VISION_CAPTION}', 'caption/caption' ],
+            [ '%{BKY_VISION_CAPTION_TAG}', 'caption/caption_tag_e' ],
+            [ '%{BKY_VISION_CAPTION_PLACE}', 'caption/caption_place_e' ],
+            [ '%{BKY_VISION_CAPTION_TIME}', 'caption/caption_time_e' ],
+            [ '%{BKY_VISION_CAPTION_WEATHER}', 'caption/caption_weather_e' ]
+          ]
+        },
+        {"type": "input_value", "name": "img", "check":"Array"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_CALL_AI_IMG_TOOLTIP}',
       helpUrl: ''
     },
     {

@@ -96,11 +96,11 @@ const translations = {
   },
   add_directory: {
     ko: "새폴더",
-    en: "Add directory"
+    en: "new folder"
   },
   add_file: {
     ko: "새파일",
-    en: "Add file"
+    en: "new file"
   },
   python: {
     ko: "파이썬",
@@ -110,11 +110,6 @@ const translations = {
     ko: "블록",
     en: "Block"
   },
-  shell: {
-    ko: "쉘",
-    en: "Shell"
-  },
-
   execute: {
     ko: "실행",
     en: "Run"

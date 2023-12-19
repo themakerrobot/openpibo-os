@@ -439,25 +439,6 @@ Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 Blockly.Msg["FOLDER_SELECT"] = "Select folder";
 Blockly.Msg["FILE_SELECT"] = "Select file";
 Blockly.Msg["MOTION_SELECT"] = "Select motion";
-Blockly.Msg['CODE_PATH'] = "code";
-Blockly.Msg['HOMEPI_PATH'] = "pi"
-
-Blockly.Msg['MYAUDIO_PATH'] = "myaudio";
-Blockly.Msg['A_ANIMAL_PATH'] = "animal";
-Blockly.Msg['A_EFFECT_PATH'] = "effect";
-Blockly.Msg['A_MUSIC_PATH'] = "music";
-Blockly.Msg['A_VOICE_PATH'] = "voice";
-Blockly.Msg['A_PIANO_PATH'] = "piano";
-
-Blockly.Msg['MYIMAEG_PATH'] = "myimage";
-Blockly.Msg['I_ICON_PATH'] = "icon";
-Blockly.Msg['I_EXPRESSION_PATH'] = "expression";
-Blockly.Msg['I_GAME_PATH'] = "game";
-Blockly.Msg['I_RECYCLE_PATH'] = "recyle";
-Blockly.Msg['I_WEATHER_PATH'] = "weather";
-Blockly.Msg['I_IMAGE_PATH'] = "image";
-
-Blockly.Msg['MYMODEL_PATH'] = "model";
 
 Blockly.Msg['LANG_KO'] = "korean";
 Blockly.Msg['LANG_EN'] = "english";
@@ -642,9 +623,10 @@ Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 Classify image %3 using Teachable Mach
 Blockly.Msg["VISION_PREDICT_TM_TOOLTIP"] = "Use a Teachable Machine model to classify the image.";
 Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 Analyze image file %5 %6 using AI %4";
 Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
+Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 Analyze image variable %5 using AI %4";
+Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
 
 Blockly.Msg["VISION_CARTOON"] = 'cartoon';
-Blockly.Msg["VISION_CARTOON_N"] =  'cartoon(high quality)';
 Blockly.Msg["VISION_DETAIL"] = 'detail';
 Blockly.Msg["VISION_SKETCH_G"] = 'sketch(grayscale)';
 Blockly.Msg["VISION_SKETCH_C"] = 'sketch(color)';

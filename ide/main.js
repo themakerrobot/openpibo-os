@@ -131,12 +131,6 @@ let upload = multer({ storage: storage });
 let upload_for_home = multer({ storage: storage_for_home});
 
 server.listen(port, () => {
-  try {
-    execSync('v4l2-ctl -c vertical_flip=1,horizontal_flip=1,white_balance_auto_preset=3');
-  }
-  catch (err) {
-    console.log(err);
-  }
   console.log('Server Start: ', port);
 });
 
@@ -421,7 +415,6 @@ setInterval(() => {
     io.emit('system', execSync('/home/pi/openpibo-os/system/system.sh').toString().replaceAll('\n','').split(','));
   }
   catch (err) {
-    console.log(err);
     io.emit('update', {dialog:'초기화: 시스템 파일 오류입니다.'});
   }
 
@@ -429,15 +422,13 @@ setInterval(() => {
     io.emit('update_battery', execSync('curl -s "http://0.0.0.0/device/%2315%3A%21"').toString().replaceAll('"', '').split(':')[1]);
   }
   catch (err) {
-    console.log(err);
-    io.emit('update', {dialog:'초기화: 배터리체크 오류입니다.'});
+    //io.emit('update', {dialog:'초기화: 배터리체크 오류입니다.'});
   }
 
   try {
     io.emit('update_dc', execSync('curl -s "http://0.0.0.0/device/%2314%3A%21"').toString().replaceAll('"', '').split(':')[1]);
   }
   catch (err) {
-    console.log(err);
-    io.emit('update', {dialog:'초기화: DC 체크 오류입니다.'});
+    //io.emit('update', {dialog:'초기화: DC 체크 오류입니다.'});
   }
 }, 10000);

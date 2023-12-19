@@ -53,6 +53,9 @@ header {
     min-width: 700px;
     width: calc(100vw - 35px);
   }
+  #prompt {
+    width: calc(100vw - 150px);
+  }
   .CodeMirror, .blocklyDiv {
     /* min-width: 700px; */
     width: calc(100vw - 370px);
@@ -62,6 +65,9 @@ header {
   .result, .terminal {
     width: calc(100vw - 35px);
   }
+  #prompt {
+    width: calc(100vw - 150px);
+  }
   .CodeMirror, .blocklyDiv {
     width: calc(100vw - 370px);
   }
@@ -69,6 +75,9 @@ header {
 @media (min-width: 1530px) {
   .result, .terminal {
     width: calc(40vw - 190px);
+  }
+  #prompt {
+    width: calc(40vw - 325px);
   }
   .CodeMirror, .blocklyDiv  {
     width: calc(60vw - 190px);
@@ -335,7 +344,7 @@ div[name="codetype"] > button {
   box-shadow: none;
   color: rgba(0, 0, 0, 0.5);
   border-radius: 15px;
-  width: 77px;
+  width: 85px;
 }
 
 i.fa > span {
@@ -374,7 +383,7 @@ div[name="codetype"] > button.checked {
 
 label[for=upload] {
   font-family: "Noto Sans Regular", sans-serif;
-  font-size:1.2rem;
+  font-size: 1.2rem;
   padding: 0.5rem 1rem;
   outline: none;
   background-color: var(--teal);
@@ -385,13 +394,14 @@ label[for=upload] {
 
 label[for=upload]:hover {
   background-color: var(--dark-teal);
+  font-weight: bold;
 }
 
 label[for=upload]:active {
   background-color: var(--dark-teal);
   box-shadow: 0 2px var(--mid-gray);
   position: relative;
-  top:2px;
+  top: 2px;
 }
 
 .filebox input[type="file"] {
@@ -431,12 +441,16 @@ audio.preview-audio {
 .blocklyDiv {
   height:calc(100vh - 120px);
   /* display: none; hide the element by default */
-  border-radius: 5px;
+  /* border-radius: 5px; */
+  border-color: white;
 }
 
 /* Makes our label white. */
 .blocklyTreeLabel {
   color: whitesmoke;
+}
+.blocklyToolboxDiv {
+  background-color: #ddd;
 }
 /* Adds padding around the group of categories and separators. */
 /* .blocklyToolboxContents {
@@ -447,7 +461,8 @@ audio.preview-audio {
   padding: 2px;
   margin: 0.1em;
   border-radius: 15px;
-  width:85px;
+  width: 85px;
+  height: initial;
 }
 
 /* Changes color of the icon to white. */
@@ -462,9 +477,6 @@ audio.preview-audio {
   display: flex;
   /* flex-direction: column; */
   align-items: center;
-}
-.blocklyTreeRow {
-  height: initial;
 }
 
 .wifi-popup,

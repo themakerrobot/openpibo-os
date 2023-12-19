@@ -439,25 +439,6 @@ Blockly.Msg["VARIABLES_DYNAMIC_HUE"] = "310";
 Blockly.Msg["FOLDER_SELECT"] = "폴더 선택";
 Blockly.Msg["FILE_SELECT"] = "파일 선택";
 Blockly.Msg["MOTION_SELECT"] = "모션 선택";
-Blockly.Msg['CODE_PATH'] = "코드";
-Blockly.Msg['HOMEPI_PATH'] = "파이"
-
-Blockly.Msg['MYAUDIO_PATH'] = "내오디오";
-Blockly.Msg['A_ANIMAL_PATH'] = "동물소리";
-Blockly.Msg['A_EFFECT_PATH'] = "효과음";
-Blockly.Msg['A_MUSIC_PATH'] = "음악";
-Blockly.Msg['A_VOICE_PATH'] = "목소리";
-Blockly.Msg['A_PIANO_PATH'] = "피아노";
-
-Blockly.Msg['MYIMAGE_PATH'] = "내이미지";
-Blockly.Msg['I_ICON_PATH'] = "아이콘";
-Blockly.Msg['I_EXPRESSION_PATH'] = "표정";
-Blockly.Msg['I_GAME_PATH'] = "가위바위보";
-Blockly.Msg['I_RECYCLE_PATH'] = "재활용";
-Blockly.Msg['I_WEATHER_PATH'] = "날씨";
-Blockly.Msg['I_IMAGE_PATH'] = "기타이미지";
-
-Blockly.Msg['MYMODEL_PATH'] = "내모델";
 
 Blockly.Msg['LANG_KO'] = "한글";
 Blockly.Msg['LANG_EN'] = "영어";
@@ -646,9 +627,10 @@ Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분
 Blockly.Msg["VISION_PREDICT_TM_TOOLTIP"] = "설정된 티처블머신 모델로 이미지를 분류합니다.";
 Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 이미지 파일 %5 %6 의 인공지능 %4 가져오기";
 Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(인터넷!) 인공지능 서버를 활용하여 이미지 파일을 분석합니다. (캡션 관련 기능)";
+Blockly.Msg["VISION_CALL_AI_IMG"] = "%1 %2 %3 이미지 변수 %5 의 인공지능 %4 가져오기";
+Blockly.Msg["VISION_CALL_AI_IMG_TOOLTIP"] = "(인터넷!) 인공지능 서버를 활용하여 이미지 파일을 분석합니다. (캡션 관련 기능)";
 
-Blockly.Msg["VISION_CARTOON"] = '만화(고속)';
-Blockly.Msg["VISION_CARTOON_N"] =  '만화';
+Blockly.Msg["VISION_CARTOON"] = '만화';
 Blockly.Msg["VISION_DETAIL"] = '상세한 이미지';
 Blockly.Msg["VISION_SKETCH_G"] = '스케치(흑백)';
 Blockly.Msg["VISION_SKETCH_C"] = '스케치(컬러)';

@@ -7,8 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from lib import Pibo
 from collections import Counter
-import time,os,json,shutil,log,wifi
-import network_disp
+import time,os,json,shutil,log
 from urllib import parse
 import argparse
 from mcu_control import DeviceControl
@@ -28,100 +27,6 @@ except Exception as ex:
 @app.get('/', response_class=HTMLResponse)
 async def f(request:Request):
   return templates.TemplateResponse("index.html", {"request": request})
-  
-@app.get('/account')
-async def f():
-  try:
-    res = {"username":"", "password":""}
-    with open('/home/pi/.account.json', 'rb') as f:
-      res = json.load(f)
-  except Exception as ex:
-    print(f'[login] Error: {ex}')
-    pass
-  return JSONResponse(content=res, status_code=200)
-
-@app.post('/account')
-async def f(data: dict = Body(...)):
-  if 'username' in data and 'password' in data:
-    with open('/home/pi/.account.json', 'w') as f:
-      json.dump(data, f)
-    return JSONResponse(content=data, status_code=200)
-  else:
-    return JSONResponse(content={'result':'account data 오류'}, status_code=500)
-
-@app.get('/usedata/{key}')
-async def f(key="tools"):
-  try:
-    res = {}
-    with open(f'/home/pi/.{key}.json', 'rb') as f:
-      res = json.load(f)
-  except Exception as ex:
-    print(f'[login] Error: {ex}')
-    pass
-  return JSONResponse(content=res, status_code=200)
-
-@app.post('/usedata/{key}')
-async def f(key="tools", data: dict = Body(...)):
-  try:
-    res = None
-    with open(f'/home/pi/.{key}.json', 'rb') as f:
-      res = json.load(f)
-  except Exception as ex:
-    print(f'[usedata] Error: {ex}')
-    pass
-
-  try:
-    if res == None:
-      with open(f'/home/pi/.{key}.json', 'w') as f:
-        json.dump(data, f)
-      shutil.chown(f'/home/pi/.{key}.json', 'pi', 'pi')
-    else:
-      tmp = {}
-      for k in data:
-        if type(data[k]) is dict:
-          tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
-        else:
-          tmp[k] = res[k] + data[k] if k in res else data[k]
-      with open(f'/home/pi/.{key}.json', 'w') as f:
-        json.dump(tmp, f)
-  except Exception as ex:
-    with open(f'/home/pi/.{key}.json', 'w') as f:
-      json.dump(data, f)
-    shutil.chown(f'/home/pi/.{key}.json', 'pi', 'pi')
-
-  return JSONResponse(content=res, status_code=200)
-
-@app.get('/wifi_scan')
-async def f():
-  return JSONResponse(content=wifi.wifi_scan(), status_code=200)
-
-@app.get('/wifi')
-async def f():
-  with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'r') as f:
-    tmp = f.readlines()
-  return JSONResponse(content={'result':'ok', 'ssid':tmp[4].split('"')[1], 'psk':tmp[5].split('"')[1] if 'psk' in tmp[5] else "", 'ipaddress':pibo.system_status[6], 'eth1': pibo.system_status[8]}, status_code=200)
-
-@app.post('/wifi')
-async def f(data: dict = Body(...)):
-  if data['psk'] != "" and len(data['psk']) < 8:
-    return JSONResponse(content={'result':'fail', 'data':'psk must be at least 8 digits.'}, status_code=200)
-
-  tmp='country=KR\n'
-  tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
-  tmp+='update_config=1\n'
-  tmp+='network={\n'
-  tmp+=f'\tssid="{data["ssid"]}"\n'
-  if data['psk'] == "":
-    tmp+='\tkey_mgmt=NONE\n'
-  else:
-    tmp+=f'\tpsk="{data["psk"]}"\n'
-    tmp+='\tkey_mgmt=WPA-PSK\n'
-  tmp+='}\n'
-
-  with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
-    f.write(tmp)
-  os.system('wpa_cli -i wlan0 reconfigure')
-  #os.system("shutdown -r now")
 
 @app.get('/device/{pkt}')
 async def f(pkt="#40:!"):
@@ -307,7 +212,7 @@ async def f(sid, d=None):
 @app.sio.on('clear_oled')
 async def f(sid, d=None):
   if pibo.onoff:
-    network_disp.run()
+    os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
 
 @app.sio.on('mic')
 async def f(sid, d=None):
@@ -450,7 +355,7 @@ async def f(sid, d=None):
         pibo.chatbot_stop()
         pibo.motion_stop()
         pibo.onoff = False
-    network_disp.run()
+    os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
   return await emit('onoff', 'on' if pibo.onoff else 'off')
 
 @app.sio.on('audio_path')
@@ -508,7 +413,7 @@ async def f(sid, d=None):
     elif d == 'audio':
       pibo.stop_audio()
     elif d == 'oled':
-      network_disp.run()
+      os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
     elif d == 'tts':
       pibo.stop_audio()
     return await emit('sim_result', "sim_stop_item ok")
@@ -648,7 +553,6 @@ async def f(sid, d=None):
 async def f():
   global logger, pibo, devcon
   logger = log.configure_logger(level='info')
-  #logger.info(f'Network Display: {network_disp.run()}')
   devcon = DeviceControl()
   pibo = Pibo(emit, logger)
 

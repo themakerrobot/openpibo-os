@@ -355,10 +355,6 @@ const translations = {
     ko: "만화",
     en: "Cartoon"
   },
-  v_cartoon_h: {
-    ko: "만화(고성능)",
-    en: "Cartoon(High Quality)"
-  },
   v_sketch_g: {
     ko: "스케치(흑백)",
     en: "Sketch(grayscale)"

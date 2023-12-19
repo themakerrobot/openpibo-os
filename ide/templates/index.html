@@ -8,7 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
 
     <link rel="stylesheet" href="../static/fontello.css" type="text/css" />
-    <link rel="stylesheet" href="../static/index.css?ver=231023v3" />
+    <link rel="stylesheet" href="../static/index.css?ver=231023v7" />
     <link rel="stylesheet" href="../static/all.min.css" type="text/css" />
     <link rel="stylesheet" href="../static/codemirror.css" />
     <link rel="stylesheet" href="../static/cobalt.css" />
@@ -27,7 +27,6 @@
     <script src="../static/jquery.jsonview.min.js"></script>
     <script src="../static/codemirror.min.js"></script>
     <script src="../static/python.js"></script>
-    <script src="../static/shell.js"></script>
     <script src="../static/socket.io.min.js?ver=230726v1"></script>
   </head>
   <body>
@@ -126,11 +125,11 @@
                   <input type="file" id="upload" multiple>
                 </form>
               </div>
-              <button id="add_directory" style="background-color:#dcb9b2;width:80px;">
+              <button id="add_directory" style="background-color:#dcb9b2;width:100px;">
                 <i class="fa-solid fa-folder-plus"></i>&nbsp;
                 <span data-key="add_directory"></span>
               </button>
-              <button id="add_file" style="width:80px;">
+              <button id="add_file" style="width:95px;">
                 <i class="fa-solid fa-file-circle-plus"></i>&nbsp;
                 <span data-key="add_file"></span>
               </button>
@@ -181,10 +180,6 @@
                   <i class="fa-brands fa-python"></i>
                   <span data-key="python"></span>
                 </button>
-                <button name="shell">
-                  <i class="fa-solid fa-terminal"></i>
-                  <span data-key="shell"></span>
-                </button>
               </div>
               <span id='codecheck'></span>
             </div>
@@ -194,14 +189,13 @@
                 <input type="number" id="fontsize" min="5" max="50" value="14" step="1" pattern="\d*" />
               </i>
               <button id="execute" class="btn-teal">
-                <i class="fa-solid fa-flag"></i><span data-key="execute"></span>
+                <i class="fa-solid fa-flag"></i>&nbsp;<span data-key="execute"></span>
               </button>
               <button id="stop" class="btn-red disabled">
-                <i class="fa-solid fa-circle"></i><span data-key="stop"></span>
+                <i class="fa-solid fa-circle"></i>&nbsp;<span data-key="stop"></span>
               </button>
               <button id="save" class="btn">
-                <i class="fa-solid fa-save"></i>
-                <span data-key="save"></span>
+                <i class="fa-solid fa-save"></i>&nbsp;<span data-key="save"></span>
               </button>
               <i class="fa-solid fa-circle-half-stroke"></i>
               <input type="checkbox" id="theme_check" name="theme_check" checked />
@@ -229,11 +223,10 @@
             <div class="editor-col">
               <!-- <i class="fa fa-solid fa-file-lines"><span> 결과</span></i> -->
               <button id="eraser">
-                <i class="fa-solid fa-eraser"></i>&nbsp;
-                <span data-key="reset"></span>
+                <i class="fa-solid fa-eraser"></i>&nbsp;<span data-key="reset"></span>
               </button>
               <i class="fas fa-keyboard"></i>
-              <input type="text" id="prompt" name="prompt" style="border-radius: 5px;width:300px"/>
+              <input type="text" id="prompt" name="prompt" style="border-radius: 5px;"/>
               <!-- <i class="fa fa-solid fa-link"></i>
               <input type="checkbox" id="terminal_check" name="terminal_check" title="터미널" /> -->
             </div>

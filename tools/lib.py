@@ -13,9 +13,7 @@ import time,datetime
 import base64
 import cv2,dlib
 import os,json,shutil,csv
-import network_disp
 from PIL import Image,ImageDraw,ImageFont,ImageOps
-
 from queue import Queue
 from threading import Thread, Timer
 
@@ -24,52 +22,36 @@ def to_base64(im):
   im = cv2.imencode('.jpg', im)[1].tobytes()
   return base64.b64encode(im).decode('utf-8')
 
+def TimerStart(intv, func, daemon=True):
+  tim = Timer(intv, func)
+  tim.daemon = True
+  tim.start()
+  return tim
+
 class Pibo:
   def __init__(self, emit_func=None, logger=None):
     self.logger = logger
     self.logger.info(f'[__init__]: Class INIT')
     self.emit = emit_func
     self.onoff = False
-    self.logger = logger
     self.vision_sleep = True
-    self.wifi_info = None
     self.mymodel_path = "/home/pi/mymodel"
     self.trackX, self.trackY = 0,0
     self.tracker = None
     self.imgX, self.imgY = 0,0
-    self.ole = Oled()
     self.aud = Audio()
     self.mot = Motion()
+    self.mot.set_motion("wake_up2", 1)
+    self.mot.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 3000)
     self.speech = Speech()
-    self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
-    self.boot()
-
-  ## boot
-  def boot(self):
-    self.logger.info(f'[boot]: Boot INIT')
-    self.ole.draw_image("/home/pi/openpibo-os/system/pibo.jpg")
-    self.ole.show()
-    for i in range(1,10):
-      if (self.system_status[6] != '' and self.system_status[6][0:3] != '169') or (self.system_status[8] != '' and self.system_status[8][0:3] != '169'):
-        os.system("systemctl stop hostapd;wpa_cli -i wlan0 reconfigure")
-        break
-      self.ole.draw_image("/home/pi/openpibo-os/system/pibo.jpg")
-      self.ole.draw_text((5,5), "˚".join(["" for _ in range(i+1)]))
-      self.ole.show()
-      time.sleep(2.5)
-    Timer(10, self.async_system_report).start()
+    self.ole = Oled()
+    TimerStart(1, self.async_system_report, True)
 
   ## system
   def async_system_report(self):
     self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
-    if self.wifi_info != self.system_status[6:9]:
-      self.logger.info(f'[async_system_report]: Network Change')
-      network_disp.run()
-    self.wifi_info = self.system_status[6:9]
     asyncio.run(self.emit('system', self.system_status, callback=None))
-    _ = Timer(10, self.async_system_report)
-    _.daemon = True
-    _.start()
+    TimerStart(10, self.async_system_report, True)
 
   ## vision
   def vision_start(self):
@@ -115,8 +97,6 @@ class Pibo:
         elif self.vision_type == "pose":
           img, res = self.pose_detect()
         elif self.vision_type == "cartoon":
-          img, res = self.cartoon()
-        elif self.vision_type == "cartoon_h":
           img, res = self.stylization()
         elif self.vision_type == "sketch_g":
           img, res = self.pencilSketch(mode='g')
@@ -130,8 +110,7 @@ class Pibo:
           img, res = self.object_track()
         else:
           img, res = self.frame, ""
-        
-        
+
       except Exception as ex:
         self.logger.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
@@ -139,10 +118,6 @@ class Pibo:
       self.res_img = img.copy()
       self.cam.rectangle(img, (self.imgX,self.imgY), (self.imgX,self.imgY),(0,0,0),10)
       asyncio.run(self.emit('stream', {'img':to_base64(img), 'data':res}, callback=None))
-
-  def cartoon(self):
-    im = self.frame.copy()
-    return self.cam.cartoonize(im), ''
 
   def stylization(self):
     im = self.frame.copy()

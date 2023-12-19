@@ -1744,6 +1744,17 @@ let toolbox = (lang) => {
               },
             }
           },
+          {
+            "kind": "block",
+            "type": "vision_call_ai_img",
+            "inputs":{
+              "img":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              }
+            }
+          },
         ],
         "colour": color_type["vision"],
         "cssConfig": {

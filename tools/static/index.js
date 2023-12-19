@@ -7,6 +7,7 @@ const init_usedata = {
   speech:{click:0, keydown:0, staytime:0},
   simulator:{click:0, keydown:0, staytime:0}
 };
+const system_port = 8080;
 let usedata = init_usedata; // from server
 const getVisions = (socket) => {
   $("#v_img").on("click", (evt) => {
@@ -2349,7 +2350,7 @@ $(function () {
     if (name === "home") {
       socket.emit("eye_update");
       $.ajax({
-        url: `/wifi`,
+        url: `http://${location.hostname}:${system_port}/wifi`,
       }).always((xhr, status) => {
         if (status == "success") {
           $("#ssid").val(xhr["ssid"]);
@@ -2463,7 +2464,7 @@ $(function () {
         )
       )
       $.ajax({
-        url: `/wifi_scan`,
+        url: `http://${location.hostname}:${system_port}/wifi_scan`,
       }).always((xhr, status) => {
         if (status == "success") {
           data = xhr
@@ -2533,7 +2534,7 @@ $(function () {
     });
 
     $.ajax({
-      url: `/wifi`,
+      url: `http://${location.hostname}:${system_port}/wifi`,
     }).always((xhr, status) => {
       if (status == "success") {
         $("#ssid").val(xhr["ssid"]);
@@ -2553,7 +2554,7 @@ $(function () {
 
     $("#current_wifi").on("click", ()=> {
       $.ajax({
-        url: `/wifi`,
+        url: `http://${location.hostname}:${system_port}/wifi`,
       }).always((xhr, status) => {
         if (status == "success") {
           $("#ssid").val(xhr["ssid"]);
@@ -2579,7 +2580,7 @@ $(function () {
       comment += translations["confirm_wifi"][lang];
       if (confirm(comment)) {
         $.ajax({
-          url: `/wifi`,
+          url: `http://${location.hostname}:${system_port}/wifi`,
           type: "post",
           data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
           contentType: "application/json",
@@ -2644,7 +2645,7 @@ $(function () {
     usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
     usedata[$("nav").find("button.menu-selected").attr("name")]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
     $.ajax({
-      url: `/usedata/tools`,
+      url: `http://${location.hostname}:${system_port}/usedata/tools`,
       type: "post",
       data: JSON.stringify(usedata),
       contentType: "application/json",
@@ -2661,7 +2662,7 @@ $(function () {
     document.getElementById("wifiPopup").style.display = "none";
 
     $.ajax({
-      url: `/usedata/tools`,
+      url: `http://${location.hostname}:${system_port}/usedata/tools`,
       type: "post",
       data: JSON.stringify(usedata),
       contentType: "application/json",

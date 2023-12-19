@@ -365,8 +365,7 @@ Blockly.Python['vision_imshow_to_ide_img'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-
-  return `camera.imwrite('/home/pi/.tmp.jpg', ${img})\ncamera.imshow_to_ide('/home/pi/.tmp.jpg')\n`;
+  return `camera.imshow_to_ide(${img})\n`;
 }
 Blockly.Python['vision_rectangle'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
@@ -417,9 +416,6 @@ Blockly.Python['vision_transfer'] = function(block) {
 
   switch (type) {
     case 'cartoon':
-      res = `camera.cartoonize(${img})`;
-      break;
-    case 'cartoon_n':
       res = `camera.stylization(${img})`;
       break;
     case 'detail':
@@ -528,13 +524,20 @@ Blockly.Python['vision_predict_tm'] = function(block) {
   return [`tm.predict(${img})[0]`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python['vision_call_ai'] = function(block) {
-  Blockly.Python.definitions_['import_openpibo.vision as vis'] = 'import openpibo.vision as vis';
+  Blockly.Python.definitions_['from_vision_import_vision_api'] = 'from openpibo.vision import vision_api';
 
   const type = block.getFieldValue("type");
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
 
-  return [`vis.vision_api('${type}', '${dir}'+${filename})['data']`, Blockly.Python.ORDER_ATOMIC];
+  return [`vision_api('${type}', '${dir}'+${filename})['data']`, Blockly.Python.ORDER_ATOMIC];
+}
+Blockly.Python['vision_call_ai_img'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_vision_api'] = 'from openpibo.vision import vision_api';
+
+  const type = block.getFieldValue("type");
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  return [`vision_api('${type}', ${img})['data']`, Blockly.Python.ORDER_ATOMIC];
 }
 
 // Utils

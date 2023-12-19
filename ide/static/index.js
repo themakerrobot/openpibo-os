@@ -2,21 +2,17 @@ const init_usedata = {
   staytime:0,
   block:{click:0, keydown:0, execute:0, staytime:0},
   python:{click:0, keydown:0, execute:0, staytime:0},
-  shell:{click:0, keydown:0, execute:0, staytime:0}
 };
+const system_port = 8080;
 let usedata = init_usedata; // from server
 const MAX_FILENAME_LENGTH = 50;
 const MAX_FILE_NUMBER = 10;
-const codeMirrorMode = {
-  python: "python",
-  shell: "shell",
-};
 const codeEditor = CodeMirror.fromTextArea(
   document.getElementById("codemirror-code"),
   {
     lineNumbers: "true",
     //lineWrapping: "true",
-    mode: codeMirrorMode["python"],
+    mode: "python",
     theme: "cobalt",
     extraKeys: {
       "Ctrl-S": function (instance) {
@@ -228,7 +224,6 @@ codeTypeBtns.forEach((btn) => {
         BLOCK_PATH = $("#codepath").html();
         $("#codepath").html(CODE_PATH);
       }
-      codeEditor.setOption("mode", codeMirrorMode[target.name]);
       $("#execute").html('<i class="fa-solid fa-play"></i>&nbsp;<span data-key="execute"></span>');
       $("#stop").html('<i class="fa-solid fa-stop"></i>&nbsp;<span data-key="stop"></span>');
     }
@@ -680,7 +675,7 @@ const workspace = Blockly.inject("blocklyDiv", {
   grid: {
     spacing: 20,
     length: 3,
-    colour: '#ccc',
+    colour: '#ddd',
     snap: true
   },
   zoom: {
@@ -769,7 +764,7 @@ $("#showNetwork").on("click", ()=>{
     )
   )
   $.ajax({
-    url: `http://${location.hostname}/wifi_scan`,
+    url: `http://${location.hostname}:${system_port}/wifi_scan`,
   }).always((xhr, status) => {
     if (status == "success") {
       data = xhr
@@ -818,7 +813,7 @@ $("#hidewifi").on("click", ()=>{
 });
 
 $.ajax({
-  url: `http://${location.hostname}/wifi`,
+  url: `http://${location.hostname}:${system_port}/wifi`,
 }).always((xhr, status) => {
   if (status == "success") {
     $("#ssid").val(xhr["ssid"]);
@@ -838,7 +833,7 @@ $.ajax({
 
 $("#current_wifi").on("click", ()=> {
   $.ajax({
-    url: `http://${location.hostname}/wifi`,
+    url: `http://${location.hostname}:${system_port}/wifi`,
   }).always((xhr, status) => {
     if (status == "success") {
       $("#ssid").val(xhr["ssid"]);
@@ -864,7 +859,7 @@ $("#wifi_bt").on("click", function () {
   comment += translations["confirm_wifi"][lang];
   if (confirm(comment)) {
     $.ajax({
-      url: `http://${location.hostname}/wifi`,
+      url: `http://${location.hostname}:${system_port}/wifi`,
       type: "post",
       data: JSON.stringify({ssid:$("#ssid").val().trim(), psk:$("#psk").val().trim()}),
       contentType: "application/json",
@@ -897,7 +892,7 @@ window.addEventListener('beforeunload', (evt) => {
   });
   usedata[codetype]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
   $.ajax({
-    url: `http://${location.hostname}/usedata/ide`,
+    url: `http://${location.hostname}:${system_port}/usedata/ide`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
@@ -915,7 +910,7 @@ $("#usedata_bt").on("click", ()=> {
   document.getElementById("wifiPopup").style.display = "none";
 
   $.ajax({
-    url: `http://${location.hostname}/usedata/ide`,
+    url: `http://${location.hostname}:${system_port}/usedata/ide`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
@@ -965,22 +960,18 @@ $("#prompt").on("keypress", function (evt) {
   }
 });
 
-
 socket.on("update_battery", function (data) {
   let bat = Number(data.split("%")[0]);
+  let bat_str = ['empty', 'quarter', 'half', 'three-quarters', 'full'];
+
   $("#d_battery_val").html(
-    "<i class='fa fa-battery-" +
-      Math.floor(bat / 25) +
-      "' aria-hidden='true'></i> " +
-      data
+    `<i class='fa fa-battery-${bat_str[Math.floor(bat / 25)]}' aria-hidden='true'></i>${data} `
   );
 });
 
 socket.on("update_dc", function (data) {
   $("#d_dc_val").html(
-    data.toUpperCase() == "ON"
-      ? "<i class='fa fa-plug' aria-hidden='true'></i>"
-      : ""
+    data.toUpperCase() == "ON"?"<i class='fa fa-plug' aria-hidden='true'></i>":""
   );
 });
 
