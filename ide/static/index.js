@@ -998,6 +998,15 @@ const setLanguage = (langCode) => {
   script.setAttribute('src', langFile);
   document.head.appendChild(script);
   workspace.updateToolbox(langCode=="en"?toolbox_en:toolbox_ko);
+
+  if (langCode == "en") {
+    document.getElementById('add_directory').style.width = '105px';
+    document.getElementById('add_file').style.width = '95px';
+  }
+  else {
+    document.getElementById('add_directory').style.width = '80px';
+    document.getElementById('add_file').style.width = '80px';
+  }
 }
 
 const language = document.getElementById("language");
