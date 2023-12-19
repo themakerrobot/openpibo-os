@@ -111,7 +111,7 @@ def wifi_update():
   tmp = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
   if wifi_info != tmp[6:9]:
     print(f'Network Change {wifi_info} -> {tmp[6:9]}')
-  network_disp.run()
+    network_disp.run()
   wifi_info = tmp[6:9]
   _ = Timer(10, wifi_update)
   _.daemon = True
