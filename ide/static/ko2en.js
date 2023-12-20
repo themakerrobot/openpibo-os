@@ -152,11 +152,11 @@ const translations = {
   },
   variables: {
     ko: "변수",
-    en: "Var"
+    en: "Variables"
   },
   functions: {
     ko: "함수",
-    en: "Funcs"
+    en: "Functions"
   },
   audio: {
     ko: "소리",
@@ -257,5 +257,9 @@ const translations = {
   file_number_limit: {
     ko: (max_limit) => { return `파일은 ${max_limit}개 이하로 업로드해주세요.`},
     en: (max_limit) => { return `Upload within ${max_limit} files or less.`}
+  },
+  enter: {
+    ko: "입력",
+    en: "Enter"
   }
 };

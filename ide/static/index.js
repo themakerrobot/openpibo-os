@@ -154,7 +154,6 @@ socket.on("init", (d) => {
           }
         }
       }
-
       saveBlock = d["codetext"];
       update_block();
       $("#codepath").text(d["codepath"]);
@@ -208,14 +207,12 @@ codeTypeBtns.forEach((btn) => {
     startTime_item = new Date().getTime();
 
     if (target.name == "block") {
-        if (before_codetype != "block") {
-          $("#codeDiv").hide();
-          $("#blocklyDiv").show();
-          CODE_PATH = $("#codepath").html();
-          $("#codepath").html(BLOCK_PATH);
-        }
-        $("#execute").html('<i class="fa-solid fa-flag"></i>&nbsp;<span data-key="execute"></span>');
-        $("#stop").html('<i class="fa-solid fa-circle"></i>&nbsp;<span data-key="stop"></span>');
+      if (before_codetype != "block") {
+        $("#codeDiv").hide();
+        $("#blocklyDiv").show();
+        CODE_PATH = $("#codepath").html();
+        $("#codepath").html(BLOCK_PATH);
+      }
     }
     else {
       if (before_codetype == "block") {
@@ -224,8 +221,6 @@ codeTypeBtns.forEach((btn) => {
         BLOCK_PATH = $("#codepath").html();
         $("#codepath").html(CODE_PATH);
       }
-      $("#execute").html('<i class="fa-solid fa-play"></i>&nbsp;<span data-key="execute"></span>');
-      $("#stop").html('<i class="fa-solid fa-stop"></i>&nbsp;<span data-key="stop"></span>');
     }
     setLanguage(lang);
     Blockly.svgResize(workspace);
@@ -696,6 +691,100 @@ const workspace = Blockly.inject("blocklyDiv", {
     wheel: true,
   },
   renderer:"zelos", // "zelos", "minimalist", "thrasos"
+  theme: Blockly.Theme.defineTheme('modest', {
+    'base': Blockly.Themes.Classic,
+    startHats: true,
+    fontStyle: {
+      'family': null,
+      'weight': null,
+      'size': 16,
+    },
+    blockStyles: {
+      logic_blocks: {
+        colourPrimary: '#D1C4E9',
+        colourSecondary: '#EDE7F6',
+        colorTertiary: '#B39DDB',
+      },
+      loop_blocks: {
+        colourPrimary: '#A5D6A7',
+        colourSecondary: '#E8F5E9',
+        colorTertiary: '#66BB6A',
+      },
+      math_blocks: {
+        colourPrimary: '#2196F3',
+        colourSecondary: '#1E88E5',
+        colorTertiary: '#0D47A1',
+      },
+      text_blocks: {
+        colourPrimary: '#FFCA28',
+        colourSecondary: '#FFF8E1',
+        colorTertiary: '#FF8F00',
+      },
+      list_blocks: {
+        colourPrimary: '#4DB6AC',
+        colourSecondary: '#B2DFDB',
+        colorTertiary: '#009688',
+      },
+      colour_blocks: {
+        colourPrimary: '#FFCDD2',
+        colourSecondary: '#FFEBEE',
+        colorTertiary: '#EF9A9A',
+      },
+      variable_blocks: {
+        colourPrimary: '#EF9A9A',
+        colourSecondary: '#EF9A9A',
+        //colourSecondary: '#FFEBEE',
+        colorTertiary: '#EF5350',
+      },
+      // variable_dynamic_blocks: {
+      //   colourPrimary: '#EF9A9A',
+      //   colourSecondary: '#FFEBEE',
+      //   colorTertiary: '#EF5350',
+      // },
+      procedure_blocks: {
+        colourPrimary: '#D7CCC8',
+        colourSecondary: '#EFEBE9',
+        colorTertiary: '#BCAAA4',
+      },
+    },
+    categoryStyles: {
+      logic_category: {
+        colour: '#D1C4E9'
+      },
+      loop_category: {
+        colour: '#A5D6A7'
+      },
+      math_category: {
+        colour: '#2196F3'
+      },
+      text_category: {
+        colour: '#FFCA28'
+      },
+      list_category: {
+        colour: '#4DB6AC'
+      },
+      colour_category: {
+        colour: '#FFCDD2'
+      },
+      variable_category: {
+        colour: '#EF9A9A'
+      },
+      // variable_dynamic_category: {
+      //   colour: '#EF9A9A'
+      // },
+      procedure_category: {
+        colour: '#D7CCC8'
+      }
+    },
+    componentStyles: {
+      'flyoutOpacity': 0.5,
+      'insertionMarkerOpacity': 0.5,
+      'scrollbarOpacity': 0.5,
+      'selectedGlowColour': '#000000',
+      'selectedGlowSize': 0.5,
+      'replacementGlowColour': '#000000',
+    }
+  }),
 });
 workspace.addChangeListener ((event)=>{
   update_block();
@@ -960,6 +1049,10 @@ $("#prompt").on("keypress", function (evt) {
   }
 });
 
+$("#prompt_bt").on('click', function() {
+  socket.emit("prompt", $("#prompt").val().trim());
+});
+
 socket.on("update_battery", function (data) {
   let bat = Number(data.split("%")[0]);
   let bat_str = ['empty', 'quarter', 'half', 'three-quarters', 'full'];
@@ -1001,11 +1094,11 @@ const setLanguage = (langCode) => {
 
   if (langCode == "en") {
     document.getElementById('add_directory').style.width = '105px';
-    document.getElementById('add_file').style.width = '95px';
+    document.getElementById('add_file').style.width = '100px';
   }
   else {
     document.getElementById('add_directory').style.width = '80px';
-    document.getElementById('add_file').style.width = '80px';
+    document.getElementById('add_file').style.width = '85px';
   }
 }
 

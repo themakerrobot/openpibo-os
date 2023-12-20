@@ -5,7 +5,7 @@
   /* Added by yjlee - START */
   font-family: Consolas, 'Courier New', monospace;
   font-size: 14px;
-  height:calc(100vh - 120px);
+  height:calc(100vh - 130px);
   border-radius: 2px;
   border-radius: 5px;
   /* Added by yjlee - END */
@@ -34,7 +34,6 @@
   background-color: #f7f7f7;
   white-space: nowrap;
 }
-.CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
   padding: 0 3px 0 5px;
   min-width: 20px;

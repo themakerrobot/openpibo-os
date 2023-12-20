@@ -4,6 +4,7 @@ let toolbox = (lang) => {
     "contents": [
       { // Logic
         "kind": "category",
+        "colour": '#D1C4E9',
         "name": translations['logic'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-bars-staggered"
@@ -38,10 +39,11 @@ let toolbox = (lang) => {
             "type": "logic_ternary"
           }
         ],
-        "categorystyle": "logic_category"
+        // "categorystyle": "logic_category"
       },
       { // Loops
         "kind": "category",
+        "colour": '#A5D6A7',
         "name": translations['loops'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-arrows-spin"
@@ -104,10 +106,11 @@ let toolbox = (lang) => {
             "type": "controls_flow_statements"
           }
         ],
-        "categorystyle": "loop_category"
+        // "categorystyle": "loop_category"
       },
       { // Math
         "kind": "category",
+        "colour": '#2196F3',
         "name": translations['math'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-square-root-variable"
@@ -307,10 +310,11 @@ let toolbox = (lang) => {
             }
           }      
         ],
-        "categorystyle": "math_category"
+        // "categorystyle": "math_category"
       },
       { // Text
         "kind": "category",
+        "colour": '#FFCA28',
         "name": translations['text'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-t"
@@ -536,10 +540,11 @@ let toolbox = (lang) => {
             }
           },
         ],
-        "categorystyle": "text_category"
+        // "categorystyle": "text_category"
       },
       { // Lists
         "kind": "category",
+        "colour": '#4DB6AC',
         "name": translations['lists'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-list"
@@ -657,10 +662,11 @@ let toolbox = (lang) => {
             "type": "lists_reverse"
           },
         ],
-        "categorystyle": "list_category"
+        // "categorystyle": "list_category"
       },
       { // Colour
         "kind": "category",
+        "colour": '#FFCDD2',
         "name": translations['colour'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-palette"
@@ -735,27 +741,29 @@ let toolbox = (lang) => {
             }
           }
         ],
-        "categorystyle": "colour_category"
+        // "categorystyle": "colour_category"
       },
       {
         "kind": "sep"
       },
       { // Variables
         "kind": "category",
+        "colour": '#EF9A9A',
         "name": translations['variables'][lang],
         "contents": [],
         "custom": "VARIABLE",
-        "categorystyle": "variable_category",
+        // "categorystyle": "variable_category",
         "cssConfig": {
           "icon": "customIcon fa fa-v"
         }
       },
       { // Functions
         "kind": "category",
+        "colour": '#D7CCC8',
         "name": translations['functions'][lang],
         "contents": [],
         "custom": "PROCEDURE",
-        "categorystyle": "procedure_category",
+        // "categorystyle": "procedure_category",
         "cssConfig": {
           "icon": "customIcon fa fa-florin-sign"
         }
@@ -1887,78 +1895,78 @@ let toolbox = (lang) => {
 const toolbox_en = toolbox('en');
 const toolbox_ko = toolbox('ko');
 
-/**
- * @license
- * Copyright 2020 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
+// /**
+//  * @license
+//  * Copyright 2020 Google LLC
+//  * SPDX-License-Identifier: Apache-2.0
+//  */
 
-/**
- * @fileoverview The toolbox category built during the custom toolbox codelab, in es6.
- * @author aschmiedt@google.com (Abby Schmiedt)
- */
+// /**
+//  * @fileoverview The toolbox category built during the custom toolbox codelab, in es6.
+//  * @author aschmiedt@google.com (Abby Schmiedt)
+//  */
 
-class CustomCategory extends Blockly.ToolboxCategory {
-  /**
-   * Constructor for a custom category.
-   * @override
-   */
-  constructor(categoryDef, toolbox, opt_parent) {
-    super(categoryDef, toolbox, opt_parent);
-  }
+// class CustomCategory extends Blockly.ToolboxCategory {
+//   /**
+//    * Constructor for a custom category.
+//    * @override
+//    */
+//   constructor(categoryDef, toolbox, opt_parent) {
+//     super(categoryDef, toolbox, opt_parent);
+//   }
 
-  /**
-   * Adds the colour to the toolbox.
-   * This is called on category creation and whenever the theme changes.
-   * @override
-   */
-  addColourBorder_(colour){
-    this.rowDiv_.style.backgroundColor = colour;
-  }
+//   /**
+//    * Adds the colour to the toolbox.
+//    * This is called on category creation and whenever the theme changes.
+//    * @override
+//    */
+//   addColourBorder_(colour){
+//     this.rowDiv_.style.backgroundColor = colour;
+//   }
 
-  /**
-   * Sets the style for the category when it is selected or deselected.
-   * @param {boolean} isSelected True if the category has been selected,
-   *     false otherwise.
-   * @override
-   */
-  setSelected(isSelected){
-    // We do not store the label span on the category, so use getElementsByClassName.
-    var labelDom = this.rowDiv_.getElementsByClassName('blocklyTreeLabel')[0];
-    if (isSelected) {
-      // Change the background color of the div to white.
-      this.rowDiv_.style.backgroundColor = 'white';
-      // Set the colour of the text to the colour of the category.
-      labelDom.style.color = this.colour_;
-      //this.iconDom_.style.color = this.colour_;
-    } else {
-      // Set the background back to the original colour.
-      this.rowDiv_.style.backgroundColor = this.colour_;
-      // Set the text back to white.
-      labelDom.style.color = 'white';
-      //this.iconDom_.style.color = 'white';
-    }
-    // This is used for accessibility purposes.
-    Blockly.utils.aria.setState(/** @type {!Element} */ (this.htmlDiv_),
-        Blockly.utils.aria.State.SELECTED, isSelected);
-  }
+//   /**
+//    * Sets the style for the category when it is selected or deselected.
+//    * @param {boolean} isSelected True if the category has been selected,
+//    *     false otherwise.
+//    * @override
+//    */
+//   setSelected(isSelected){
+//     // We do not store the label span on the category, so use getElementsByClassName.
+//     var labelDom = this.rowDiv_.getElementsByClassName('blocklyTreeLabel')[0];
+//     if (isSelected) {
+//       // Change the background color of the div to white.
+//       this.rowDiv_.style.backgroundColor = 'white';
+//       // Set the colour of the text to the colour of the category.
+//       labelDom.style.color = this.colour_;
+//       //this.iconDom_.style.color = this.colour_;
+//     } else {
+//       // Set the background back to the original colour.
+//       this.rowDiv_.style.backgroundColor = this.colour_;
+//       // Set the text back to white.
+//       labelDom.style.color = 'white';
+//       //this.iconDom_.style.color = 'white';
+//     }
+//     // This is used for accessibility purposes.
+//     Blockly.utils.aria.setState(/** @type {!Element} */ (this.htmlDiv_),
+//         Blockly.utils.aria.State.SELECTED, isSelected);
+//   }
 
-  // /**
-  //  * Creates the dom used for the icon.
-  //  * @returns {HTMLElement} The element for the icon.
-  //  * @override
-  //  */
-  //  createIconDom_() {
-  //    const iconImg = document.createElement('img');
-  //   iconImg.src = 'svg/camera-solid.svg';
-  //   iconImg.alt = 'Blockly Logo';
-  //    iconImg.width = '25';
-  //    iconImg.height = '25';
-  //    return iconImg;
-  // }
-}
+//   // /**
+//   //  * Creates the dom used for the icon.
+//   //  * @returns {HTMLElement} The element for the icon.
+//   //  * @override
+//   //  */
+//   //  createIconDom_() {
+//   //    const iconImg = document.createElement('img');
+//   //   iconImg.src = 'svg/camera-solid.svg';
+//   //   iconImg.alt = 'Blockly Logo';
+//   //    iconImg.width = '25';
+//   //    iconImg.height = '25';
+//   //    return iconImg;
+//   // }
+// }
 
-Blockly.registry.register(
-    Blockly.registry.Type.TOOLBOX_ITEM,
-    Blockly.ToolboxCategory.registrationName,
-    CustomCategory, true);
+// Blockly.registry.register(
+//     Blockly.registry.Type.TOOLBOX_ITEM,
+//     Blockly.ToolboxCategory.registrationName,
+//     CustomCategory, true);

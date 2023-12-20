@@ -454,7 +454,9 @@ Blockly.Msg["AUDIO_RECORD_TOOLTIP"] = "Record for a set time and save as a file.
 
 Blockly.Msg["COLLECT_WIKIPEDIA"] = "%1 %2 %3 Search Wikipedia for %4";
 Blockly.Msg["COLLECT_WIKIPEDIA_TOOLTIP"] = "(Internet!) Search Wikipedia with the given keyword.";
-Blockly.Msg["COLLECT_WEATHER"] = "%1 %2 %3 %4 Search for %5 weather";
+Blockly.Msg["COLLECT_WEATHER_FORECAST"] = "%1 %2 %3 %4 Search for comprehensive weather information";
+Blockly.Msg["COLLECT_WEATHER_FORECAST_TOOLTIP"] = "(Internet!) Search for comprehensive weather information in a specific area.";
+Blockly.Msg["COLLECT_WEATHER"] = "%1 %2 %3 %4 Search for %5 weather information %6";
 Blockly.Msg["COLLECT_WEATHER_TOOLTIP"] = "(Internet!) Search for weather information in a specific area.";
 Blockly.Msg["COLLECT_NEWS"] = "%1 %2 %3 %4 Search for %5 news";
 Blockly.Msg["COLLECT_NEWS_TOOLTIP"] = "(Internet!) Retrieve search results with news keywords.";
@@ -478,10 +480,12 @@ Blockly.Msg["COLLECT_CHUNGBUK"] = "Chungbuk";
 Blockly.Msg["COLLECT_GANGWON"] = "Gangwon";
 Blockly.Msg["COLLECT_JEJU"] = "Jeju";
 
-Blockly.Msg["COLLECT_FORECAST"] = "forecast";
 Blockly.Msg["COLLECT_TODAY"] = "today";
 Blockly.Msg["COLLECT_TOMORROW"] = "tomorrow";
 Blockly.Msg["COLLECT_AFTER_TOMORROW"] = "after tomorrow";
+Blockly.Msg["COLLECT_COMMENT"] = "forecast";
+Blockly.Msg["COLLECT_LOWTEMP"] = "lowest forecast";
+Blockly.Msg["COLLECT_HIGHTEMP"] = "higest forecast";
 
 Blockly.Msg["COLLECT_NEWSFLASH"] = "newsflash";
 Blockly.Msg["COLLECT_POLITICS"] = "politics";
@@ -623,8 +627,8 @@ Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 Classify image %3 using Teachable Mach
 Blockly.Msg["VISION_PREDICT_TM_TOOLTIP"] = "Use a Teachable Machine model to classify the image.";
 Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 Analyze image file %5 %6 using AI %4";
 Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
-Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 Analyze image variable %5 using AI %4";
-Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
+Blockly.Msg["VISION_CALL_AI_IMG"] = "%1 %2 %3 Analyze image variable %5 using AI %4";
+Blockly.Msg["VISION_CALL_AI_IMG_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
 
 Blockly.Msg["VISION_CARTOON"] = 'cartoon';
 Blockly.Msg["VISION_DETAIL"] = 'detail';

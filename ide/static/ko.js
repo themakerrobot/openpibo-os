@@ -646,7 +646,6 @@ Blockly.Msg["VISION_CAPTION_PLACE"] = '장소인식';
 Blockly.Msg["VISION_CAPTION_TIME"] = '시간인식';
 Blockly.Msg["VISION_CAPTION_WEATHER"] = '날씨인식';
 
-
 Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
 Blockly.Msg["UTILS_SLEEP_TOOLTIP"] = "일정시간 동안 멈춥니다.";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
@@ -668,6 +667,7 @@ Blockly.Msg["UTILS_TYPECAST_STRING"] = "%1 %2 %3 문자형 타입으로 바꾸�
 Blockly.Msg["UTILS_TYPECAST_STRING_TOOLTIP"] = "변수의 타입을 문자형으로 바꿉니다.";
 Blockly.Msg["UTILS_TYPECAST_NUMBER"] = "%1 %2 %4 %3 타입으로 바꾸기";
 Blockly.Msg["UTILS_TYPECAST_NUMBER_TOOLTIP"] = "변수의 타입을 정수형 또는 실수형으로 바꿉니다.";
+
 Blockly.Msg["UTILS_FILE"] = "파일";
 Blockly.Msg["UTILS_DIRECTORY"] = "디렉토리";
 Blockly.Msg["UTILS_STR"] = "문자형";
@@ -690,7 +690,7 @@ Blockly.Msg["CATOLED"] = "화면";
 Blockly.Msg["CATSPEECH"] = "음성";
 Blockly.Msg["CATVISION"] = "시각";
 Blockly.Msg["CATUTILS"] = "도구";
-
 Blockly.Msg["INTERNET_CHECK_TOOLTIP"] = "(인터넷 연결)";
+
 return Blockly.Msg;
 }));

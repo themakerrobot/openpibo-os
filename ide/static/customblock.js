@@ -1,12 +1,12 @@
 const color_type={
-  "audio":    "#6DA36D",
-  "collect":  "#6D6DA3",
-  "device":   "#B3926D",
-  "motion":   "#B36D42",
-  "oled":     "#7D92B3",
-  "speech":   "#7DB3C2",
-  "vision":   "#938C6D",
-  "utils":    "#938CBC"
+  "audio":    "#8dc38D",
+  "collect":  "#8d8dc3",
+  "device":   "#d3b28d",
+  "motion":   "#d38d62",
+  "oled":     "#9db2d3",
+  "speech":   "#9dd3e2",
+  "vision":   "#b3ac8D",
+  "utils":    "#c3acdc"
 
   // "audio":    "#6DA36D",
   // "collect":  "#6D6DA3",

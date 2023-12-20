@@ -54,7 +54,7 @@ header {
     width: calc(100vw - 35px);
   }
   #prompt {
-    width: calc(100vw - 150px);
+    width: calc(100vw - 230px);
   }
   .CodeMirror, .blocklyDiv {
     /* min-width: 700px; */
@@ -66,7 +66,7 @@ header {
     width: calc(100vw - 35px);
   }
   #prompt {
-    width: calc(100vw - 150px);
+    width: calc(100vw - 230px);
   }
   .CodeMirror, .blocklyDiv {
     width: calc(100vw - 370px);
@@ -77,7 +77,7 @@ header {
     width: calc(40vw - 190px);
   }
   #prompt {
-    width: calc(40vw - 325px);
+    width: calc(40vw - 385px);
   }
   .CodeMirror, .blocklyDiv  {
     width: calc(60vw - 190px);
@@ -328,7 +328,7 @@ main div.wrapper.ide {
 
 .fm-table-wrap {
   width: 320px;
-  height: calc(100vh - 440px);
+  height: calc(100vh - 455px);
   overflow-y: scroll;
   border: 1px solid var(--light-green);
   border-radius: 2px;
@@ -429,25 +429,25 @@ audio.preview-audio {
 }
 
 .filepath {
-  opacity: 0.8;
-  font-size: 1.2rem;
+  opacity: 0.7;
+  font-size: 1.6rem;
   overflow-x: auto;
 }
 
 .result,
 .terminal {
   border-radius: 5px;
-  height:calc(100vh - 120px);
+  height:calc(100vh - 130px);
 }
 
 .blocklyDiv {
-  height:calc(100vh - 120px);
+  height:calc(100vh - 130px);
   /* display: none; hide the element by default */
 }
 
 /* Makes our label white. */
 .blocklyTreeLabel {
-  color: whitesmoke;
+  color:black;
 }
 .blocklyToolboxDiv {
   background-color: whitesmoke;
@@ -460,18 +460,20 @@ audio.preview-audio {
 .blocklyTreeRow {
   padding: 2px;
   margin: 0.1em;
-  border-radius: 15px;
-  width: 85px;
+  /* border-radius: 15px; */
+  /* width: 100px; */
   height: 28px;
   /* height: initial; */
+  background-color: whitesmoke;
 }
 
 /* Changes color of the icon to white. */
 .customIcon {
   margin: 0.1em 0.1em 0.1em 0.1em;
   padding: 2px;
-  width: 30px;
-  color:rgb(0, 0, 0);
+  color:black;
+  /* width: 30px; */
+  /* color:rgb(0, 0, 0); */
 }
 /* Stacks the icon on top of the label. */
 .blocklyTreeRowContentContainer {
