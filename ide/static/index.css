@@ -438,6 +438,8 @@ audio.preview-audio {
 .terminal {
   border-radius: 5px;
   height:calc(100vh - 130px);
+  overflow-y: scroll;
+  margin-bottom: 40px;
 }
 
 .blocklyDiv {
