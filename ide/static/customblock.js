@@ -869,6 +869,27 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'oled_draw_data',
+      message0: '%{BKY_OLED_DRAW_DATA}',
+      args0: 
+        [
+          {
+            "type": "field_image",
+            "src": "svg/image-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "img", "check":"Array"}
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["oled"],
+      tooltip: '%{BKY_OLED_DRAW_DATA_TOOLTIP}',
+      helpUrl: ''
+    },    
+    {
       type: 'oled_draw_rectangle',
       message0: '%{BKY_OLED_DRAW_RECTANGLE}',
       args0:

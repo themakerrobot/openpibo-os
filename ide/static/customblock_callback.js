@@ -229,6 +229,15 @@ Blockly.Python['oled_draw_image'] = function(block) {
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
   return `oled.draw_image('${dir}'+${filename})\n`;
 }
+
+Blockly.Python['oled_draw_data'] = function(block) {
+  Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
+  Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';
+
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  return `oled.draw_data(${img})\n`;
+}
+
 Blockly.Python['oled_draw_rectangle'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
   Blockly.Python.definitions_['assign_oled'] = 'oled = Oled()';

@@ -1150,6 +1150,17 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "oled_draw_data",
+            "inputs":{
+              "img":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
             "type": "oled_draw_rectangle",
             "inputs":{
               "x1": {

@@ -7,10 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from lib import Pibo
 from collections import Counter
-import time,os,json,shutil,log
+import time,os,json,shutil
 from urllib import parse
 import argparse
-from mcu_control import DeviceControl
 import requests
 
 try:
@@ -21,7 +20,7 @@ try:
   templates = Jinja2Templates(directory="templates")
   socketio = SocketManager(app=app, cors_allowed_origins=[])
 except Exception as ex:
-  logger.error(f'Server Error:{ex}')
+  pibo.logger.error(f'Server Error:{ex}')
 
 # REST API
 @app.get('/', response_class=HTMLResponse)
@@ -32,11 +31,11 @@ async def f(request:Request):
 async def f(pkt="#40:!"):
   try:
     if pkt == "#15:!":
-        return JSONResponse(content=devcon.system_data['battery'], status_code=200)
+        return JSONResponse(content=pibo.devcon.system_data['battery'], status_code=200)
     elif pkt == "#40:!":
-        return JSONResponse(content=devcon.system_data['system'], status_code=200)
+        return JSONResponse(content=pibo.devcon.system_data['system'], status_code=200)
     else:
-        return JSONResponse(content=devcon.send_raw(pkt), status_code=200)
+        return JSONResponse(content=pibo.devcon.send_raw(pkt), status_code=200)
   except Exception as ex:
     return JSONResponse(content=f"Error: {str(ex)}", status_code=500)
 
@@ -55,7 +54,7 @@ async def f(data:UploadFile = File(...)):
     with open(f'/home/pi/{data.filename}', 'rb') as f:
       content = json.load(f)
   except Exception as ex:
-    logger.error(f'[import_motion] Error: {ex}')
+    pibo.logger.error(f'[import_motion] Error: {ex}')
     pass
 
   pibo.motion_j.update(content)
@@ -78,18 +77,21 @@ async def f(name="all"):
     with open('/home/pi/mymotion.json', 'rb') as f:
       tmp = json.load(f)
   except Exception as ex:
-    logger.error(f'[motion_start] Error: {ex}')
-    pass
+    pibo.logger.error(f'[export_motion] Error: {ex}')
+    return JSONResponse(content={'result':'저장된 모션이 없습니다.'}, status_code=500)
 
   if name == "all":
     j = tmp  
-  else:
+  elif name in tmp:
     j = dict()
     j[name] = tmp[name]
-  with open('/home/pi/a.json', 'w') as f:
+  else:
+    return JSONResponse(content={'result':'선택한 모션이 없습니다.'}, status_code=500)
+
+  with open('/home/pi/.motion.json', 'w') as f:
     json.dump(j, f)
-  shutil.chown('/home/pi/a.json', 'pi', 'pi')
-  return FileResponse(path="/home/pi/a.json", media_type="application/json", filename=f"{name}.json")
+  shutil.chown('/home/pi/.motion.json', 'pi', 'pi')
+  return FileResponse(path="/home/pi/.motion.json", media_type="application/json", filename=f"{name}.json")
 
 @app.get('/download_img', response_class=FileResponse)
 async def f():
@@ -338,20 +340,20 @@ async def f(sid, d=None):
   if d != None:
     if d == 'on':
       if pibo.onoff == True:
-        logger.info('Already Start')
+        pibo.logger.info('Already Start')
       else:
         pibo.motion_start()
         pibo.chatbot_start()
-        pibo.device_start()
+        #pibo.device_start()
         await emit('update_neopixel', pibo.neopixel_value)
         pibo.vision_start()
         pibo.onoff = True
     elif d == 'off':
       if pibo.onoff == False:
-        logger.info('Already Stop')
+        pibo.logger.info('Already Stop')
       else:
         pibo.vision_stop()
-        pibo.device_stop()
+        #pibo.device_stop()
         pibo.chatbot_stop()
         pibo.motion_stop()
         pibo.onoff = False
@@ -451,7 +453,7 @@ async def f(sid, d=None):
       with open('/home/pi/mysim.json', 'rb') as f:
         res = json.load(f)
     except Exception as ex:
-      logger.error(f'[simulation] Error: {ex}')
+      pibo.logger.error(f'[simulation] Error: {ex}')
       pass
 
     res[d['name']] = d['data']
@@ -469,7 +471,7 @@ async def f(sid, d=None):
         with open('/home/pi/mysim.json', 'rb') as f:
           res = json.load(f)
       except Exception as ex:
-        logger.error(f'[simulation] Error: {ex}')
+        pibo.logger.error(f'[simulation] Error: {ex}')
         pass
 
       if d in res:
@@ -488,7 +490,7 @@ async def f(sid, d=None):
       with open('/home/pi/mysim.json', 'rb') as f:
         res = json.load(f)
     except Exception as ex:
-      logger.error(f'[simulation] Error: {ex}')
+      pibo.logger.error(f'[simulation] Error: {ex}')
       pass
     return await emit('sim_load_items', [item for item in res])
 
@@ -500,7 +502,7 @@ async def f(sid, d=None):
       with open('/home/pi/mysim.json', 'rb') as f:
         res = json.load(f)
     except Exception as ex:
-      logger.error(f'[simulation] Error: {ex}')
+      pibo.logger.error(f'[simulation] Error: {ex}')
       pass
     return await emit('sim_load_item', res[d])
 ############################################################################################
@@ -539,29 +541,27 @@ async def f(sid, d=None):
   tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
   tmp+='update_config=1\n'
   tmp+='network={\n'
-  tmp+=f'\tssid="pibo"\n'
-  tmp+=f'\tpsk="!pibo0314"\n'
+  tmp+='\tssid="pibo"\n'
+  tmp+='\tpsk="!pibo0314"\n'
   tmp+='\tkey_mgmt=WPA-PSK\n'
   tmp+='}\n'
 
   with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
     f.write(tmp)
-  #os.system('wpa_cli -i wlan0 reconfigure')
-  os.system("shutdown -r now")
+  os.system('shutdown -h now &')
+  os.system('echo "#11:!" > /dev/ttyS0')
 
 @app.on_event('startup')
 async def f():
-  global logger, pibo, devcon
-  logger = log.configure_logger(level='info')
-  devcon = DeviceControl()
-  pibo = Pibo(emit, logger)
+  global pibo
+  pibo = Pibo(emit)
 
 async def emit(key, data, callback=None):
   try:
-    logger.debug(f'{key}')
+    pibo.logger.debug(f'{key}')
     await app.sio.emit(key, data, callback=callback)
   except Exception as ex:
-    logger.error(f'[emit] Error: {ex}')
+    pibo.logger.error(f'[emit] Error: {ex}')
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()

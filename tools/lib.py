@@ -1,25 +1,23 @@
 import openpibo
 import openpibo_models
 from openpibo.vision import Camera,Face,Detect,TeachableMachine
-from openpibo.device import Device
 from openpibo.audio import Audio
 from openpibo.oled import Oled
 from openpibo.speech import Speech,Dialog
 from openpibo.motion import Motion
 import asyncio
 import numpy as np
-
+from mcu_control import DeviceControl
 import time,datetime
 import base64
-import cv2,dlib
+import cv2,dlib,log
 import os,json,shutil,csv
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 from queue import Queue
 from threading import Thread, Timer
 
 def to_base64(im):
-  im = cv2.resize(im, (320,240))
-  im = cv2.imencode('.jpg', im)[1].tobytes()
+  im = cv2.imencode('.jpg', cv2.resize(im, (320,240)))[1].tobytes()
   return base64.b64encode(im).decode('utf-8')
 
 def TimerStart(intv, func, daemon=True):
@@ -30,21 +28,23 @@ def TimerStart(intv, func, daemon=True):
 
 class Pibo:
   def __init__(self, emit_func=None, logger=None):
-    self.logger = logger
+    self.logger = log.configure_logger(level='info')
     self.logger.info(f'[__init__]: Class INIT')
     self.emit = emit_func
+    self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
+    self.devcon = DeviceControl()
     self.onoff = False
-    self.vision_sleep = True
     self.mymodel_path = "/home/pi/mymodel"
-    self.trackX, self.trackY = 0,0
-    self.tracker = None
+    self.tracker, self.trackX, self.trackY = None, 0, 0
     self.imgX, self.imgY = 0,0
     self.aud = Audio()
     self.mot = Motion()
+    #self.pil_font = ImageFont.truetype(openpibo_models.filepath("KDL.ttf"), 20)
     self.mot.set_motion("wake_up2", 1)
     self.mot.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 3000)
     self.speech = Speech()
     self.ole = Oled()
+    self.device_start()
     TimerStart(1, self.async_system_report, True)
 
   ## system
@@ -65,12 +65,8 @@ class Pibo:
       self.logger.error(f'[vision_start] Error: {ex}')
       os.system(f"rm -rf {self.mymodel_path}/*")
 
-    self.pil_fontpath = openpibo_models.filepath("KDL.ttf")
-    self.pil_font = ImageFont.truetype(self.pil_fontpath, 20)
-
     self.vision_type = "camera"
-    self.vision_flag = True
-    self.vision_sleep = True
+    self.vision_flag, self.vision_sleep  = True, True
     Thread(name='vision_loop', target=self.vision_loop, args=(), daemon=True).start()
 
   def vision_stop(self):
@@ -133,21 +129,11 @@ class Pibo:
 
   def face_detect(self):
     im = self.frame.copy()
-    items = self.fac.detect(im)
+    items = self.fac.detect_face(im)
     res = ''
 
     if len(items) > 0:
       x,y,w,h = items[0]
-      '''
-      age_val, age_data = self.fac.get_age(im[y:y+h,x:x+w])
-      gender_val, gender_data = self.fac.get_gender(im[y:y+h,x:x+w])
-      emotion_val, emotion_data = self.fac.get_emotion(im[y:y+h,x:x+w])
-
-      colors = (200,100,0) if gender_val == 'Male' else (100,200,0)
-      self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 3)
-      self.cam.putText(im, f'{age_val} {gender_val} {emotion_val}', (x-10, y-10),0.6,colors,2)
-      res += '[{} / {} / {}'.format(age_val, gender_val, emotion_val)
-      '''
       face = self.fac.get_ageGender(im, items[0])
       colors = (200,100,0) if face['gender'] == 'Male' else (100,200,0)
       self.cam.rectangle(im, (x,y), (x+w, y+h), colors, 3)
@@ -173,16 +159,17 @@ class Pibo:
     res = self.det.classify_image(im)
 
     r = []
-    im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
+    #im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
     for i in range(len(res)):
       #self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
       pred = f"{res[i]['score']}%"
       text= f"{res[i]['name']}:{pred}"
       points = (20, 20+((i+1)*25))
-      ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))
+      im = self.cam.putTextPIL(im, text, points, 20, (0,0,0))
+      #ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))
       r.append(f"{res[i]['name']}: {pred}")
 
-    im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
+    #im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     return im, ", ".join(r)
 
   def qr_detect(self):
@@ -212,16 +199,17 @@ class Pibo:
     #self.cam.putText(im, "{} : {:.1f}%".format(res, raw.max()*100), (50, 50), 0.7, colors, 1)
 
     r = []
-    im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
+    #im = Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
     for i in range(len(self.tm.class_names)):
       #self.cam.putText(im, "{}:{:.1f}%".format(self.tm.class_names[i], raw[i]*100), (50, 50+((i+1)*25)), 0.7, colors, 1)
       pred = f"{float(raw[i]/255.0)*100:.1f}%" if quantization else f"{raw[i]*100:.1f}%"
       text= f"{self.tm.class_names[i]}:{pred}"
       points = (20, 20+((i+1)*25))
-      ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))
+      im = self.cam.putTextPIL(im, text, points, 20, (0,0,0))
+      #ImageDraw.Draw(im).text(points, text, font=self.pil_font, fill=(0,0,0))
       r.append(f"{self.tm.class_names[i]}: {pred}")
 
-    im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
+    #im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     return im, ", ".join(r)
 
   def object_track_init(self, d):
@@ -253,9 +241,7 @@ class Pibo:
 
   ## device
   def device_start(self):
-    self.dev = Device()
     self.devque = Queue()
-    self.device_flag = True
     self.system_value = ['','','','','','']
     self.battery = '0%'
     
@@ -265,16 +251,13 @@ class Pibo:
     
     Thread(name='device_loop', target=self.device_loop, args=(), daemon=True).start()
 
-    self.send_message(Device.code_list['BATTERY'], 'on')
-    self.send_message(Device.code_list['PIR'], 'on')
-    self.send_message(Device.code_list['DC_CONN'])
-    self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
+    self.send_message("15", 'on')
+    self.send_message("30", 'on')
+    self.send_message("14")
+    self.send_message("23", ','.join([str(_) for _ in self.neopixel_value]))
 
   def device_stop(self):
-    self.device_flag = False
-    self.system_value = ['','','','','','']
-    self.battery = '0%'
-    del self.dev
+    pass
 
   def send_message(self, code, data=""):
     self.devque.put(f'#{code}:{data}!')
@@ -301,35 +284,30 @@ class Pibo:
     system_check_time = time.time()
     battery_check_time = time.time()
 
-    while self.device_flag == True:
+    while True:
       try:
         res = None
         if time.time() - system_check_time > 1:  # 시스템 메시지 1초 간격 전송
-          data = self.dev.send_cmd(Device.code_list['SYSTEM'])
-          self.decode_pkt(data)
+          self.decode_pkt(self.devcon.system_data['system'])
           system_check_time = time.time()
         elif time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
-          data = self.dev.send_cmd(Device.code_list['BATTERY'])
-          self.decode_pkt(data)
+          self.decode_pkt(self.devcon.system_data['battery'])
           battery_check_time = time.time()
         elif self.devque.qsize() > 0:
-          data = self.dev.send_raw(self.devque.get())
+          data = self.devcon.send_raw(self.devque.get())
           self.decode_pkt(data)
         else:
           pass
       except Exception as ex:
         self.logger.error(f'[device_loop] Error: {ex}')
-        del self.dev
-        self.dev = Device()
-        time.sleep(3)
-      time.sleep(0.15)
+      time.sleep(0.1)
 
   def set_neopixel(self, d):
     if type(d) is dict and 'idx' in d and 'value' in d:
       self.neopixel_value[d['idx']] = d['value']
     if type(d) is list and len(d) == 6:
       self.neopixel_value = d
-    self.send_message(Device.code_list['NEOPIXEL_EACH'], ','.join([str(_) for _ in self.neopixel_value]))
+    self.send_message("23", ','.join([str(_) for _ in self.neopixel_value]))
 
   def set_oled_image(self, filepath):
     img = self.cam.imread(filepath)
@@ -595,6 +573,7 @@ class Pibo:
     self.timers = []
     for idx, item in enumerate(items):
       timer = Timer(item['time'], self.set_simulate, args=(item,))
+      timer.daemon = True
       timer.start()
       self.timers.append(timer)
 

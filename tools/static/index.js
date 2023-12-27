@@ -279,9 +279,9 @@ const getMotions = (socket) => {
   });
 
   $("#export_motion_bt").on("click", function() {
-    let motion_a = document.createElement("a")    
+    let motion_a = document.createElement("a");
     if($("#motion_name_val").val() == "") motion_a.setAttribute("href", `/export_motion/all`);
-    else motion_a.setAttribute("href", `/export_motion/${$("#motion_name_val").val()}`);
+    else motion_a.setAttribute("href", `/export_motion/${$("#motion_name_val").val()}`); 
     motion_a.click()
   });
 
@@ -640,11 +640,9 @@ const getDevices = (socket) => {
 
   socket.on("update_battery", function (data) {
     let bat = Number(data.split("%")[0]);
+    let bat_str = ['empty', 'quarter', 'half', 'three-quarters', 'full'];
     $("#d_battery_val").html(
-      "<i class='fa fa-battery-" +
-        Math.floor(bat / 25) +
-        "' aria-hidden='true'></i> " +
-        data
+      `<i class='fa fa-battery-${bat_str[Math.floor(bat / 25)]}' aria-hidden='true'></i>${data} `
     );
   });
 
