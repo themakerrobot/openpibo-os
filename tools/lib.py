@@ -29,7 +29,7 @@ def TimerStart(intv, func, daemon=True):
 class Pibo:
   def __init__(self, emit_func=None, logger=None):
     self.logger = log.configure_logger(level='info')
-    self.logger.info(f'[__init__]: Class INIT')
+    self.logger.info('Class INIT')
     self.emit = emit_func
     self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
     self.devcon = DeviceControl()
@@ -540,7 +540,7 @@ class Pibo:
     Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume, log), daemon=True).start()
 
   def set_simulate(self, item):
-    self.logger.info('[set_simulate]', item)
+    self.logger.info(item)
     if 'eye' in item:
       d = item['eye']
       content = d['content']

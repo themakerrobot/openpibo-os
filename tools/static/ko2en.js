@@ -403,6 +403,10 @@ const translations = {
     ko: "사진저장하기",
     en: "Save image"
   },
+  save_images: {
+    ko: "사진 10장 저장하기",
+    en: "Save 10 images"
+  },
   camera_position: {
     ko: "카메라 위치 조정",
     en: "Camera postion control"

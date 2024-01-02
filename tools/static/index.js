@@ -70,6 +70,12 @@ const getVisions = (socket) => {
     capture_a.click();
   });
 
+  $("#v_capture_multi").on("click", function () {
+    let capture_a = document.createElement("a");
+    capture_a.setAttribute("href", "/download_imgs");
+    capture_a.click();
+  });
+
   $("#v_upload_tm").on("change", (e) => {
     let formData = new FormData();
     formData.append("data", $("#v_upload_tm")[0].files[0]);

@@ -101,6 +101,26 @@ async def f():
   pibo.imwrite('/home/pi/capture.jpg')
   return FileResponse(path="/home/pi/capture.jpg", media_type="image/jpeg", filename="capture.jpg")
 
+@app.get('/download_imgs', response_class=FileResponse)
+async def f():
+  if pibo.onoff == False:
+    return JSONResponse(content={'result':'OFF 상태입니다.'}, status_code=500)
+
+  name = "imagetmp"
+  temp_directory = f"/home/pi/{name}"
+  image_paths = []
+  os.system(f'mkdir -p {temp_directory}')
+  for i in range(10):
+    image_path = os.path.join(temp_directory, f"image_{i}.jpg")
+    pibo.imwrite(image_path)
+    image_paths.append(image_path)
+    time.sleep(0.2)
+
+  zip_filename = "images.zip"
+  shutil.make_archive(os.path.join("/home/pi", zip_filename.replace(".zip", "")), 'zip', root_dir="/home/pi", base_dir=name)
+  os.system(f'rm -rf {temp_directory}')
+  return FileResponse(path=os.path.join("/home/pi", zip_filename), media_type="application/zip", filename=zip_filename)
+
 @app.post('/upload_tm')
 async def f(data:UploadFile = File(...)):
   if pibo.onoff == False:
