@@ -149,6 +149,7 @@ def boot():
     ole.draw_text((5,5), "˚".join(["" for _ in range(i+1)]))
     ole.show()
     time.sleep(3)
+  network_disp.run()
   _ = Timer(10, wifi_update)
   _.daemon = True
   _.start()
