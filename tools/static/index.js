@@ -24,7 +24,7 @@ const getVisions = (socket) => {
     x2 = x1+200>640?640:x1+200;
     y2 = y1+200>480?480:y1+200;
 
-    socket.emit("object_track_init", {x1:x1,y1:y1, x2:x2, y2:y2});
+    socket.emit("object_tracker_init", {x1:x1,y1:y1, x2:x2, y2:y2});
   });
 
   let img_x = 0;
@@ -587,6 +587,42 @@ const getSpeech = (socket) => {
       $("#s_question_val").prop("disabled", false);
       $("#s_question_val").val(q);
     }, 800);
+  });
+
+  $("#s_translate_bt").on("click", () => {
+    txt = $("#s_translate_val").val().trim();
+    if (txt == "") {
+      alert(translations["text_empty"][lang]);
+      return;
+    }
+
+    socket.emit("translate", {
+      langtype:$("select[name=s_lang_type]").val(),
+      voice_en: $("input[name=s_voice_en]:checked").val(),
+      volume: Number($("#volume").val()),
+      text: txt
+    });
+  });
+
+  $("#s_translate_val").on("keypress", function (evt) {
+    if (evt.keyCode == 13) {
+      txt = $("#s_translate_val").val().trim();
+      if (txt == "") {
+        alert(translations["text_empty"][lang]);
+        return;
+      }
+  
+      socket.emit("translate", {
+        langtype:$("select[name=s_lang_type]").val(),
+        voice_en: $("input[name=s_voice_en]:checked").val(),
+        volume: Number($("#volume").val()),
+        text: txt
+      });
+    }
+  });
+
+  socket.on("disp_translate", (data) => {
+    $("#s_translate_result_val").val(data);
   });
 
   socket.on("disp_speech", function (data) {

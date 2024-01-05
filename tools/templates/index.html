@@ -918,10 +918,14 @@
                 <header data-key="function_setting"></header>
                 <select id="v_func_type">
                   <option value="camera" data-key="category"></option>
+                  <option value="grayscale" data-key="v_grayscale"></option>
+                  <option value="canny" data-key="v_canny"></option>
+
                   <option value="cartoon" data-key="v_cartoon"></option>
                   <option value="sketch_g" data-key="v_sketch_g"></option>
                   <option value="sketch_rgb" data-key="v_sketch_rgb"></option>
                   <option value="detail" data-key="v_detail"></option>
+                  <option value="edgePreservingFilter" data-key="v_edgePreservingFilter"></option>
                   <option value="qr" data-key="v_qr"></option>
                   <option value="face" data-key="v_face"></option>
                   <option value="object" data-key="v_object"></option>
@@ -941,7 +945,7 @@
                   </form>
                 </div>
               </div>
-              <h3 class="mark" data-key="v_result"></h3>
+              <h3 class="mark" data-key="result"></h3>
                 <textarea
                 name="v_result"
                 id="v_result"
@@ -986,6 +990,37 @@
                   <i class="fa-solid fa-check-double"></i>
                   <span data-key="execute"></span>
                 </button>
+              </div>
+              <div>
+                <h3 class="mark" data-key="translate">번역하기</h3>
+              </div>
+              <div class="speech-input-group">
+                <span class="label" data-key="language_type"></span>:
+                <select name="s_lang_type">
+                  <option value="en" data-key="s_lang_en"></option>
+                  <option value="ko" data-key="s_lang_ko"></option>
+                  <option value="es" data-key="s_lang_es"></option>
+                  <option value="fr" data-key="s_lang_fr"></option>
+                  <option value="de" data-key="s_lang_de"></option>
+                  <option value="zh-CN" data-key="s_lang_zhcn"></option>
+                  <option value="ja" data-key="s_lang_ja"></option>
+                  <option value="ru" data-key="s_lang_ru"></option>
+                  <option value="ar" data-key="s_lang_ar"></option>
+                  <option value="hi" data-key="s_lang_hi"></option>
+                  <option value="la" data-key="s_lang_la"></option>        
+                </select>
+              </div>
+              <div class="speech-input-group">
+                <span class="label" data-key="text"></span>:
+                <input type="text" id="s_translate_val" />
+                <button id="s_translate_bt" style="width:120px">
+                  <i class="fa-solid fa-check-double"></i>
+                  <span data-key="execute"></span>
+                </button>
+              </div>
+              <div class="speech-input-group">
+                <span class="label" data-key="result">결과</span>:
+                <input type="text" id="s_translate_result_val" disabled/>
               </div>
             </section>
             <section>
@@ -1484,6 +1519,6 @@
       <span id="d_dc_val"></span>
     </div>
   </footer>
-  <script src="../static/ko2en.js?ver=20231128v4"></script>
-  <script src="../static/index.js?ver=20231128v11"></script>
+  <script src="../static/ko2en.js?ver=20231128v7"></script>
+  <script src="../static/index.js?ver=20231128v16"></script>
 </html>

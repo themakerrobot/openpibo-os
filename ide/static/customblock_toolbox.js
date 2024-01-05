@@ -1717,6 +1717,66 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "vision_object_tracker_init",
+            "inputs":{
+              "img":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              },
+              "x1": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "y1": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "x2": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "y2": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+            }
+          },
+          {
+            "kind": "block",
+            "type": "vision_object_track",
+            "inputs":{
+              "tracker":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              },
+
+              "img":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              },
+            }
+          },
+          {
+            "kind": "block",
             "type": "vision_load_tm",
             "inputs":{
               "modelpath":{

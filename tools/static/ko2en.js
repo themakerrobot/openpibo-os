@@ -351,6 +351,18 @@ const translations = {
     ko: "기능 설정",
     en: "Functions"
   },
+  v_grayscale: {
+    ko: "흑백",
+    en: "Grayscale"
+  },
+  v_canny: {
+    ko: "윤곽선",
+    en: "Canny Edge"
+  },
+  v_edgePreservingFilter: {
+    ko: "흐리게",
+    en: "edgePreservingFilter"
+  },
   v_cartoon: {
     ko: "만화",
     en: "Cartoon"
@@ -411,8 +423,8 @@ const translations = {
     ko: "카메라 위치 조정",
     en: "Camera postion control"
   },
-  v_result: {
-    ko: "인식결과",
+  result: {
+    ko: "결과",
     en: "Result"
   },
   speak: {
@@ -422,6 +434,54 @@ const translations = {
   voice_type: {
     ko: "음성종류",
     en: "Voice type"
+  },
+  language_type: {
+    ko: "언어종류",
+    en: "Language type"
+  },
+  s_lang_en : {
+    ko: "영어",
+    en: "English"
+  },
+  s_lang_ko : {
+    ko: "한국어",
+    en: "Korean"
+  },
+  s_lang_es : {
+    ko: "스페인어",
+    en: "Spanish"
+  },
+  s_lang_fr : {
+    ko: "프랑스어",
+    en: "French"
+  },
+  s_lang_de : {
+    ko: "독일어",
+    en: "German"
+  },
+  s_lang_zhcn : {
+    ko: "중국어",
+    en: "Chinese (Simplified)"
+  },
+  s_lang_ja : {
+    ko: "일본어",
+    en: "Japanese"
+  },
+  s_lang_ru : {
+    ko: "러시아어",
+    en: "Russian"
+  },
+  s_lang_ar : {
+    ko: "아랍어",
+    en: "Arabic"
+  },
+  s_lang_hi : {
+    ko: "힌디어",
+    en: "Hindi"
+  },
+  s_lang_la : {
+    ko: "라틴어",
+    en: "Latin"
   },
   espeak: {
     ko: "기본음성",

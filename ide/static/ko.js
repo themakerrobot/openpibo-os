@@ -623,6 +623,11 @@ Blockly.Msg["VISION_ANALYZE_POSE"] = "%1 %2 포즈 결과 %3 에서 %4 분석하
 Blockly.Msg["VISION_ANALYZE_POSE_TOOLTIP"] = "포즈 데이터를 분석하여, 지정된 포즈를 인식합니다.";
 Blockly.Msg["VISION_CLASSIFICATION"] = "%1 %2 이미지 %3 분류하기";
 Blockly.Msg["VISION_CLASSIFICATION_TOOLTIP"] = "이미지를 분류합니다. (imagenet 1k)";
+Blockly.Msg["VISION_OBJECT_TRACKER_INIT"] = "%1 %2 이미지 %3 의  %4 %5, %6 %7 좌표에 트래커 설정하기";
+Blockly.Msg["VISION_OBJECT_TRACKER_INIT_TOOLTIP"] = "이미지의 특정 위치에 대한 트래커를 설정합니다.";
+Blockly.Msg["VISION_OBJECT_TRACK"] = "%1 %2 트래커 %3 로 이미지 %4 트래킹하기";
+Blockly.Msg["VISION_OBJECT_TRACK_TOOLTIP"] = "설정한 트래커로 이미지를 트래킹합니다.";
+
 Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";
 Blockly.Msg["VISION_LOAD_TM_TOOLTIP"] = "티처블머신 모델을 설정합니다.";
 Blockly.Msg["VISION_PREDICT_TM"] = "%1 %2 티처블머신으로 이미지 %3 분류하기";

@@ -44,6 +44,10 @@ class Pibo:
     self.mot.set_motors([0,0,-80,0, 0,0, 0,0,80,0], 3000)
     self.speech = Speech()
     self.ole = Oled()
+    self.cam = None
+    self.fac = Face()
+    self.det = Detect()
+    self.tm = TeachableMachine()
     self.device_start()
     TimerStart(1, self.async_system_report, True)
 
@@ -56,9 +60,6 @@ class Pibo:
   ## vision
   def vision_start(self):
     self.cam = Camera()
-    self.fac = Face()
-    self.det = Detect()
-    self.tm = TeachableMachine()
     try:
       self.tm.load(f"{self.mymodel_path}/model_unquant.tflite", f"{self.mymodel_path}/labels.txt")
     except Exception as ex:
@@ -71,7 +72,8 @@ class Pibo:
 
   def vision_stop(self):
     self.vision_flag = False
-    del self.cam, self.fac, self.det
+    del self.cam
+    self.cam = None
 
   def vision_loop(self):
     self.cam.cap.set(cv2.CAP_PROP_FPS, 10)
@@ -82,7 +84,13 @@ class Pibo:
 
       try:
         self.frame = self.cam.read()  # read the camera frame
-        if self.vision_type == "qr":
+        if self.vision_type == 'grayscale':
+          img, res = cv2.cvtColor(self.frame.copy(), cv2.COLOR_BGR2GRAY), ''
+        elif self.vision_type == 'canny':
+          img, res = cv2.Canny(cv2.cvtColor(self.frame.copy(), cv2.COLOR_BGR2GRAY), 200, 200), ''
+        elif self.vision_type == 'edgePreservingFilter':
+          img, res = self.edgePreservingFilter()
+        elif self.vision_type == "qr":
           img, res = self.qr_detect()
         elif self.vision_type == "face":
           img, res = self.face_detect()
@@ -106,13 +114,13 @@ class Pibo:
           img, res = self.object_track()
         else:
           img, res = self.frame, ""
-
       except Exception as ex:
         self.logger.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
 
       self.res_img = img.copy()
-      self.cam.rectangle(img, (self.imgX,self.imgY), (self.imgX,self.imgY),(0,0,0),10)
+      if self.cam:
+        self.cam.putText(img, '+', (self.imgX-5,self.imgY), 0.6, (100,100,200), 3)
       asyncio.run(self.emit('stream', {'img':to_base64(img), 'data':res}, callback=None))
 
   def stylization(self):
@@ -126,6 +134,10 @@ class Pibo:
   def detailEnhance(self):
     im = self.frame.copy()
     return self.cam.detailEnhance(im), ''
+
+  def edgePreservingFilter(self):
+    im = self.frame.copy()
+    return cv2.edgePreservingFilter(im), ''
 
   def face_detect(self):
     im = self.frame.copy()
@@ -212,27 +224,21 @@ class Pibo:
     #im = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
     return im, ", ".join(r)
 
-  def object_track_init(self, d):
+  def object_tracker_init(self, d):
     im = self.frame.copy()
     if self.tracker is not None:
       del self.tracker
 
-    self.tracker = dlib.correlation_tracker()
-    rect = dlib.rectangle(d['x1'], d['y1'], d['x2'], d['y2'])
-    self.tracker.start_track(cv2.cvtColor(im, cv2.COLOR_BGR2RGB), rect)
-
+    self.tracker = self.det.object_tracker_init(im, (d['x1'], d['y1'], d['x2'], d['y2']))
+  
   def object_track(self):
     im = self.frame.copy()
     colors = (100,0,200)
 
     if self.tracker is not None:
-      self.tracker.update(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
-      pos = self.tracker.get_position()
-      
-      x1 = int(pos.left())
-      y1 = int(pos.top())
-      x2 = int(pos.right())
-      y2 = int(pos.bottom())
+      res = self.det.object_track(self.tracker, im)
+      self.tracker = res['tracker']
+      x1,y1,x2,y2 = res['position']
       self.cam.rectangle(im, (x1,y1), (x2,y2),colors,3)
     return im, ""
 
@@ -404,6 +410,18 @@ class Pibo:
       self.logger.error(f'[question] Error: {ex}')
       pass
     return ans
+
+  def translate(self, d):
+    res = self.dialog.translate(d['text'], d['langtype'])
+    if d['voice_en'] == 'off':
+      return res
+
+    voice_type = "gtts"
+    volume = d['volume']
+    filename = "/home/pi/myaudio/tts.mp3"
+    self.speech.tts(string=res, filename=filename, voice=voice_type, lang=d['langtype'])
+    self.play_audio(filename, volume, True)
+    return res
 
   ## motion
   def motion_start(self):

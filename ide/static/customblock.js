@@ -1646,6 +1646,50 @@ Blockly.defineBlocksWithJsonArray(
       tooltip: '%{BKY_VISION_CLASSIFICATION_TOOLTIP}',
       helpUrl: ''
     },
+
+    {
+      type: 'vision_object_tracker_init',
+      message0: '%{BKY_VISION_OBJECT_TRACKER_INIT}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/object-group-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+        {"type": "input_value", "name": "x1", "check":"Number"},
+        {"type": "input_value", "name": "y1", "check":"Number"},
+        {"type": "input_value", "name": "x2", "check":"Number"},
+        {"type": "input_value", "name": "y2", "check":"Number"},
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_OBJECT_TRACKER_INIT_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_object_track',
+      message0: '%{BKY_VISION_OBJECT_TRACK}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/object-group-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "tracker"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_OBJECT_TRACK_TOOLTIP}',
+      helpUrl: ''
+    },
     {
       type: 'vision_load_tm',
       message0: '%{BKY_VISION_LOAD_TM}',

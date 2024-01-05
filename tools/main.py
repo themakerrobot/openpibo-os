@@ -200,11 +200,11 @@ async def f(sid, d=None):
   if pibo.onoff:
     pibo.vision_type=d
 
-@app.sio.on('object_track_init')
+@app.sio.on('object_tracker_init')
 async def f(sid, d=None):
   if pibo.onoff:
     if pibo.vision_type == "track":
-      pibo.object_track_init(d)
+      pibo.object_tracker_init(d)
 
 @app.sio.on('update_img_pointer')
 async def f(sid, d=None):
@@ -270,6 +270,12 @@ async def f(sid, d=None):
   if pibo.onoff:
     res = pibo.question(d)
     await emit('disp_speech', {'answer':res, 'chat_list':list(reversed(pibo.chat_list))})
+
+@app.sio.on('translate')
+async def f(sid, d=None):
+  if pibo.onoff:
+    res = pibo.translate(d)
+    await emit('disp_translate', res)
 
 @app.sio.on('disp_speech')
 async def f(sid, d=None):
