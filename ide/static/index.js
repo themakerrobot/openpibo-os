@@ -701,12 +701,12 @@ const workspace = Blockly.inject("blocklyDiv", {
     },
     blockStyles: {
       logic_blocks: {
-        colourPrimary: '#D1C4E9',
+        colourPrimary: '#B098CB',
         colourSecondary: '#EDE7F6',
         colorTertiary: '#B39DDB',
       },
       loop_blocks: {
-        colourPrimary: '#A5D6A7',
+        colourPrimary: '#85B687',
         colourSecondary: '#E8F5E9',
         colorTertiary: '#66BB6A',
       },
@@ -716,8 +716,8 @@ const workspace = Blockly.inject("blocklyDiv", {
         colorTertiary: '#0D47A1',
       },
       text_blocks: {
-        colourPrimary: '#FFCA28',
-        colourSecondary: '#FFF8E1',
+        colourPrimary: '#FFAA08',
+        colourSecondary: '#555555',
         colorTertiary: '#FF8F00',
       },
       list_blocks: {
@@ -726,7 +726,7 @@ const workspace = Blockly.inject("blocklyDiv", {
         colorTertiary: '#009688',
       },
       colour_blocks: {
-        colourPrimary: '#FFCDD2',
+        colourPrimary: '#DFADB2',
         colourSecondary: '#FFEBEE',
         colorTertiary: '#EF9A9A',
       },
@@ -742,39 +742,39 @@ const workspace = Blockly.inject("blocklyDiv", {
       //   colorTertiary: '#EF5350',
       // },
       procedure_blocks: {
-        colourPrimary: '#D7CCC8',
+        colourPrimary: '#C7BCB8',
         colourSecondary: '#EFEBE9',
         colorTertiary: '#BCAAA4',
       },
     },
     categoryStyles: {
-      logic_category: {
-        colour: '#D1C4E9'
-      },
-      loop_category: {
-        colour: '#A5D6A7'
-      },
-      math_category: {
-        colour: '#2196F3'
-      },
-      text_category: {
-        colour: '#FFCA28'
-      },
-      list_category: {
-        colour: '#4DB6AC'
-      },
-      colour_category: {
-        colour: '#FFCDD2'
-      },
-      variable_category: {
-        colour: '#EF9A9A'
-      },
-      // variable_dynamic_category: {
+      // logic_category: {
+      //   colour: '#D1C4E9'
+      // },
+      // loop_category: {
+      //   colour: '#A5D6A7'
+      // },
+      // math_category: {
+      //   colour: '#2196F3'
+      // },
+      // text_category: {
+      //   colour: '#FFCA28'
+      // },
+      // list_category: {
+      //   colour: '#4DB6AC'
+      // },
+      // colour_category: {
+      //   colour: '#FFCDD2'
+      // },
+      // variable_category: {
       //   colour: '#EF9A9A'
       // },
-      procedure_category: {
-        colour: '#D7CCC8'
-      }
+      // // variable_dynamic_category: {
+      // //   colour: '#EF9A9A'
+      // // },
+      // procedure_category: {
+      //   colour: '#D7CCC8'
+      // }
     },
     componentStyles: {
       'flyoutOpacity': 0.5,

@@ -4,7 +4,7 @@ let toolbox = (lang) => {
     "contents": [
       { // Logic
         "kind": "category",
-        "colour": '#D1C4E9',
+        "colour": '#B098CB',
         "name": translations['logic'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-bars-staggered"
@@ -43,7 +43,7 @@ let toolbox = (lang) => {
       },
       { // Loops
         "kind": "category",
-        "colour": '#A5D6A7',
+        "colour": '#85B687',
         "name": translations['loops'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-arrows-spin"
@@ -314,7 +314,7 @@ let toolbox = (lang) => {
       },
       { // Text
         "kind": "category",
-        "colour": '#FFCA28',
+        "colour": '#FFAA08',
         "name": translations['text'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-t"
@@ -666,7 +666,7 @@ let toolbox = (lang) => {
       },
       { // Colour
         "kind": "category",
-        "colour": '#FFCDD2',
+        "colour": '#DFADB2',
         "name": translations['colour'][lang],
         "cssConfig": {
           "icon": "customIcon fa fa-palette"
@@ -759,7 +759,7 @@ let toolbox = (lang) => {
       },
       { // Functions
         "kind": "category",
-        "colour": '#D7CCC8',
+        "colour": '#C7BCB8',
         "name": translations['functions'][lang],
         "contents": [],
         "custom": "PROCEDURE",
