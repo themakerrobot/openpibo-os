@@ -304,6 +304,32 @@ Blockly.defineBlocksWithJsonArray(
             "height": 27
           },
           {"type":"input_dummy"},
+          {"type": "input_value", "name": "val0", "check":"Number"},
+          {"type": "input_value", "name": "val1", "check":"Number"},
+          {"type": "input_value", "name": "val2", "check":"Number"},
+          {"type": "input_value", "name": "val3", "check":"Number"},
+          {"type": "input_value", "name": "val4", "check":"Number"},
+          {"type": "input_value", "name": "val5", "check":"Number"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["device"],
+      tooltip: '%{BKY_DEVICE_EYE_ON_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'device_eye_colour_on',
+      message0: '%{BKY_DEVICE_EYE_COLOUR_ON}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/eye-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
           {"type": "input_value", "name": "left", "check":"Colour"},
           {"type": "input_value", "name": "right", "check":"Colour"}
         ],
@@ -311,7 +337,7 @@ Blockly.defineBlocksWithJsonArray(
       previousStatement: true,
       inputsInline: true,
       colour: color_type["device"],
-      tooltip: '%{BKY_DEVICE_EYE_ON_TOOLTIP}',
+      tooltip: '%{BKY_DEVICE_EYE_COLOUR_ON_TOOLTIP}',
       helpUrl: ''
     },
     {

@@ -500,8 +500,10 @@ Blockly.Msg["COLLECT_TOPIC"] = "제목";
 Blockly.Msg["COLLECT_CONTENT"] = "내용";
 Blockly.Msg["COLLECT_LINK"] = "링크";
 
-Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 색상 변수로 눈 LED %3 %4 켜기";
-Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 설정하여 켭니다";
+Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 눈 LED %3 %4 %5 %6 %7 %8 켜기";
+Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "눈 LED 색상 값을 설정하여 켭니다";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "%1 %2 색상 변수로 눈 LED %3 %4 켜기";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 설정하여 켭니다";
 Blockly.Msg["DEVICE_EYE_FADE"] = "%1 %2 색상 변수로 눈 LED %3 %4 인터벌 %5 로 서서히 켜기";
 Blockly.Msg["DEVICE_EYE_FADE_TOOLTIP"] = "색상 변수로 눈 LED 색상 값을 서서히 변경합니다";
 Blockly.Msg["DEVICE_EYE_OFF"] = "%1 %2 눈 LED 끄기";

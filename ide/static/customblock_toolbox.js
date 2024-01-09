@@ -889,6 +889,60 @@ let toolbox = (lang) => {
             "kind": "block",
             "type": "device_eye_on",
             "inputs":{
+              "val0": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val1": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val2": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val3": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val4": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "val5": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
+            "type": "device_eye_colour_on",
+            "inputs":{
               "left":{
                 "shadow": {
                   "type": "variables_get",

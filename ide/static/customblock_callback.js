@@ -75,6 +75,19 @@ Blockly.Python['news_search'] = function(block) {
 Blockly.Python['device_eye_on'] = function(block) {
   Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
   Blockly.Python.definitions_['assign_device'] = 'device = Device()';
+  
+  const val0 = Blockly.Python.valueToCode(block, 'val0', Blockly.Python.ORDER_ATOMIC);
+  const val1 = Blockly.Python.valueToCode(block, 'val1', Blockly.Python.ORDER_ATOMIC);
+  const val2 = Blockly.Python.valueToCode(block, 'val2', Blockly.Python.ORDER_ATOMIC);
+  const val3 = Blockly.Python.valueToCode(block, 'val3', Blockly.Python.ORDER_ATOMIC);
+  const val4 = Blockly.Python.valueToCode(block, 'val4', Blockly.Python.ORDER_ATOMIC);
+  const val5 = Blockly.Python.valueToCode(block, 'val5', Blockly.Python.ORDER_ATOMIC);
+
+  return `device.eye_on(${val0}, ${val1}, ${val2}, ${val3}, ${val4}, ${val5})\n`
+}
+Blockly.Python['device_eye_colour_on'] = function(block) {
+  Blockly.Python.definitions_['from_device_import_Device'] = 'from openpibo.device import Device';
+  Blockly.Python.definitions_['assign_device'] = 'device = Device()';
 
   const l = Blockly.Python.valueToCode(block, 'left', Blockly.Python.ORDER_ATOMIC);
   const r = Blockly.Python.valueToCode(block, 'right', Blockly.Python.ORDER_ATOMIC);

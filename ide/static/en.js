@@ -500,8 +500,10 @@ Blockly.Msg["COLLECT_TOPIC"] = "topic";
 Blockly.Msg["COLLECT_CONTENT"] = "content";
 Blockly.Msg["COLLECT_LINK"] = "link";
 
-Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 Turn on eye LED with color variable %3 %4";
-Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "Turn on eye LED with a color variable.";
+Blockly.Msg["DEVICE_EYE_ON"] = "%1 %2 Turn on eye LEDs %3 %4 %5 %6 %7 %8";
+Blockly.Msg["DEVICE_EYE_ON_TOOLTIP"] = "Turn on eye LED";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON"] = "%1 %2 Turn on eye LEDs with color variable %3 %4";
+Blockly.Msg["DEVICE_EYE_COLOUR_ON_TOOLTIP"] = "Turn on eye LED with a color variable.";
 Blockly.Msg["DEVICE_EYE_FADE"] = "%1 %2 Turn on eye LED with color variable %3 %4 with %5 interval.";
 Blockly.Msg["DEVICE_EYE_FADE_TOOLTIP"] = "Turn on eye LED with a color variable with interval.";
 Blockly.Msg["DEVICE_EYE_OFF"] = "%1 %2 Turn off eye LED";
