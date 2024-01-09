@@ -352,7 +352,7 @@ nav button {
   font-weight: bold;
   font-family: Tahoma, sans-serif;
   padding: 20px 0 20px 0;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 nav button[name="home"]::after {
@@ -375,7 +375,7 @@ nav button[name="simulator"]::after {
 }
 
 nav button:hover {
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 nav button.menu-selected {

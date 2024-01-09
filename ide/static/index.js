@@ -392,6 +392,21 @@ socket.on("update_file_manager", (d) => {
               let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
               let newname = prompt(translations['check_newfile_name'][lang]);
 
+              if (newname != null) {
+                if(newname == "") {
+                  alert(translations['check_newfile_name'][lang]);
+                  return;
+                }
+                newname = newname.trim()//.replace(/ /g, "_");
+                if(newname.length > MAX_FILENAME_LENGTH) {
+                  alert(translations['name_size_limit'][lang](MAX_FILENAME_LENGTH));
+                  return;
+                }
+              }
+              else {
+                return;
+              }
+
               if (!confirm(translations['confirm_rename'][lang](name, newname))) return;
 
               if ($("#codepath").html().includes(CURRENT_DIR.join("/") + "/" + name)) {
