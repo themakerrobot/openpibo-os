@@ -1101,7 +1101,7 @@ const setLanguage = (langCode) => {
       }
   });
 
-  const langFileVersion = '231108v1';
+  const langFileVersion = '240110v1';
   const langFile = `../static/${langCode}.js?ver=${langFileVersion}`;
   const prevKoScript = document.querySelector(`script[src*="../static/ko.js?ver=${langFileVersion}"]`);
   if (prevKoScript) {
