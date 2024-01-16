@@ -1,3 +1,24 @@
+let fullscreen = false;
+$('#fullscreen_txt').html(
+  fullscreen?
+  '<i class="fa-solid fa-minimize fa-xl"></i>':
+  '<i class="fa-solid fa-maximize fa-xl"></i>'
+);
+
+$('#fullscreen_bt').on('click', ()=>{
+  if (!fullscreen && document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+    fullscreen=true;
+    $('#fullscreen_txt').html('<i class="fa-solid fa-minimize fa-xl"></i>');
+  }
+  else if (fullscreen && document.exitFullscreen) {
+    document.exitFullscreen();
+    fullscreen=false;
+    $('#fullscreen_txt').html('<i class="fa-solid fa-maximize fa-xl"></i>');
+  }
+  else {}
+});
+
 const init_usedata = {
   staytime:0,
   home:{click:0, keydown:0, staytime:0},
@@ -153,7 +174,7 @@ const getMotions = (socket) => {
           $(this).val($(trange).val());
           alert(translations["range_warn"][lang](min, max));
         } else {
-	  $(trange).val(pos);
+	        $(trange).val(pos);
           socket.emit("set_motor", { idx: i, pos: pos });
         }
       }
