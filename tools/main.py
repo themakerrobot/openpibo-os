@@ -548,8 +548,12 @@ async def f(sid, d=None):
 
 @app.sio.on('swupdate')
 async def f(sid, d=None):
+  pibo.set_oled({'size':14, 'x':0, 'y':10, 'text':'*S/W 업데이트 중...\n \n재시작할 수 있습니다'})
   os.system('curl -s https://raw.githubusercontent.com/themakerrobot/themakerrobot/main/update/main > /home/pi/update')
   os.system('bash /home/pi/update')
+  pibo.set_oled({'size':16, 'x':10, 'y':20, 'text':'최신 버전입니다'})
+  time.sleep(2)
+  os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
 
 @app.sio.on('restore')
 async def f(sid, d=None):
