@@ -235,9 +235,9 @@ Blockly.defineBlocksWithJsonArray(
         },
         {"type": "field_dropdown", "name":"type",
          "options":[
-          [ '%{BKY_COLLECT_COMMENT}', '0' ],
-          [ '%{BKY_COLLECT_LOWTEMP}', '1' ],
-          [ '%{BKY_COLLECT_HIGHTEMP}', '2' ]
+          [ '%{BKY_COLLECT_COMMENT}', 'weather' ],
+          [ '%{BKY_COLLECT_LOWTEMP}', 'minimum_temp' ],
+          [ '%{BKY_COLLECT_HIGHTEMP}', 'highst_temp' ]
          ]
         }
       ],
@@ -749,6 +749,28 @@ Blockly.defineBlocksWithJsonArray(
       tooltip: '%{BKY_MOTION_SET_ACCELERATION_TOOLTIP}',
       helpUrl: ''
     },
+    {
+      type: 'motion_set_motors',
+      message0: '%{BKY_MOTION_SET_MOTORS}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/person-walking-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "val_list", "check":"String"},
+          {"type": "input_value", "name": "time", "check":"Number"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["motion"],
+      tooltip: '%{BKY_MOTION_SET_MOTORS_TOOLTIP}',
+      helpUrl: ''
+    },
 
     // oled
     {
@@ -1115,6 +1137,58 @@ Blockly.defineBlocksWithJsonArray(
       tooltip: '%{BKY_SPEECH_TTS_TOOLTIP}',
       helpUrl: ''
     },
+
+    {
+      type: 'speech_gtts',
+      message0: '%{BKY_SPEECH_GTTS}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/bolt-solid.svg",
+            "width": 15,
+            "height": 20
+          },
+          {
+            "type": "field_image",
+            "src": "svg/file-audio-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "text", "check":"String"},
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ '%{BKY_FOLDER_SELECT}', ''],
+              [ 'code', '/home/pi/code/' ],
+              [ 'myaudio', '/home/pi/myaudio/' ],
+            ]
+          },
+          {"type": "input_value", "name": "filename", "check":"String"},
+          {"type": "field_dropdown", "name":"lang",
+           "options":[
+              ['%{BKY_LANG_KO}','ko'],
+              ['%{BKY_LANG_EN}','en'],
+              ['%{BKY_LANG_ES}','es'],
+              ['%{BKY_LANG_FR}','fr'],
+              ['%{BKY_LANG_DE}','de'],
+              ['%{BKY_LANG_ZHCN}','zh-CN'],
+              ['%{BKY_LANG_JA}','ja'],
+              ['%{BKY_LANG_RU}','ru'],
+              ['%{BKY_LANG_AR}','ar'],
+              ['%{BKY_LANG_HI}','hi'],
+              ['%{BKY_LANG_LA}','la']
+            ]
+          },
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["speech"],
+      tooltip: '%{BKY_SPEECH_GTTS_TOOLTIP}',
+      helpUrl: ''
+    },
+
     {
       type: 'speech_translate',
       message0: '%{BKY_SPEECH_TRANSLATE}',
@@ -1137,7 +1211,16 @@ Blockly.defineBlocksWithJsonArray(
           {"type": "field_dropdown", "name":"lang",
             "options":[
               ['%{BKY_LANG_KO}','ko'],
-              ['%{BKY_LANG_EN}','en']
+              ['%{BKY_LANG_EN}','en'],
+              ['%{BKY_LANG_ES}','es'],
+              ['%{BKY_LANG_FR}','fr'],
+              ['%{BKY_LANG_DE}','de'],
+              ['%{BKY_LANG_ZHCN}','zh-CN'],
+              ['%{BKY_LANG_JA}','ja'],
+              ['%{BKY_LANG_RU}','ru'],
+              ['%{BKY_LANG_AR}','ar'],
+              ['%{BKY_LANG_HI}','hi'],
+              ['%{BKY_LANG_LA}','la']
             ]
          },
         ],
@@ -1194,6 +1277,28 @@ Blockly.defineBlocksWithJsonArray(
         tooltip: '%{BKY_SPEECH_LOAD_DIALOG_TOOLTIP}',
         helpUrl: ''
     },
+    {
+      type: 'speech_reset_dialog',
+      message0: '%{BKY_SPEECH_RESET_DIALOG}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/database-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"}
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["speech"],
+      tooltip: '%{BKY_SPEECH_RESET_DIALOG_TOOLTIP}',
+      helpUrl: ''
+    },
+
+
     {
       type: 'vision_read',
       message0: '%{BKY_VISION_READ}',
@@ -1705,6 +1810,26 @@ Blockly.defineBlocksWithJsonArray(
       inputsInline: true,
       colour: color_type["vision"],
       tooltip: '%{BKY_VISION_OBJECT_TRACK_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_marker_detect',
+      message0: '%{BKY_VISION_MARKER_DETECT}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/qrcode-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+        {"type": "input_value", "name": "length", "check":"Number"},
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_MARKER_DETECT_TOOLTIP}',
       helpUrl: ''
     },
     {

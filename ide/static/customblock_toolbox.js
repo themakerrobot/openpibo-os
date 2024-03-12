@@ -1129,6 +1129,28 @@ let toolbox = (lang) => {
               }
             }
           },
+          {
+            "kind": "block",
+            "type": "motion_set_motors",
+            "inputs":{
+              "val_list":{
+                "shadow": {
+                  "type": "text",
+                  "fields": {
+                    "TEXT": "0,0,0,0,0,0,0,0,0,0"
+                  }
+                }
+              },
+              "time": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "1000"
+                  }
+                }
+              }
+            }
+          },
         ],
         "colour": color_type["motion"],
         "cssConfig": {
@@ -1363,6 +1385,8 @@ let toolbox = (lang) => {
               }
             }
           },
+
+
           {
             "kind": "block",
             "type": "speech_tts",
@@ -1386,6 +1410,30 @@ let toolbox = (lang) => {
               },
             }
           },
+          {
+            "kind": "block",
+            "type": "speech_gtts",
+            "inputs":{
+              "text":{
+                "shadow": {
+                  "type": "text",
+                  "fields": {
+                    "TEXT": translations['sample_text'][lang]
+                  }
+                }
+              },
+              "filename":{
+                "shadow": {
+                  "type": "text",
+                  "fields": {
+                    "TEXT": "sample.mp3"
+                    // "TEXT": translations['audio_filename'][lang]
+                  }
+                }
+              },
+            }
+          },
+
           {
             "kind": "block",
             "type": "speech_translate",
@@ -1428,7 +1476,11 @@ let toolbox = (lang) => {
                 }
               }
             }
-          }
+          },
+          {
+            "kind": "block",
+            "type": "speech_reset_dialog",
+          },
         ],
         "colour": color_type["speech"],
         "cssConfig": {
@@ -1827,6 +1879,25 @@ let toolbox = (lang) => {
                   "type":"variables_get",
                 }
               },
+            }
+          },
+          {
+            "kind": "block",
+            "type": "vision_marker_detect",
+            "inputs":{
+              "img":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              },
+              "length": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0.02"
+                  }
+                }
+              }
             }
           },
           {

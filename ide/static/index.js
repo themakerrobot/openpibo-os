@@ -722,7 +722,7 @@ const workspace = Blockly.inject("blocklyDiv", {
   zoom: {
     controls: true,
     wheel: false,
-    startScale: 0.8,
+    startScale: 0.7,
     maxScale: 3,
     minScale: 0.3,
     scaleSpeed: 1.05,
