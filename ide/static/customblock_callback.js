@@ -481,6 +481,13 @@ Blockly.Python.forBlock['vision_face'] = function(block) {
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   return [`_face.detect_face(${img})`, Blockly.Python.ORDER_ATOMIC];
 }
+Blockly.Python.forBlock['vision_face_landmark'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Face'] = 'from openpibo.vision import Face';
+  Blockly.Python.definitions_['assign_face'] = '_face = Face()';
+
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  return [`_face.landmark_face(${img})`, Blockly.Python.ORDER_ATOMIC];
+}
 Blockly.Python.forBlock['vision_face_age'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Face'] = 'from openpibo.vision import Face';
   Blockly.Python.definitions_['assign_face'] = '_face = Face()';
@@ -578,7 +585,6 @@ Blockly.Python.forBlock['vision_marker_detect'] = function(block) {
   const length = Blockly.Python.valueToCode(block, 'length', Blockly.Python.ORDER_ATOMIC);
   return [`detect.marker_detect(${img}, ${length})`, Blockly.Python.ORDER_ATOMIC];
 }
-
 Blockly.Python.forBlock['vision_load_tm'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_TeachableMachine'] = 'from openpibo.vision import TeachableMachine';
   Blockly.Python.definitions_['assign_tm'] = 'tm = TeachableMachine()';
@@ -651,7 +657,6 @@ Blockly.Python.forBlock['utils_dict_set'] = function(block) {
 Blockly.Python.forBlock['utils_dict_create'] = function(block) {
   return [`dict()\n`, Blockly.Python.ORDER_ATOMIC];
 }
-
 Blockly.Python.forBlock['utils_check_path'] = function(block) {
   Blockly.Python.definitions_['import_os'] = 'import os';
   const type = block.getFieldValue('type');
@@ -659,14 +664,12 @@ Blockly.Python.forBlock['utils_check_path'] = function(block) {
 
   return [`${type}(${path})`, Blockly.Python.ORDER_ATOMIC];
 }
-
 Blockly.Python.forBlock['utils_typecast_string'] = function(block) {
   Blockly.Python.definitions_['import_os'] = 'import os';
   const value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
 
   return [`str(${value})`, Blockly.Python.ORDER_ATOMIC];
 }
-
 Blockly.Python.forBlock['utils_typecast_number'] = function(block) {
   Blockly.Python.definitions_['import_os'] = 'import os';
   const type = block.getFieldValue('type');

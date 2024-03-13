@@ -1736,6 +1736,17 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "vision_face_landmark",
+            "inputs":{
+              "img":{
+                "shadow": {
+                  "type": "variables_get",
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
             "type": "vision_face_age",
             "inputs":{
               "img":{
@@ -1894,7 +1905,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "math_number",
                   "fields": {
-                    "NUM": "0.02"
+                    "NUM": "2"
                   }
                 }
               }

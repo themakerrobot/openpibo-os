@@ -1626,6 +1626,25 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_face_landmark',
+      message0: '%{BKY_VISION_FACE_LANDMARK}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/face-smile-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FACE_LANDMARK_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
       type: 'vision_face_age',
       message0: '%{BKY_VISION_FACE_AGE}',
       "args0": [

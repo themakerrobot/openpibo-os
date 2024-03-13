@@ -626,6 +626,8 @@ Blockly.Msg["VISION_TRANSFER_TOOLTIP"] = "Transform image style.";
 
 Blockly.Msg["VISION_FACE"] = "%1 %2 Find faces in image %3";
 Blockly.Msg["VISION_FACE_TOOLTIP"] = "Detect and identify faces in the specified image.";
+Blockly.Msg["VISION_FACE_LANDMARK"] = "%1 %2 Find face landmarks in image %3";
+Blockly.Msg["VISION_FACE_LANDMARK_TOOLTIP"] = "Detect face landmarks in the specified image.";
 Blockly.Msg["VISION_FACE_AGE"] = "%1 %2 Analyze image %3 face %4 age";
 Blockly.Msg["VISION_FACE_AGE_TOOLTIP"] = "Analyzes the age of faces found in the image.";
 Blockly.Msg["VISION_FACE_GENDER"] = "%1 %2 Analyze image %3 face %4 gender";

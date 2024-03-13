@@ -626,6 +626,8 @@ Blockly.Msg["VISION_TRANSFER_TOOLTIP"] = "이미지의 스타일을 변환합니
 
 Blockly.Msg["VISION_FACE"] = "%1 %2 이미지 %3 얼굴 찾기";
 Blockly.Msg["VISION_FACE_TOOLTIP"] = "이미지에서 얼굴을 찾습니다.";
+Blockly.Msg["VISION_FACE_LANDMARK"] = "%1 %2 이미지 %3 얼굴 랜드마크 찾기";
+Blockly.Msg["VISION_FACE_LANDMARK_TOOLTIP"] = "이미지에서 얼굴 랜드마크를 찾습니다.";
 Blockly.Msg["VISION_FACE_AGE"] = "%1 %2 이미지 %3 얼굴 %4 나이 분석하기";
 Blockly.Msg["VISION_FACE_AGE_TOOLTIP"] = "이미지에서 찾은 얼굴의 나이를 분석합니다.";
 Blockly.Msg["VISION_FACE_GENDER"] = "%1 %2 이미지 %3 얼굴 %4 성별 분석하기";
