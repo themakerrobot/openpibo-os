@@ -423,7 +423,7 @@ Blockly.Python.forBlock['vision_rectangle'] = function(block) {
   const color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
   const tickness = Blockly.Python.valueToCode(block, 'tickness', Blockly.Python.ORDER_ATOMIC);
 
-  return `${img} = camera.rectangle(${img}, (${x1},${y1}), (${x2},${y2}), tuple([int(${color}[${color}.index('#'):${color}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)][::-1]), ${tickness})\n`;
+  return `${img} = camera.rectangle(${img}, (${x1},${y1}), (${x2},${y2}), ${color}, ${tickness})\n`;
 }
 Blockly.Python.forBlock['vision_circle'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
@@ -436,7 +436,7 @@ Blockly.Python.forBlock['vision_circle'] = function(block) {
   const color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
   const tickness = Blockly.Python.valueToCode(block, 'tickness', Blockly.Python.ORDER_ATOMIC);
 
-  return `${img} = camera.circle(${img}, (${x},${y}), ${r}, tuple([int(${color}[${color}.index('#'):${color}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)][::-1]), ${tickness})\n`;
+  return `${img} = camera.circle(${img}, (${x},${y}), ${r}, ${color}, ${tickness})\n`;
 }
 Blockly.Python.forBlock['vision_text'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
@@ -448,7 +448,7 @@ Blockly.Python.forBlock['vision_text'] = function(block) {
   const y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
   const size = Blockly.Python.valueToCode(block, 'size', Blockly.Python.ORDER_ATOMIC);
   const color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
-  return `${img} = camera.putTextPIL(${img}, ${text}, (${x},${y}), ${size}, tuple([int(${color}[${color}.index('#'):${color}.index('#')+7][___iii:___iii+2], 16) for ___iii in (1, 3, 5)][::-1]))\n`;
+  return `${img} = camera.putTextPIL(${img}, ${text}, (${x},${y}), ${size}, ${color})\n`;
 }
 Blockly.Python.forBlock['vision_transfer'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
