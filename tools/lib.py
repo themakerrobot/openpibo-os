@@ -37,6 +37,7 @@ class Pibo:
     self.mymodel_path = "/home/pi/mymodel"
     self.tracker, self.trackX, self.trackY = None, 0, 0
     self.imgX, self.imgY = 0,0
+    self.marker_length = 2
     self.aud = Audio()
     self.mot = Motion()
     #self.pil_font = ImageFont.truetype(openpibo_models.filepath("KDL.ttf"), 20)
@@ -94,6 +95,8 @@ class Pibo:
           img, res = self.qr_detect()
         elif self.vision_type == "face":
           img, res = self.face_detect()
+        elif self.vision_type == "face_landmark":
+          img, res = self.face_landmark()
         elif self.vision_type == "object":
           img, res = self.object_detect()
         elif self.vision_type == "classify":
@@ -112,6 +115,8 @@ class Pibo:
           img, res = self.tm_classify()
         elif self.vision_type == "track":
           img, res = self.object_track()
+        elif self.vision_type == "marker":
+          img, res = self.marker_detect()
         else:
           img, res = self.frame, ""
       except Exception as ex:
@@ -152,6 +157,11 @@ class Pibo:
       self.cam.putText(im, face['gender']+face['age'], (x+10, y+20),0.6,colors,2)
       res += '[{}/{}-({},{})] '.format(face['gender'], face['age'], x, y)
     return im, res
+
+  def face_landmark(self):
+    im = self.frame.copy()
+    res = self.fac.landmark_face(im)
+    return res['img'], ''
 
   def object_detect(self):
     im = self.frame.copy()
@@ -241,6 +251,12 @@ class Pibo:
       x1,y1,x2,y2 = res['position']
       self.cam.rectangle(im, (x1,y1), (x2,y2),colors,3)
     return im, ""
+
+  def marker_detect(self):
+    im = self.frame.copy()
+    res = self.det.marker_detect(im, self.marker_length)
+
+    return res['img'], " ".join([ f'({d["id"]})-{d["distance"]}cm' for d in res['data']])
 
   def imwrite(self, name):
     self.cam.imwrite(name, self.res_img.copy())

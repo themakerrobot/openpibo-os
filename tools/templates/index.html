@@ -359,7 +359,7 @@
               </div>
 
               <div style="margin-top: 20px">
-                <span class="label"><span data-key="audio_play"></span></span>
+                <span class="label"><span data-key="audio_play"></span></span> <i class="fa-solid fa-dollar-sign"></i>~/openpibo-files/audio
                 <div style="margin-top: 10px">
                   <select id="audiopath" name="audiopath">
                     <option value="-" data-key="category"></option>
@@ -464,7 +464,7 @@
                 </div>
 
                 <div style="margin-top: 10px">
-                  <span class="label" data-key="enter_image_robot"></span>
+                  <span class="label" data-key="enter_image_robot"></span> <i class="fa-solid fa-dollar-sign"></i>~/openpibo-files/image
                   <div style="margin-top: 10px">
                     <select id="oledpath" name="oledpath">
                       <option value="-" data-key="category"></option>
@@ -926,7 +926,6 @@
                   <option value="camera" data-key="category"></option>
                   <option value="grayscale" data-key="v_grayscale"></option>
                   <option value="canny" data-key="v_canny"></option>
-
                   <option value="cartoon" data-key="v_cartoon"></option>
                   <option value="sketch_g" data-key="v_sketch_g"></option>
                   <option value="sketch_rgb" data-key="v_sketch_rgb"></option>
@@ -934,22 +933,28 @@
                   <option value="edgePreservingFilter" data-key="v_edgePreservingFilter"></option>
                   <option value="qr" data-key="v_qr"></option>
                   <option value="face" data-key="v_face"></option>
+                  <option value="face_landmark" data-key="v_face_landmark"></option>
                   <option value="object" data-key="v_object"></option>
                   <option value="classify" data-key="v_classify"></option>
                   <option value="pose" data-key="v_pose"></option>
                   <option value="tm" data-key="v_tm"></option>
                   <option value="track" data-key="v_track"></option>
+                  <option value="marker" data-key="v_marker"></option>
                 </select>
               </div>
               <div>
-                <span class="label" style="font-size:large" data-key="v_tm_model"></span>
-                &nbsp;&nbsp;
+                <span class="label" style="font-size:medium" data-key="v_tm_model"></span> <i class="fa-solid fa-dollar-sign"></i>~/mymodel:
+                &nbsp;
                 <label for="v_upload_tm" class="upload_label"><i class="fa-solid fa-file-upload">&nbsp;</i><span data-key="upload"></span></label>      
                 <div class="upload_div">
                   <form>
                     <input type="file" id="v_upload_tm" accept=".zip" />
                   </form>
                 </div>
+              </div>
+              <div>
+                <span class="label" style="font-size:medium" data-key="v_marker_length"></span>: &nbsp;
+                <input type="number" id="marker_length" min="1" max="20" value="2" size="20" pattern="\d*" style="width:50px"/>
               </div>
               <h3 class="mark" data-key="result"></h3>
                 <textarea
@@ -1527,5 +1532,5 @@
     </div>
   </footer>
   <script src="../static/ko2en.js?ver=240313v1"></script>
-  <script src="../static/index.js?ver=240313v1"></script>
+  <script src="../static/index.js?ver=240313v3"></script>
 </html>

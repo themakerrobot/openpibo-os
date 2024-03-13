@@ -85,6 +85,20 @@ const getVisions = (socket) => {
     socket.emit("detect", $(this).val());
   });
 
+  socket.emit("marker_length",  Number($('#marker_length').val()));
+  $('#marker_length').on("focusout keydown", function (evt) {
+    if (
+      evt.type == "focusout" ||
+      (evt.type == "keydown" && evt.keyCode == 13)
+    ) {
+      socket.emit("marker_length",  Number($('#marker_length').val()));
+    }
+  });
+
+  $('#marker_length').on("click", function (evt) {
+    socket.emit("marker_length",  Number($('#marker_length').val()));
+  });
+
   $("#v_capture").on("click", function () {
     let capture_a = document.createElement("a");
     capture_a.setAttribute("href", "/download_img");

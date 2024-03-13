@@ -391,6 +391,10 @@ const translations = {
     ko: "얼굴분석",
     en: "Face analysis"
   },
+  v_face_landmark: {
+    ko: "얼굴분석(랜드마크)",
+    en: "Face landmark"
+  },
   v_object: {
     ko: "사물인식",
     en: "Object detection"
@@ -414,6 +418,14 @@ const translations = {
   v_track: {
     ko: "사물 트래킹",
     en: "Object tracking"
+  },
+  v_marker: {
+    ko: "마커인식",
+    en: "Marker detection"
+  },
+  v_marker_length: {
+    ko: "마커상수",
+    en: "Marker constant"
   },
   save_image: {
     ko: "사진저장하기",
@@ -811,11 +823,11 @@ const translations = {
   },
   import: {
     ko: "가져오기",
-    en: "Import the motion."
+    en: "Import the motion"
   },
   export: {
     ko: "내보내기",
-    en: "Export the motion."
+    en: "Export the motion"
   }
 };
 

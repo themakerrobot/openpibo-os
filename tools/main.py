@@ -200,6 +200,10 @@ async def f(sid, d=None):
   if pibo.onoff:
     pibo.vision_type=d
 
+@app.sio.on('marker_length')
+async def f(sid, d=None):
+  pibo.marker_length=d
+
 @app.sio.on('object_tracker_init')
 async def f(sid, d=None):
   if pibo.onoff:
