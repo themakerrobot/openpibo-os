@@ -216,7 +216,7 @@
                     <span data-key="restore"></span>
                   </button>
                   <button id="swupdate_bt">
-                    <i class="fa-solid fa-rotate"></i>
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
                     <span data-key="swupdate"></span>
                   </button>
                 </div>
@@ -332,8 +332,7 @@
                 <h3 class="mark"><span data-key="audio_use"></span></h3>
                 <span class="label"><span data-key="mic"></span></span>
                 <div style="margin-top: 10px">
-                  <span data-key="file"></span>:
-                  <i class="fa-solid fa-folder-open"></i> /home/pi/myaudio/mic.wav
+                  <span data-key="file"></span> <i class="fa-solid fa-dollar-sign"></i>~/myaudio/mic.wav
                 </div>
                 <div style="margin-top: 10px">
                   <input
@@ -386,7 +385,7 @@
               </div>
 
               <div style="margin-top: 20px">
-                <span class="label" data-key="upload_to_myaudio"></span>
+                <span class="label" data-key="upload_to_myaudio"></span> <i class="fa-solid fa-dollar-sign"></i>~/myaudio
                 &nbsp;&nbsp;
                 <label for="upload_audio" class="upload_label" title="Upload"><i class="fa-solid fa-file-upload"></i>&nbsp;<span data-key="upload"></span></label>
                 <div class="upload_div">
@@ -505,7 +504,7 @@
                 </div>
 
                 <div style="margin-top: 20px">
-                  <span class="label" data-key="upload_to_myimage"></span>
+                  <span class="label" data-key="upload_to_myimage"></span> <i class="fa-solid fa-dollar-sign"></i>~/myimage
                   &nbsp;&nbsp;
                   <label for="upload_image" class="upload_label"><i class="fa-solid fa-file-upload"></i>&nbsp;<span data-key="upload"></span></label>
                   <div class="upload_div">
@@ -518,12 +517,12 @@
               <div class="device-status-group">
                 <h3 class="mark" data-key="check_sensor"></h3>
                 <div>
-                  <i class="fa-solid fa-person-circle-check"></i>&nbsp;<span data-key="check_pir"></span>
+                  <i class="fa-solid fa-person-rays"></i>&nbsp;<span data-key="check_pir"></span>
                   <i class="fa-solid fa-terminal fa-beat-fade"></i>
                   <i><span id="d_pir_val"></span></i>
                 </div>
                 <div>
-                  <i class="fa-solid fa-person-chalkboard"></i>&nbsp;<span data-key="check_touch"></span>
+                  <i class="fa-solid fa-hand-sparkles"></i>&nbsp;<span data-key="check_touch"></span>
                   <i class="fa-solid fa-terminal fa-beat-fade"></i>
                   <i><span id="d_touch_val"></span></i>
                 </div>
@@ -834,7 +833,7 @@
                     <span data-key="register"></span>
                   </button>
                   <button id="load_motion_bt">
-                    <i class="fa-solid fa-arrow-turn-down"></i>
+                    <i class="fa-solid fa-arrow-turn-up"></i>
                     <span data-key="load"></span>
                   </button>
                   <button id="delete_motion_bt">
@@ -860,7 +859,7 @@
 
                 </div>
                 <div class="motion-path">
-                  <input type="text" id="motion-path-disabled" value="/home/pi/mymotion.json" disabled />
+                  <input type="text" id="motion-path-disabled" value="~/mymotion.json" disabled />
                   <textarea
                     name="motor_record"
                     id="motor_record"
@@ -975,7 +974,7 @@
               </div>
               <div class="speech-input-group">
                 <span class="label" data-key="file"></span>:
-                <i class="fa-solid fa-folder-open"></i>/home/pi/myaudio/tts.mp3
+                <i class="fa-solid fa-dollar-sign"></i>~/myaudio/tts.mp3
               </div>
               <div class="speech-input-group">
                 <span class="label" data-key="voice_type"></span>:
@@ -994,7 +993,7 @@
                 <span class="label" data-key="text"></span>:
                 <input type="text" id="s_tts_val" />
                 <button id="s_tts_bt" style="width:120px">
-                  <i class="fa-solid fa-check-double"></i>
+                  <i class="fa-solid fa-play"></i>
                   <span data-key="execute"></span>
                 </button>
               </div>
@@ -1021,7 +1020,7 @@
                 <span class="label" data-key="text"></span>:
                 <input type="text" id="s_translate_val" />
                 <button id="s_translate_bt" style="width:120px">
-                  <i class="fa-solid fa-check-double"></i>
+                  <i class="fa-solid fa-language"></i>
                   <span data-key="execute"></span>
                 </button>
               </div>
