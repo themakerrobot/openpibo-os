@@ -219,6 +219,15 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('poweroff', () => {
+    exec('shutdown -h now &');
+    exec('echo "#11:!" > /dev/ttyS0');
+  });
+
+  socket.on('restart', () => {
+    exec('shutdown -r now');
+  });
+
   socket.on('load_directory', function(p) {
     let res = readDirectory(p);
     if (res) {

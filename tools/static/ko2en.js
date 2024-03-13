@@ -259,6 +259,10 @@ const translations = {
     ko: "날씨",
     en: "Weather"
   },
+  marker: {
+    ko: "마커",
+    en: "Marker"
+  },
   etc: {
     ko: "기타 이미지",
     en: "Etc"

@@ -1114,6 +1114,14 @@ socket.on("update_dc", function (data) {
   );
 });
 
+$("#poweroff_bt").on("click", function () {
+  if (confirm(translations["confirm_poweroff"][lang])) socket.emit("poweroff");
+});
+
+$("#restart_bt").on("click", function () {
+  if (confirm(translations["confirm_restart"][lang])) socket.emit("restart");
+});
+
 const setLanguage = (langCode) => {
   const elements = document.querySelectorAll('[data-key]');
   elements.forEach(element => {
