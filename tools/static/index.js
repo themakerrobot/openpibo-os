@@ -2680,6 +2680,16 @@ $(function () {
       if (confirm(translations["confirm_restart"][lang])) socket.emit("restart");
     });
 
+    $("#top_poweroff_bt").on("click", function () {
+      if (confirm(translations["confirm_poweroff"][lang])) socket.emit("poweroff");
+    });
+
+    $("#top_restart_bt").on("click", function () {
+      if (confirm(translations["confirm_restart"][lang])) socket.emit("restart");
+    });
+
+
+	  
     $("#swupdate_bt").on("click", function () {
       if (
         confirm(translations["confirm_swupdate"][lang])
