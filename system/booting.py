@@ -104,7 +104,7 @@ async def f(data: dict = Body(...)):
   with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
     f.write(tmp)
   os.system('wpa_cli -i wlan0 reconfigure')
-  #os.system("shutdown -r now")
+  os.system("shutdown -r now")
 
 def wifi_update():
   global wifi_info
