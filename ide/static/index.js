@@ -572,6 +572,7 @@ $("#eraser").on("click", () => {
     result.value = "";
     $("#respath").text("");
     $("#prompt").val("");
+    socket.emit('reset_log');
   // }
 });
 window.dispatchEvent(new Event('onresize'));
