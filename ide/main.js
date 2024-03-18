@@ -218,7 +218,9 @@ io.on('connection', (socket) => {
       io.emit('init', {codepath: codePath, codetext:codeText, path:PATH});
     });
   });
-
+  socket.on('reset_log', () => {
+    record = '[' + new Date().toString() + ']: \n\n';
+  });
   socket.on('poweroff', () => {
     exec('shutdown -h now &');
     exec('echo "#11:!" > /dev/ttyS0');
