@@ -19,6 +19,10 @@ $('#fullscreen_bt').on('click', ()=>{
   else {}
 });
 
+$('#guide_bt').on('click', () => {
+  window.open('https://themakerrobot.github.io/openpibo-python/build/html/index.html');
+});
+
 const init_usedata = {
   staytime:0,
   block:{click:0, keydown:0, execute:0, staytime:0},
@@ -45,6 +49,7 @@ const codeEditor = CodeMirror.fromTextArea(
         CodeMirror.signal(codeEditor, "change");
         socket.emit("save", { codepath: $("#codepath").html(), codetext: saveCode });
       },
+      "Ctrl-/": "toggleComment"
     },
   }
 );
