@@ -424,8 +424,8 @@ const translations = {
     en: "Marker detection"
   },
   v_marker_length: {
-    ko: "마커상수",
-    en: "Marker constant"
+    ko: "마커길이",
+    en: "Marker length"
   },
   save_image: {
     ko: "사진저장하기",

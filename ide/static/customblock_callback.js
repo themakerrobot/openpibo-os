@@ -438,6 +438,20 @@ Blockly.Python.forBlock['vision_circle'] = function(block) {
 
   return `${img} = camera.circle(${img}, (${x},${y}), ${r}, ${color}, ${tickness})\n`;
 }
+Blockly.Python.forBlock['vision_line'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
+  Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
+
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  const x1 = Blockly.Python.valueToCode(block, 'x1', Blockly.Python.ORDER_ATOMIC);
+  const y1 = Blockly.Python.valueToCode(block, 'y1', Blockly.Python.ORDER_ATOMIC);
+  const x2 = Blockly.Python.valueToCode(block, 'x2', Blockly.Python.ORDER_ATOMIC);
+  const y2 = Blockly.Python.valueToCode(block, 'y2', Blockly.Python.ORDER_ATOMIC);
+  const color = Blockly.Python.valueToCode(block, 'color', Blockly.Python.ORDER_ATOMIC);
+  const tickness = Blockly.Python.valueToCode(block, 'tickness', Blockly.Python.ORDER_ATOMIC);
+
+  return `${img} = camera.line(${img}, (${x1},${y1}), (${x2},${y2}), ${color}, ${tickness})\n`;
+}
 Blockly.Python.forBlock['vision_text'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
@@ -575,7 +589,7 @@ Blockly.Python.forBlock['vision_object_track'] = function(block) {
 
   const tracker = Blockly.Python.valueToCode(block, 'tracker', Blockly.Python.ORDER_ATOMIC);
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  return [`detect.object_track(${tracker}, ${img})`, Blockly.Python.ORDER_ATOMIC];
+  return [`detect.track_object(${tracker}, ${img})`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python.forBlock['vision_marker_detect'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Detect'] = 'from openpibo.vision import Detect';
@@ -583,7 +597,7 @@ Blockly.Python.forBlock['vision_marker_detect'] = function(block) {
 
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
   const length = Blockly.Python.valueToCode(block, 'length', Blockly.Python.ORDER_ATOMIC);
-  return [`detect.marker_detect(${img}, ${length})`, Blockly.Python.ORDER_ATOMIC];
+  return [`detect.detect_marker(${img}, ${length})`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python.forBlock['vision_load_tm'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_TeachableMachine'] = 'from openpibo.vision import TeachableMachine';

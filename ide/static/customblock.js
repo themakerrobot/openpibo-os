@@ -1552,7 +1552,33 @@ Blockly.defineBlocksWithJsonArray(
       tooltip: '%{BKY_VISION_CIRCLE_TOOLTIP}',
       helpUrl: ''
     },
-
+    {
+      type: 'vision_line',
+      message0: '%{BKY_VISION_LINE}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/draw-polygon-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "input_value", "name": "img", "check":"Array"},
+          {"type": "input_value", "name": "x1", "check":"Number"},
+          {"type": "input_value", "name": "y1", "check":"Number"},
+          {"type": "input_value", "name": "x2", "check":"Number"},
+          {"type": "input_value", "name": "y2", "check":"Number"},
+          {"type": "input_value", "name": "color", "check":"Colour"},
+          {"type": "input_value", "name": "tickness", "check":"Number"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_LINE_TOOLTIP}',
+      helpUrl: ''
+    },
     {
       type: 'vision_text',
       message0: '%{BKY_VISION_TEXT}',

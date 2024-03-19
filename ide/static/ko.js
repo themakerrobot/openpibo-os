@@ -619,6 +619,8 @@ Blockly.Msg["VISION_RECTANGLE"] = "%1 %2 이미지 %3 의 %4 %5, %6 %7 좌표 �
 Blockly.Msg["VISION_RECTANGLE_TOOLTIP"] = "이미지에 네모를 표시합니다.";
 Blockly.Msg["VISION_CIRCLE"] = "%1 %2 이미지 %3 의 %4 %5 좌표 반지름 %6 색상 %7 굵기 %8 원 표시하기";
 Blockly.Msg["VISION_CIRCLE_TOOLTIP"] = "이미지에 원을 표시합니다.";
+Blockly.Msg["VISION_LINE"] = "%1 %2 이미지 %3 의 좌표 %4 %5 에서 %6 %7 까지 색상 %8 굵기 %9 직선 표시하기";
+Blockly.Msg["VISION_LINE_TOOLTIP"] = "이미지에 직선을 표시합니다.";
 Blockly.Msg["VISION_TEXT"] = "%1 %2 이미지 %3 의 %5 %6 좌표 사이즈 %7 색상 %8 인 %4 표시하기";
 Blockly.Msg["VISION_TEXT_TOOLTIP"] = "이미지에 글씨를 표시합니다.";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 이미지 %3 %4로 바꾸기";
@@ -646,7 +648,7 @@ Blockly.Msg["VISION_OBJECT_TRACKER_INIT"] = "%1 %2 이미지 %3 의  %4 %5, %6 %
 Blockly.Msg["VISION_OBJECT_TRACKER_INIT_TOOLTIP"] = "이미지의 특정 위치에 대한 트래커를 설정합니다.";
 Blockly.Msg["VISION_OBJECT_TRACK"] = "%1 %2 트래커 %3 로 이미지 %4 트래킹하기";
 Blockly.Msg["VISION_OBJECT_TRACK_TOOLTIP"] = "설정한 트래커로 이미지를 트래킹합니다.";
-Blockly.Msg["VISION_MARKER_DETECT"] = "%1 %2 이미지 %3 의 마커 상수 %4 인식하기";
+Blockly.Msg["VISION_MARKER_DETECT"] = "%1 %2 이미지 %3 의 마커길이 %4 인식하기";
 Blockly.Msg["VISION_MARKER_DETECT_TOOLTIP"] = "이미지에서 마커를 인식합니다.";
 
 Blockly.Msg["VISION_LOAD_TM"] = "%1 %2 티처블머신 %3 %4 %5 모델 설정하기";

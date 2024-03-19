@@ -114,9 +114,9 @@ class Pibo:
         elif self.vision_type == "tm":
           img, res = self.tm_classify()
         elif self.vision_type == "track":
-          img, res = self.object_track()
+          img, res = self.track_object()
         elif self.vision_type == "marker":
-          img, res = self.marker_detect()
+          img, res = self.detect_marker()
         else:
           img, res = self.frame, ""
       except Exception as ex:
@@ -241,20 +241,20 @@ class Pibo:
 
     self.tracker = self.det.object_tracker_init(im, (d['x1'], d['y1'], d['x2'], d['y2']))
   
-  def object_track(self):
+  def track_object(self):
     im = self.frame.copy()
     colors = (100,0,200)
 
     if self.tracker is not None:
-      res = self.det.object_track(self.tracker, im)
+      res = self.det.track_object(self.tracker, im)
       self.tracker = res['tracker']
       x1,y1,x2,y2 = res['position']
       self.cam.rectangle(im, (x1,y1), (x2,y2),colors,3)
     return im, ""
 
-  def marker_detect(self):
+  def detect_marker(self):
     im = self.frame.copy()
-    res = self.det.marker_detect(im, self.marker_length)
+    res = self.det.detect_marker(im, self.marker_length)
 
     return res['img'], " ".join([ f'({d["id"]})-{d["distance"]}cm' for d in res['data']])
 

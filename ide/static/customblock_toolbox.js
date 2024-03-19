@@ -1666,6 +1666,62 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "vision_line",
+            "inputs":{
+              "img":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              },
+              "x1": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "y1": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "x2": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "y2": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "0"
+                  }
+                }
+              },
+              "color":{
+                "shadow":{
+                  "type":"variables_get",
+                }
+              },
+              "tickness": {
+                "shadow": {
+                  "type": "math_number",
+                  "fields": {
+                    "NUM": "2"
+                  }
+                }
+              },
+            }
+          },
+          {
+            "kind": "block",
             "type": "vision_text",
             "inputs":{
               "img":{
@@ -1905,7 +1961,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "math_number",
                   "fields": {
-                    "NUM": "2"
+                    "NUM": "5"
                   }
                 }
               }
