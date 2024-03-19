@@ -244,6 +244,7 @@ io.on('connection', (socket) => {
 
   socket.on('stop', () => {
     exec('pkill play');
+    exec('servo init');
     if(ps) ps.kill('SIGKILL');
   });
 
