@@ -1436,6 +1436,49 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_imshow_to_ide',
+      message0: '%{BKY_VISION_IMSHOW_TO_IDE}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/display-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ '%{BKY_FOLDER_SELECT}', ''],
+              [ 'code', '/home/pi/code/' ],
+              [ 'myimage', '/home/pi/myimage/' ],
+              [ 'openpibo-files/image/animal', '/home/pi/openpibo-files/image/animal/' ],
+              [ 'openpibo-files/image/expression',  '/home/pi/openpibo-files/image/expression/' ],
+              [ 'openpibo-files/image/family',  '/home/pi/openpibo-files/image/family/' ],
+              [ 'openpibo-files/image/food',  '/home/pi/openpibo-files/image/food/' ],
+              [ 'openpibo-files/image/furniture',  '/home/pi/openpibo-files/image/furniture/' ],
+              [ 'openpibo-files/image/game',  '/home/pi/openpibo-files/image/game/' ],
+              [ 'openpibo-files/image/goods',  '/home/pi/openpibo-files/image/goods/' ],
+              [ 'openpibo-files/image/kitchen',  '/home/pi/openpibo-files/image/kitchen/' ],
+              [ 'openpibo-files/image/machine',  '/home/pi/openpibo-files/image/machine/' ],
+              [ 'openpibo-files/image/recycle',  '/home/pi/openpibo-files/image/recycle/' ],
+              [ 'openpibo-files/image/sport',  '/home/pi/openpibo-files/image/sport/' ],
+              [ 'openpibo-files/image/transport',  '/home/pi/openpibo-files/image/transport/' ],
+              [ 'openpibo-files/image/weather',  '/home/pi/openpibo-files/image/weather/' ],
+              [ 'openpibo-files/image/etc',  '/home/pi/openpibo-files/image/etc/' ],
+              [ 'openpibo-files/image/sample',  '/home/pi/openpibo-files/image/sample/' ]
+            ]
+          },
+          {"type": "input_value", "name": "filename", "check":"String"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_IMSHOW_TO_IDE_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
       type: 'vision_imshow_to_ide_img',
       message0: '%{BKY_VISION_IMSHOW_TO_IDE_IMG}',
       args0:

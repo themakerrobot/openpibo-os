@@ -1536,6 +1536,21 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "vision_imshow_to_ide",
+            "inputs":{
+              "filename":{
+                "shadow": {
+                  "type": "text",
+                  "fields": {
+                    "TEXT": "sample.jpg"
+                    // "TEXT": translations["image_filename"][lang]
+                  }
+                }
+              },
+            }
+          },
+          {
+            "kind": "block",
             "type": "vision_imshow_to_ide_img",
             "inputs":{
               "img":{
