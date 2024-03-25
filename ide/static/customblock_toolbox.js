@@ -1781,6 +1781,17 @@ let toolbox = (lang) => {
           },
           {
             "kind": "block",
+            "type": "vision_flip",
+            "inputs":{
+              "img":{
+                "shadow": {
+                  "type": "variables_get",
+                }
+              }
+            }
+          },
+          {
+            "kind": "block",
             "type": "vision_face",
             "inputs":{
               "img":{
