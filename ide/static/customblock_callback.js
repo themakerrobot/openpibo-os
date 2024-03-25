@@ -16,9 +16,10 @@ Blockly.Python.forBlock['audio_play'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
   const volume = Blockly.Python.valueToCode(block, 'volume', Blockly.Python.ORDER_ATOMIC);
   // const volume = block.getFieldValue("volume");
-  return `audio.play('${dir}'+${filename}, ${volume})\n`;
+  return `audio.play('${dir}'+${filename}+'${extension}', ${volume})\n`;
 }
 Blockly.Python.forBlock['audio_stop'] = function(block) {
   Blockly.Python.definitions_['from_audio_import_Audio'] = 'from openpibo.audio import Audio';
@@ -32,8 +33,9 @@ Blockly.Python.forBlock['audio_record'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
   const timeout = Blockly.Python.valueToCode(block, 'timeout', Blockly.Python.ORDER_ATOMIC);
-  return `audio.record('${dir}'+${filename}, ${timeout}, False)\n`;
+  return `audio.record('${dir}'+${filename}+'${extension}', ${timeout}, False)\n`;
 }
 
 // collect
@@ -247,7 +249,8 @@ Blockly.Python.forBlock['oled_draw_image'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  return `oled.draw_image('${dir}'+${filename})\n`;
+  const extension = block.getFieldValue("extension");
+  return `oled.draw_image('${dir}'+${filename}+'${extension}')\n`;
 }
 Blockly.Python.forBlock['oled_draw_data'] = function(block) {
   Blockly.Python.definitions_['from_oled_import_Oled'] = 'from openpibo.oled import Oled';
@@ -322,8 +325,9 @@ Blockly.Python.forBlock['speech_tts'] = function(block) {
   const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
   const voice = block.getFieldValue("voice");
-  return `speech.tts(string=${text}, filename='${dir}'+${filename}, voice='${voice}')\n`;
+  return `speech.tts(string=${text}, filename='${dir}'+${filename}+'${extension}', voice='${voice}')\n`;
 }
 Blockly.Python.forBlock['speech_gtts'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Speech'] = 'from openpibo.speech import Speech';
@@ -332,9 +336,10 @@ Blockly.Python.forBlock['speech_gtts'] = function(block) {
   const text = Blockly.Python.valueToCode(block, 'text', Blockly.Python.ORDER_ATOMIC);
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
   const lang = block.getFieldValue("lang");
 
-  return `speech.tts(string=${text}, filename='${dir}'+${filename}, lang= '${lang}', voice='gtts')\n`;
+  return `speech.tts(string=${text}, filename='${dir}'+${filename}+'${extension}', lang= '${lang}', voice='gtts')\n`;
 }
 Blockly.Python.forBlock['speech_translate'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Dialog'] = 'from openpibo.speech import Dialog';
@@ -357,7 +362,7 @@ Blockly.Python.forBlock['speech_load_dialog'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  return `dialog.load('${dir}'+${filename})\n`;
+  return `dialog.load('${dir}'+${filename}+'.csv')\n`;
 }
 Blockly.Python.forBlock['speech_reset_dialog'] = function(block) {
   Blockly.Python.definitions_['from_speech_import_Dialog'] = 'from openpibo.speech import Dialog';
@@ -385,8 +390,9 @@ Blockly.Python.forBlock['vision_imread'] = function(block) {
   Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
 
   const dir = block.getFieldValue("dir");
-  const filename = block.getFieldValue("filename");
-  return [`camera.imread('${dir}'+'${filename}')\n`, Blockly.Python.ORDER_ATOMIC];
+  const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
+  return [`camera.imread('${dir}'+${filename}+'${extension}')\n`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python.forBlock['vision_imwrite'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
@@ -394,8 +400,9 @@ Blockly.Python.forBlock['vision_imwrite'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
   const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
-  return `camera.imwrite('${dir}'+${filename}, ${img})\n`;
+  return `camera.imwrite('${dir}'+${filename}+'${extension}', ${img})\n`;
 }
 Blockly.Python.forBlock['vision_imshow_to_ide'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
@@ -403,7 +410,8 @@ Blockly.Python.forBlock['vision_imshow_to_ide'] = function(block) {
 
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
-  return `camera.imshow_to_ide(camera.imread('${dir}'+${filename}))\n`;
+  const extension = block.getFieldValue("extension");
+  return `camera.imshow_to_ide(camera.imread('${dir}'+${filename}+'${extension}'))\n`;
 }
 Blockly.Python.forBlock['vision_imshow_to_ide_img'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
@@ -621,8 +629,9 @@ Blockly.Python.forBlock['vision_call_ai'] = function(block) {
   const type = block.getFieldValue("type");
   const dir = block.getFieldValue("dir");
   const filename = Blockly.Python.valueToCode(block, 'filename', Blockly.Python.ORDER_ATOMIC);
+  const extension = block.getFieldValue("extension");
 
-  return [`vision_api('${type}', '${dir}'+${filename})['data']`, Blockly.Python.ORDER_ATOMIC];
+  return [`vision_api('${type}', '${dir}'+${filename}+'${extension}')['data']`, Blockly.Python.ORDER_ATOMIC];
 }
 Blockly.Python.forBlock['vision_call_ai_img'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_vision_api'] = 'from openpibo.vision import vision_api';

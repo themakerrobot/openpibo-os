@@ -823,11 +823,11 @@ const translations = {
   },
   import: {
     ko: "가져오기",
-    en: "Import the motion"
+    en: "Import"
   },
   export: {
     ko: "내보내기",
-    en: "Export the motion"
+    en: "Export"
   }
 };
 

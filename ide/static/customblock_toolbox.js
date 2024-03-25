@@ -797,7 +797,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.mp3"
+                    "TEXT": "audio"
                     // "TEXT": translations['audio_filename'][lang]
                   }
                 }
@@ -824,7 +824,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.wav"
+                    "TEXT": "audio"
                     // "TEXT": translations['audio_filename'][lang]
                   }
                 }
@@ -1217,7 +1217,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.jpg"
+                    "TEXT": "sample"
                     // "TEXT": translations['image_filename'][lang]
                   }
                 }
@@ -1403,7 +1403,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.mp3"
+                    "TEXT": "tts"
                     // "TEXT": translations['audio_filename'][lang]
                   }
                 }
@@ -1426,7 +1426,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.mp3"
+                    "TEXT": "tts"
                     // "TEXT": translations['audio_filename'][lang]
                   }
                 }
@@ -1470,7 +1470,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.csv"
+                    "TEXT": "dialog"
                     // "TEXT": translations["csv_filename"][lang]
                   }
                 }
@@ -1507,7 +1507,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.jpg"
+                    "TEXT": "image"
                     // "TEXT": translations["image_filename"][lang]
                   }
                 }
@@ -1522,7 +1522,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.jpg"
+                    "TEXT": "image"
                     // "TEXT": translations["image_filename"][lang]
                   }
                 }
@@ -1542,7 +1542,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.jpg"
+                    "TEXT": "image"
                     // "TEXT": translations["image_filename"][lang]
                   }
                 }
@@ -2008,7 +2008,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "sample.jpg"
+                    "TEXT": "image"
                     // "TEXT": translations["image_filename"][lang]
                   }
                 }
