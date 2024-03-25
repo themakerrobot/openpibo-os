@@ -2726,6 +2726,14 @@ $(function () {
     }
   });
 
+  const menus_ds = $("#article_home").find("a");
+
+  menus_ds.each((idx) => {
+    const element = menus_ds.get(idx);
+    const name = element.getAttribute("name");
+    element.addEventListener("click", () => handleMenu(name.split('_ds')[0]));
+  });
+
   window.addEventListener('beforeunload', (evt) => {
     usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
     usedata[$("nav").find("button.menu-selected").attr("name")]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
