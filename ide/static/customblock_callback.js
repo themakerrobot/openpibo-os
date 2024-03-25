@@ -496,6 +496,15 @@ Blockly.Python.forBlock['vision_transfer'] = function(block) {
   }
   return [res, Blockly.Python.ORDER_ATOMIC];
 }
+Blockly.Python.forBlock['vision_flip'] = function(block) {
+  Blockly.Python.definitions_['from_vision_import_Camera'] = 'from openpibo.vision import Camera';
+  Blockly.Python.definitions_['assign_camera'] = 'camera = Camera()';
+
+  const img = Blockly.Python.valueToCode(block, 'img', Blockly.Python.ORDER_ATOMIC);
+  const flags = block.getFieldValue("flags");
+
+  return [`camera.flip(${img}, ${flags})`, Blockly.Python.ORDER_ATOMIC];
+}
 Blockly.Python.forBlock['vision_face'] = function(block) {
   Blockly.Python.definitions_['from_vision_import_Face'] = 'from openpibo.vision import Face';
   Blockly.Python.definitions_['assign_face'] = '_face = Face()';
