@@ -1673,6 +1673,32 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_flip',
+      message0: '%{BKY_VISION_FLIP}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/wand-magic-sparkles-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+        {"type": "field_dropdown", "name":"flags",
+          "options":[
+            [ '%{BKY_VISION_VERTICAL}', '0'],
+            [ '%{BKY_VISION_HORIZONTAL}', '1' ],
+            [ '%{BKY_VISION_VERTICAL_HORIZONTAL}', '-1'],
+          ]
+        },
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FLIP_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
       type: 'vision_face',
       message0: '%{BKY_VISION_FACE}',
       "args0": [
