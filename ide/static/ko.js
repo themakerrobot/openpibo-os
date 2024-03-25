@@ -625,6 +625,8 @@ Blockly.Msg["VISION_TEXT"] = "%1 %2 이미지 %3 의 %5 %6 좌표 사이즈 %7 �
 Blockly.Msg["VISION_TEXT_TOOLTIP"] = "이미지에 글씨를 표시합니다.";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 이미지 %3 %4로 바꾸기";
 Blockly.Msg["VISION_TRANSFER_TOOLTIP"] = "이미지의 스타일을 변환합니다.";
+Blockly.Msg["VISION_FLIP"] = "%1 %2 이미지 %3 %4로 대칭하기";
+Blockly.Msg["VISION_FLIP_TOOLTIP"] = "이미지를 상하/좌우로 대칭합니다.";
 
 Blockly.Msg["VISION_FACE"] = "%1 %2 이미지 %3 얼굴 찾기";
 Blockly.Msg["VISION_FACE_TOOLTIP"] = "이미지에서 얼굴을 찾습니다.";
@@ -676,6 +678,10 @@ Blockly.Msg["VISION_CAPTION_PLACE"] = '장소인식';
 Blockly.Msg["VISION_CAPTION_TIME"] = '시간인식';
 Blockly.Msg["VISION_CAPTION_WEATHER"] = '날씨인식';
 
+Blockly.Msg["VISION_VERTICAL"] = '상하';
+Blockly.Msg["VISION_HORIZONTAL"] = '좌우';
+Blockly.Msg["VISION_VERTICAL_HORIZONTAL"] = '상하좌우';
+  
 Blockly.Msg["UTILS_SLEEP"] = "%1 %2 %3 초 동안 지연시키기";
 Blockly.Msg["UTILS_SLEEP_TOOLTIP"] = "일정시간 동안 멈춥니다.";
 Blockly.Msg["UTILS_TIME"] = "%1 %2 시간 값 알아오기";
