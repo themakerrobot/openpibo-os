@@ -625,6 +625,8 @@ Blockly.Msg["VISION_TEXT"] = "%1 %2 Display %4 with size %7 and color %8 at coor
 Blockly.Msg["VISION_TEXT_TOOLTIP"] = "Display text on the image.";
 Blockly.Msg["VISION_TRANSFER"] = "%1 %2 Convert image %3 to %4";
 Blockly.Msg["VISION_TRANSFER_TOOLTIP"] = "Transform image style.";
+Blockly.Msg["VISION_FLIP"] = "%1 %2 Convert image %3 to %4 flip";
+Blockly.Msg["VISION_FLIP_TOOLTIP"] = "flip the image.";
 
 Blockly.Msg["VISION_FACE"] = "%1 %2 Find faces in image %3";
 Blockly.Msg["VISION_FACE_TOOLTIP"] = "Detect and identify faces in the specified image.";
@@ -675,6 +677,10 @@ Blockly.Msg["VISION_CAPTION_TAG"] = 'image tag';
 Blockly.Msg["VISION_CAPTION_PLACE"] = 'place recognition';
 Blockly.Msg["VISION_CAPTION_TIME"] = 'time recognition';
 Blockly.Msg["VISION_CAPTION_WEATHER"] = 'weather recognition';
+
+Blockly.Msg["VISION_VERTICAL"] = 'vertical';
+Blockly.Msg["VISION_HORIZONTAL"] = 'horizontal';
+Blockly.Msg["VISION_VERTICAL_HORIZONTAL"] = 'vertical & horizontal';
 
 Blockly.Msg["UTILS_SLEEP"] = "%1 %2 Delay for %3 seconds";
 Blockly.Msg["UTILS_SLEEP_TOOLTIP"] = "Pause the process for a specified duration of seconds.";
