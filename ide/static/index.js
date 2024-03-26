@@ -417,7 +417,7 @@ socket.on("update_file_manager", (d) => {
               let idx = $(this).closest('tr').index();
               //let type = $(`#fm_table tr:eq(${idx}) td:eq(0)`).html();
               let name = $(`#fm_table tr:eq(${idx}) td:eq(1)`).html();
-              let newname = prompt(translations['check_newfile_name'][lang]);
+              let newname = prompt(translations['check_newfile_name'][lang], name);
 
               if (newname != null) {
                 if(newname == "") {
