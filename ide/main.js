@@ -220,6 +220,7 @@ io.on('connection', (socket) => {
   });
   socket.on('reset_log', () => {
     record = '[' + new Date().toString() + ']: \n\n';
+    exec('python3 /home/pi/openpibo-os/system/network_disp.py');
   });
   socket.on('poweroff', () => {
     exec('shutdown -h now &');
