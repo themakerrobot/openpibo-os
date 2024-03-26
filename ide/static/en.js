@@ -645,9 +645,9 @@ Blockly.Msg["VISION_FACEDB_DELETE"] = "%1 %2 Delete face name %3 from face train
 Blockly.Msg["VISION_FACEDB_DELETE_TOOLTIP"] = "Delete a specific face from training faces.";
 Blockly.Msg["VISION_FACEDB_RECOGNIZE"] = "%1 %2 Recognize who is image %3 face %4";
 Blockly.Msg["VISION_FACEDB_RECOGNIZE_TOOLTIP"] = "Recognize who faces are in an image.";
-Blockly.Msg["VISION_FACEDB_SAVE"] = "%1 %2 Save face training data to file %3";
+Blockly.Msg["VISION_FACEDB_SAVE"] = "%1 %2 Save face training data to file %3 %4";
 Blockly.Msg["VISION_FACEDB_SAVE_TOOLTIP"] = "Save face training data to file.";
-Blockly.Msg["VISION_FACEDB_LOAD"] = "%1 %2 Load face training data from file %3";
+Blockly.Msg["VISION_FACEDB_LOAD"] = "%1 %2 Load face training data from file %3 %4";
 Blockly.Msg["VISION_FACEDB_LOAD_TOOLTIP"] = "Load face training data from file.";
 
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 Detect objects in image %3";
