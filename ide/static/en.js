@@ -529,6 +529,8 @@ Blockly.Msg["DEVICE_GET_TOUCH"] = "%1 %2 Check touch";
 Blockly.Msg["DEVICE_GET_TOUCH_TOOLTIP"] = "Detect touch.";
 Blockly.Msg["DEVICE_GET_BUTTON"] = "%1 %2 Check button";
 Blockly.Msg["DEVICE_GET_BUTTON_TOOLTIP"] = "Check button status.";
+Blockly.Msg["DEVICE_HAT_BUTTON"] = "%1 %2 Check button %3";
+Blockly.Msg["DEVICE_HAT_BUTTON_TOOLTIP"] = "Check button status.";
 
 Blockly.Msg["MOTION_GET_MOTION"] = "%1 %2 Get motion list";
 Blockly.Msg["MOTION_GET_MOTION_TOOLTIP"] = "Retrieve list of available motions.";
@@ -636,6 +638,18 @@ Blockly.Msg["VISION_FACE_AGE"] = "%1 %2 Analyze image %3 face %4 age";
 Blockly.Msg["VISION_FACE_AGE_TOOLTIP"] = "Analyzes the age of faces found in the image.";
 Blockly.Msg["VISION_FACE_GENDER"] = "%1 %2 Analyze image %3 face %4 gender";
 Blockly.Msg["VISION_FACE_GENDER_TOOLTIP"] = "Analyzes the gender of faces found in the image.";
+
+Blockly.Msg["VISION_FACEDB_TRAIN"] = "%1 %2 Train image %3 face %4 to name %5";
+Blockly.Msg["VISION_FACEDB_TRAIN_TOOLTIP"] = "Train face from image.";
+Blockly.Msg["VISION_FACEDB_DELETE"] = "%1 %2 Delete face name %3 from face training data";
+Blockly.Msg["VISION_FACEDB_DELETE_TOOLTIP"] = "Delete a specific face from training faces.";
+Blockly.Msg["VISION_FACEDB_RECOGNIZE"] = "%1 %2 Recognize who is image %3 face %4";
+Blockly.Msg["VISION_FACEDB_RECOGNIZE_TOOLTIP"] = "Recognize who faces are in an image.";
+Blockly.Msg["VISION_FACEDB_SAVE"] = "%1 %2 Save face training data to file %3";
+Blockly.Msg["VISION_FACEDB_SAVE_TOOLTIP"] = "Save face training data to file.";
+Blockly.Msg["VISION_FACEDB_LOAD"] = "%1 %2 Load face training data from file %3";
+Blockly.Msg["VISION_FACEDB_LOAD_TOOLTIP"] = "Load face training data from file.";
+
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 Detect objects in image %3";
 Blockly.Msg["VISION_OBJECT_TOOLTIP"] = "Identify and classify objects in the specified image.";
 Blockly.Msg["VISION_QR"] = "%1 %2 Detect QR codes in image %3";
@@ -661,6 +675,8 @@ Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 Analyze image file %5 %6.%7 using AI %
 Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
 Blockly.Msg["VISION_CALL_AI_IMG"] = "%1 %2 %3 Analyze image variable %5 using AI %4";
 Blockly.Msg["VISION_CALL_AI_IMG_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
+Blockly.Msg["VISION_CALL_AI_IMG_EXT"] = "%1 %2 %3 Analyze image variable %5 using AI %4";
+Blockly.Msg["VISION_CALL_AI_IMG_EXT_TOOLTIP"] = "(Internet!) Leverage AI technology to analyze and interpret the specified image file.";
 
 Blockly.Msg["VISION_CARTOON"] = 'cartoon';
 Blockly.Msg["VISION_DETAIL"] = 'detail';

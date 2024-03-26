@@ -529,6 +529,8 @@ Blockly.Msg["DEVICE_GET_TOUCH"] = "%1 %2 터치 체크하기";
 Blockly.Msg["DEVICE_GET_TOUCH_TOOLTIP"] = "터치 감지 여부를 확인합니다";
 Blockly.Msg["DEVICE_GET_BUTTON"] = "%1 %2 버튼 체크하기";
 Blockly.Msg["DEVICE_GET_BUTTON_TOOLTIP"] = "버튼 상태를 확인합니다";
+Blockly.Msg["DEVICE_HAT_BUTTON"] = "%1 %2 버튼 %3 체크하기";
+Blockly.Msg["DEVICE_HAT_BUTTON_TOOLTIP"] = "버튼 상태를 확인합니다";
 
 Blockly.Msg["MOTION_GET_MOTION"] = "%1 %2 모션 목록 가져오기";
 Blockly.Msg["MOTION_GET_MOTION_TOOLTIP"] = "사용 가능한 모션 목록을 가져옵니다";
@@ -636,6 +638,18 @@ Blockly.Msg["VISION_FACE_AGE"] = "%1 %2 이미지 %3 얼굴 %4 나이 분석하�
 Blockly.Msg["VISION_FACE_AGE_TOOLTIP"] = "이미지에서 찾은 얼굴의 나이를 분석합니다.";
 Blockly.Msg["VISION_FACE_GENDER"] = "%1 %2 이미지 %3 얼굴 %4 성별 분석하기";
 Blockly.Msg["VISION_FACE_GENDER_TOOLTIP"] = "이미지에서 찾은 얼굴의 성별을 분석합니다.";
+
+Blockly.Msg["VISION_FACEDB_TRAIN"] = "%1 %2 이미지 %3 얼굴 %4 이름 %5 로 학습하기";
+Blockly.Msg["VISION_FACEDB_TRAIN_TOOLTIP"] = "이미지에서 얼굴을 학습합니다.";
+Blockly.Msg["VISION_FACEDB_DELETE"] = "%1 %2 얼굴 학습 데이터에서 이름 %3 얼굴 지우기";
+Blockly.Msg["VISION_FACEDB_DELETE_TOOLTIP"] = "학습된 얼굴에서 특정 얼굴을 삭제합니다.";
+Blockly.Msg["VISION_FACEDB_RECOGNIZE"] = "%1 %2 이미지 %3 얼굴 %4 누군지 인식하기";
+Blockly.Msg["VISION_FACEDB_RECOGNIZE_TOOLTIP"] = "이미지에서 얼굴이 누군지 인식합니다.";
+Blockly.Msg["VISION_FACEDB_SAVE"] = "%1 %2 얼굴 데이터를 파일 %3 %4 로 저장하기";
+Blockly.Msg["VISION_FACEDB_SAVE_TOOLTIP"] = "얼굴 데이터를 파일로 저장합니다.";
+Blockly.Msg["VISION_FACEDB_LOAD"] = "%1 %2 얼굴 학습 파일 %3 %4 불러오기";
+Blockly.Msg["VISION_FACEDB_LOAD_TOOLTIP"] = "얼굴 학습 파일을 불러옵니다.";
+
 Blockly.Msg["VISION_OBJECT"] = "%1 %2 이미지 %3 사물 찾기";
 Blockly.Msg["VISION_OBJECT_TOOLTIP"] = "이미지에서 사물을 인식합니다. (80개 사물)";
 Blockly.Msg["VISION_QR"] = "%1 %2 이미지 %3 QR코드 찾기";
@@ -661,6 +675,8 @@ Blockly.Msg["VISION_CALL_AI"] = "%1 %2 %3 이미지 파일 %5 %6.%7 의 인공�
 Blockly.Msg["VISION_CALL_AI_TOOLTIP"] = "(인터넷!) 인공지능 서버를 활용하여 이미지 파일을 분석합니다. (캡션 관련 기능)";
 Blockly.Msg["VISION_CALL_AI_IMG"] = "%1 %2 %3 이미지 변수 %5 의 인공지능 %4 가져오기";
 Blockly.Msg["VISION_CALL_AI_IMG_TOOLTIP"] = "(인터넷!) 인공지능 서버를 활용하여 이미지 파일을 분석합니다. (캡션 관련 기능)";
+Blockly.Msg["VISION_CALL_AI_IMG_EXT"] = "%1 %2 %3 이미지 변수 %5 의 인공지능 %4 가져오기";
+Blockly.Msg["VISION_CALL_AI_IMG_EXT_TOOLTIP"] = "(인터넷!) 인공지능 서버를 활용하여 이미지 파일을 분석합니다.";
 
 Blockly.Msg["VISION_CARTOON"] = '만화';
 Blockly.Msg["VISION_DETAIL"] = '상세한 이미지';

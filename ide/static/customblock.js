@@ -506,7 +506,34 @@ Blockly.defineBlocksWithJsonArray(
       colour: color_type["device"],
       tooltip: '%{BKY_DEVICE_GET_BUTTON_TOOLTIP}',
       helpUrl: ''
-    },    
+    },
+    {
+      type: 'device_hat_button',
+      message0: '%{BKY_DEVICE_HAT_BUTTON}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/toggle-on-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"num",
+            "options":[
+            [ 'SW1', '4' ],
+            [ 'SW2', '17' ],
+            [ 'SW3', '27' ]
+          ]
+          }
+        ],
+      output: 'String',
+      inputsInline: true,
+      colour: color_type["device"],
+      tooltip: '%{BKY_DEVICE_HAT_BUTTON_TOOLTIP}',
+      helpUrl: ''
+    },
+
     // motion
     {
       type: 'motion_get_motion',
@@ -1777,6 +1804,122 @@ Blockly.defineBlocksWithJsonArray(
       helpUrl: ''
     },
     {
+      type: 'vision_facedb_train',
+      message0: '%{BKY_VISION_FACEDB_TRAIN}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/face-smile-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+        {"type": "input_value", "name": "v", "check":"Array"},
+        {"type": "input_value", "name": "name", "check":"String"},
+      ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FACEDB_TRAIN_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_facedb_delete',
+      message0: '%{BKY_VISION_FACEDB_DELETE}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/face-smile-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "name", "check":"String"},
+      ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FACEDB_DELETE_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_facedb_recognize',
+      message0: '%{BKY_VISION_FACEDB_RECOGNIZE}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/face-smile-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+        {"type": "input_value", "name": "v", "check":"Array"}
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FACEDB_RECOGNIZE_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_facedb_save',
+      message0: '%{BKY_VISION_FACEDB_SAVE}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/database-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ '%{BKY_FOLDER_SELECT}', ''],
+              [ 'code', '/home/pi/code/' ],
+            ]
+          },
+          {"type": "input_value", "name": "filename", "check":"String"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FACEDB_SAVE_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_facedb_load',
+      message0: '%{BKY_VISION_FACEDB_LOAD}',
+      args0:
+        [
+          {
+            "type": "field_image",
+            "src": "svg/database-solid.svg",
+            "width": 27,
+            "height": 27
+          },
+          {"type":"input_dummy"},
+          {"type": "field_dropdown", "name":"dir",
+            "options":[
+              [ '%{BKY_FOLDER_SELECT}', ''],
+              [ 'code', '/home/pi/code/' ],
+            ]
+          },
+          {"type": "input_value", "name": "filename", "check":"String"},
+        ],
+      nextStatement: true,
+      previousStatement: true,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_FACEDB_LOAD_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
       type: 'vision_object',
       message0: '%{BKY_VISION_OBJECT}',
       "args0": [
@@ -2069,6 +2212,32 @@ Blockly.defineBlocksWithJsonArray(
       inputsInline: true,
       colour: color_type["vision"],
       tooltip: '%{BKY_VISION_CALL_AI_IMG_TOOLTIP}',
+      helpUrl: ''
+    },
+    {
+      type: 'vision_call_ai_img_ext',
+      message0: '%{BKY_VISION_CALL_AI_IMG_EXT}',
+      "args0": [
+        {
+          "type": "field_image",
+          "src": "svg/bolt-solid.svg",
+          "width": 15,
+          "height": 20
+        },
+        {
+          "type": "field_image",
+          "src": "svg/brain-solid.svg",
+          "width": 27,
+          "height": 27
+        },
+        {"type":"input_dummy"},
+        {"type": "input_value", "name": "type", "check":"String"},
+        {"type": "input_value", "name": "img", "check":"Array"},
+      ],
+      output: null,
+      inputsInline: true,
+      colour: color_type["vision"],
+      tooltip: '%{BKY_VISION_CALL_AI_IMG_EXT_TOOLTIP}',
       helpUrl: ''
     },
     {
