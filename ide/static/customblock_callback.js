@@ -144,7 +144,7 @@ Blockly.Python.forBlock['device_hat_button'] = function(block) {
   const num = block.getFieldValue("num");
   Blockly.Python.definitions_['import_RPi_GPIO_as_GPIO'] = 'import RPi.GPIO as GPIO';
   Blockly.Python.definitions_['GPIO_setwarnings_False'] = 'GPIO.setwarnings(False)';
-  Blockly.Python.definitions_['GPIO_cleanup'] = 'GPIO.cleanup()';
+  //Blockly.Python.definitions_['GPIO_cleanup'] = 'GPIO.cleanup()';
   Blockly.Python.definitions_['setmode_gpio_bcm'] = 'GPIO.setmode(GPIO.BCM)';
   Blockly.Python.definitions_[`setup_${num}_gpio_in_pud_down`] = `GPIO.setup(${num} ,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)`;
 
