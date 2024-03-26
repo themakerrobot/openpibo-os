@@ -2151,7 +2151,7 @@ let toolbox = (lang) => {
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "object/object_e"
+                    "TEXT": "object/object_search_e"
                     // "TEXT": translations["image_filename"][lang]
                   }
                 }
