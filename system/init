@@ -20,6 +20,11 @@ then
   sudo shutdown -r now
 fi
 
+mkdir -p /home/pi/code
+mkdir -p /home/pi/myimage
+mkdir -p /home/pi/myaudio
+mkdir -p /home/pi/mymodel
+
 # ap start
 sudo /home/pi/openpibo-os/system/wifi-ap-sta run
 
