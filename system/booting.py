@@ -3,13 +3,24 @@ from openpibo.audio import Audio
 from fastapi import FastAPI, Body
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+
 from threading import Timer
 from collections import Counter
 import os,argparse,json,time,os,shutil
 import wifi, network_disp
 import argparse
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+  global wifi_info, ole, aud
+  ole = Oled()
+  aud = Audio()
+  wifi_info = ['','','']
+  boot()
+  yield
+
+app = FastAPI(lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 @app.get('/account')
@@ -89,22 +100,23 @@ async def f(data: dict = Body(...)):
   if data['psk'] != "" and len(data['psk']) < 8:
     return JSONResponse(content={'result':'fail', 'data':'psk must be at least 8 digits.'}, status_code=200)
 
-  tmp='country=KR\n'
-  tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
-  tmp+='update_config=1\n'
-  tmp+='network={\n'
-  tmp+=f'\tssid="{data["ssid"]}"\n'
-  if data['psk'] == "":
-    tmp+='\tkey_mgmt=NONE\n'
-  else:
-    tmp+=f'\tpsk="{data["psk"]}"\n'
-    tmp+='\tkey_mgmt=WPA-PSK\n'
-  tmp+='}\n'
+  os.system(f"sudo nmcli dev wifi connect '{data['ssid']}' password '{data['psk']}' name openpibo")
+  #tmp='country=KR\n'
+  #tmp+='ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev\n'
+  #tmp+='update_config=1\n'
+  #tmp+='network={\n'
+  #tmp+=f'\tssid="{data["ssid"]}"\n'
+  #if data['psk'] == "":
+  #  tmp+='\tkey_mgmt=NONE\n'
+  #else:
+  #  tmp+=f'\tpsk="{data["psk"]}"\n'
+  #  tmp+='\tkey_mgmt=WPA-PSK\n'
+  #tmp+='}\n'
 
-  with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
-    f.write(tmp)
-  os.system('wpa_cli -i wlan0 reconfigure')
-  os.system("shutdown -r now")
+  #with open('/etc/wpa_supplicant/wpa_supplicant.conf', 'w') as f:
+  #  f.write(tmp)
+  #os.system('wpa_cli -i wlan0 reconfigure')
+  #os.system("shutdown -r now")
 
 def wifi_update():
   global wifi_info
@@ -143,7 +155,8 @@ def boot():
   for i in range(1,10):
     tmp = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
     if (tmp[6] != '' and tmp[6][0:3] != '169') or (tmp[8] != '' and tmp[8][0:3] != '169'):
-      os.system("systemctl stop hostapd;wpa_cli -i wlan0 reconfigure")
+      os.system("/home/pi/openpibo-os/system/wifi-ap-sta stop")
+      #os.system("systemctl stop hostapd;wpa_cli -i wlan0 reconfigure")
       break
     ole.draw_image("/home/pi/openpibo-os/system/pibo.jpg")
     ole.draw_text((5,5), "˚".join(["" for _ in range(i+1)]))
@@ -153,14 +166,6 @@ def boot():
   _ = Timer(10, wifi_update)
   _.daemon = True
   _.start()
-
-@app.on_event('startup')
-async def f():
-  global wifi_info, ole, aud
-  ole = Oled()
-  aud = Audio()
-  wifi_info = ['','','']
-  boot()
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()

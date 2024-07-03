@@ -73,11 +73,13 @@ class Pibo:
 
   def vision_stop(self):
     self.vision_flag = False
+    self.cam.cap.stop()
+    self.cam.cap.close()
     del self.cam
     self.cam = None
 
   def vision_loop(self):
-    self.cam.cap.set(cv2.CAP_PROP_FPS, 10)
+    #self.cam.cap.set(cv2.CAP_PROP_FPS, 10)
     while self.vision_flag == True:
       if self.vision_sleep == True:
         time.sleep(1)
@@ -343,7 +345,8 @@ class Pibo:
     y = d['y']
 
     for item in d['text'].split('\\n'):
-      _, h = self.ole.font.getsize(item)
+      #_, h = self.ole.font.getsize(item)
+      _,_,_, h = self.ole.font.getbbox(item)
       self.ole.draw_text((x, y), item)
       y += h
     self.ole.show()

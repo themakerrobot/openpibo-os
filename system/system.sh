@@ -6,8 +6,8 @@ RUNTIME=$(cat /proc/uptime | awk '{ print $1 }')
 # LOAD="${_LOAD%%,*}"
 _TEMP=$(vcgencmd measure_temp)
 TEMP="${_TEMP#*temp=}"
-MEM_TOTAL=$(free | grep Mem: | awk '{ print $2 }')
-MEM_AVAIL=$(free | grep Mem: | awk '{ print $7 }')
+MEM_TOTAL=$(free | grep 메모리: | awk '{ print $2 }')
+MEM_AVAIL=$(free | grep 메모리: | awk '{ print $7 }')
 OS_VERSION=$(cat /home/pi/.OS_VERSION)
 RPI_SERIAL=$(grep "Serial" /proc/cpuinfo | awk '{print $3}')
 ETH1=$(ifconfig eth1 2>/dev/null| grep "inet " | awk '{ print $2 }')

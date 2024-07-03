@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse,FileResponse,JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 from lib import Pibo
 from collections import Counter
@@ -12,13 +13,21 @@ from urllib import parse
 import argparse
 import requests
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+  global pibo
+  pibo = Pibo(emit)
+  yield
+
+
 try:
-  app = FastAPI()
+  app = FastAPI(lifespan=lifespan)
   app.mount("/static", StaticFiles(directory="static"), name="static")
   app.mount("/webfonts", StaticFiles(directory="webfonts"), name="webfonts")
   app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
   templates = Jinja2Templates(directory="templates")
-  socketio = SocketManager(app=app, cors_allowed_origins=[])
+  #socketio = SocketManager(app=app, cors_allowed_origins=[])
+  socketio = SocketManager(app=app, cors_allowed_origins=[], mount_location="/ws/socket.io", socketio_path="")
 except Exception as ex:
   pibo.logger.error(f'Server Error:{ex}')
 
@@ -238,7 +247,7 @@ async def f(sid, d=None):
 @app.sio.on('clear_oled')
 async def f(sid, d=None):
   if pibo.onoff:
-    os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
+    os.system('/home/pi/.pyenv/bin/python3 /home/pi/openpibo-os/system/network_disp.py')
 
 @app.sio.on('mic')
 async def f(sid, d=None):
@@ -387,7 +396,7 @@ async def f(sid, d=None):
         pibo.chatbot_stop()
         pibo.motion_stop()
         pibo.onoff = False
-    os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
+    os.system('/home/pi/.pyenv/bin/python3 /home/pi/openpibo-os/system/network_disp.py')
   return await emit('onoff', 'on' if pibo.onoff else 'off')
 
 @app.sio.on('audio_path')
@@ -445,7 +454,7 @@ async def f(sid, d=None):
     elif d == 'audio':
       pibo.stop_audio()
     elif d == 'oled':
-      os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
+      os.system('/home/pi/.pyenv/bin/python3 /home/pi/openpibo-os/system/network_disp.py')
     elif d == 'tts':
       pibo.stop_audio()
     return await emit('sim_result', "sim_stop_item ok")
@@ -557,7 +566,7 @@ async def f(sid, d=None):
   os.system('bash /home/pi/update')
   pibo.set_oled({'size':16, 'x':10, 'y':20, 'text':'최신 버전입니다'})
   time.sleep(2)
-  os.system('python3 /home/pi/openpibo-os/system/network_disp.py')
+  os.system('/home/pi/.pyenv/bin/python3 /home/pi/openpibo-os/system/network_disp.py')
 
 @app.sio.on('restore')
 async def f(sid, d=None):

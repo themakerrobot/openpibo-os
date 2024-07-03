@@ -731,7 +731,7 @@ const workspace = Blockly.inject("blocklyDiv", {
     startScale: 0.7,
     maxScale: 3,
     minScale: 0.3,
-    scaleSpeed: 1.2,
+    scaleSpeed: 1.05,
     pinch: true
   },
   move:{
@@ -747,9 +747,9 @@ const workspace = Blockly.inject("blocklyDiv", {
     'base': Blockly.Themes.Classic,
     startHats: true,
     fontStyle: {
-      family: null,
-      weight: 'bolder',
-      size: null
+      'family': null,
+      'weight': null,
+      'size': 16,
     },
     blockStyles: {
       logic_blocks: {

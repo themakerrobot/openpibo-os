@@ -440,12 +440,10 @@ audio.preview-audio {
   height:calc(100vh - 130px);
   overflow-y: scroll;
   margin-bottom: 40px;
-  border: 1px solid var(--light-green);
 }
 
 .blocklyDiv {
   height:calc(100vh - 130px);
-  border: 1px solid var(--light-green);
   /* display: none; hide the element by default */
 }
 
@@ -484,18 +482,6 @@ audio.preview-audio {
   display: flex;
   /* flex-direction: column; */
   align-items: center;
-}
-
-.blocklyMainBackground,
-.blocklyPath {
-  stroke: whitesmoke;
-  stroke-width: 0.5px;
-}
-
-.blocklyText {
-  font-family: Helvetica, "맑은 고딕", "malgun gothic", "Apple SD Gothic Neo",
-    "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif !important;
-  font-weight: 600 !important;
 }
 
 .wifi-popup,

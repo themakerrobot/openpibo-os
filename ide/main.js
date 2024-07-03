@@ -24,6 +24,8 @@ const protectList = [
   '/home/pi/config.json',
 ];
 
+const ENV_PATH = '/home/pi/.pyenv/bin';
+
 let record = '';
 let ps = undefined;
 let PATH = '/home/pi/code';
@@ -97,11 +99,10 @@ const isProtect = (p) => {
 const execute = async(EXEC, codepath) => {
   await mutex.acquire();
   return new Promise((res, rej) => {
-    //record = '[' + new Date().toString().split(' GMT')[0] + ']: $ sudo ' + EXEC + ' ' + codepath + ' >> \n\n';
     record = '[' + new Date().toString() + ']: \n\n';
     io.emit('update', {record:record});
 
-    ps = (EXEC == 'python3')?spawn(EXEC, ['-u', codepath], {cwd:PATH}):spawn(EXEC, [codepath], {cwd:PATH}); // python3/sh
+    ps = (EXEC == 'python3')?spawn(`${ENV_PATH}/${EXEC}`, ['-u', codepath], {cwd:PATH}):spawn(EXEC, [codepath], {cwd:PATH}); // python3/sh
     ps.stdout.on('data', (data) => {
       record += data.toString();
       io.emit('update', {record:record});
@@ -220,7 +221,7 @@ io.on('connection', (socket) => {
   });
   socket.on('reset_log', () => {
     record = '[' + new Date().toString() + ']: \n\n';
-    exec('python3 /home/pi/openpibo-os/system/network_disp.py');
+    exec(`${ENV_PATH}/${EXEC} /home/pi/openpibo-os/system/network_disp.py`);
   });
   socket.on('poweroff', () => {
     exec('shutdown -h now &');
