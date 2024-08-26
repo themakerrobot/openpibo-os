@@ -497,7 +497,9 @@ audio.preview-audio {
     "Apple SD 산돌고딕 Neo", "Microsoft NeoGothic", "Droid sans", sans-serif !important;
   font-weight: 600 !important;
 }
-
+.blocklyTreeSelected .customIcon {
+   filter: invert(1);
+}
 .wifi-popup,
 .usedata-popup {
   display: none;
