@@ -11,7 +11,6 @@ from collections import Counter
 import time,os,json,shutil
 from urllib import parse
 import argparse
-import requests
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -594,10 +593,10 @@ async def f(sid, d=None):
   os.system('shutdown -h now &')
   os.system('echo "#11:!" > /dev/ttyS0')
 
-@app.on_event('startup')
-async def f():
-  global pibo
-  pibo = Pibo(emit)
+#@app.on_event('startup')
+#async def f():
+#  global pibo
+#  pibo = Pibo(emit)
 
 async def emit(key, data, callback=None):
   try:
