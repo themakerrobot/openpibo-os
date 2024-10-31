@@ -48,6 +48,6 @@ cd /home/pi/openpibo-os/tools;sudo /home/pi/.pyenv/bin/python3 main.py &
 # pir on
 #echo "#30:on!" > /dev/ttyS0
 
-sudo iw wlan0 set power_save off
-sudo iw ap0 set power_save off
+#sudo iw wlan0 set power_save off
+#sudo iw ap0 set power_save off
 exit 0
