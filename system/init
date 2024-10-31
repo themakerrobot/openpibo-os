@@ -36,14 +36,14 @@ cd /home/pi/openpibo-os/ide;sudo node main.js &
 cd /home/pi/openpibo-os/tools;sudo /home/pi/.pyenv/bin/python3 main.py &
 
 # motor init
-#servo init
+servo init
 
 # ap start
 #sudo /home/pi/openpibo-os/system/wifi-ap-sta run
 
 # Amp init
-#sudo gpio mode 7 out
-#sudo gpio write 7 1
+sudo gpio mode 7 out
+sudo gpio write 7 1
 
 # pir on
 #echo "#30:on!" > /dev/ttyS0
