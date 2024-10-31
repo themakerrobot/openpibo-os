@@ -32,7 +32,8 @@ sudo /home/pi/openpibo-os/system/wifi-ap-sta start
 cd /home/pi/openpibo-os/system;sudo /home/pi/.pyenv/bin/python3 booting.py &
 
 # run server
-cd /home/pi/openpibo-os/ide;sudo node main.js &
+#cd /home/pi/openpibo-os/ide;sudo node main.js &
+cd /home/pi/openpibo-os/ide;sudo /home/pi/.pyenv/bin/python3 main.py &
 cd /home/pi/openpibo-os/tools;sudo /home/pi/.pyenv/bin/python3 main.py &
 
 # motor init
