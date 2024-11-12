@@ -5,20 +5,23 @@ from openpibo.audio import Audio
 from openpibo.oled import Oled
 from openpibo.speech import Speech,Dialog
 from openpibo.motion import Motion
+from openpibo.device import Device
 import asyncio
 import numpy as np
-from mcu_control import DeviceControl
 import time,datetime
 import base64
-import cv2,dlib,log
+import cv2,dlib,logging
 import os,json,shutil,csv
 from PIL import Image,ImageDraw,ImageFont,ImageOps
 from queue import Queue
 from threading import Thread, Timer
 
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s [%(levelname)s] %(message)s')
+
 def to_base64(im):
-  im = cv2.imencode('.jpg', cv2.resize(im, (320,240)))[1].tobytes()
-  return base64.b64encode(im).decode('utf-8')
+  im = cv2.resize(im, (320, 240))
+  _, buffer = cv2.imencode('.jpg', im, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+  return base64.b64encode(buffer).decode('utf-8')
 
 def TimerStart(intv, func, daemon=True):
   tim = Timer(intv, func)
@@ -28,11 +31,10 @@ def TimerStart(intv, func, daemon=True):
 
 class Pibo:
   def __init__(self, emit_func=None, logger=None):
-    self.logger = log.configure_logger(level='info')
-    self.logger.info('Class INIT')
+    logging.info('Class INIT')
     self.emit = emit_func
     self.system_status = os.popen('/home/pi/openpibo-os/system/system.sh').read().strip('\n').split(',')
-    self.devcon = DeviceControl()
+    self.dev = Device()
     self.onoff = False
     self.mymodel_path = "/home/pi/mymodel"
     self.tracker, self.trackX, self.trackY = None, 0, 0
@@ -64,7 +66,7 @@ class Pibo:
     try:
       self.tm.load(f"{self.mymodel_path}/model_unquant.tflite", f"{self.mymodel_path}/labels.txt")
     except Exception as ex:
-      self.logger.error(f'[vision_start] Error: {ex}')
+      logging.error(f'[vision_start] Error: {ex}')
       os.system(f"rm -rf {self.mymodel_path}/*")
 
     self.vision_type = "camera"
@@ -79,7 +81,6 @@ class Pibo:
     self.cam = None
 
   def vision_loop(self):
-    #self.cam.cap.set(cv2.CAP_PROP_FPS, 10)
     while self.vision_flag == True:
       if self.vision_sleep == True:
         time.sleep(1)
@@ -122,7 +123,7 @@ class Pibo:
         else:
           img, res = self.frame, ""
       except Exception as ex:
-        self.logger.error(f'[vision_loop] Error: {ex}')
+        logging.error(f'[vision_loop] Error: {ex}')
         img, res = self.frame, str(ex)
 
       self.res_img = img.copy()
@@ -174,7 +175,9 @@ class Pibo:
       x1,y1,x2,y2 = obj['position']
       colors = (100,100,200)
       self.cam.rectangle(im, (x1,y1), (x2, y2),colors,3)
-      self.cam.putText(im, obj['name'], (x1+10, y1+20),0.6,colors,2)
+      (text_width, text_height), baseline = cv2.getTextSize(f'{obj["name"]} {obj["score"]}', cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)
+      cv2.rectangle(im, (x1, y1 - text_height - baseline), (x1 + text_width, y1), colors, -1)
+      self.cam.putText(im, f'{obj["name"]} {obj["score"]}', (x1, y1 - baseline), 0.5, (255,255,255),2)
       res += '[{}-({},{})] '.format(obj['name'], x1, y1)
     return im, res
 
@@ -274,10 +277,10 @@ class Pibo:
       self.neopixel_value = tmp['eye'].split(',') if 'eye' in tmp else [0,0,0,0,0,0]
     
     Thread(name='device_loop', target=self.device_loop, args=(), daemon=True).start()
-
-    self.send_message("15", 'on')
     self.send_message("30", 'on')
+    time.sleep(0.1)
     self.send_message("14")
+    time.sleep(0.1)
     self.send_message("23", ','.join([str(_) for _ in self.neopixel_value]))
 
   def device_stop(self):
@@ -287,43 +290,40 @@ class Pibo:
     self.devque.put(f'#{code}:{data}!')
 
   def decode_pkt(self, pkt):
-    self.logger.debug(f'Recv: {pkt}, {pkt.split(":")[1].split("-")}')
+    logging.debug(f'Recv: {pkt}-1')
+    logging.debug(f'Recv: {pkt}-2, {pkt.split(":")[1].split("-")}')
     pkt = pkt.split(":")
     code, data = pkt[0], pkt[1]
 
     if code == '15': # battery
       self.battery = data
       asyncio.run(self.emit('update_battery', self.battery, callback=None))
-    else:
-      if code == '14': # dc
-        self.system_value[2] = data
-      elif code == '40': # system
-        item = data.split("-")
-        if item[2] == '':
-          item[2] = self.system_value[2]
-        self.system_value = item
+    elif code == '14': # dc
+      self.system_value[2] = data
+      asyncio.run(self.emit('update_device', self.system_value, callback=None))
+    elif code == '40': # system
+      item = data.split("-")
+      item[2] = self.system_value[2] if item[2] == '' else item[2]
+      self.system_value = item
       asyncio.run(self.emit('update_device', self.system_value, callback=None))
 
   def device_loop(self):
     system_check_time = time.time()
-    battery_check_time = time.time()
 
     while True:
       try:
         res = None
-        if time.time() - system_check_time > 1:  # 시스템 메시지 1초 간격 전송
-          self.decode_pkt(self.devcon.system_data['system'])
+        if time.time() - system_check_time > 1:
+          self.decode_pkt(self.dev.send_raw("#40:!"))
+          self.decode_pkt(self.dev.send_raw("#15:!"))
           system_check_time = time.time()
-        elif time.time() - battery_check_time > 10: # 배터리 메시지 10초 간격 전송
-          self.decode_pkt(self.devcon.system_data['battery'])
-          battery_check_time = time.time()
         elif self.devque.qsize() > 0:
-          data = self.devcon.send_raw(self.devque.get())
+          data = self.dev.send_raw(self.devque.get())
           self.decode_pkt(data)
         else:
           pass
       except Exception as ex:
-        self.logger.error(f'[device_loop] Error: {ex}')
+        logging.error(f'[device_loop] Error: {ex}')
       time.sleep(0.1)
 
   def set_neopixel(self, d):
@@ -354,8 +354,7 @@ class Pibo:
   def mic(self, d):
     record_time = d['time']
     filename = "/home/pi/myaudio/mic.wav"
-    cmd = f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 {filename};rm stream.raw'
-    os.system(cmd)
+    os.system(f'arecord -D dmic_sv -c2 -r 16000 -f S32_LE -d {record_time} -t wav -q -vv -V streo stream.raw;sox stream.raw -c 1 -b 16 {filename};rm stream.raw')
 
   def play_audio(self, filename, volume, background):
     self.aud.play(filename=filename, volume=volume, background=background)
@@ -376,7 +375,7 @@ class Pibo:
         self.speech.tts(string=d['text'], filename=filename, voice=voice_type, lang=lang)
       self.play_audio(filename, volume, True)
     except Exception as ex:
-      self.logger.error(f'[tts] Error: {ex}')
+      logging.error(f'[tts] Error: {ex}')
       pass
     return
 
@@ -426,7 +425,7 @@ class Pibo:
     try:
       self.tts({'text':ans, 'voice_type':voice_type, 'volume':volume})
     except Exception as ex:
-      self.logger.error(f'[question] Error: {ex}')
+      logging.error(f'[question] Error: {ex}')
       pass
     return ans
 
@@ -454,7 +453,7 @@ class Pibo:
         self.motion_j = json.load(f)
         #await self.emit('disp_code', self.motion_j)
     except Exception as ex:
-      self.logger.error(f'[motion_start] Error: {ex}')
+      logging.error(f'[motion_start] Error: {ex}')
       pass
 
   def motion_stop(self):
@@ -577,7 +576,7 @@ class Pibo:
     Thread(name='sim_audio', target=self.sim_audio, args=(filename, volume, log), daemon=True).start()
 
   def set_simulate(self, item):
-    self.logger.info(item)
+    logging.info(item)
     if 'eye' in item:
       d = item['eye']
       content = d['content']
@@ -622,4 +621,4 @@ class Pibo:
       self.stop_audio()
       self.set_motors([0, 0, -80, 0, 0, 0, 0, 0, 80, 0])
     except Exception as ex:
-      self.logger.error(ex)
+      logging.error(ex)

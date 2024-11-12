@@ -461,14 +461,14 @@ async def periodic_system_update():
       await app.sio.emit('update', {'dialog': '초기화: 시스템 파일 오류입니다.'})
 
     try:
-      battery_status = subprocess.check_output(['curl', '-s', 'http://0.0.0.0/device/%2315%3A%21']).decode()
+      battery_status = subprocess.check_output(['curl', '-s', 'http://0.0.0.0:8080/device/%2315%3A%21']).decode()
       battery_value = battery_status.replace('"', '').split(':')[1]
       await app.sio.emit('update_battery', battery_value)
     except Exception as err:
       pass
 
     try:
-      dc_status = subprocess.check_output(['curl', '-s', 'http://0.0.0.0/device/%2314%3A%21']).decode()
+      dc_status = subprocess.check_output(['curl', '-s', 'http://0.0.0.0:8080/device/%2314%3A%21']).decode()
       dc_value = dc_status.replace('"', '').split(':')[1]
       await app.sio.emit('update_dc', dc_value)
     except Exception as err:
@@ -490,5 +490,5 @@ if __name__ == '__main__':
   parser.add_argument('--port', help='set port number', default=50000)
   args = parser.parse_args()
 
-  uvicorn.run('main:app', host='0.0.0.0', port=int(args.port), access_log=False)
+  uvicorn.run('run_ide:app', host='0.0.0.0', port=int(args.port), access_log=False)
 

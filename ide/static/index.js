@@ -24,9 +24,15 @@ $('#guide_bt').on('click', () => {
 });
 
 const init_usedata = {
-  staytime:0,
+  staytime:0, 
+  home:{click:0, keydown:0, staytime:0},
+  device:{click:0, keydown:0, staytime:0},
+  motion:{click:0, keydown:0, staytime:0},
+  vision:{click:0, keydown:0, staytime:0},
+  speech:{click:0, keydown:0, staytime:0},
+  simulator:{click:0, keydown:0, staytime:0},
   block:{click:0, keydown:0, execute:0, staytime:0},
-  python:{click:0, keydown:0, execute:0, staytime:0},
+  python:{click:0, keydown:0, execute:0, staytime:0}
 };
 const system_port = 8080;
 let usedata = init_usedata; // from server
@@ -223,8 +229,8 @@ socket.on("system", (data) => {
   $("#s_runtime").text(`${Math.floor(data[2] / 3600)} hours`);
   $("#s_cpu_temp").text(data[3]);
   $("#s_memory").text(`${Math.floor(data[5]/data[4]/4*100)} %`);
-  $("#s_network").html(`<i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}, <i class="fas fa-network-wired"></i> ${data[8]}`);
-  $("#network_info").html(`<i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}, <i class="fas fa-network-wired"></i> ${data[8]}`);
+  $("#s_network").html(`<i class="fas fa-network-wired"></i> ${data[8]}, <i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}`);
+  $("#network_info").html(`<i class="fas fa-network-wired"></i> ${data[8]}, <i class="fa-solid fa-wifi"></i> ${data[6]}/${data[7]}`);
 });
 
 let startTime_item = new Date().getTime();
@@ -705,7 +711,7 @@ let update_block = () => {
 }
 
 const workspace = Blockly.inject("blocklyDiv", {
-  toolbox: lang=="en"?toolbox_en:toolbox_ko,
+  toolbox: lang == "en"? toolbox_en:toolbox_ko,
   collapse: true,
   comments: true,
   disable: true,
@@ -748,8 +754,8 @@ const workspace = Blockly.inject("blocklyDiv", {
     startHats: true,
     fontStyle: {
       family: null,
-      weight: 'bolder',
-      size: null
+      weight: 'bold',
+      size: 16,
     },
     blockStyles: {
       logic_blocks: {
@@ -838,6 +844,26 @@ const workspace = Blockly.inject("blocklyDiv", {
     }
   }),
 });
+
+Blockly.Python.init(workspace);
+Blockly.Python.nameDB_.getName = function(name, type) {
+  const enc_name = Blockly.Names.prototype.getName.call(this, name, type);
+
+  // 인코딩된 한글 문자 디코딩
+  const decodedName = enc_name.replace(/(_[A-Z0-9]{2})+/g, (match) => {
+    try {
+      const uriEncoded = match.replace(/_/g, "%");
+      return decodeURIComponent(uriEncoded);
+    } catch (error) {
+      return match; // 디코딩 실패 시 그대로 반환
+    }
+  });
+
+  // Python 변수명에 맞지 않는 문자 중 한글, 알파벳, 숫자, 밑줄만 허용하고 나머지를 언더스코어로 변환
+  const pythonCompatibleName = decodedName.replace(/[^a-zA-Z0-9가-힣_]/g, "_");
+  return pythonCompatibleName;
+};
+
 workspace.addChangeListener ((event)=>{
   update_block();
   if (event.type == Blockly.Events.CREATE) {
@@ -1033,7 +1059,7 @@ window.addEventListener('beforeunload', (evt) => {
   });
   usedata[codetype]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
   $.ajax({
-    url: `http://${location.hostname}:${system_port}/usedata/ide`,
+    url: `http://${location.hostname}:${system_port}/usedata`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",
@@ -1051,7 +1077,7 @@ $("#usedata_bt").on("click", ()=> {
   document.getElementById("wifiPopup").style.display = "none";
 
   $.ajax({
-    url: `http://${location.hostname}:${system_port}/usedata/ide`,
+    url: `http://${location.hostname}:${system_port}/usedata`,
     type: "post",
     data: JSON.stringify(usedata),
     contentType: "application/json",

@@ -26,7 +26,9 @@ const init_usedata = {
   motion:{click:0, keydown:0, staytime:0},
   vision:{click:0, keydown:0, staytime:0},
   speech:{click:0, keydown:0, staytime:0},
-  simulator:{click:0, keydown:0, staytime:0}
+  simulator:{click:0, keydown:0, staytime:0},
+  block:{click:0, keydown:0, execute:0, staytime:0},
+  python:{click:0, keydown:0, execute:0, staytime:0}
 };
 const system_port = 8080;
 let usedata = init_usedata; // from server
@@ -2738,7 +2740,7 @@ $(function () {
     usedata["staytime"] = parseInt((new Date().getTime() - startTime) / 1000);
     usedata[$("nav").find("button.menu-selected").attr("name")]["staytime"] += parseInt((new Date().getTime() - startTime_item) / 1000);
     $.ajax({
-      url: `http://${location.hostname}:${system_port}/usedata/tools`,
+      url: `http://${location.hostname}:${system_port}/usedata`,
       type: "post",
       data: JSON.stringify(usedata),
       contentType: "application/json",
@@ -2755,7 +2757,7 @@ $(function () {
     document.getElementById("wifiPopup").style.display = "none";
 
     $.ajax({
-      url: `http://${location.hostname}:${system_port}/usedata/tools`,
+      url: `http://${location.hostname}:${system_port}/usedata`,
       type: "post",
       data: JSON.stringify(usedata),
       contentType: "application/json",

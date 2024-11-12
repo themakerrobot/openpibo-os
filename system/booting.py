@@ -10,12 +10,14 @@ from collections import Counter
 import os,argparse,json,time,os,shutil
 import wifi, network_disp
 import argparse
+from mcu_control import DeviceControl
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-  global wifi_info, ole, aud
+  global wifi_info, ole, aud, device_control
   ole = Oled()
   aud = Audio()
+  device_control = DeviceControl()
   wifi_info = ['','','']
   boot()
   yield
@@ -23,42 +25,36 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
-@app.get('/account')
-async def f():
+@app.get("/device/{pkt}")
+async def device_command(pkt: str):
   try:
-    res = {"username":"", "password":""}
-    with open('/home/pi/.account.json', 'rb') as f:
-      res = json.load(f)
+    if pkt == "#15:!":
+      return JSONResponse(content=device_control.system_data.get('battery', ''), status_code=200)
+    elif pkt == "#40:!":
+      return JSONResponse(content=device_control.system_data.get('system', ''), status_code=200)
+    else:
+      response = device_control.send_raw(pkt)
+      return JSONResponse(content=response, status_code=200)
   except Exception as ex:
-    print(f'[login] Error: {ex}')
-    pass
-  return JSONResponse(content=res, status_code=200)
+    return JSONResponse(content=f"Error: {str(ex)}", status_code=500)
 
-@app.post('/account')
-async def f(data: dict = Body(...)):
-  if 'username' in data and 'password' in data:
-    with open('/home/pi/.account.json', 'w') as f:
-      json.dump(data, f)
-    return JSONResponse(content=data, status_code=200)
-  else:
-    return JSONResponse(content={'result':'account data 오류'}, status_code=500)
+@app.get('/usedata')
+async def f():
 
-@app.get('/usedata/{key}')
-async def f(key="tools"):
   try:
     res = {}
-    with open(f'/home/pi/.{key}.json', 'rb') as f:
+    with open(f'/home/pi/.openpibo.json', 'rb') as f:
       res = json.load(f)
   except Exception as ex:
     print(f'[usedata] Error: {ex}')
     pass
   return JSONResponse(content=res, status_code=200)
 
-@app.post('/usedata/{key}')
-async def f(key="tools", data: dict = Body(...)):
+@app.post('/usedata')
+async def f(data: dict = Body(...)):
   try:
     res = None
-    with open(f'/home/pi/.{key}.json', 'rb') as f:
+    with open(f'/home/pi/.openpibo.json', 'rb') as f:
       res = json.load(f)
   except Exception as ex:
     print(f'[usedata] Error: {ex}')
@@ -66,9 +62,9 @@ async def f(key="tools", data: dict = Body(...)):
 
   try:
     if res == None:
-      with open(f'/home/pi/.{key}.json', 'w') as f:
+      with open(f'/home/pi/.openpibo.json', 'w') as f:
         json.dump(data, f)
-      shutil.chown(f'/home/pi/.{key}.json', 'pi', 'pi')
+      shutil.chown(f'/home/pi/.openpibo.json', 'pi', 'pi')
     else:
       tmp = {}
       for k in data:
@@ -76,12 +72,12 @@ async def f(key="tools", data: dict = Body(...)):
           tmp[k] = dict(Counter(res[k]) + Counter(data[k]))
         else:
           tmp[k] = res[k] + data[k] if k in res else data[k]
-      with open(f'/home/pi/.{key}.json', 'w') as f:
+      with open(f'/home/pi/.openpibo.json', 'w') as f:
         json.dump(tmp, f)
   except Exception as ex:
-    with open(f'/home/pi/.{key}.json', 'w') as f:
+    with open(f'/home/pi/.openpibo.json', 'w') as f:
       json.dump(data, f)
-    shutil.chown(f'/home/pi/.{key}.json', 'pi', 'pi')
+    shutil.chown(f'/home/pi/.openpibo.json', 'pi', 'pi')
 
   return JSONResponse(content=res, status_code=200)
 
