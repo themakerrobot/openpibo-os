@@ -1,1 +1,1 @@
-sudo pip3 install fastapi_socketio uvicorn
+Deprecated... (For old version)
